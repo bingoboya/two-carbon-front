@@ -10,8 +10,8 @@
     <div
       :class="title !== '' ? 'item_title_content' : 'item_title_content_def'"
     >
-      <slot></slot></div>
-    </BorderBox13>
+      <slot></slot></div
+  ></BorderBox13>
 </template>
 <script setup lang="ts">
 import BorderBox13 from "@/components/datav/border-box-13";
@@ -35,7 +35,6 @@ $item_title_content-height: calc(100% - 38px);
   width: 100%;
   color: #31abe3;
   text-align: center;
-  // background-image: url('@/assets/img/item_wrap_top_bg.png');
   // background: linear-gradient(to right, transparent, #0f0756, transparent);
   position: relative;
   display: flex;

@@ -14,12 +14,22 @@ const routes: Array<RouteRecordRaw> = [
         path: '/index',
         name: 'index',
         component: () => import('@/views/index/index.vue'),
+      },
+      {
+        path: '/second',
+        name: 'second',
+        component: () => import('@/views/second/index.vue'),
+      },
+      {
+        path: '/third',
+        name: 'third',
+        component: () => import('@/views/third/index.vue'),
       }
     ]
   },
 ]
 const router = createRouter({
-  history: createWebHashHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 })
 

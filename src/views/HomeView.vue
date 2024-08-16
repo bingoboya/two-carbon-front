@@ -1,17 +1,4 @@
-<script setup lang="ts">
-import { ref } from "vue";
-import { RouterView } from "vue-router";
-import ScaleScreen from "@/components/scale-screen";
-import Headers from "./header.vue";
-import Setting from "./setting.vue";
-import { useSettingStore } from "@/stores/index";
-import { storeToRefs } from "pinia";
-import MessageContent from "@/components/Plugins/MessageContent";
 
-const settingStore = useSettingStore();
-const { isScale } = storeToRefs(settingStore);
-const wrapperStyle = {};
-</script>
 
 <template>
   <scale-screen
@@ -29,11 +16,27 @@ const wrapperStyle = {};
     <div class="content_wrap">
       <Headers />
       <RouterView />
-      <MessageContent />
+      <!-- message 挂载在 window 方便与在js中使用 -->
+      <!-- <MessageContent /> -->
     </div>
   </scale-screen>
   <Setting />
 </template>
+<script setup lang="ts">
+import { ref } from "vue";
+import { RouterView } from "vue-router";
+import ScaleScreen from "@/components/scale-screen";
+import Headers from "./header.vue";
+import Setting from "./setting.vue";
+import { useSettingStore } from "@/stores/index";
+import { storeToRefs } from "pinia";
+import MessageContent from "@/components/Plugins/MessageContent";
+
+const settingStore = useSettingStore();
+const { isScale } = storeToRefs(settingStore);
+const wrapperStyle = {};
+
+</script>
 <style lang="scss" scoped>
 .content_wrap {
   width: 100%;

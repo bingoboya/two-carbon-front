@@ -67,17 +67,17 @@
 </template>
 <script setup lang="ts">
 import { ref, reactive, nextTick, onMounted, onBeforeUnmount } from "vue";
-import { useRouter } from 'vue-router'
 import { centerMap, GETNOBASE } from "@/api";
+import { useRouter } from 'vue-router'
 import { registerMap, getMap } from "echarts/core";
 import { optionHandle, regionCodes } from "./center.map";
-import BorderBox13 from "@/components/datav/border-box-13";
+// import BorderBox13 from "@/components/datav/border-box-13";
 import { ElMessage } from "element-plus";
-import InteractiveImage from './InteractiveImage.vue';
+// import InteractiveImage from './InteractiveImage.vue';
 import type { MapdataType } from "./center.map";
-import CoordinatePicker from './CoordinatePicker.vue';
-const router = useRouter()
+// import CoordinatePicker from './CoordinatePicker.vue';
 // import CanvasImagePopup from './CanvasImagePopup.vue';
+const router = useRouter()
 const option = ref({});
 const code = ref("china"); //china 代表中国 其他地市是行政编码
 /**
@@ -93,6 +93,8 @@ const popupContainerRef = ref(null); // 添加对 popup-container 的引用
 const popups = ref([
     {
       id: 'popup1',
+      // width: '220px', // 弹窗宽度
+      // height: '136px', // 弹窗高度
       x: 1.5, // 相对于图片宽度的x坐标
       y: 0.6, // 相对于图片高度的y坐标
       content: '冷轧',
@@ -188,7 +190,8 @@ const popups = ref([
 
 function handlePopupClick(popup: any) {
   // 处理弹窗点击事件
-  router.push({ path: 'second', query: { typename: popup.content }})
+  // alert(`Popup clicked: ${popup.content}`);
+  router.push({ path: 'third', query: { typename: popup.content }})
 }
 
   

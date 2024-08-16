@@ -1,9 +1,38 @@
+
+
+<template>
+  <div class="d-flex jc-center title_wrap">
+    <!-- <div class="zuojuxing"></div>
+    <div class="youjuxing"></div>
+    <div class="guang"></div> -->
+    <div class="titleleft">
+      <div>辽宁省本溪市</div>
+      <div>晴</div>
+      <div>{{ 21 }}-{{ 55 }}°C</div>
+    </div>
+    <div class="d-flex jc-center" @click="goback" style="cursor: pointer;">
+      <div class="title">
+        <span class="title-text">企业典型工艺碳排放监测</span>
+      </div>
+    </div>
+    <div class="timers">
+      {{ dateData.dateYear }} {{ dateData.dateWeek }} {{ dateData.dateDay }}
+      <div class="setting_icon"   @click="setSettingShow(true)">
+          <img src="@/assets/img/headers/setting.png" alt="设置">
+      </div>
+    </div>
+  </div>
+</template>
 <script setup lang="ts">
+import { useRouter } from "vue-router";
 import { reactive } from "vue";
 import dayjs from 'dayjs';
 import type {DateDataType} from "./index.d"
 import {useSettingStore} from "@/stores/index"
-
+const router = useRouter()
+const goback = () => {
+  router.go(-1)
+}
 const dateData = reactive<DateDataType>({
   dateDay: "",
   dateYear: "",
@@ -21,31 +50,10 @@ const timeFn = () => {
 };
 timeFn()
 </script>
-
-<template>
-  <div class="d-flex jc-center title_wrap">
-    <!-- <div class="zuojuxing"></div>
-    <div class="youjuxing"></div>
-    <div class="guang"></div> -->
-    <div class="d-flex jc-center">
-      <div class="title">
-        <span class="title-text">企业典型工艺碳排放监测</span>
-      </div>
-    </div>
-    <div class="timers">
-      {{ dateData.dateYear }} {{ dateData.dateWeek }} {{ dateData.dateDay }}
-
-      <div class="setting_icon"   @click="setSettingShow(true)">
-          <img src="@/assets/img/headers/setting.png" alt="设置">
-      </div>
-    </div>
-  </div>
-</template>
-
 <style scoped lang="scss">
 .title_wrap {
   // height: 60px;
-  height: 88px;
+  height: 120px;
   background-image: url("../assets/img/header_bg.png");
   // background-image: url("../assets/img/top.png");
   background-size: cover;
@@ -61,7 +69,6 @@ timeFn()
     width: 100%;
     height: 56px;
   }
-
   .zuojuxing,
   .youjuxing {
     position: absolute;
@@ -70,20 +77,17 @@ timeFn()
     height: 6px;
     background-image: url("../assets/img/headers/juxing1.png");
   }
-
   .zuojuxing {
     left: 11%;
   }
-
   .youjuxing {
     right: 11%;
     transform: rotate(180deg);
   }
-
   .timers {
     position: absolute;
     right: 0;
-    top: 30px;
+    top: 2px;
     font-size: 18px;
     display: flex;
     align-items: center;
@@ -99,6 +103,15 @@ timeFn()
       }
     }
   }
+  .titleleft {
+    position: absolute;
+    left: 0;
+    top: 2px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    display: flex; gap: 10px;
+  }
 }
 .title {
   position: relative;
@@ -107,7 +120,7 @@ timeFn()
   background-size: cover;
   color: transparent;
   height: 60px;
-  line-height: 46px;
+  line-height: 76px;
 
   .title-text {
     font-size: 32px;

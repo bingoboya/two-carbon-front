@@ -2,38 +2,38 @@
 
 <template>
   <div class="index-box" style="margin-top: -50px;">
-    <!-- 第一级页面主体 -->
+    <!-- 第二级页面主体 -->
     <div class="contetn_left">
       <!-- <div class="pagetab">
         <div class="item">实时监测</div>
         <div class="item">统计分析</div>
       </div> -->
-      <ItemWrap class="contetn_left-top contetn_lr-item" title="整体概览">
+      <ItemWrap class="contetn_left-top contetn_lr-item" title="碳排放量情况">
         <LeftTop />
       </ItemWrap>
-      <ItemWrap class="contetn_left-center contetn_lr-item" title="碳排放量情况">
+      <ItemWrap class="contetn_left-center contetn_lr-item" title="产量情况">
         <LeftCenter />
       </ItemWrap>
-      <ItemWrap class="contetn_left-bottom contetn_lr-item" title="能源结构占比" style="padding: 0 10px 16px 10px">
+      <!-- <ItemWrap class="contetn_left-bottom contetn_lr-item" title="工序碳排占比" style="padding: 0 10px 16px 10px">
         <LeftBottom />
-      </ItemWrap>
+      </ItemWrap> -->
     </div>
     <div class="contetn_center">
       <CenterMap class="contetn_center_top" title="设备分布图" />
-      <ItemWrap class="contetn_center-bottom" title="实际碳排放量与预测值对比">
+      <ItemWrap class="contetn_center-bottom" title="用电情况">
         <CenterBottom />
       </ItemWrap>
     </div>
     <div class="contetn_right">
-      <ItemWrap class="contetn_left-bottom contetn_lr-item" title="工艺碳排占比">
+      <ItemWrap class="contetn_left-bottom contetn_lr-item" title="能耗预测分析">
         <RightTop />
       </ItemWrap>
-      <ItemWrap class="contetn_left-bottom contetn_lr-item" title="生产产量与单位产品碳排放量情况" style="padding: 0 10px 16px 10px">
+      <ItemWrap class="contetn_left-bottom contetn_lr-item" title="碳排预测分析" style="padding: 0 10px 16px 10px">
         <RightCenter />
       </ItemWrap>
-      <ItemWrap class="contetn_left-bottom contetn_lr-item" title="绿证消费策略 ">
+      <!-- <ItemWrap class="contetn_left-bottom contetn_lr-item" title="碳排预测分析 ">
         <RightBottom />
-      </ItemWrap>
+      </ItemWrap> -->
     </div>
   </div>
 </template>

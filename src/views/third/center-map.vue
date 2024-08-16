@@ -67,7 +67,6 @@
 </template>
 <script setup lang="ts">
 import { ref, reactive, nextTick, onMounted, onBeforeUnmount } from "vue";
-import { useRouter } from 'vue-router'
 import { centerMap, GETNOBASE } from "@/api";
 import { registerMap, getMap } from "echarts/core";
 import { optionHandle, regionCodes } from "./center.map";
@@ -76,7 +75,7 @@ import { ElMessage } from "element-plus";
 import InteractiveImage from './InteractiveImage.vue';
 import type { MapdataType } from "./center.map";
 import CoordinatePicker from './CoordinatePicker.vue';
-const router = useRouter()
+import { log } from "console";
 // import CanvasImagePopup from './CanvasImagePopup.vue';
 const option = ref({});
 const code = ref("china"); //china 代表中国 其他地市是行政编码
@@ -188,7 +187,7 @@ const popups = ref([
 
 function handlePopupClick(popup: any) {
   // 处理弹窗点击事件
-  router.push({ path: 'second', query: { typename: popup.content }})
+  alert(`Popup clicked: ${popup.content}`);
 }
 
   
