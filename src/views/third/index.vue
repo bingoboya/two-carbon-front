@@ -11,29 +11,29 @@
       <ItemWrap class="contetn_left-top contetn_lr-item" title="碳排放量情况">
         <LeftTop />
       </ItemWrap>
-      <ItemWrap class="contetn_left-center contetn_lr-item" title="产量情况">
+      <!-- <ItemWrap  class="contetn_left-center contetn_lr-item" title="电力-产量情况">
         <LeftCenter />
-      </ItemWrap>
-      <!-- <ItemWrap class="contetn_left-bottom contetn_lr-item" title="工序碳排占比" style="padding: 0 10px 16px 10px">
-        <LeftBottom />
       </ItemWrap> -->
+      <ItemWrap  class="contetn_left-bottom contetn_lr-item" title="产量情况" >
+        <LeftBottom />
+      </ItemWrap>
     </div>
     <div class="contetn_center">
-      <CenterMap class="contetn_center_top" title="设备分布图" />
-      <ItemWrap class="contetn_center-bottom" title="用电情况">
+      <CenterMap title="设备分布图" />
+      <ItemWrap  class="contetn_center-bottom" title="用电情况">
         <CenterBottom />
       </ItemWrap>
     </div>
     <div class="contetn_right">
-      <ItemWrap class="contetn_left-bottom contetn_lr-item" title="能耗预测分析">
+      <!-- <ItemWrap  class="contetn_left-bottom contetn_lr-item" title="碳排放量情况">
         <RightTop />
-      </ItemWrap>
-      <ItemWrap class="contetn_left-bottom contetn_lr-item" title="碳排预测分析" style="padding: 0 10px 16px 10px">
+      </ItemWrap> -->
+      <ItemWrap  class="contetn_left-bottom contetn_lr-item" title="能耗预测分析" >
         <RightCenter />
       </ItemWrap>
-      <!-- <ItemWrap class="contetn_left-bottom contetn_lr-item" title="碳排预测分析 ">
+      <ItemWrap  class="contetn_left-bottom contetn_lr-item" title="碳排预测分析 ">
         <RightBottom />
-      </ItemWrap> -->
+      </ItemWrap>
     </div>
   </div>
 </template>
@@ -59,9 +59,11 @@ import RightBottom from "./right-bottom.vue";
 //左边 右边 结构一样
 .contetn_left,
 .contetn_right {
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  // justify-content: space-around;
+  gap: 10px;
   position: relative;
   width: 540px;
   box-sizing: border-box;
@@ -79,7 +81,8 @@ import RightBottom from "./right-bottom.vue";
 }
 
 .contetn_lr-item {
-  height: 310px;
+  // height: 310px;
+  flex: 1;
 }
 </style>
 

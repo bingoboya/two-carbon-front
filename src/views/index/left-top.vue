@@ -1,40 +1,13 @@
 
 <template>
-  <!-- <ul class="user_Overview flex">
-    <li class="user_Overview-item" style="color: #00fdfa">
-      <div class="user_Overview_nums allnum">
-        <CountUp :endVal="state.totalNum" :duration="duration" />
-      </div>
-      <p>总设备数</p>
-    </li>
-    <li class="user_Overview-item" style="color: #07f7a8">
-      <div class="user_Overview_nums online">
-        <CountUp :endVal="state.onlineNum" :duration="duration" />
-      </div>
-      <p>在线数</p>
-    </li>
-    <li class="user_Overview-item" style="color: #e3b337">
-      <div class="user_Overview_nums offline">
-        <CountUp :endVal="state.offlineNum" :duration="duration" />
-      </div>
-      <p>掉线数</p>
-    </li>
-    <li class="user_Overview-item" style="color: #f5023d">
-      <div class="user_Overview_nums laramnum">
-        <CountUp :endVal="state.alarmNum" :duration="duration" />
-      </div>
-      <p>告警次数</p>
-    </li>
-  </ul> -->
-
-  <div style="display: flex; flex-direction: column;justify-content: space-around;align-items: center;width: 100%; height: 100%;">
-    <div style="flex: 1;display: flex; flex-direction: row; justify-content: space-between;width: 100%;align-items: center;">
-      <div style="flex: 1;display: flex; flex-direction: row; width: 100%;align-items: center;gap: 20px;padding-left: 10px;">
+  <div class="left_top_wrap">
+    <div class="left_top_item_wrap" >
+      <div class="left_top_item_cont">
         <div><img :src="icon1" alt=""></div>
         <div>
           <div>总碳排放量</div>
           <div style="display: flex;gap: 10px;">
-            <div><CountUp :endVal="99" :duration="duration" /></div>
+            <div><CountUp :endVal="99.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
             <div style="color: gray">万吨</div>
           </div>
           <div style="display: flex; gap: 10px;">
@@ -42,15 +15,15 @@
             <div :style="{color: true ?  'red': 'green'}" style="display: flex; align-items: center;">
               <img style="height: 14px;" v-if="true" :src="arrow_top_icon" alt="">
               <img style="height: 14px;" v-else :src="arrow_down_icon" alt="">
-              1.03
+              <div><CountUp :endVal="1.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
             </div>
             <div style="color: gray">%</div>
           </div>
         </div>
       </div>
       <div class="splitshort" style="height: 100%; width: 1px;"></div>
-      <div style="flex: 1;display: flex; flex-direction: row; width: 100%;align-items: center;gap: 20px;padding-left: 10px;">
-        <div><img :src="icon1" alt=""></div>
+      <div class="left_top_item_cont">
+        <div><img :src="icon2" alt=""></div>
         <div>
           <div>总能耗</div>
           <div style="display: flex;gap: 10px;">
@@ -62,7 +35,7 @@
             <div :style="{color: !true ?  'red': 'green'}" style="display: flex; align-items: center;">
               <img style="height: 14px;" v-if="!true" :src="arrow_top_icon" alt="">
               <img style="height: 14px;" v-else :src="arrow_down_icon" alt="">
-              1.03
+              <div><CountUp :endVal="1.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
             </div>
             <div style="color: gray">%</div>
           </div>
@@ -72,9 +45,9 @@
 
     <div class="splitlong"  style="height: 1px; width: 100%;"></div>
 
-    <div style="flex: 1;display: flex; flex-direction: row; justify-content: space-between;width: 100%;align-items: center;">
-      <div style="flex: 1;display: flex; flex-direction: row; width: 100%;align-items: center;gap: 20px;padding-left: 10px;">
-        <div><img :src="icon1" alt=""></div>
+    <div class="left_top_item_wrap" >
+      <div class="left_top_item_cont">
+        <div><img :src="icon3" alt=""></div>
         <div>
           <div>环境保护投入</div>
           <div style="display: flex;gap: 10px;">
@@ -86,15 +59,15 @@
             <div :style="{color: true ?  'red': 'green'}" style="display: flex; align-items: center;gap: 20px;padding-left: 10px;">
               <img style="height: 14px;" v-if="true" :src="arrow_top_icon" alt="">
               <img style="height: 14px;" v-else :src="arrow_down_icon" alt="">
-              1.03
+              <div><CountUp :endVal="1.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
             </div>
             <div style="color: gray">%</div>
           </div>
         </div>
       </div>
       <div class="splitshort" style="height: 100%; width: 1px;"></div>
-      <div style="flex: 1;display: flex; flex-direction: row; width: 100%;align-items: center;gap: 20px;padding-left: 10px;">
-        <div><img :src="icon1" alt=""></div>
+      <div class="left_top_item_cont">
+        <div><img :src="icon4" alt=""></div>
         <div>
           <div>安全生产投入</div>
           <div style="display: flex;gap: 10px;">
@@ -106,7 +79,7 @@
             <div :style="{color: true ?  'red': 'green'}" style="display: flex; align-items: center;gap: 20px;padding-left: 10px;">
               <img style="height: 14px;" v-if="true" :src="arrow_top_icon" alt="">
               <img style="height: 14px;" v-else :src="arrow_down_icon" alt="">
-              1.03
+              <div><CountUp :endVal="1.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
             </div>
             <div style="color: gray">%</div>
           </div>
@@ -116,9 +89,9 @@
 
     <div class="splitlong"  style="height: 1px; width: 100%;"></div>
 
-    <div style="flex: 1;display: flex; flex-direction: row; justify-content: space-between;width: 100%;align-items: center;">
-      <div style="flex: 1;display: flex; flex-direction: row; width: 100%;align-items: center;gap: 20px;padding-left: 10px;">
-        <div><img :src="icon1" alt=""></div>
+    <div class="left_top_item_wrap" >
+      <div class="left_top_item_cont">
+        <div><img :src="icon5" alt=""></div>
         <div>
           <div>生产产量</div>
           <div style="display: flex;gap: 10px;">
@@ -130,15 +103,15 @@
             <div :style="{color: true ?  'red': 'green'}" style="display: flex; align-items: center;gap: 20px;padding-left: 10px;">
               <img style="height: 14px;" v-if="true" :src="arrow_top_icon" alt="">
               <img style="height: 14px;" v-else :src="arrow_down_icon" alt="">
-              1.03
+              <div><CountUp :endVal="1.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
             </div>
             <div style="color: gray">%</div>
           </div>
         </div>
       </div>
       <div class="splitshort" style="height: 100%; width: 1px;"></div>
-      <div style="flex: 1;display: flex; flex-direction: row; width: 100%;align-items: center;gap: 20px;padding-left: 10px;">
-        <div><img :src="icon1" alt=""></div>
+      <div class="left_top_item_cont">
+        <div><img :src="icon6" alt=""></div>
         <div>
           <div style="display: flex; gap: 6px;">
             <div style="text-wrap: nowrap;">季度能耗</div>
@@ -160,7 +133,7 @@
             <div :style="{color: true ?  'red': 'green'}" style="display: flex; align-items: center;">
               <img style="height: 14px;" v-if="true" :src="arrow_top_icon" alt="">
               <img style="height: 14px;" v-else :src="arrow_down_icon" alt="">
-              1.03
+              <div><CountUp :endVal="1.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
             </div>
             <div style="color: gray">%</div>
           </div>
@@ -176,6 +149,11 @@ import { countDeviceNum } from "@/api";
 import CountUp from "@/components/count-up";
 import {ElMessage} from "element-plus"
 import icon1 from '@/assets/icon/safe_product.png'
+import icon2 from '@/assets/icon/icon2.png'
+import icon3 from '@/assets/icon/icon3.png'
+import icon4 from '@/assets/icon/icon4.png'
+import icon5 from '@/assets/icon/icon5.png'
+import icon6 from '@/assets/icon/icon6.png'
 import arrow_down_icon from '@/assets/icon/arrow_down_icon.png'
 import arrow_top_icon from '@/assets/icon/arrow_top_icon.png'
 
@@ -228,6 +206,15 @@ getData();
 </script>
 
 <style scoped lang="scss">
+.left_top_wrap {
+  display: flex; flex-direction: column;justify-content: space-around;align-items: center;width: 100%; height: 100%;
+}
+.left_top_item_wrap {
+  flex: 1;display: flex; flex-direction: row; justify-content: space-between;width: 100%;align-items: center;
+}
+.left_top_item_cont {
+  flex: 1;display: flex; flex-direction: row; width: 100%;align-items: center;gap: 20px;padding-left: 10px;
+}
 /* 下拉选项容器样式 */
 
 

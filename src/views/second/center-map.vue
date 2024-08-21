@@ -2,10 +2,65 @@
 
 <template>
   <div class="centermap">
-    <div class="maptitle">
-      <!-- <div class="zuo"></div>
-      <span class="titletext">{{ title }}</span>
-      <div class="you"></div> -->
+    <div class="maptitle" style="width: 100%;position: absolute;
+    z-index: 1;height: 96px; display: flex;gap: 6px; color: #fff;">
+      <div class="title_item_wrap">
+        <div style="margin-right: 8px;"><img :src="co2Icon" alt="" style="height: 100%;"></div>
+        <div>
+          <div>总碳排放量</div>
+          <div style="display: flex;gap: 10px;">
+            <div><CountUp :endVal="99.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
+            <div style="color: gray">万吨</div>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <div>同比</div>
+            <div :style="{color: !true ?  'red': 'green'}" style="display: flex; align-items: center;">
+              <img style="height: 14px;" v-if="!true" :src="arrow_top_icon" alt="">
+              <img style="height: 14px;" v-else :src="arrow_down_icon" alt="">
+              <div><CountUp :endVal="1.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
+            </div>
+            <div style="color: gray">%</div>
+          </div>
+        </div>
+      </div>
+      <div class="title_item_wrap">
+        <div style="margin-right: 8px;"><img :src="co2Icon" alt="" style="height: 100%;"></div>
+        <div>
+          <div>总能耗</div>
+          <div style="display: flex;gap: 10px;">
+            <div><CountUp :endVal="99.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
+            <div style="color: gray">吨标准煤</div>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <div>同比</div>
+            <div :style="{color: true ?  'red': 'green'}" style="display: flex; align-items: center;">
+              <img style="height: 14px;" v-if="true" :src="arrow_top_icon" alt="">
+              <img style="height: 14px;" v-else :src="arrow_down_icon" alt="">
+              <div><CountUp :endVal="1.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
+            </div>
+            <div style="color: gray">%</div>
+          </div>
+        </div>
+      </div>
+      <div class="title_item_wrap">
+        <div style="margin-right: 8px;"><img :src="co2Icon" alt="" style="height: 100%;"></div>
+        <div>
+          <div>生产产量</div>
+          <div style="display: flex;gap: 10px;">
+            <div><CountUp :endVal="99.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
+            <div style="color: gray">吨</div>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <div>同比</div>
+            <div :style="{color: !true ?  'red': 'green'}" style="display: flex; align-items: center;">
+              <img style="height: 14px;" v-if="!true" :src="arrow_top_icon" alt="">
+              <img style="height: 14px;" v-else :src="arrow_down_icon" alt="">
+              <div><CountUp :endVal="1.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
+            </div>
+            <div style="color: gray">%</div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="mapwrap ">
       <!--  -->
@@ -18,54 +73,34 @@
             v-for="(popup, index) in popups" 
             :key="index"
             class="popup"
-            style="padding: 24px; font-size: 12px;"
+            style="padding: 24px; font-size: 12px;background-repeat: round;"
             :style="getPopupStyle(popup, index)"
             @click.stop="handlePopupClick(popup)"
           >
-            <div style="display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; height: 100%;">
-              <div :style="{...popup.contenStyle}" style="margin-bottom: 6px;font-size: 14px;">{{ popup.content }}</div>
-              <div :style="{ backgroundImage: popup.contenStyle.pop_bar_bg}" style="display: flex;width: 100%;background-repeat: no-repeat;">
-                <div style="width: 16px; background-repeat: no-repeat; background-position: center;background-image: url('/src/assets/img/pop_bar_left_arrow.png');"></div>
-                <div style="display: flex;flex-direction: row; justify-content: space-between; align-items: center; width: 100%;">
-                  <div>碳排放量</div>
-                  <div>{{ 12548 }}</div>
-                </div>
-              </div>
-              <div :style="{ backgroundImage: popup.contenStyle.pop_bar_bg}" style="display: flex;width: 100%;background-repeat: no-repeat;">
-                <div style="width: 16px; background-repeat: no-repeat; background-position: center;background-image: url('/src/assets/img/pop_bar_left_arrow.png');"></div>
-                <div style="display: flex;flex-direction: row; justify-content: space-between; align-items: center; width: 100%;">
-                  <div>能耗</div>
-                  <div>{{ 12548 }}</div>
-                </div>
+            <div style="display: flex; flex-direction: column;  height: 100%;">
+              <div style="margin-bottom: 6px;font-size: 16px; font-weight: 800;width: 100%;text-align: center;">{{ popup.content }}</div>
+              <div style="display: flex; flex-direction: row; height: 100%;">
+                  <div style="display: flex;flex-direction: column; justify-content: space-between; align-items: center;flex:1;">
+                    <div><span style="font-size: 20px; font-weight: 600;">{{ 1212 }}</span> &nbsp; 吨</div>
+                    <div>碳排放量</div>
+                  </div>
+                  <div class="splitshort" style="height: 100%; width: 1px;"></div>
+                  <div style="display: flex;flex-direction: column; justify-content: space-between; align-items: center;flex:1;">
+                    <div><span style="font-size: 20px; font-weight: 600;">{{ 1212 }}</span> &nbsp; 吨标煤</div>
+                    <div>能耗</div>
+                  </div>
               </div>
             </div>
           </div>
         </div>
-
       </div>
-      <!--  -->
-      <!-- <CoordinatePicker :imageSrc="'src/assets/img/centerimg.png'" /> -->
-      <!-- <InteractiveImage
-        :imageSrc="'src/assets/img/centerimg.png'"
-        :markers="markers"
-        @markerClick="handleMarkerClick"
-        @tooltipButtonClick="handleTooltipButtonClick"
-      /> -->
-      <!-- <BorderBox13> -->
-        <!-- <div class="centerimg"></div> -->
-        <!-- <div class="quanguo" @click="getData('china')" v-if="code !== 'china'">中国</div> -->
-        <!-- <v-chart
-          class="chart"
-          :option="option"
-          ref="centerMapRef"
-          @click="mapClick"
-          v-if="JSON.stringify(option) != '{}'"
-        /> -->
-      <!-- </BorderBox13> -->
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import arrow_down_icon from '@/assets/icon/arrow_down_icon.png'
+import arrow_top_icon from '@/assets/icon/arrow_top_icon.png'
+import co2Icon from '@/assets/icon/co2_icon.png'
 import { ref, reactive, nextTick, onMounted, onBeforeUnmount } from "vue";
 import { centerMap, GETNOBASE } from "@/api";
 import { useRouter } from 'vue-router'
@@ -78,6 +113,8 @@ import type { MapdataType } from "./center.map";
 // import CoordinatePicker from './CoordinatePicker.vue';
 // import CanvasImagePopup from './CanvasImagePopup.vue';
 const router = useRouter()
+const duration = ref(2);
+
 const option = ref({});
 const code = ref("china"); //china 代表中国 其他地市是行政编码
 /**
@@ -95,20 +132,22 @@ const popups = ref([
       id: 'popup1',
       // width: '220px', // 弹窗宽度
       // height: '136px', // 弹窗高度
-      x: 1.5, // 相对于图片宽度的x坐标
-      y: 0.6, // 相对于图片高度的y坐标
-      content: '冷轧',
+      x: 1.2, // 相对于图片宽度的x坐标
+      y: 0.4, // 相对于图片高度的y坐标
+      content: '电镀锌工序',
       style: {
-        width: '220px', // 弹窗宽度
+        width: '300px', // 弹窗宽度
         height: '136px', // 弹窗高度
-        backgroundImage: `url(${'/src/assets/img/blue_bg.png'})`, 
+        background: 'rgb(24, 136, 176, 0.8)',
+        borderRadius: '10px',
+        border: '2px solid #fff',
+        // backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
         cursor: 'pointer'
       },
       contenStyle: {
         'borderBottom': '4px solid #28d4ff',
         'paddingBottom': '2px',
         'display': 'inline-block',
-        // 'backgroundImage': `url(${'/src/assets/img/green_pop_bar.png'})`,
         pop_bar_bg: `url(${'/src/assets/img/blue_pop_bar.png'})`
       },
       onClick: () => alert('弹窗1被点击')
@@ -116,13 +155,16 @@ const popups = ref([
     // 可以添加更多弹窗
     {
       id: 'popup2',
-      x: 0.5, // 相对于图片宽度的x坐标
+      x: 0.2, // 相对于图片宽度的x坐标
       y: 1.6, // 相对于图片高度的y坐标
-      content: '电镀锌',
+      content: '预处理工序',
       style: {
-        width: '220px', // 弹窗宽度
+        width: '300px', // 弹窗宽度
         height: '136px', // 弹窗高度
-        backgroundImage: `url(${'/src/assets/img/green_bg.png'})`,
+        background: 'rgb(24, 136, 176, 0.8)',
+        borderRadius: '10px',
+        border: '2px solid #fff',
+        // backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
         cursor: 'pointer'
       },
       contenStyle: {
@@ -133,13 +175,36 @@ const popups = ref([
     },
     {
       id: 'popup3',
-      x: 1.5, // 相对于图片宽度的x坐标
+      x: 1.6, // 相对于图片宽度的x坐标
       y: 1.6, // 相对于图片高度的y坐标
-      content: '热轧',
+      content: '后处理工序',
       style: {
-        width: '220px', // 弹窗宽度
+        width: '300px', // 弹窗宽度
         height: '136px', // 弹窗高度
-        backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
+        background: 'rgb(24, 136, 176, 0.8)',
+        borderRadius: '10px',
+        border: '2px solid #fff',
+        // backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
+        cursor: 'pointer'
+      },
+      contenStyle: {
+        'borderBottom': '4px solid #ffc57a', 'paddingBottom': '2px', display: 'inline-block',
+        pop_bar_bg: `url(${'/src/assets/img/yellow_pop_bar.png'})`
+      },
+      onClick: () => alert('弹窗3被点击')
+    },
+    {
+      id: 'popup4',
+      x: 1.0, // 相对于图片宽度的x坐标
+      y: 3.2, // 相对于图片高度的y坐标
+      content: '干燥工序',
+      style: {
+        width: '300px', // 弹窗宽度
+        height: '136px', // 弹窗高度
+        background: 'rgb(24, 136, 176, 0.8)',
+        borderRadius: '10px',
+        border: '2px solid #fff',
+        // backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
         cursor: 'pointer'
       },
       contenStyle: {
@@ -366,24 +431,36 @@ const handleTooltipButtonClick = (marker: any) => {
 </script>
 
 <style scoped lang="scss">
-
+.splitshort {
+  background-image: url('@/assets/img/split_line_short.png')
+}
+.title_item_wrap {
+  flex:1;height: 100%;background: rgb(87, 158, 189);
+  // background: url('@/assets/icon/co2_icon.png');
+  // background-repeat: round;
+  border-radius: 8px;
+  display: flex;
+  padding: 6px;
+  overflow: hidden;
+}
 .canvas-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  canvas {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
+  position: relative;
+  width: 100%;
+  height: 100%;
+  // overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
+canvas {
+  position: absolute;
+  display: block;
+  width: 170%;
+  // height: auto;
+  height: 140%;top: 8px;
+}
   
 .popup-container {
   position: absolute;
@@ -408,7 +485,7 @@ const handleTooltipButtonClick = (marker: any) => {
 }
 .centermap {
   margin-bottom: 30px;
-
+  position: relative;
   .maptitle {
     height: 60px;
     display: flex;

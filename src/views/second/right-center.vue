@@ -1,20 +1,16 @@
 <script setup lang="ts">
-import { ref, reactive } from "vue";
-import CapsuleChart from "@/components/datav/capsule-chart";
-import { ranking } from "@/api";
+import { ref, onMounted } from "vue";
+import { alarmNum } from "@/api";
+import { graphic } from "echarts/core";
 import { ElMessage } from "element-plus";
 
-const config = ref({
-  showValue: true,
-  unit: "次",
-});
-const data = ref([]);
+const option = ref({});
 const getData = () => {
-  ranking()
+  alarmNum()
     .then((res) => {
-      console.log("右中--报警排名", res);
+      console.log("右上--报警次数 ", res);
       if (res.success) {
-        data.value = res.data;
+        setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3);
       } else {
         ElMessage({
           message: res.msg,
@@ -26,18 +22,217 @@ const getData = () => {
       ElMessage.error(err);
     });
 };
-getData();
+const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[]) => {
+  option.value = {
+    xAxis: {
+      type: "category",
+      data: xData,
+      boundaryGap: false, // 不留白，从原点开始
+      splitLine: {
+        show: true,
+        lineStyle: {
+          color: "rgba(31,99,163,.2)",
+        },
+      },
+      axisLine: {
+        // show:false,
+        lineStyle: {
+          color: "rgba(31,99,163,.1)",
+        },
+      },
+      axisLabel: {
+        color: "#7EB7FD",
+        fontWeight: "500",
+      },
+    },
+    yAxis: {
+      type: "value",
+      splitLine: {
+        show: true,
+        lineStyle: {
+          color: "rgba(31,99,163,.2)",
+        },
+      },
+      axisLine: {
+        lineStyle: {
+          color: "rgba(31,99,163,.1)",
+        },
+      },
+      axisLabel: {
+        color: "#7EB7FD",
+        fontWeight: "500",
+      },
+    },
+    tooltip: {
+      trigger: "axis",
+      backgroundColor: "rgba(0,0,0,.6)",
+      borderColor: "rgba(147, 235, 248, .8)",
+      textStyle: {
+        color: "#FFF",
+      },
+    },
+    legend: {
+      textStyle: {
+        color: '#fff',
+      }
+    },
+    grid: {
+      //布局
+      show: true,
+      left: "10px",
+      right: "30px",
+      bottom: "10px",
+      top: "32px",
+      containLabel: true,
+      borderColor: "#1F63A3",
+    },
+    series: [
+      {
+        data: yData2,
+        type: "line",
+        smooth: true,
+        symbol: "none", //去除点
+        name: "测算碳排",
+        color: "rgba(9,202,243,.7)",
+        areaStyle: {
+          //右，下，左，上
+          color: new graphic.LinearGradient(
+            0,
+            0,
+            0,
+            1,
+            [
+              {
+                offset: 0,
+                color: "rgba(9,202,243,.7)",
+              },
+              {
+                offset: 1,
+                color: "rgba(9,202,243,.0)",
+              },
+            ],
+            false
+          ),
+        },
+        // markPoint: {
+        //   data: [
+        //     {
+        //       name: "最大值",
+        //       type: "max",
+        //       valueDim: "y",
+        //       symbol: "rect",
+        //       symbolSize: [60, 26],
+        //       symbolOffset: [0, -20],
+        //       itemStyle: {
+        //         color: "rgba(0,0,0,0)",
+        //       },
+        //       label: {
+        //         color: "#09CAF3",
+        //         backgroundColor: "rgba(9,202,243,0.1)",
+
+        //         borderRadius: 6,
+        //         borderColor: "rgba(9,202,243,.5)",
+        //         padding: [7, 14],
+        //         formatter: "测算碳排：{c}",
+        //         borderWidth: 0.5,
+        //       },
+        //     },
+        //     {
+        //       name: "最大值",
+        //       type: "max",
+        //       valueDim: "y",
+        //       symbol: "circle",
+        //       symbolSize: 6,
+        //       itemStyle: {
+        //         color: "#09CAF3",
+        //         shadowColor: "#09CAF3",
+        //         shadowBlur: 8,
+        //       },
+        //       label: {
+        //         formatter: "",
+        //       },
+        //     },
+        //   ],
+        // },
+      },
+      {
+        data: yData3,
+        type: "line",
+        smooth: true,
+        symbol: "none", //去除点
+        name: "预测碳排",
+        // color: "rgba(9,202,243,.7)",
+        areaStyle: {
+          //右，下，左，上
+          color: new graphic.LinearGradient(
+            0,
+            0,
+            0,
+            1,
+            [
+              {
+                offset: 0,
+                color: "rgba(9,202,243,.7)",
+              },
+              {
+                offset: 1,
+                color: "rgba(9,202,243,.0)",
+              },
+            ],
+            false
+          ),
+        },
+        // markPoint: {
+        //   data: [
+        //     {
+        //       name: "最大值",
+        //       type: "max",
+        //       valueDim: "y",
+        //       symbol: "rect",
+        //       symbolSize: [60, 26],
+        //       symbolOffset: [0, -20],
+        //       itemStyle: {
+        //         color: "rgba(0,0,0,0)",
+        //       },
+        //       label: {
+        //         color: "#09CAF3",
+        //         backgroundColor: "rgba(9,202,243,0.1)",
+
+        //         borderRadius: 6,
+        //         borderColor: "rgba(9,202,243,.5)",
+        //         padding: [7, 14],
+        //         formatter: "预测碳排：{c}",
+        //         borderWidth: 0.5,
+        //       },
+        //     },
+        //     {
+        //       name: "最大值",
+        //       type: "max",
+        //       valueDim: "y",
+        //       symbol: "circle",
+        //       symbolSize: 6,
+        //       itemStyle: {
+        //         color: "#09CAF3",
+        //         shadowColor: "#09CAF3",
+        //         shadowBlur: 8,
+        //       },
+        //       label: {
+        //         formatter: "",
+        //       },
+        //     },
+        //   ],
+        // },
+      },
+    ],
+  };
+};
+onMounted(() => {
+  getData();
+});
 </script>
 
 <template>
-  <div class="right_bottom">
-    <CapsuleChart :config="config" style="width: 100%; height: 260px" :data="data" />
-  </div>
+  <v-chart class="chart" :option="option" v-if="JSON.stringify(option) != '{}'" />
 </template>
 
-<style scoped lang="scss">
-.right_bottom {
-  box-sizing: border-box;
-  padding: 0 16px;
-}
-</style>
+<style scoped lang="scss"></style>

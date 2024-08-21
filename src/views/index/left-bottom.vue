@@ -1,228 +1,260 @@
-<script setup lang="ts">
-import { leftBottom } from "@/api";
-import SeamlessScroll from "@/components/seamless-scroll";
-import { computed, onMounted, reactive } from "vue";
-import { useSettingStore } from "@/stores";
-import { storeToRefs } from "pinia";
-import EmptyCom from "@/components/empty-com";
-import { ElMessage } from "element-plus";
-
-const settingStore = useSettingStore();
-const { defaultOption, indexConfig } = storeToRefs(settingStore);
-const state = reactive<any>({
-  list: [],
-  defaultOption: {
-    ...defaultOption.value,
-    singleHeight: 256,
-    limitScrollNum: 4,
-  },
-  scroll: true,
-});
-
-const getData = () => {
-  leftBottom( { limitNum: 20 })
-    .then((res) => {
-      console.log("左下--设备提醒", res);
-      if (res.success) {
-        state.list = res.data.list;
-      } else {
-        ElMessage({
-          message: res.msg,
-          type: "warning",
-        });
-      }
-    })
-    .catch((err) => {
-      ElMessage.error(err);
-    });
-};
-const addressHandle = (item: any) => {
-  let name = item.provinceName;
-  if (item.cityName) {
-    name += "/" + item.cityName;
-    if (item.countyName) {
-      name += "/" + item.countyName;
-    }
-  }
-  return name;
-};
-const comName = computed(() => {
-  if (indexConfig.value.leftBottomSwiper) {
-    return SeamlessScroll;
-  } else {
-    return EmptyCom;
-  }
-});
-onMounted(() => {
-  getData();
-});
-</script>
 
 <template>
-  <div class="left_boottom_wrap beautify-scroll-def" :class="{ 'overflow-y-auto': !indexConfig.leftBottomSwiper }">
-    <component
-      :is="comName"
-      :list="state.list"
-      v-model="state.scroll"
-      :singleHeight="state.defaultOption.singleHeight"
-      :step="state.defaultOption.step"
-      :limitScrollNum="state.defaultOption.limitScrollNum"
-      :hover="state.defaultOption.hover"
-      :singleWaitTime="state.defaultOption.singleWaitTime"
-      :wheel="state.defaultOption.wheel"
-    >
-      <ul class="left_boottom">
-        <li class="left_boottom_item" v-for="(item, i) in state.list" :key="i">
-          <span class="orderNum doudong">{{ i + 1 }}</span>
-          <div class="inner_right">
-            <div class="dibu"></div>
-            <div class="flex">
-              <div class="info">
-                <span class="labels">设备ID：</span>
-                <span class="text-content zhuyao doudong wangguan"> {{ item.gatewayno }}</span>
-              </div>
-              <div class="info">
-                <span class="labels">时间：</span>
-                <span class="text-content" style="font-size: 12px"> {{ item.createTime }}</span>
-              </div>
-            </div>
-
-            <span
-              class="types doudong"
-              :class="{
-                typeRed: item.onlineState == 0,
-                typeGreen: item.onlineState == 1,
-              }"
-              >{{ item.onlineState == 1 ? "上线" : "下线" }}</span
-            >
-
-            <div class="info addresswrap">
-              <span class="labels">地址：</span>
-              <span class="text-content ciyao" style="font-size: 12px"> {{ addressHandle(item) }}</span>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </component>
-  </div>
+  <v-chart class="chart" :option="option" />
 </template>
+<script setup lang="ts">
+import { ref, reactive } from "vue";
+import { graphic } from "echarts/core";
+import { countUserNum } from "@/api";
+import {ElMessage} from "element-plus"
 
-<style scoped lang="scss">
-.left_boottom_wrap {
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-}
-
-.doudong {
-  overflow: hidden;
-  backface-visibility: hidden;
-}
-
-.overflow-y-auto {
-  overflow-y: auto;
-}
-
-.left_boottom {
-  width: 100%;
-  height: 100%;
-
-  .left_boottom_item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px;
-    font-size: 14px;
-    margin: 10px 0;
-    .orderNum {
-      margin: 0 16px 0 -20px;
+let colors = ["#0BFC7F", "#A0A0A0", "#F48C02", "#F4023C"];
+const option = ref({});
+const state: any = reactive({
+  lockNum: 0,
+  offlineNum: 0,
+  onlineNum: 0,
+  alarmNum: 0,
+  totalNum: 0,
+  chartData: [],
+  data: []
+});
+const echartsGraphic = (colors: string[]) => {
+  return new graphic.LinearGradient(1, 0, 0, 0, [
+    { offset: 0, color: colors[0] },
+    { offset: 1, color: colors[1] },
+  ]);
+};
+const getData = () => {
+  countUserNum().then((res) => {
+    console.log("左中--用户总览",res);
+    if (res.success) {
+      state.lockNum = res.data.lockNum;
+      state.offlineNum = res.data.offlineNum;
+      state.onlineNum = res.data.onlineNum;
+      state.totalNum = res.data.totalNum;
+      state.alarmNum = res.data.alarmNum;
+      const data = [{
+          value: 16,
+          name: '天然气',
+          unit: '%',
+          num: 2541
+        },
+        {
+          value: 11,
+          name: '石油',
+          unit: '%',
+          num: 25
+        },
+        {
+          value: 21,
+          name: '电力',
+          unit: '%',
+          num: 22354
+        },
+        {
+          value: 8,
+          name: '其他',
+          unit: '%',
+          num: 254
+        }
+      ]
+      state.data = data
+      state.chartData = data.map(item => {
+        return {
+            name: item.name,
+            value: item.value,
+            // itemStyle: {
+            //   color: echartsGraphic(["#0BFC7F", "#A3FDE0"]),
+            //   // color: echartsGraphic(["#A0A0A0", "#DBDFDD"]),
+            //   // color: echartsGraphic(["#F48C02", "#FDDB7D"]),
+            //   // color: echartsGraphic(["#F4023C", "#FB6CB7"])
+            // }
+        }
+      })
+      setOption();
+    }else{
+      ElMessage.error(res.msg)
     }
+  }).catch(err=>{
+    ElMessage.error(err)
+  });
+};
+getData();
+const setOption = () => {
+  option.value = {
+    title: {
+      show: false, // TODO 
+      top: "38%",
+      left: "24%",
+      text: [`{name|总数}`, `{value|${state.totalNum}}`, "{unit|万吨}"].join("\n"),
+      textStyle: {
+        rich: {
+          name: {
+            color: "#ffffff",
+            fontSize: 20,
+            lineHeight: 24,
+            align: 'center',
+          },
+          value: {
+            color: "#ffffff",
+            fontSize: 24,
+            fontWeight: "bold",
+            lineHeight: 20,
+            padding:[14,0,14,0],
+            align: 'center'
+          },
+          unit: {
+            color: "#ffffff",
+            lineHeight: 20,
+            align: 'center'
+          },
+        },
+      },
+    },
+    tooltip: {
+      trigger: "item",
+      backgroundColor: "rgba(0,0,0,.6)",
+      borderColor: "rgba(147, 235, 248, .8)",
+      textStyle: {
+        color: "#FFF",
+      },
+    },
+    legend: {
+      orient: 'vertical',
+      // right: 20,
+      left: '60%',
+      top: 'center',
+      textStyle: {
+        color: "#ffffff",
+        rich: {
+          name: {
+            fontSize: 16,
+            color: "gray",
+            width: 60,
+            padding: [0, 0, 0, 0]//上，右，下，左
+          },
+          value: {
+            fontSize: 16,
+            align: 'right',
+            width: 22,
+            padding: [0, 0, 0, 0],
+          },
+          unit: {
+            fontSize: 16,
+            // width: 36,
+            align: 'right',
+            color: "#fff",
+            padding: [0, 10, 0, 0],
+          },
+          num: {
+            fontSize: 16,
+            width: 64,
+            align: 'right',
+            color: "#fff",
+          },
+        },
+      },
+      //格式化图例文本
+      formatter(name: any) {
+          let tarValue, tarUnit, tarNum
+          for (let i = 0; i < state.data.length; i++) {
+            if (state.data[i].name == name) {
+              tarValue = state.data[i].value;
+              tarUnit = state.data[i].unit;
+              tarNum = state.data[i].num;
+            }
+          }
+          const v = tarValue;
+          const unit = tarUnit
+          console.log('v', v);
+          return [
+            `{name|${name}} {value|${v}}{unit|${unit}}`,
+          ].join('');
+        }
+    },
+    series: [
+      {
+        name: "能源结构占比",
+        type: "pie",
+        radius: ["40%", "70%"],
+        // avoidLabelOverlap: false,
+        itemStyle: {
+          borderRadius: 6,
+          borderColor: "rgba(255,255,255,0)",
+          borderWidth: 2,
+        },
+        color: colors,
+        label: {
+          show: !true,
+          formatter: "   {b|{b}}   \n   {c|{c}个}   {per|{d}%}  ",
+          //   position: "outside",
+          rich: {
+            b: {
+              color: "#fff",
+              fontSize: 12,
+              lineHeight: 26,
+            },
+            c: {
+              color: "#31ABE3",
+              fontSize: 14,
+            },
+            per: {
+              color: "#31ABE3",
+              fontSize: 14,
+            },
+          },
+        },
+        emphasis: {
+          show: false,
+        },
+        legend: {
+          show: !false,
+        },
+        tooltip: { show: true },
+        labelLine: {
+          show: true,
+          length: 20, // 第一段线 长度
+          length2: 36, // 第二段线 长度
+          smooth: 0.2,
+          lineStyle: {},
+        },
+        center: ['30%', '50%'],
+        data: state.chartData
+        // data: [
+        //   {
+        //     value: state.onlineNum,
+        //     name: "在线",
+        //     itemStyle: {
+        //       color: echartsGraphic(["#0BFC7F", "#A3FDE0"]),
+        //     },
+        //   },
+        //   {
+        //     value: state.offlineNum,
+        //     name: "离线",
+        //     itemStyle: {
+        //       color: echartsGraphic(["#A0A0A0", "#DBDFDD"]),
+        //     },
+        //   },
+        //   {
+        //     value: state.lockNum,
+        //     name: "锁定",
+        //     itemStyle: {
+        //       color: echartsGraphic(["#F48C02", "#FDDB7D"]),
+        //     },
+        //   },
+        //   {
+        //     value: state.alarmNum,
+        //     name: "异常",
+        //     itemStyle: {
+        //       color: echartsGraphic(["#F4023C", "#FB6CB7"]),
+        //     },
+        //   },
+        // ],
+      },
+    ],
+  };
+};
+</script>
 
-    .info {
-      margin-right: 10px;
-      display: flex;
-      align-items: center;
-      color: #fff;
-
-      .labels {
-        flex-shrink: 0;
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.6);
-      }
-
-      .zhuyao {
-        color: $primary-color;
-        font-size: 15px;
-      }
-
-      .ciyao {
-        color: rgba(255, 255, 255, 0.8);
-      }
-
-      .warning {
-        color: #e6a23c;
-        font-size: 15px;
-      }
-    }
-
-    .inner_right {
-      position: relative;
-      height: 100%;
-      width: 380px;
-      flex-shrink: 0;
-      line-height: 1;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      .dibu {
-        position: absolute;
-        height: 2px;
-        width: 104%;
-        background-image: url("@/assets/img/zuo_xuxian.png");
-        bottom: -10px;
-        left: -2%;
-        background-size: cover;
-      }
-      .addresswrap {
-        width: 100%;
-        display: flex;
-        margin-top: 8px;
-      }
-    }
-
-    .wangguan {
-      color: #1890ff;
-      font-weight: 900;
-      font-size: 15px;
-      width: 80px;
-      flex-shrink: 0;
-    }
-
-    .time {
-      font-size: 12px;
-      // color: rgba(211, 210, 210,.8);
-      color: #fff;
-    }
-
-    .address {
-      font-size: 12px;
-      cursor: pointer;
-      // @include text-overflow(1);
-    }
-
-    .types {
-      width: 30px;
-      flex-shrink: 0;
-    }
-
-    .typeRed {
-      color: #fc1a1a;
-    }
-
-    .typeGreen {
-      color: #29fc29;
-    }
-  }
-}
-</style>
+<style scoped lang="scss"></style>

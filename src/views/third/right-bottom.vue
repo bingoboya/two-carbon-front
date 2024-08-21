@@ -1,31 +1,16 @@
 <script setup lang="ts">
-import { rightBottom } from "@/api";
-import SeamlessScroll from "@/components/seamless-scroll";
-import { computed, onMounted, reactive } from "vue";
-import { useSettingStore } from "@/stores";
-import { storeToRefs } from "pinia";
-import EmptyCom from "@/components/empty-com";
+import { ref, onMounted } from "vue";
+import { alarmNum } from "@/api";
+import { graphic } from "echarts/core";
 import { ElMessage } from "element-plus";
 
-const settingStore = useSettingStore();
-const { defaultOption, indexConfig } = storeToRefs(settingStore);
-const state = reactive<any>({
-  list: [],
-  defaultOption: {
-    ...defaultOption.value,
-    singleHeight: 252,
-    limitScrollNum: 3,
-    // step:3
-  },
-  scroll: true,
-});
-
+const option = ref({});
 const getData = () => {
-  rightBottom({ limitNum: 20 })
+  alarmNum()
     .then((res) => {
-      console.log("右下", res);
+      console.log("右上--报警次数 ", res);
       if (res.success) {
-        state.list = res.data.list;
+        setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3, res.data.numList4);
       } else {
         ElMessage({
           message: res.msg,
@@ -37,20 +22,185 @@ const getData = () => {
       ElMessage.error(err);
     });
 };
-
-const comName = computed(() => {
-  if (indexConfig.value.rightBottomSwiper) {
-    return SeamlessScroll;
-  } else {
-    return EmptyCom;
-  }
-});
-function montionFilter(val: any) {
-  // console.log(val);
-  return val ? Number(val).toFixed(2) : "--";
-}
-const handleAddress = (item: any) => {
-  return `${item.provinceName}/${item.cityName}/${item.countyName}`;
+const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[], yData4: any) => {
+  option.value = {
+    xAxis: {
+      type: "category",
+      data: xData,
+      boundaryGap: false, // 不留白，从原点开始
+      splitLine: {
+        show: true,
+        lineStyle: {
+          color: "rgba(31,99,163,.2)",
+        },
+      },
+      axisLine: {
+        // show:false,
+        lineStyle: {
+          color: "rgba(31,99,163,.1)",
+        },
+      },
+      axisLabel: {
+        color: "#7EB7FD",
+        fontWeight: "500",
+      },
+    },
+    yAxis: {
+      type: "value",
+      splitLine: {
+        show: true,
+        lineStyle: {
+          color: "rgba(31,99,163,.2)",
+        },
+      },
+      axisLine: {
+        lineStyle: {
+          color: "rgba(31,99,163,.1)",
+        },
+      },
+      axisLabel: {
+        color: "#7EB7FD",
+        fontWeight: "500",
+      },
+    },
+    tooltip: {
+      trigger: "axis",
+      backgroundColor: "rgba(0,0,0,.6)",
+      borderColor: "rgba(147, 235, 248, .8)",
+      textStyle: {
+        color: "#FFF",
+      },
+    },
+    legend: {
+      textStyle: {
+        color: '#fff',
+      }
+    },
+    grid: {
+      //布局
+      show: true,
+      left: "10px",
+      right: "30px",
+      bottom: "10px",
+      top: "32px",
+      containLabel: true,
+      borderColor: "#1F63A3",
+    },
+    series: [
+      {
+        data: yData,
+        type: "line",
+        smooth: true,
+        symbol: "none", //去除点
+        name: "实际能耗",
+        color: "rgba(9,202,243,.7)",
+        areaStyle: {
+          //右，下，左，上
+          color: new graphic.LinearGradient(
+            0,
+            0,
+            0,
+            1,
+            [
+              {
+                offset: 0,
+                color: "rgba(9,202,243,.7)",
+              },
+              {
+                offset: 1,
+                color: "rgba(9,202,243,.0)",
+              },
+            ],
+            false
+          ),
+        },
+      },
+      {
+        data: yData2,
+        type: "line",
+        smooth: true,
+        symbol: "none", //去除点
+        name: "测算能耗",
+        color: "rgba(9,202,243,.7)",
+        areaStyle: {
+          //右，下，左，上
+          color: new graphic.LinearGradient(
+            0,
+            0,
+            0,
+            1,
+            [
+              {
+                offset: 0,
+                color: "rgba(9,202,243,.7)",
+              },
+              {
+                offset: 1,
+                color: "rgba(9,202,243,.0)",
+              },
+            ],
+            false
+          ),
+        },
+      },
+      {
+        data: yData3,
+        type: "line",
+        smooth: true,
+        symbol: "none", //去除点
+        name: "预测上限",
+        // color: "rgba(9,202,243,.7)",
+        areaStyle: {
+          //右，下，左，上
+          color: new graphic.LinearGradient(
+            0,
+            0,
+            0,
+            1,
+            [
+              {
+                offset: 0,
+                color: "rgba(9,202,243,.7)",
+              },
+              {
+                offset: 1,
+                color: "rgba(9,202,243,.0)",
+              },
+            ],
+            false
+          ),
+        },
+      },
+      {
+        data: yData4,
+        type: "line",
+        smooth: true,
+        symbol: "none", //去除点
+        name: "预测下限",
+        // color: "rgba(9,202,243,.7)",
+        areaStyle: {
+          //右，下，左，上
+          color: new graphic.LinearGradient(
+            0,
+            0,
+            0,
+            1,
+            [
+              {
+                offset: 0,
+                color: "rgba(9,202,243,.7)",
+              },
+              {
+                offset: 1,
+                color: "rgba(9,202,243,.0)",
+              },
+            ],
+            false
+          ),
+        },
+      },
+    ],
+  };
 };
 onMounted(() => {
   getData();
@@ -58,136 +208,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="right_bottom_wrap beautify-scroll-def" :class="{ 'overflow-y-auto': !indexConfig.rightBottomSwiper }">
-    <component
-      :is="comName"
-      :list="state.list"
-      v-model="state.scroll"
-      :singleHeight="state.defaultOption.singleHeight"
-      :step="state.defaultOption.step"
-      :limitScrollNum="state.defaultOption.limitScrollNum"
-      :hover="state.defaultOption.hover"
-      :singleWaitTime="state.defaultOption.singleWaitTime"
-      :wheel="state.defaultOption.wheel"
-    >
-      <ul class="right_bottom">
-        <li class="right_center_item" v-for="(item, i) in state.list" :key="i">
-          <span class="orderNum">{{ i + 1 }}</span>
-          <div class="inner_right">
-            <div class="dibu"></div>
-            <div class="flex">
-              <div class="info">
-                <span class="labels">设备ID：</span>
-                <span class="text-content zhuyao"> {{ item.gatewayno }}</span>
-              </div>
-              <div class="info">
-                <span class="labels">型号：</span>
-                <span class="text-content"> {{ item.terminalno }}</span>
-              </div>
-              <div class="info">
-                <span class="labels">告警值：</span>
-                <span class="text-content warning"> {{ montionFilter(item.alertvalue) }}</span>
-              </div>
-            </div>
-
-            <div class="flex">
-              <div class="info">
-                <span class="labels shrink-0"> 地址：</span>
-                <span class="ciyao truncate" style="font-size: 12px; width: 220px" :title="handleAddress(item)">
-                  {{ handleAddress(item) }}</span
-                >
-              </div>
-              <div class="info time shrink-0">
-                <span class="labels">时间：</span>
-                <span class="text-content" style="font-size: 12px"> {{ item.createtime }}</span>
-              </div>
-            </div>
-            <div class="flex">
-              <div class="info">
-                <span class="labels">报警内容：</span>
-                <span class="text-content ciyao" :class="{ warning: item.alertdetail }">
-                  {{ item.alertdetail || "无" }}</span
-                >
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </component>
-  </div>
+  <v-chart class="chart" :option="option" v-if="JSON.stringify(option) != '{}'" />
 </template>
 
-<style scoped lang="scss">
-.right_bottom {
-  width: 100%;
-  height: 100%;
-
-  .right_center_item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: auto;
-    padding: 10px;
-    font-size: 14px;
-    color: #fff;
-
-    .orderNum {
-      margin: 0 20px 0 -20px;
-    }
-
-    .inner_right {
-      position: relative;
-      height: 100%;
-      width: 400px;
-      flex-shrink: 0;
-      line-height: 1.5;
-
-      .dibu {
-        position: absolute;
-        height: 2px;
-        width: 104%;
-        background-image: url("@/assets/img/zuo_xuxian.png");
-        bottom: -12px;
-        left: -2%;
-        background-size: cover;
-      }
-    }
-
-    .info {
-      margin-right: 10px;
-      display: flex;
-      align-items: center;
-
-      .labels {
-        flex-shrink: 0;
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.6);
-      }
-
-      .zhuyao {
-        color: $primary-color;
-        font-size: 15px;
-      }
-
-      .ciyao {
-        color: rgba(255, 255, 255, 0.8);
-      }
-
-      .warning {
-        color: #e6a23c;
-        font-size: 15px;
-      }
-    }
-  }
-}
-
-.right_bottom_wrap {
-  overflow: hidden;
-  width: 100%;
-  height: 252px;
-}
-
-.overflow-y-auto {
-  overflow-y: auto;
-}
-</style>
+<style scoped lang="scss"></style>

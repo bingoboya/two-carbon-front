@@ -36,40 +36,24 @@ const getData = () => {
       state.alarmNum = res.data.alarmNum;
       const data = [{
           value: 16,
-          name: '钝化剂',
-          unit: '%',
-          num: 2541
+          name: '天然气',
+          unit: '%'
         },
         {
           value: 11,
-          name: '电力',
-          unit: '%',
-          num: 25
+          name: '石油',
+          unit: '%'
         },
         {
           value: 21,
-          name: '天然气',
-          unit: '%',
-          num: 22354
+          name: '电力',
+          unit: '%'
         },
         {
-          value: 8,
-          name: '锌锭',
-          unit: '%',
-          num: 254
-        },
-        {
-          value: 8,
-          name: '洗剂',
-          unit: '%',
-          num: 254
-        },
-        {
-          value: 8,
-          name: '板材消耗量',
-          unit: '%',
-          num: 254
-        },
+          value: 31,
+          name: '其他',
+          unit: '%'
+        }
       ]
       state.data = data
       state.chartData = data.map(item => {
@@ -96,30 +80,21 @@ getData();
 const setOption = () => {
   option.value = {
     title: {
-      show: false, // TODO 
-      top: "38%",
-      left: "24%",
-      text: [`{name|总数}`, `{value|${state.totalNum}}`, "{unit|万吨}"].join("\n"),
+      top: "center",
+      left: "center",
+      text: [`{value|${state.totalNum}}`, "{name|总数}"].join("\n"),
       textStyle: {
         rich: {
-          name: {
-            color: "#ffffff",
-            fontSize: 20,
-            lineHeight: 24,
-            align: 'center',
-          },
           value: {
             color: "#ffffff",
             fontSize: 24,
             fontWeight: "bold",
             lineHeight: 20,
-            padding:[14,0,14,0],
-            align: 'center'
+            padding:[4,0,4,0]
           },
-          unit: {
+          name: {
             color: "#ffffff",
             lineHeight: 20,
-            align: 'center'
           },
         },
       },
@@ -134,60 +109,48 @@ const setOption = () => {
     },
     legend: {
       orient: 'vertical',
-      // right: 20,
-      left: '60%',
+      right: 10,
       top: 'center',
       textStyle: {
         color: "#ffffff",
+        // fontSize: 16,
         rich: {
           name: {
             fontSize: 16,
             color: "gray",
-            width: 60,
-            padding: [0, 0, 0, 0]//上，右，下，左
+            padding: [4, 0, 0, 0]//上，右，下，左
           },
           value: {
             fontSize: 16,
-            align: 'right',
-            width: 22,
-            padding: [0, 0, 0, 0],
+            padding: [0, 0],
           },
           unit: {
             fontSize: 16,
-            // width: 36,
-            align: 'right',
-            color: "#fff",
-            padding: [0, 10, 0, 0],
-          },
-          num: {
-            fontSize: 16,
-            width: 64,
-            align: 'right',
-            color: "#fff",
+            color: "#ffaaff",
           },
         },
       },
       //格式化图例文本
       formatter(name: any) {
-          let tarValue, tarUnit, tarNum
+          let tarValue, tarUnit
           for (let i = 0; i < state.data.length; i++) {
             if (state.data[i].name == name) {
               tarValue = state.data[i].value;
               tarUnit = state.data[i].unit;
-              tarNum = state.data[i].num;
             }
           }
           const v = tarValue;
           const unit = tarUnit
           console.log('v', v);
+          
           return [
-            `{name|${name}} {value|${v}}{unit|${unit}}`,
-          ].join('');
+            `{name|${name}} {value|${v}}{unit|${tarUnit}}`,
+          ];
         }
     },
     series: [
       {
-        name: "能源结构占比",
+        name: "用户总览",
         type: "pie",
         radius: ["40%", "70%"],
         // avoidLabelOverlap: false,
@@ -224,6 +187,7 @@ const setOption = () => {
           show: !false,
         },
         tooltip: { show: true },
+
         labelLine: {
           show: true,
           length: 20, // 第一段线 长度
@@ -231,7 +195,6 @@ const setOption = () => {
           smooth: 0.2,
           lineStyle: {},
         },
-        center: ['30%', '50%'],
         data: state.chartData
         // data: [
         //   {

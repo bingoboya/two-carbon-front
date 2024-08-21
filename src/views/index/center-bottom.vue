@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted, nextTick } from "vue";
-import { installationPlan } from "@/api";
+import { ref, onMounted } from "vue";
+import { alarmNum } from "@/api";
 import { graphic } from "echarts/core";
 import { ElMessage } from "element-plus";
 
 const option = ref({});
 const getData = () => {
-  installationPlan()
+  alarmNum()
     .then((res) => {
-      console.log("中下--安装计划", res);
+      console.log("右上--报警次数 ", res);
       if (res.success) {
-        setOption(res.data);
+        setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3);
       } else {
         ElMessage({
           message: res.msg,
@@ -22,8 +22,47 @@ const getData = () => {
       ElMessage.error(err);
     });
 };
-const setOption = async (newData: any) => {
+const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[]) => {
   option.value = {
+    xAxis: {
+      type: "category",
+      data: xData,
+      boundaryGap: false, // 不留白，从原点开始
+      splitLine: {
+        show: true,
+        lineStyle: {
+          color: "rgba(31,99,163,.2)",
+        },
+      },
+      axisLine: {
+        // show:false,
+        lineStyle: {
+          color: "rgba(31,99,163,.1)",
+        },
+      },
+      axisLabel: {
+        color: "#7EB7FD",
+        fontWeight: "500",
+      },
+    },
+    yAxis: {
+      type: "value",
+      splitLine: {
+        show: true,
+        lineStyle: {
+          color: "rgba(31,99,163,.2)",
+        },
+      },
+      axisLine: {
+        lineStyle: {
+          color: "rgba(31,99,163,.1)",
+        },
+      },
+      axisLabel: {
+        color: "#7EB7FD",
+        fontWeight: "500",
+      },
+    },
     tooltip: {
       trigger: "axis",
       backgroundColor: "rgba(0,0,0,.6)",
@@ -31,114 +70,106 @@ const setOption = async (newData: any) => {
       textStyle: {
         color: "#FFF",
       },
-      formatter: function (params: any) {
-        // 添加单位
-        var result = params[0].name + "<br>";
-        params.forEach(function (item: any) {
-          if (item.value) {
-            if (item.seriesName == "安装率") {
-              result += item.marker + " " + item.seriesName + " : " + item.value + "%</br>";
-            } else {
-              result += item.marker + " " + item.seriesName + " : " + item.value + "个</br>";
-            }
-          } else {
-            result += item.marker + " " + item.seriesName + " :  - </br>";
-          }
-        });
-        return result;
-      },
     },
     legend: {
-      data: ["已安装", "计划安装", "安装率"],
       textStyle: {
-        color: "#B4B4B4",
-      },
-      top: "0",
+        color: '#fff',
+      }
     },
     grid: {
-      left: "50px",
-      right: "40px",
-      bottom: "30px",
-      top: "20px",
+      //布局
+      show: true,
+      left: "10px",
+      right: "30px",
+      bottom: "10px",
+      top: "32px",
+      containLabel: true,
+      borderColor: "#1F63A3",
     },
-    xAxis: {
-      data: newData.category,
-      axisLine: {
-        lineStyle: {
-          color: "#B4B4B4",
-        },
-      },
-      axisTick: {
-        show: false,
-      },
-    },
-    yAxis: [
-      {
-        splitLine: { show: false },
-        axisLine: {
-          lineStyle: {
-            color: "#B4B4B4",
-          },
-        },
-
-        axisLabel: {
-          formatter: "{value}",
-        },
-      },
-      {
-        splitLine: { show: false },
-        axisLine: {
-          lineStyle: {
-            color: "#B4B4B4",
-          },
-        },
-        axisLabel: {
-          formatter: "{value}% ",
-        },
-      },
-    ],
     series: [
       {
-        name: "已安装",
-        type: "bar",
-        barWidth: 10,
-        itemStyle: {
-          borderRadius: 5,
-          color: new graphic.LinearGradient(0, 0, 0, 1, [
-            { offset: 0, color: "#956FD4" },
-            { offset: 1, color: "#3EACE5" },
-          ]),
-        },
-        data: newData.barData,
-      },
-      {
-        name: "计划安装",
-        type: "bar",
-        barGap: "-100%",
-        barWidth: 10,
-        itemStyle: {
-          borderRadius: 5,
-          color: new graphic.LinearGradient(0, 0, 0, 1, [
-            { offset: 0, color: "rgba(156,107,211,0.8)" },
-            { offset: 0.2, color: "rgba(156,107,211,0.5)" },
-            { offset: 1, color: "rgba(156,107,211,0.2)" },
-          ]),
-        },
-        z: -12,
-        data: newData.lineData,
-      },
-      {
-        name: "安装率",
+        data: yData,
         type: "line",
         smooth: true,
-        showAllSymbol: true,
-        symbol: "emptyCircle",
-        symbolSize: 8,
-        yAxisIndex: 1,
-        itemStyle: {
-          color: "#F02FC2",
+        symbol: "none", //去除点
+        name: "绿证价格",
+        color: "rgba(252,144,16,.7)",
+        areaStyle: {
+          //右，下，左，上
+          color: new graphic.LinearGradient(
+            0,
+            0,
+            0,
+            1,
+            [
+              {
+                offset: 0,
+                color: "rgba(252,144,16,.7)",
+              },
+              {
+                offset: 1,
+                color: "rgba(252,144,16,.0)",
+              },
+            ],
+            false
+          ),
+        }
+      },
+      {
+        data: yData2,
+        type: "line",
+        smooth: true,
+        symbol: "none", //去除点
+        name: "电量",
+        color: "rgba(9,202,243,.7)",
+        areaStyle: {
+          //右，下，左，上
+          color: new graphic.LinearGradient(
+            0,
+            0,
+            0,
+            1,
+            [
+              {
+                offset: 0,
+                color: "rgba(9,202,243,.7)",
+              },
+              {
+                offset: 1,
+                color: "rgba(9,202,243,.0)",
+              },
+            ],
+            false
+          ),
         },
-        data: newData.rateData,
+      },
+      {
+        data: yData3,
+        type: "line",
+        smooth: true,
+        symbol: "none", //去除点
+        name: "电量预测",
+        // color: "rgba(9,202,243,.7)",
+        areaStyle: {
+          //右，下，左，上
+          color: new graphic.LinearGradient(
+            0,
+            0,
+            0,
+            1,
+            [
+              {
+                offset: 0,
+                color: "rgba(9,202,243,.7)",
+              },
+              {
+                offset: 1,
+                color: "rgba(9,202,243,.0)",
+              },
+            ],
+            false
+          ),
+        },
       },
     ],
   };

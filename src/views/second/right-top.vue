@@ -1,16 +1,295 @@
+
+
+<template>
+  <v-chart class="chart" :option="option" v-if="JSON.stringify(option) != '{}'" />
+</template>
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { alarmNum } from "@/api";
+import { ref, reactive, onMounted, nextTick } from "vue";
+import { installationPlan } from "@/api";
 import { graphic } from "echarts/core";
 import { ElMessage } from "element-plus";
 
-const option = ref({});
+const option: any = ref({});
+
+// 
+const offsetX = 14;
+const offsetY = 6;
+// 绘制左侧面
+const CubeLeft = graphic.extendShape({
+    shape: {
+        x: 0,
+        y: 0,
+    },
+    buildPath: function (ctx: any, shape) {
+        // 会canvas的应该都能看得懂，shape是从custom传入的
+        const xAxisPoint = shape.xAxisPoint;
+        // console.log(shape);
+        const c0 = [shape.x, shape.y];
+        const c1 = [shape.x - offsetX, shape.y - offsetY];
+        const c2 = [xAxisPoint[0] - offsetX, xAxisPoint[1] - offsetY];
+        const c3 = [xAxisPoint[0], xAxisPoint[1]];
+        ctx.moveTo(c0[0], c0[1]).lineTo(c1[0], c1[1]).lineTo(c2[0], c2[1]).lineTo(c3[0], c3[1]).closePath();
+    },
+});
+// 绘制右侧面
+const CubeRight = graphic.extendShape({
+    shape: {
+        x: 0,
+        y: 0,
+    },
+    buildPath: function (ctx: any, shape) {
+        const xAxisPoint = shape.xAxisPoint;
+        const c1 = [shape.x, shape.y];
+        const c2 = [xAxisPoint[0], xAxisPoint[1]];
+        const c3 = [xAxisPoint[0] + offsetX, xAxisPoint[1] - offsetY];
+        const c4 = [shape.x + offsetX, shape.y - offsetY];
+        ctx.moveTo(c1[0], c1[1]).lineTo(c2[0], c2[1]).lineTo(c3[0], c3[1]).lineTo(c4[0], c4[1]).closePath();
+    },
+});
+// 绘制顶面
+const CubeTop = graphic.extendShape({
+    shape: {
+        x: 0,
+        y: 0,
+    },
+    buildPath: function (ctx: any, shape) {
+        const c1 = [shape.x, shape.y];
+        const c2 = [shape.x + offsetX, shape.y - offsetY]; //右点
+        const c3 = [shape.x, shape.y - offsetX];
+        const c4 = [shape.x - offsetX, shape.y - offsetY];
+        ctx.moveTo(c1[0], c1[1]).lineTo(c2[0], c2[1]).lineTo(c3[0], c3[1]).lineTo(c4[0], c4[1]).closePath();
+    },
+});
+// 注册三个面图形
+graphic.registerShape('CubeLeft', CubeLeft);
+graphic.registerShape('CubeRight', CubeRight);
+graphic.registerShape('CubeTop', CubeTop);
+
+const VALUE = [100, 200, 300, 300, 300, 200, 100, 220, 120, 80, 300, 100];
+const LineVALUE = [200, 300, 200, 100, 200, 200, 100, 120, 220, 180, 30, 200];
+
+const newOption = {
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow',
+        },
+        formatter: function (params: any, ticket: any, callback: any) {
+            const item = params[1];
+            return item.name + ' : ' + item.value;
+        },
+    },
+    legend: {
+      data: ["碳排放量", "同比"],
+      textStyle: {
+        color: "#B4B4B4",
+      },
+      top: "0",
+    },
+    grid: {
+      left: "10px",
+      right: "10px",
+      bottom: "30px",
+      top: "50px",
+      containLabel: true,
+    },
+    // grid: {
+    //     left: '10%',
+    //     right: '10%',
+    //     top: '15%',
+    //     bottom: '10%',
+    //     containLabel: true,
+    // },
+    xAxis: {
+        type: 'category',
+        data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+        axisLine: {
+            show: true,
+            lineStyle: {
+                width: 2,
+                color: '#2B7BD6',
+            },
+        },
+        axisTick: {
+            show: false,
+        },
+        axisLabel: {
+            fontSize: 14,
+        },
+    },
+    yAxis: {
+        type: 'value',
+        axisLine: {
+            show: true,
+            lineStyle: {
+                width: 2,
+                color: '#2B7BD6',
+            },
+        },
+        splitLine: {
+            show: true,
+            lineStyle: {
+                color: '#153D7D',
+            },
+        },
+        axisTick: {
+            show: false,
+        },
+        axisLabel: {
+            fontSize: 14,
+        },
+        // boundaryGap: ['20%', '20%'],
+    },
+    series: [
+        {
+            type: 'custom',
+            renderItem: (params: any, api: any) => {
+                const location = api.coord([api.value(0), api.value(1)]);
+                return {
+                    type: 'group',
+                    children: [
+                        {
+                            type: 'CubeLeft',
+                            shape: {
+                                api,
+                                xValue: api.value(0),
+                                yValue: api.value(1),
+                                x: location[0],
+                                y: location[1],
+                                xAxisPoint: api.coord([api.value(0), 0]),
+                            },
+                            style: {
+                                fill: new graphic.LinearGradient(0, 0, 0, 1, [
+                                    {
+                                        offset: 0,
+                                        color: '#33BCEB',
+                                    },
+                                    {
+                                        offset: 1,
+                                        color: '#337CEB',
+                                    },
+                                ]),
+                            },
+                        },
+                        {
+                            type: 'CubeRight',
+                            shape: {
+                                api,
+                                xValue: api.value(0),
+                                yValue: api.value(1),
+                                x: location[0],
+                                y: location[1],
+                                xAxisPoint: api.coord([api.value(0), 0]),
+                            },
+                            style: {
+                                fill: new graphic.LinearGradient(0, 0, 0, 1, [
+                                    {
+                                        offset: 0,
+                                        color: '#28A2CE',
+                                    },
+                                    {
+                                        offset: 1,
+                                        color: '#1A57B7',
+                                    },
+                                ]),
+                            },
+                        },
+                        {
+                            type: 'CubeTop',
+                            shape: {
+                                api,
+                                xValue: api.value(0),
+                                yValue: api.value(1),
+                                x: location[0],
+                                y: location[1],
+                                xAxisPoint: api.coord([api.value(0), 0]),
+                            },
+                            style: {
+                                fill: new graphic.LinearGradient(0, 0, 0, 1, [
+                                    {
+                                        offset: 0,
+                                        color: '#43C4F1',
+                                    },
+                                    {
+                                        offset: 1,
+                                        color: '#28A2CE',
+                                    },
+                                ]),
+                            },
+                        },
+                    ],
+                };
+            },
+            data: VALUE,
+        },
+        {
+          type: 'bar',
+          name: '碳排放量',
+          label: {
+            show: !true,
+            position: 'top',
+            formatter: (e: any) => {
+                return e.value + '次';
+                /*console.log(e)
+                switch (e.name) {
+                    case '1001':
+                        return e.value;
+                    case '1002':
+                        return VALUE[1];
+                    case '1003':
+                        return VALUE[2];
+                }*/
+            },
+            fontSize: 12,
+            color: '#43C4F1',
+            offset: [0, -25],
+          },
+          itemStyle: {
+            color: 'transparent',
+          },
+          tooltip: {
+            show: true, // 显示提示信息
+          },
+          data: VALUE,
+        },
+        {
+          name: '同比',
+          type: 'line', // 设置类型为 'line'
+          smooth: true,
+          showSymbol: false,
+          // symbol: 'circle', // 标记点为圆形
+          // symbolSize: 10, // 标记点的大小
+          data: LineVALUE,
+          label: {
+            show: !true, // 显示数据标签
+            position: 'top', // 标签位置
+            fontSize: 12, // 字体大小
+            color: '#333', // 字体颜色
+          },
+          lineStyle: {
+            color: '#FFA321', // 线条颜色
+            width: 2, // 线条宽度
+          },
+          itemStyle: {
+            color: '#FFA321', // 标记点颜色
+          },
+          tooltip: {
+            show: true, // 显示提示信息
+          },
+        }
+    ],
+}
+
+
+
+// 
+
 const getData = () => {
-  alarmNum()
+  installationPlan()
     .then((res) => {
-      console.log("右上--报警次数 ", res);
+      console.log("中下--安装计划", res);
       if (res.success) {
-        setOption(res.data.dateList, res.data.numList, res.data.numList2);
+        setOption(res.data);
       } else {
         ElMessage({
           message: res.msg,
@@ -22,211 +301,121 @@ const getData = () => {
       ElMessage.error(err);
     });
 };
-const setOption = async (xData: any[], yData: any[], yData2: any[]) => {
-  option.value = {
-    xAxis: {
-      type: "category",
-      data: xData,
-      boundaryGap: false, // 不留白，从原点开始
-      splitLine: {
-        show: true,
-        lineStyle: {
-          color: "rgba(31,99,163,.2)",
-        },
-      },
-      axisLine: {
-        // show:false,
-        lineStyle: {
-          color: "rgba(31,99,163,.1)",
-        },
-      },
-      axisLabel: {
-        color: "#7EB7FD",
-        fontWeight: "500",
-      },
-    },
-    yAxis: {
-      type: "value",
-      splitLine: {
-        show: true,
-        lineStyle: {
-          color: "rgba(31,99,163,.2)",
-        },
-      },
-      axisLine: {
-        lineStyle: {
-          color: "rgba(31,99,163,.1)",
-        },
-      },
-      axisLabel: {
-        color: "#7EB7FD",
-        fontWeight: "500",
-      },
-    },
-    tooltip: {
-      trigger: "axis",
-      backgroundColor: "rgba(0,0,0,.6)",
-      borderColor: "rgba(147, 235, 248, .8)",
-      textStyle: {
-        color: "#FFF",
-      },
-    },
-    grid: {
-      //布局
-      show: true,
-      left: "10px",
-      right: "30px",
-      bottom: "10px",
-      top: "32px",
-      containLabel: true,
-      borderColor: "#1F63A3",
-    },
-    series: [
-      {
-        data: yData,
-        type: "line",
-        smooth: true,
-        symbol: "none", //去除点
-        name: "报警1次数",
-        color: "rgba(252,144,16,.7)",
-        areaStyle: {
-          //右，下，左，上
-          color: new graphic.LinearGradient(
-            0,
-            0,
-            0,
-            1,
-            [
-              {
-                offset: 0,
-                color: "rgba(252,144,16,.7)",
-              },
-              {
-                offset: 1,
-                color: "rgba(252,144,16,.0)",
-              },
-            ],
-            false
-          ),
-        },
-        markPoint: {
-          data: [
-            {
-              name: "最大值",
-              type: "max",
-              valueDim: "y",
-              symbol: "rect",
-              symbolSize: [60, 26],
-              symbolOffset: [0, -20],
-              itemStyle: {
-                color: "rgba(0,0,0,0)",
-              },
-              label: {
-                color: "#FC9010",
-                backgroundColor: "rgba(252,144,16,0.1)",
-                borderRadius: 6,
-                padding: [7, 14],
-                borderWidth: 0.5,
-                borderColor: "rgba(252,144,16,.5)",
-                formatter: "报警1：{c}",
-              },
-            },
-            {
-              name: "最大值",
-              type: "max",
-              valueDim: "y",
-              symbol: "circle",
-              symbolSize: 6,
-              itemStyle: {
-                color: "#FC9010",
-                shadowColor: "#FC9010",
-                shadowBlur: 8,
-              },
-              label: {
-                formatter: "",
-              },
-            },
-          ],
-        },
-      },
-      {
-        data: yData2,
-        type: "line",
-        smooth: true,
-        symbol: "none", //去除点
-        name: "报警2次数",
-        color: "rgba(9,202,243,.7)",
-        areaStyle: {
-          //右，下，左，上
-          color: new graphic.LinearGradient(
-            0,
-            0,
-            0,
-            1,
-            [
-              {
-                offset: 0,
-                color: "rgba(9,202,243,.7)",
-              },
-              {
-                offset: 1,
-                color: "rgba(9,202,243,.0)",
-              },
-            ],
-            false
-          ),
-        },
-        markPoint: {
-          data: [
-            {
-              name: "最大值",
-              type: "max",
-              valueDim: "y",
-              symbol: "rect",
-              symbolSize: [60, 26],
-              symbolOffset: [0, -20],
-              itemStyle: {
-                color: "rgba(0,0,0,0)",
-              },
-              label: {
-                color: "#09CAF3",
-                backgroundColor: "rgba(9,202,243,0.1)",
-
-                borderRadius: 6,
-                borderColor: "rgba(9,202,243,.5)",
-                padding: [7, 14],
-                formatter: "报警2：{c}",
-                borderWidth: 0.5,
-              },
-            },
-            {
-              name: "最大值",
-              type: "max",
-              valueDim: "y",
-              symbol: "circle",
-              symbolSize: 6,
-              itemStyle: {
-                color: "#09CAF3",
-                shadowColor: "#09CAF3",
-                shadowBlur: 8,
-              },
-              label: {
-                formatter: "",
-              },
-            },
-          ],
-        },
-      },
-    ],
-  };
+const setOption = async (newData: any) => {
+  option.value = newOption
+  // option.value = {
+  //   tooltip: {
+  //     trigger: "axis",
+  //     backgroundColor: "rgba(0,0,0,.6)",
+  //     borderColor: "rgba(147, 235, 248, .8)",
+  //     textStyle: {
+  //       color: "#FFF",
+  //     },
+  //     formatter: function (params: any) {
+  //       // 添加单位
+  //       var result = params[0].name + "<br>";
+  //       params.forEach(function (item: any) {
+  //         if (item.value) {
+  //           if (item.seriesName == "同比") {
+  //             result += item.marker + " " + item.seriesName + " : " + item.value + "%</br>";
+  //           } else {
+  //             result += item.marker + " " + item.seriesName + " : " + item.value + "个</br>";
+  //           }
+  //         } else {
+  //           result += item.marker + " " + item.seriesName + " :  - </br>";
+  //         }
+  //       });
+  //       return result;
+  //     },
+  //   },
+  //   legend: {
+  //     data: ["碳排放量", "同比"],
+  //     textStyle: {
+  //       color: "#B4B4B4",
+  //     },
+  //     top: "0",
+  //   },
+  //   grid: {
+  //     left: "50px",
+  //     right: "50px",
+  //     bottom: "30px",
+  //     top: "50px",
+  //   },
+  //   xAxis: {
+  //     data: newData.category,
+  //     axisLine: {
+  //       lineStyle: {
+  //         color: "#B4B4B4",
+  //       },
+  //     },
+  //     axisTick: {
+  //       show: false,
+  //     },
+  //   },
+  //   yAxis: [
+  //     {
+  //       name: '碳排放量(万吨)',
+  //       splitLine: { show: false },
+  //       axisLine: {
+  //         lineStyle: {
+  //           color: "#B4B4B4",
+  //         },
+  //       },
+  //       axisLabel: {
+  //         formatter: "{value}",
+  //       },
+  //     },
+  //     {
+  //       name: '同比',
+  //       splitLine: { show: false },
+  //       axisLine: {
+  //         lineStyle: {
+  //           color: "#B4B4B4",
+  //         },
+  //       },
+  //       axisLabel: {
+  //         formatter: "{value}% ",
+  //       },
+  //     },
+  //   ],
+  //   series: [
+  //     {
+  //       name: "碳排放量",
+  //       type: "bar",
+  //       barWidth: 10,
+  //       itemStyle: {
+  //         borderRadius: 5,
+  //         color: new graphic.LinearGradient(0, 0, 0, 1, [
+  //           { offset: 0, color: "#956FD4" },
+  //           { offset: 1, color: "#3EACE5" },
+  //         ]),
+  //       },
+  //       data: newData.barData,
+  //     },
+      
+  //     {
+  //       name: "同比",
+  //       type: "line",
+  //       smooth: true,
+  //       showAllSymbol: true,
+  //       symbol: "emptyCircle",
+  //       symbolSize: 8,
+  //       yAxisIndex: 1,
+  //       itemStyle: {
+  //         color: "#F02FC2",
+  //       },
+  //       data: newData.rateData,
+  //     },
+  //   ],
+  // };
 };
+
+
+
+
+
 onMounted(() => {
   getData();
 });
 </script>
-
-<template>
-  <v-chart class="chart" :option="option" v-if="JSON.stringify(option) != '{}'" />
-</template>
-
 <style scoped lang="scss"></style>

@@ -5,6 +5,7 @@ import {
     CanvasRenderer
   } from 'echarts/renderers'
   import {
+    CustomChart,
     BarChart,PieChart,MapChart,EffectScatterChart,LineChart 
   } from 'echarts/charts'
   import {
@@ -19,6 +20,7 @@ import {
   } from 'echarts/components'
 
   use([
+    CustomChart,
     CanvasRenderer,
     BarChart,PieChart,MapChart,EffectScatterChart,LineChart,
     GridComponent,

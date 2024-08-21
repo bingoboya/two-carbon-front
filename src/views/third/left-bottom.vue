@@ -1,30 +1,295 @@
+
+
+<template>
+  <v-chart class="chart" :option="option" v-if="JSON.stringify(option) != '{}'" />
+</template>
 <script setup lang="ts">
-import { leftBottom } from "@/api";
-import SeamlessScroll from "@/components/seamless-scroll";
-import { computed, onMounted, reactive } from "vue";
-import { useSettingStore } from "@/stores";
-import { storeToRefs } from "pinia";
-import EmptyCom from "@/components/empty-com";
+import { ref, reactive, onMounted, nextTick } from "vue";
+import { installationPlan } from "@/api";
+import { graphic } from "echarts/core";
 import { ElMessage } from "element-plus";
 
-const settingStore = useSettingStore();
-const { defaultOption, indexConfig } = storeToRefs(settingStore);
-const state = reactive<any>({
-  list: [],
-  defaultOption: {
-    ...defaultOption.value,
-    singleHeight: 256,
-    limitScrollNum: 4,
-  },
-  scroll: true,
+const option: any = ref({});
+
+// 
+const offsetX = 14;
+const offsetY = 6;
+// 绘制左侧面
+const CubeLeft = graphic.extendShape({
+    shape: {
+        x: 0,
+        y: 0,
+    },
+    buildPath: function (ctx: any, shape) {
+        // 会canvas的应该都能看得懂，shape是从custom传入的
+        const xAxisPoint = shape.xAxisPoint;
+        // console.log(shape);
+        const c0 = [shape.x, shape.y];
+        const c1 = [shape.x - offsetX, shape.y - offsetY];
+        const c2 = [xAxisPoint[0] - offsetX, xAxisPoint[1] - offsetY];
+        const c3 = [xAxisPoint[0], xAxisPoint[1]];
+        ctx.moveTo(c0[0], c0[1]).lineTo(c1[0], c1[1]).lineTo(c2[0], c2[1]).lineTo(c3[0], c3[1]).closePath();
+    },
 });
+// 绘制右侧面
+const CubeRight = graphic.extendShape({
+    shape: {
+        x: 0,
+        y: 0,
+    },
+    buildPath: function (ctx: any, shape) {
+        const xAxisPoint = shape.xAxisPoint;
+        const c1 = [shape.x, shape.y];
+        const c2 = [xAxisPoint[0], xAxisPoint[1]];
+        const c3 = [xAxisPoint[0] + offsetX, xAxisPoint[1] - offsetY];
+        const c4 = [shape.x + offsetX, shape.y - offsetY];
+        ctx.moveTo(c1[0], c1[1]).lineTo(c2[0], c2[1]).lineTo(c3[0], c3[1]).lineTo(c4[0], c4[1]).closePath();
+    },
+});
+// 绘制顶面
+const CubeTop = graphic.extendShape({
+    shape: {
+        x: 0,
+        y: 0,
+    },
+    buildPath: function (ctx: any, shape) {
+        const c1 = [shape.x, shape.y];
+        const c2 = [shape.x + offsetX, shape.y - offsetY]; //右点
+        const c3 = [shape.x, shape.y - offsetX];
+        const c4 = [shape.x - offsetX, shape.y - offsetY];
+        ctx.moveTo(c1[0], c1[1]).lineTo(c2[0], c2[1]).lineTo(c3[0], c3[1]).lineTo(c4[0], c4[1]).closePath();
+    },
+});
+// 注册三个面图形
+graphic.registerShape('CubeLeft', CubeLeft);
+graphic.registerShape('CubeRight', CubeRight);
+graphic.registerShape('CubeTop', CubeTop);
+
+const VALUE = [100, 200, 300, 300, 300, 200, 100, 220, 120, 80, 300, 100];
+const LineVALUE = [200, 300, 200, 100, 200, 200, 100, 120, 220, 180, 30, 200];
+
+const newOption = {
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow',
+        },
+        formatter: function (params: any, ticket: any, callback: any) {
+            const item = params[1];
+            return item.name + ' : ' + item.value;
+        },
+    },
+    legend: {
+      data: ["碳排放量", "同比"],
+      textStyle: {
+        color: "#B4B4B4",
+      },
+      top: "0",
+    },
+    grid: {
+      left: "10px",
+      right: "10px",
+      bottom: "30px",
+      top: "50px",
+      containLabel: true,
+    },
+    // grid: {
+    //     left: '10%',
+    //     right: '10%',
+    //     top: '15%',
+    //     bottom: '10%',
+    //     containLabel: true,
+    // },
+    xAxis: {
+        type: 'category',
+        data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+        axisLine: {
+            show: true,
+            lineStyle: {
+                width: 2,
+                color: '#2B7BD6',
+            },
+        },
+        axisTick: {
+            show: false,
+        },
+        axisLabel: {
+            fontSize: 14,
+        },
+    },
+    yAxis: {
+        type: 'value',
+        axisLine: {
+            show: true,
+            lineStyle: {
+                width: 2,
+                color: '#2B7BD6',
+            },
+        },
+        splitLine: {
+            show: true,
+            lineStyle: {
+                color: '#153D7D',
+            },
+        },
+        axisTick: {
+            show: false,
+        },
+        axisLabel: {
+            fontSize: 14,
+        },
+        // boundaryGap: ['20%', '20%'],
+    },
+    series: [
+        {
+            type: 'custom',
+            renderItem: (params: any, api: any) => {
+                const location = api.coord([api.value(0), api.value(1)]);
+                return {
+                    type: 'group',
+                    children: [
+                        {
+                            type: 'CubeLeft',
+                            shape: {
+                                api,
+                                xValue: api.value(0),
+                                yValue: api.value(1),
+                                x: location[0],
+                                y: location[1],
+                                xAxisPoint: api.coord([api.value(0), 0]),
+                            },
+                            style: {
+                                fill: new graphic.LinearGradient(0, 0, 0, 1, [
+                                    {
+                                        offset: 0,
+                                        color: '#33BCEB',
+                                    },
+                                    {
+                                        offset: 1,
+                                        color: '#337CEB',
+                                    },
+                                ]),
+                            },
+                        },
+                        {
+                            type: 'CubeRight',
+                            shape: {
+                                api,
+                                xValue: api.value(0),
+                                yValue: api.value(1),
+                                x: location[0],
+                                y: location[1],
+                                xAxisPoint: api.coord([api.value(0), 0]),
+                            },
+                            style: {
+                                fill: new graphic.LinearGradient(0, 0, 0, 1, [
+                                    {
+                                        offset: 0,
+                                        color: '#28A2CE',
+                                    },
+                                    {
+                                        offset: 1,
+                                        color: '#1A57B7',
+                                    },
+                                ]),
+                            },
+                        },
+                        {
+                            type: 'CubeTop',
+                            shape: {
+                                api,
+                                xValue: api.value(0),
+                                yValue: api.value(1),
+                                x: location[0],
+                                y: location[1],
+                                xAxisPoint: api.coord([api.value(0), 0]),
+                            },
+                            style: {
+                                fill: new graphic.LinearGradient(0, 0, 0, 1, [
+                                    {
+                                        offset: 0,
+                                        color: '#43C4F1',
+                                    },
+                                    {
+                                        offset: 1,
+                                        color: '#28A2CE',
+                                    },
+                                ]),
+                            },
+                        },
+                    ],
+                };
+            },
+            data: VALUE,
+        },
+        {
+          type: 'bar',
+          name: '碳排放量',
+          label: {
+            show: !true,
+            position: 'top',
+            formatter: (e: any) => {
+                return e.value + '次';
+                /*console.log(e)
+                switch (e.name) {
+                    case '1001':
+                        return e.value;
+                    case '1002':
+                        return VALUE[1];
+                    case '1003':
+                        return VALUE[2];
+                }*/
+            },
+            fontSize: 12,
+            color: '#43C4F1',
+            offset: [0, -25],
+          },
+          itemStyle: {
+            color: 'transparent',
+          },
+          tooltip: {
+            show: true, // 显示提示信息
+          },
+          data: VALUE,
+        },
+        {
+          name: '同比',
+          type: 'line', // 设置类型为 'line'
+          smooth: true,
+          showSymbol: false,
+          // symbol: 'circle', // 标记点为圆形
+          // symbolSize: 10, // 标记点的大小
+          data: LineVALUE,
+          label: {
+            show: !true, // 显示数据标签
+            position: 'top', // 标签位置
+            fontSize: 12, // 字体大小
+            color: '#333', // 字体颜色
+          },
+          lineStyle: {
+            color: '#FFA321', // 线条颜色
+            width: 2, // 线条宽度
+          },
+          itemStyle: {
+            color: '#FFA321', // 标记点颜色
+          },
+          tooltip: {
+            show: true, // 显示提示信息
+          },
+        }
+    ],
+}
+
+
+
+// 
 
 const getData = () => {
-  leftBottom( { limitNum: 20 })
+  installationPlan()
     .then((res) => {
-      console.log("左下--设备提醒", res);
+      console.log("中下--安装计划", res);
       if (res.success) {
-        state.list = res.data.list;
+        setOption(res.data);
       } else {
         ElMessage({
           message: res.msg,
@@ -36,193 +301,121 @@ const getData = () => {
       ElMessage.error(err);
     });
 };
-const addressHandle = (item: any) => {
-  let name = item.provinceName;
-  if (item.cityName) {
-    name += "/" + item.cityName;
-    if (item.countyName) {
-      name += "/" + item.countyName;
-    }
-  }
-  return name;
+const setOption = async (newData: any) => {
+  option.value = newOption
+  // option.value = {
+  //   tooltip: {
+  //     trigger: "axis",
+  //     backgroundColor: "rgba(0,0,0,.6)",
+  //     borderColor: "rgba(147, 235, 248, .8)",
+  //     textStyle: {
+  //       color: "#FFF",
+  //     },
+  //     formatter: function (params: any) {
+  //       // 添加单位
+  //       var result = params[0].name + "<br>";
+  //       params.forEach(function (item: any) {
+  //         if (item.value) {
+  //           if (item.seriesName == "同比") {
+  //             result += item.marker + " " + item.seriesName + " : " + item.value + "%</br>";
+  //           } else {
+  //             result += item.marker + " " + item.seriesName + " : " + item.value + "个</br>";
+  //           }
+  //         } else {
+  //           result += item.marker + " " + item.seriesName + " :  - </br>";
+  //         }
+  //       });
+  //       return result;
+  //     },
+  //   },
+  //   legend: {
+  //     data: ["碳排放量", "同比"],
+  //     textStyle: {
+  //       color: "#B4B4B4",
+  //     },
+  //     top: "0",
+  //   },
+  //   grid: {
+  //     left: "50px",
+  //     right: "50px",
+  //     bottom: "30px",
+  //     top: "50px",
+  //   },
+  //   xAxis: {
+  //     data: newData.category,
+  //     axisLine: {
+  //       lineStyle: {
+  //         color: "#B4B4B4",
+  //       },
+  //     },
+  //     axisTick: {
+  //       show: false,
+  //     },
+  //   },
+  //   yAxis: [
+  //     {
+  //       name: '碳排放量(万吨)',
+  //       splitLine: { show: false },
+  //       axisLine: {
+  //         lineStyle: {
+  //           color: "#B4B4B4",
+  //         },
+  //       },
+  //       axisLabel: {
+  //         formatter: "{value}",
+  //       },
+  //     },
+  //     {
+  //       name: '同比',
+  //       splitLine: { show: false },
+  //       axisLine: {
+  //         lineStyle: {
+  //           color: "#B4B4B4",
+  //         },
+  //       },
+  //       axisLabel: {
+  //         formatter: "{value}% ",
+  //       },
+  //     },
+  //   ],
+  //   series: [
+  //     {
+  //       name: "碳排放量",
+  //       type: "bar",
+  //       barWidth: 10,
+  //       itemStyle: {
+  //         borderRadius: 5,
+  //         color: new graphic.LinearGradient(0, 0, 0, 1, [
+  //           { offset: 0, color: "#956FD4" },
+  //           { offset: 1, color: "#3EACE5" },
+  //         ]),
+  //       },
+  //       data: newData.barData,
+  //     },
+      
+  //     {
+  //       name: "同比",
+  //       type: "line",
+  //       smooth: true,
+  //       showAllSymbol: true,
+  //       symbol: "emptyCircle",
+  //       symbolSize: 8,
+  //       yAxisIndex: 1,
+  //       itemStyle: {
+  //         color: "#F02FC2",
+  //       },
+  //       data: newData.rateData,
+  //     },
+  //   ],
+  // };
 };
-const comName = computed(() => {
-  if (indexConfig.value.leftBottomSwiper) {
-    return SeamlessScroll;
-  } else {
-    return EmptyCom;
-  }
-});
+
+
+
+
+
 onMounted(() => {
   getData();
 });
 </script>
-
-<template>
-  <div class="left_boottom_wrap beautify-scroll-def" :class="{ 'overflow-y-auto': !indexConfig.leftBottomSwiper }">
-    <component
-      :is="comName"
-      :list="state.list"
-      v-model="state.scroll"
-      :singleHeight="state.defaultOption.singleHeight"
-      :step="state.defaultOption.step"
-      :limitScrollNum="state.defaultOption.limitScrollNum"
-      :hover="state.defaultOption.hover"
-      :singleWaitTime="state.defaultOption.singleWaitTime"
-      :wheel="state.defaultOption.wheel"
-    >
-      <ul class="left_boottom">
-        <li class="left_boottom_item" v-for="(item, i) in state.list" :key="i">
-          <span class="orderNum doudong">{{ i + 1 }}</span>
-          <div class="inner_right">
-            <div class="dibu"></div>
-            <div class="flex">
-              <div class="info">
-                <span class="labels">设备ID：</span>
-                <span class="text-content zhuyao doudong wangguan"> {{ item.gatewayno }}</span>
-              </div>
-              <div class="info">
-                <span class="labels">时间：</span>
-                <span class="text-content" style="font-size: 12px"> {{ item.createTime }}</span>
-              </div>
-            </div>
-
-            <span
-              class="types doudong"
-              :class="{
-                typeRed: item.onlineState == 0,
-                typeGreen: item.onlineState == 1,
-              }"
-              >{{ item.onlineState == 1 ? "上线" : "下线" }}</span
-            >
-
-            <div class="info addresswrap">
-              <span class="labels">地址：</span>
-              <span class="text-content ciyao" style="font-size: 12px"> {{ addressHandle(item) }}</span>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </component>
-  </div>
-</template>
-
-<style scoped lang="scss">
-.left_boottom_wrap {
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-}
-
-.doudong {
-  overflow: hidden;
-  backface-visibility: hidden;
-}
-
-.overflow-y-auto {
-  overflow-y: auto;
-}
-
-.left_boottom {
-  width: 100%;
-  height: 100%;
-
-  .left_boottom_item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px;
-    font-size: 14px;
-    margin: 10px 0;
-    .orderNum {
-      margin: 0 16px 0 -20px;
-    }
-
-    .info {
-      margin-right: 10px;
-      display: flex;
-      align-items: center;
-      color: #fff;
-
-      .labels {
-        flex-shrink: 0;
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.6);
-      }
-
-      .zhuyao {
-        color: $primary-color;
-        font-size: 15px;
-      }
-
-      .ciyao {
-        color: rgba(255, 255, 255, 0.8);
-      }
-
-      .warning {
-        color: #e6a23c;
-        font-size: 15px;
-      }
-    }
-
-    .inner_right {
-      position: relative;
-      height: 100%;
-      width: 380px;
-      flex-shrink: 0;
-      line-height: 1;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      .dibu {
-        position: absolute;
-        height: 2px;
-        width: 104%;
-        background-image: url("@/assets/img/zuo_xuxian.png");
-        bottom: -10px;
-        left: -2%;
-        background-size: cover;
-      }
-      .addresswrap {
-        width: 100%;
-        display: flex;
-        margin-top: 8px;
-      }
-    }
-
-    .wangguan {
-      color: #1890ff;
-      font-weight: 900;
-      font-size: 15px;
-      width: 80px;
-      flex-shrink: 0;
-    }
-
-    .time {
-      font-size: 12px;
-      // color: rgba(211, 210, 210,.8);
-      color: #fff;
-    }
-
-    .address {
-      font-size: 12px;
-      cursor: pointer;
-      // @include text-overflow(1);
-    }
-
-    .types {
-      width: 30px;
-      flex-shrink: 0;
-    }
-
-    .typeRed {
-      color: #fc1a1a;
-    }
-
-    .typeGreen {
-      color: #29fc29;
-    }
-  }
-}
-</style>
+<style scoped lang="scss"></style>

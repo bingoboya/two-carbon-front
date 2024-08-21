@@ -67,7 +67,7 @@ $item_title_content-height: calc(100% - 38px);
 
 :deep(.dv-border-box-content)  {
     box-sizing: border-box;
-    padding: 6px 16px 0px;
+    // padding: 6px 16px 0px;
   }
 
 .item_title_content {

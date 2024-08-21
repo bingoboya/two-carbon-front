@@ -90,11 +90,17 @@ export default [
             const a = Mock.mock({
                 success: true,
                 data: {
-                    dateList: ['2021-11', '2021-12', '2022-01', '2022-02', '2022-03', "2022-04"],
-                    "numList|6": [
+                    dateList: ['1月', '2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+                    "numList|12": [
                         '@integer(0, 1000)'
                     ],
-                    "numList2|6": [
+                    "numList2|12": [
+                        '@integer(0, 1000)'
+                    ],
+                    "numList3|12": [
+                        '@integer(0, 1000)'
+                    ],
+                    "numList4|12": [
                         '@integer(0, 1000)'
                     ]
                 }
