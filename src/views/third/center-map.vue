@@ -96,15 +96,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import EquipmentComp from './EquipmentComp.vue'
 import arrow_down_icon from '@/assets/icon/arrow_down_icon.png'
 import arrow_top_icon from '@/assets/icon/arrow_top_icon.png'
 import co2Icon from '@/assets/icon/co2_icon.png'
-import { ref, reactive, nextTick, onMounted, onBeforeUnmount } from "vue";
-import { useRouter } from 'vue-router'
-// import BorderBox13 from "@/components/datav/border-box-13";
-import { ElMessage } from "element-plus";
-import CusModal from './CusModal.vue';
+import { ref, nextTick, onMounted, onBeforeUnmount } from "vue";
+import { CusModal, EquipmentComp } from "./index";
 const duration = ref(2);
 const cusmodal: any = ref(null); // 使用ref引用弹窗组件实例
 const curClickPopupContent = ref('')

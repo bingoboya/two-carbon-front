@@ -11,9 +11,6 @@
       <ItemWrap class="contetn_left-top contetn_lr-item" title="碳排放量情况">
         <LeftTop />
       </ItemWrap>
-      <!-- <ItemWrap  class="contetn_left-center contetn_lr-item" title="电力-产量情况">
-        <LeftCenter />
-      </ItemWrap> -->
       <ItemWrap  class="contetn_left-bottom contetn_lr-item" title="产量情况" >
         <LeftBottom />
       </ItemWrap>
@@ -25,9 +22,6 @@
       </ItemWrap>
     </div>
     <div class="contetn_right">
-      <!-- <ItemWrap  class="contetn_left-bottom contetn_lr-item" title="碳排放量情况">
-        <RightTop />
-      </ItemWrap> -->
       <ItemWrap  class="contetn_left-bottom contetn_lr-item" title="能耗预测分析" >
         <RightCenter />
       </ItemWrap>
@@ -40,14 +34,12 @@
 
 <script setup lang="ts">
 import ItemWrap from "@/components/item-wrap";
-import LeftTop from "./left-top.vue";
-import LeftCenter from "./left-center.vue";
-import LeftBottom from "./left-bottom.vue";
-import CenterMap from "./center-map.vue";
-import CenterBottom from "./center-bottom.vue";
-import RightTop from "./right-top.vue";
-import RightCenter from "./right-center.vue";
-import RightBottom from "./right-bottom.vue";
+import { LeftTop,
+    LeftBottom,
+    CenterMap,
+    CenterBottom,
+    RightBottom,
+    RightCenter } from "./index";
 </script>
 <style scoped lang="scss">
 .index-box {

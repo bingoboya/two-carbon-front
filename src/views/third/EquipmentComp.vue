@@ -79,10 +79,9 @@
 </template>
 
 <script setup lang="ts">
+import { LeftTop, RightBottom, ModalCenterBottom } from "./index";
 import { Vue3SeamlessScroll } from "vue3-seamless-scroll";
-import LeftTop from "./left-top.vue";
-import RightBottom from "./right-bottom.vue";
-import ModalCenterBottom from "./ModalCenterBottom.vue";
+
 
 import ItemWrap from "@/components/item-wrap";
 import { reactive, ref } from "vue";
