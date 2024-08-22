@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted, nextTick } from "vue";
+import { ref,  onMounted } from "vue";
 import { installationPlan } from "@/api";
 import { graphic } from "echarts/core";
 import { ElMessage } from "element-plus";

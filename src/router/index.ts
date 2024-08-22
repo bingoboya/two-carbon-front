@@ -1,3 +1,5 @@
+// TODO vue3项目，使用createWebHashHistory 路由时，项目打包后在vscode中执行live server可以跑起来，但是使用
+// createWebHistory 路由时，项目打包后在vscode中执行live server 跑不起来， 没找到解决方案
 import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
 import type {RouteRecordRaw} from "vue-router"
 const routes: Array<RouteRecordRaw> = [
@@ -29,7 +31,7 @@ const routes: Array<RouteRecordRaw> = [
   },
 ]
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes,
 })
 
