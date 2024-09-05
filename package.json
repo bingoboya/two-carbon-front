@@ -11,14 +11,20 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "@kjgl77/datav-vue3": "^1.7.3",
+    "@types/three": "^0.168.0",
+    "@types/video.js": "^7.3.58",
     "axios": "^1.6.8",
     "countup.js": "^2.8.0",
     "dayjs": "^1.11.10",
     "echarts": "^5.5.0",
+    "echarts-gl": "^2.0.9",
     "element-plus": "^2.6.2",
+    "gsap": "^3.12.5",
     "mockjs": "^1.1.0",
     "pinia": "^2.1.7",
-    "vue": "^3.4.21",
+    "three": "^0.168.0",
+    "vue": "3",
     "vue-echarts": "^6.6.9",
     "vue-router": "^4.3.0",
     "vue3-seamless-scroll": "^2.0.1"
@@ -38,6 +44,7 @@
     "unplugin-auto-import": "^0.17.5",
     "unplugin-element-plus": "^0.8.0",
     "unplugin-vue-components": "^0.26.0",
+    "video.js": "^8.17.3",
     "vite": "^5.2.6",
     "vue-tsc": "^2.0.7"
   }

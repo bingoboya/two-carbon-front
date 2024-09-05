@@ -1,15 +1,22 @@
 // vue-echarts
 import ECharts from 'vue-echarts'
-import { use } from "echarts/core"
+import * as echarts from "echarts/core"
+// import 'echarts-gl';  // 全量引入3d库
+import { Lines3DChart, Line3DChart, Map3DChart, Scatter3DChart, SurfaceChart  } from 'echarts-gl/charts'
+import { Grid3DComponent } from 'echarts-gl/components'
 import {
-    CanvasRenderer
+    // CanvasRenderer,
+    SVGRenderer
   } from 'echarts/renderers'
+  import { LabelLayout } from 'echarts/features';
   import {
     CustomChart,
+    PictorialBarChart,SankeyChart,
     BarChart,PieChart,MapChart,EffectScatterChart,LineChart 
   } from 'echarts/charts'
   import {
     GridComponent,
+    MarkLineComponent,
     TitleComponent,
     TooltipComponent,
     LegendComponent,
@@ -18,10 +25,16 @@ import {
     GeoComponent,
     MarkPointComponent
   } from 'echarts/components'
-
-  use([
+  // import { Grid3DComponent } from 'echarts-gl/components';
+  echarts.use([
+    Map3DChart, Lines3DChart, Grid3DComponent,Scatter3DChart ,SurfaceChart,Line3DChart,
+    // Grid3DComponent,
     CustomChart,
-    CanvasRenderer,
+    LabelLayout,
+    // CanvasRenderer,
+    SVGRenderer,SankeyChart,
+    MarkLineComponent,
+    PictorialBarChart,
     BarChart,PieChart,MapChart,EffectScatterChart,LineChart,
     GridComponent,
     LegendComponent,

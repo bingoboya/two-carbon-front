@@ -3,14 +3,11 @@
 <template>
   <BorderBox13>
     <div class="item_title" v-if="title !== ''">
-      <!-- <div class="zuo"></div> -->
-      <span class="title-inner"> &nbsp;&nbsp;{{ title }}&nbsp;&nbsp; </span>
-      <!-- <div class="you"></div> -->
+      <div class="title-inner"> &nbsp;&nbsp;{{ title }}&nbsp;&nbsp; </div>
     </div>
-    <div
-      :class="title !== '' ? 'item_title_content' : 'item_title_content_def'"
-    >
-      <slot></slot></div>
+    <div style="flex:1; width: 100%;padding: 12px;">
+      <slot></slot>
+    </div>
     </BorderBox13>
 </template>
 <script setup lang="ts">
@@ -38,13 +35,11 @@ $item_title_content-height: calc(100% - 46px);
   color: #31abe3;
   text-align: center;
   background-image: url('@/assets/img/item_wrap_top_bg.png');
-  background-repeat: no-repeat;
   background-repeat: round;
-  // background: linear-gradient(to right, transparent, #0f0756, transparent);
+  background-size: cover;
   position: relative;
   display: flex;
   align-items: center;
-  // justify-content: center;
 
   .zuo,
   .you {
@@ -68,20 +63,5 @@ $item_title_content-height: calc(100% - 46px);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-}
-
-:deep(.dv-border-box-content)  {
-    box-sizing: border-box;
-    // padding: 6px 16px 0px;
-  }
-
-.item_title_content {
-  height: $item_title_content-height;
-  overflow: hidden;
-}
-
-.item_title_content_def {
-  width: 100%;
-  height: 100%;
 }
 </style>

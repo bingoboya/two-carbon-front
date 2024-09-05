@@ -1,20 +1,5 @@
-
-
-<template>
-  <BorderBox13>
-    <div class="item_title" v-if="title !== ''">
-      <div class="zuo"></div>
-      <span class="title-inner"> &nbsp;&nbsp;{{ title }}&nbsp;&nbsp; </span>
-      <div class="you"></div>
-    </div>
-    <div
-      :class="title !== '' ? 'item_title_content' : 'item_title_content_def'"
-    >
-      <slot></slot></div
-  ></BorderBox13>
-</template>
 <script setup lang="ts">
-import BorderBox13 from "@/components/datav/border-box-13";
+import CustomBorderBox from "@/components/datav/custom-border-box";
 const props = withDefaults(
   defineProps<{
     // 标题
@@ -25,6 +10,20 @@ const props = withDefaults(
   }
 );
 </script>
+
+<template>
+  <CustomBorderBox>
+    <!-- <div class="item_title" v-if="title !== ''">
+      <div class="zuo"></div>
+      <span class="title-inner"> &nbsp;&nbsp;{{ title }}&nbsp;&nbsp; </span>
+      <div class="you"></div>
+    </div> -->
+    <div :class="title !== '' ? 'item_title_content' : 'item_title_content_def'">
+      <slot></slot>
+    </div>
+  </CustomBorderBox>
+</template>
+
 <style scoped lang="scss">
 $item-title-height: 38px;
 $item_title_content-height: calc(100% - 38px);
@@ -32,7 +31,7 @@ $item_title_content-height: calc(100% - 38px);
 .item_title {
   height: $item-title-height;
   line-height: $item-title-height;
-  width: 100%;
+  // width: 100%;
   color: #31abe3;
   text-align: center;
   // background: linear-gradient(to right, transparent, #0f0756, transparent);
@@ -67,11 +66,14 @@ $item_title_content-height: calc(100% - 38px);
 
 :deep(.dv-border-box-content)  {
     box-sizing: border-box;
-    // padding: 6px 16px 0px;
+    padding: 6px 16px 0px;
   }
 
 .item_title_content {
-  height: $item_title_content-height;
+  // height: $item_title_content-height;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .item_title_content_def {

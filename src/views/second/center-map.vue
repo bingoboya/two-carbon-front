@@ -2,8 +2,7 @@
 
 <template>
   <div class="centermap">
-    <div class="maptitle" style="width: 100%;position: absolute;
-    z-index: 1;height: 96px; display: flex;gap: 6px; color: #fff;">
+    <div class="maptitle" >
       <div class="title_item_wrap">
         <div style="margin-right: 8px;"><img :src="co2Icon" alt="" style="height: 100%;"></div>
         <div>
@@ -321,14 +320,17 @@ function handlePopupClick(popup: any) {
 
 <style scoped lang="scss">
 .splitshort {
+  background-repeat: no-repeat;
   background-image: url('@/assets/img/split_line_short.png')
 }
 .title_item_wrap {
-  flex:1;height: 100%;background: rgb(87, 158, 189);
-  // background: url('@/assets/icon/co2_icon.png');
-  // background-repeat: round;
+  height: 100%;
+  background: rgba(51, 66, 105, 0.493);
+  border: 2px solid rgb(36, 89, 234);
   border-radius: 8px;
   display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 6px;
   overflow: hidden;
 }
@@ -375,18 +377,63 @@ canvas {
 .centermap {
   margin-bottom: 30px;
   position: relative;
+  // .maptitle {
+  //   height: 60px;
+  //   display: flex;
+  //   justify-content: center;
+  //   padding-top: 10px;
+  //   box-sizing: border-box;
+
+  //   .titletext {
+  //     font-size: 28px;
+  //     font-weight: 900;
+  //     letter-spacing: 6px;
+  //     background: linear-gradient(92deg, #0072ff 0%, #00eaff 48.8525390625%, #01aaff 100%);
+  //     -webkit-background-clip: text;
+  //     -webkit-text-fill-color: transparent;
+  //     margin: 0 10px;
+  //   }
+
+  //   .zuo,
+  //   .you {
+  //     background-size: 100% 100%;
+  //     width: 29px;
+  //     height: 20px;
+  //     margin-top: 8px;
+  //   }
+
+  //   .zuo {
+  //     background: url("@/assets/img/xiezuo.png") no-repeat;
+  //   }
+
+  //   .you {
+  //     background: url("@/assets/img/xieyou.png") no-repeat;
+  //   }
+  // }
   .maptitle {
     height: 60px;
     display: flex;
     justify-content: center;
     padding-top: 10px;
     box-sizing: border-box;
-
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+    height: 96px;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 6px;
+    color: #fff;
     .titletext {
       font-size: 28px;
       font-weight: 900;
       letter-spacing: 6px;
-      background: linear-gradient(92deg, #0072ff 0%, #00eaff 48.8525390625%, #01aaff 100%);
+      background: linear-gradient(
+        92deg,
+        #0072ff 0%,
+        #00eaff 48.8525390625%,
+        #01aaff 100%
+      );
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin: 0 10px;

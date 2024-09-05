@@ -1,6 +1,12 @@
 
-<template>
-  <v-chart class="chart" :option="option" />
+<template><div style="width: 100%; height: 100%">
+  <v-chart
+    class="chart"
+    style="width: 100%; height: 100%"
+    :option="option"
+    v-if="JSON.stringify(option) != '{}'"
+  />
+</div>
 </template>
 <script setup lang="ts">
 import { ref, reactive } from "vue";
@@ -27,7 +33,6 @@ const echartsGraphic = (colors: string[]) => {
 };
 const getData = () => {
   countUserNum().then((res) => {
-    console.log("左中--用户总览",res);
     if (res.success) {
       state.lockNum = res.data.lockNum;
       state.offlineNum = res.data.offlineNum;
@@ -35,13 +40,13 @@ const getData = () => {
       state.totalNum = res.data.totalNum;
       state.alarmNum = res.data.alarmNum;
       const data = [{
-          value: 16,
+          value: 41,
           name: '钝化剂',
           unit: '%',
           num: 2541
         },
         {
-          value: 11,
+          value: 31,
           name: '电力',
           unit: '%',
           num: 25
@@ -53,19 +58,19 @@ const getData = () => {
           num: 22354
         },
         {
-          value: 8,
+          value: 18,
           name: '锌锭',
           unit: '%',
           num: 254
         },
         {
-          value: 8,
+          value: 16,
           name: '洗剂',
           unit: '%',
           num: 254
         },
         {
-          value: 8,
+          value: 14,
           name: '板材消耗量',
           unit: '%',
           num: 254
@@ -179,91 +184,48 @@ const setOption = () => {
           }
           const v = tarValue;
           const unit = tarUnit
-          console.log('v', v);
           return [
             `{name|${name}} {value|${v}}{unit|${unit}}`,
           ].join('');
         }
     },
     series: [
+      // {
+      //   name: "能源结构占比",
+      //   type: "pie",
+      //   // avoidLabelOverlap: false,
+      //   roseType: 'area',
+      //   itemStyle: {
+      //     borderRadius: 6,
+      //     borderColor: "rgba(255,255,255,0)",
+      //     borderWidth: 2,
+      //   },
+      //   color: colors,
+      //   label: {
+      //     show: false,
+      //   },
+      //   // emphasis: {
+      //   //   show: false,
+      //   // },
+      //   legend: {
+      //     show: !false,
+      //   },
+      //   tooltip: { show: true },
+      //   center: ['30%', '50%'],
+      //   data: state.chartData
+      // },
       {
-        name: "能源结构占比",
-        type: "pie",
-        radius: ["40%", "70%"],
-        // avoidLabelOverlap: false,
-        itemStyle: {
-          borderRadius: 6,
-          borderColor: "rgba(255,255,255,0)",
-          borderWidth: 2,
-        },
-        color: colors,
-        label: {
-          show: !true,
-          formatter: "   {b|{b}}   \n   {c|{c}个}   {per|{d}%}  ",
-          //   position: "outside",
-          rich: {
-            b: {
-              color: "#fff",
-              fontSize: 12,
-              lineHeight: 26,
-            },
-            c: {
-              color: "#31ABE3",
-              fontSize: 14,
-            },
-            per: {
-              color: "#31ABE3",
-              fontSize: 14,
-            },
-          },
-        },
-        emphasis: {
-          show: false,
-        },
-        legend: {
-          show: !false,
-        },
-        tooltip: { show: true },
-        labelLine: {
-          show: true,
-          length: 20, // 第一段线 长度
-          length2: 36, // 第二段线 长度
-          smooth: 0.2,
-          lineStyle: {},
-        },
-        center: ['30%', '50%'],
-        data: state.chartData
-        // data: [
-        //   {
-        //     value: state.onlineNum,
-        //     name: "在线",
-        //     itemStyle: {
-        //       color: echartsGraphic(["#0BFC7F", "#A3FDE0"]),
-        //     },
-        //   },
-        //   {
-        //     value: state.offlineNum,
-        //     name: "离线",
-        //     itemStyle: {
-        //       color: echartsGraphic(["#A0A0A0", "#DBDFDD"]),
-        //     },
-        //   },
-        //   {
-        //     value: state.lockNum,
-        //     name: "锁定",
-        //     itemStyle: {
-        //       color: echartsGraphic(["#F48C02", "#FDDB7D"]),
-        //     },
-        //   },
-        //   {
-        //     value: state.alarmNum,
-        //     name: "异常",
-        //     itemStyle: {
-        //       color: echartsGraphic(["#F4023C", "#FB6CB7"]),
-        //     },
-        //   },
-        // ],
+      name: '能源结构占比',
+      type: 'pie',
+      radius: [20, 130],
+      center: ['30%', '50%'],
+      roseType: 'area',
+
+      label: {
+        show: false
       },
+      data: state.chartData
+    }
     ],
   };
 };

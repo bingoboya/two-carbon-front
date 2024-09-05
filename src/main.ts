@@ -3,7 +3,7 @@ import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
-
+import DataVVue3 from '@kjgl77/datav-vue3'
 import '@/assets/css/main.scss'
 import '@/assets/css/tailwind.css'
 
@@ -16,5 +16,6 @@ const app = createApp(App)
 registerEcharts(app)
 app.use(createPinia())
 app.use(router)
+app.use(DataVVue3)
 
 app.mount('#app')

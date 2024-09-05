@@ -1,6 +1,12 @@
 
-<template>
-  <v-chart class="chart" :option="option" />
+<template><div style="width: 100%; height: 100%">
+  <v-chart
+    class="chart"
+    style="width: 100%; height: 100%"
+    :option="option"
+    v-if="JSON.stringify(option) != '{}'"
+  />
+</div>
 </template>
 <script setup lang="ts">
 import { ref, reactive } from "vue";
@@ -27,7 +33,6 @@ const echartsGraphic = (colors: string[]) => {
 };
 const getData = () => {
   countUserNum().then((res) => {
-    console.log("左中--用户总览",res);
     if (res.success) {
       state.lockNum = res.data.lockNum;
       state.offlineNum = res.data.offlineNum;
@@ -167,7 +172,6 @@ const setOption = () => {
           }
           const v = tarValue;
           const unit = tarUnit
-          console.log('v', v);
           return [
             `{name|${name}} {value|${v}}{unit|${unit}}`,
           ].join('');

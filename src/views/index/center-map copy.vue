@@ -1,16 +1,53 @@
 <template>
-  <div class="centermap" style="position: relative;">
-    <div class="interactivefactorymap_wrap">
-    <!-- <div style="width: 100%; height: 100%; background-color: #836d6d73;"> -->
-      <!-- ./mapdemo.webm 是public文件夹中的文件路径 -->
-      <InteractiveFactoryMap :videoSrc="'./mapdemo.webm'"/>
+  <div class="centermap">
+    <div class="maptitle">
+      <!-- <div class="zuo"></div>
+      <span class="titletext">{{ title }}</span>
+      <div class="you"></div> -->
+    </div>
+    <div class="mapwrap ">
+      <div class="canvas-container">
+        <!-- canvas 元素用于绘制图片和弹窗 -->
+        <canvas ref="canvasRef"></canvas>
+        <!-- 绝对定位的容器，用于包含弹窗 div -->
+        <div ref="popupContainerRef" class="popup-container">
+          <div v-for="(popup, index) in popups" :key="index" class="popup" style="padding: 24px; font-size: 12px;"
+            :style="getPopupStyle(popup, index)" @click.stop="handlePopupClick(popup)">
+            <div
+              style="display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; height: 100%;">
+              <div :style="{ ...popup.contenStyle }" style="margin-bottom: 6px;font-size: 14px;">{{ popup.content }}</div>
+              <div :style="{ backgroundImage: popup.contenStyle.pop_bar_bg }"
+                style="display: flex;width: 100%;background-repeat: no-repeat;">
+                <div
+                  style="width: 16px; background-repeat: no-repeat; background-position: center;background-image: url('/src/assets/img/pop_bar_left_arrow.png');">
+                </div>
+                <div
+                  style="display: flex;flex-direction: row; justify-content: space-between; align-items: center; width: 100%;">
+                  <div>碳排放量</div>
+                  <div>{{ 12548 }}</div>
+                </div>
+              </div>
+              <div :style="{ backgroundImage: popup.contenStyle.pop_bar_bg }"
+                style="display: flex;width: 100%;background-repeat: no-repeat;">
+                <div
+                  style="width: 16px; background-repeat: no-repeat; background-position: center;background-image: url('/src/assets/img/pop_bar_left_arrow.png');">
+                </div>
+                <div
+                  style="display: flex;flex-direction: row; justify-content: space-between; align-items: center; width: 100%;">
+                  <div>能耗</div>
+                  <div>{{ 12548 }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { ref, nextTick, onMounted, onBeforeUnmount } from "vue";
 import { useRouter } from 'vue-router'
-import InteractiveFactoryMap from '@/components/InteractiveFactoryMap';
 const router = useRouter()
 /**
  * 
@@ -193,8 +230,108 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped lang="scss">
-.interactivefactorymap_wrap {
-  width: 120%; height: 120%; position: absolute; left: 50%;transform: translateX(-50%); 
-  // background-color: #836d6d73;
+.canvas-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  // overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+canvas {
+  position: absolute;
+  display: block;
+  width: 170%;
+  // height: auto;
+  height: 140%;top: 8px;
+}
+
+
+.popup-container {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.popup {
+  position: absolute;
+  /* 初始状态不可见，待计算位置后再显示 */
+  // visibility: hidden;
+}
+
+
+.centerimg {
+  height: 100%;
+  background-image: url("@/assets/img/centerimg.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.centermap {
+  margin-bottom: 30px;
+
+  .maptitle {
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    box-sizing: border-box;
+
+    .titletext {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 6px;
+      background: linear-gradient(92deg, #0072ff 0%, #00eaff 48.8525390625%, #01aaff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0 10px;
+    }
+
+    .zuo,
+    .you {
+      background-size: 100% 100%;
+      width: 29px;
+      height: 20px;
+      margin-top: 8px;
+    }
+
+    .zuo {
+      background: url("@/assets/img/xiezuo.png") no-repeat;
+    }
+
+    .you {
+      background: url("@/assets/img/xieyou.png") no-repeat;
+    }
+  }
+
+  .mapwrap {
+    height: 580px;
+    width: 100%;
+    // padding: 0 0 10px 0;
+    box-sizing: border-box;
+    position: relative;
+
+    .quanguo {
+      position: absolute;
+      right: 20px;
+      top: -46px;
+      width: 80px;
+      height: 28px;
+      border: 1px solid #00eded;
+      border-radius: 10px;
+      color: #00f7f6;
+      text-align: center;
+      line-height: 26px;
+      letter-spacing: 6px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 237, 237, 0.5), 0 0 6px rgba(0, 237, 237, 0.4);
+      z-index: 10;
+    }
+  }
 }
 </style>

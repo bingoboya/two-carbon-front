@@ -1,16 +1,11 @@
-
-
 <template>
-  <div class="d-flex jc-center title_wrap">
-    <!-- <div class="zuojuxing"></div>
-    <div class="youjuxing"></div>
-    <div class="guang"></div> -->
+  <div ref="headerComp" class="d-flex jc-center title_wrap">
     <div class="titleleft">
       <div>辽宁省本溪市</div>
       <div>晴</div>
       <div>{{ 21 }}-{{ 55 }}°C</div>
     </div>
-    <div class="d-flex jc-center" @click="goback" style="cursor: pointer;">
+    <div class="d-flex jc-center">
       <div class="title">
         <span class="title-text">企业典型工艺碳排放监测</span>
       </div>
@@ -24,15 +19,34 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useRouter } from "vue-router";
-import { reactive } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import dayjs from 'dayjs';
 import type {DateDataType} from "./index.d"
 import {useSettingStore} from "@/stores/index"
-const router = useRouter()
-const goback = () => {
-  router.go(-1)
-}
+import { gsap } from 'gsap';
+const headerComp = ref<HTMLDivElement | null>(null)
+
+const animateDivs = () => {
+  console.log(1)
+  if (headerComp.value) {
+    gsap.from(headerComp.value, { y: -120, duration: 2 });
+  }
+  // if (leftDiv.value) {
+  //   gsap.from(leftDiv.value, { x: -40, duration: 1 });
+  // }
+  // if (rightDiv.value) {
+  //   gsap.from(rightDiv.value, { x: 40, duration: 1 });
+  // }
+  // if (bottomDiv.value) {
+  //   gsap.from(bottomDiv.value, { y: 40, duration: 1 });
+  // }
+};
+onMounted(() => {
+  animateDivs();
+});
+
+
+
 const dateData = reactive<DateDataType>({
   dateDay: "",
   dateYear: "",

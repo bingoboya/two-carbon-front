@@ -1,59 +1,136 @@
 <template>
   <div class="centermap">
-    <div class="maptitle" style="width: 100%;position: absolute;
-    z-index: 1;height: 96px; display: flex;gap: 6px; color: #fff;">
-      <div class="title_item_wrap">
-        <div style="margin-right: 8px;"><img :src="co2Icon" alt="" style="height: 100%;"></div>
+    <div class="maptitle">
+      <CardItemWrap v-if="toggle"  title="总碳排放量" >
+        <img :src="co2Icon" alt="" style="margin: 0px 20px; width: 70px; height: auto;" />
         <div>
-          <div>总碳排放量</div>
-          <div style="display: flex;gap: 10px;">
-            <div><CountUp :endVal="99.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
+          <div style="display: flex; gap: 10px">
+            <div>
+              <CountUp :endVal="99.23" :duration="duration" :options="{ decimalPlaces: 3 }" />
+            </div>
             <div style="color: gray">万吨</div>
           </div>
-          <div style="display: flex; gap: 10px;">
+          <div style="display: flex; gap: 10px">
             <div>同比</div>
-            <div :style="{color: !true ?  'red': 'green'}" style="display: flex; align-items: center;">
-              <img style="height: 14px;" v-if="!true" :src="arrow_top_icon" alt="">
-              <img style="height: 14px;" v-else :src="arrow_down_icon" alt="">
-              <div><CountUp :endVal="1.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
+            <div :style="{ color: !true ? 'red' : 'green' }" style="display: flex; align-items: center">
+              <img style="height: 14px" v-if="!true" :src="arrow_top_icon" alt="" />
+              <img style="height: 14px" v-else :src="arrow_down_icon" alt="" />
+              <div>
+                <CountUp :endVal="1.23" :duration="duration" :options="{ decimalPlaces: 3 }" />
+              </div>
             </div>
             <div style="color: gray">%</div>
           </div>
         </div>
-      </div>
-      <div class="title_item_wrap">
-        <div style="margin-right: 8px;"><img :src="co2Icon" alt="" style="height: 100%;"></div>
+      </CardItemWrap>
+      <CardItemWrap v-if="toggle"  title="总能耗" >
+        <img :src="co2Icon" alt="" style="margin: 0px 20px; width: 70px; height: auto;" />
         <div>
-          <div>总能耗</div>
-          <div style="display: flex;gap: 10px;">
-            <div><CountUp :endVal="99.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
+          <div style="display: flex; gap: 10px">
+            <div>
+              <CountUp :endVal="99.23" :duration="duration" :options="{ decimalPlaces: 3 }" />
+            </div>
             <div style="color: gray">吨标准煤</div>
           </div>
-          <div style="display: flex; gap: 10px;">
+          <div style="display: flex; gap: 10px">
             <div>同比</div>
-            <div :style="{color: true ?  'red': 'green'}" style="display: flex; align-items: center;">
-              <img style="height: 14px;" v-if="true" :src="arrow_top_icon" alt="">
-              <img style="height: 14px;" v-else :src="arrow_down_icon" alt="">
-              <div><CountUp :endVal="1.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
+            <div :style="{ color: true ? 'red' : 'green' }" style="display: flex; align-items: center">
+              <img style="height: 14px" v-if="true" :src="arrow_top_icon" alt="" />
+              <img style="height: 14px" v-else :src="arrow_down_icon" alt="" />
+              <div>
+                <CountUp :endVal="1.23" :duration="duration" :options="{ decimalPlaces: 3 }" />
+              </div>
+            </div>
+            <div style="color: gray">%</div>
+          </div>
+        </div>
+      </CardItemWrap>
+      <CardItemWrap v-if="toggle" title="生产产量" >
+        <img :src="co2Icon" alt="" style="margin: 0px 20px; width: 70px; height: auto;" />
+        <div>
+          <div style="display: flex; gap: 10px">
+            <div>
+              <CountUp :endVal="99.23" :duration="duration" :options="{ decimalPlaces: 3 }" />
+            </div>
+            <div style="color: gray">吨</div>
+          </div>
+          <div style="display: flex; gap: 10px">
+            <div>同比</div>
+            <div :style="{ color: !true ? 'red' : 'green' }" style="display: flex; align-items: center">
+              <img style="height: 14px" v-if="!true" :src="arrow_top_icon" alt="" />
+              <img style="height: 14px" v-else :src="arrow_down_icon" alt="" />
+              <div>
+                <CountUp :endVal="1.23" :duration="duration" :options="{ decimalPlaces: 3 }" />
+              </div>
+            </div>
+            <div style="color: gray">%</div>
+          </div>
+        </div>
+      </CardItemWrap>
+      <div v-if="!toggle" class="title_item_wrap">
+        <img :src="co2Icon" alt="" style="height: 100%; margin-right: 8px" />
+        <div>
+          <div>总碳排放量</div>
+          <div style="display: flex; gap: 10px">
+            <div>
+              <CountUp :endVal="99.23" :duration="duration" :options="{ decimalPlaces: 3 }" />
+            </div>
+            <div style="color: gray">万吨</div>
+          </div>
+          <div style="display: flex; gap: 10px">
+            <div>同比</div>
+            <div :style="{ color: !true ? 'red' : 'green' }" style="display: flex; align-items: center">
+              <img style="height: 14px" v-if="!true" :src="arrow_top_icon" alt="" />
+              <img style="height: 14px" v-else :src="arrow_down_icon" alt="" />
+              <div>
+                <CountUp :endVal="1.23" :duration="duration" :options="{ decimalPlaces: 3 }" />
+              </div>
             </div>
             <div style="color: gray">%</div>
           </div>
         </div>
       </div>
-      <div class="title_item_wrap">
-        <div style="margin-right: 8px;"><img :src="co2Icon" alt="" style="height: 100%;"></div>
+      <div v-if="!toggle" class="title_item_wrap">
+        <img :src="co2Icon" alt="" style="height: 100%; margin-right: 8px" />
+        <div>
+          <div>总能耗</div>
+          <div style="display: flex; gap: 10px">
+            <div>
+              <CountUp :endVal="99.23" :duration="duration" :options="{ decimalPlaces: 3 }" />
+            </div>
+            <div style="color: gray">吨标准煤</div>
+          </div>
+          <div style="display: flex; gap: 10px">
+            <div>同比</div>
+            <div :style="{ color: true ? 'red' : 'green' }" style="display: flex; align-items: center">
+              <img style="height: 14px" v-if="true" :src="arrow_top_icon" alt="" />
+              <img style="height: 14px" v-else :src="arrow_down_icon" alt="" />
+              <div>
+                <CountUp :endVal="1.23" :duration="duration" :options="{ decimalPlaces: 3 }" />
+              </div>
+            </div>
+            <div style="color: gray">%</div>
+          </div>
+        </div>
+      </div>
+      <div v-if="!toggle" class="title_item_wrap">
+        <img :src="co2Icon" alt="" style="height: 100%; margin-right: 8px" />
         <div>
           <div>生产产量</div>
-          <div style="display: flex;gap: 10px;">
-            <div><CountUp :endVal="99.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
+          <div style="display: flex; gap: 10px">
+            <div>
+              <CountUp :endVal="99.23" :duration="duration" :options="{ decimalPlaces: 3 }" />
+            </div>
             <div style="color: gray">吨</div>
           </div>
-          <div style="display: flex; gap: 10px;">
+          <div style="display: flex; gap: 10px">
             <div>同比</div>
-            <div :style="{color: !true ?  'red': 'green'}" style="display: flex; align-items: center;">
-              <img style="height: 14px;" v-if="!true" :src="arrow_top_icon" alt="">
-              <img style="height: 14px;" v-else :src="arrow_down_icon" alt="">
-              <div><CountUp :endVal="1.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
+            <div :style="{ color: !true ? 'red' : 'green' }" style="display: flex; align-items: center">
+              <img style="height: 14px" v-if="!true" :src="arrow_top_icon" alt="" />
+              <img style="height: 14px" v-else :src="arrow_down_icon" alt="" />
+              <div>
+                <CountUp :endVal="1.23" :duration="duration" :options="{ decimalPlaces: 3 }" />
+              </div>
             </div>
             <div style="color: gray">%</div>
           </div>
@@ -67,18 +144,27 @@
         <canvas ref="canvasRef"></canvas>
         <!-- 绝对定位的容器，用于包含弹窗 div -->
         <div ref="popupContainerRef" class="popup-container">
-          <div 
-            v-for="(popup, index) in popups" 
-            :key="index"
-            class="popup"
-            style="padding: 4px; font-size: 12px;background-repeat: round;"
-            :style="getPopupStyle(popup, index)"
-            @click.stop="handlePopupClick(popup)"
-          >
-            <div style="margin-bottom: 4px; font-size: 14px; font-weight: 800;width: 100%;text-align: center;">{{ popup.content }}</div>
-            <div style="display: flex; flex-direction: column; height: 100%; justify-content: space-around;;">
-                <div>进卷速度  {{ 50 }} m/min</div>
-                <div>卷轴直径  {{ 1.3 }} m</div>
+          <div v-for="(popup, index) in popups" :key="index" class="popup"
+            style="padding: 4px; font-size: 12px; background-repeat: round" :style="getPopupStyle(popup, index)"
+            @click.stop="handlePopupClick(popup)">
+
+            <div style="
+                margin-bottom: 4px;
+                font-size: 14px;
+                font-weight: 800;
+                width: 100%;
+                text-align: center;
+              ">
+              {{ popup.content }}
+            </div>
+            <div style="
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                justify-content: space-around;
+              ">
+              <div>进卷速度 {{ 50 }} m/min</div>
+              <div>卷轴直径 {{ 1.3 }} m</div>
             </div>
           </div>
         </div>
@@ -96,292 +182,311 @@
   </div>
 </template>
 <script setup lang="ts">
-import arrow_down_icon from '@/assets/icon/arrow_down_icon.png'
-import arrow_top_icon from '@/assets/icon/arrow_top_icon.png'
-import co2Icon from '@/assets/icon/co2_icon.png'
+import BorderComp from './BorderComp.vue'
+import CardItemWrap from "@/components/card-item-wrap";
+import arrow_down_icon from "@/assets/icon/arrow_down_icon.png";
+import arrow_top_icon from "@/assets/icon/arrow_top_icon.png";
+import co2Icon from "@/assets/icon/co2_icon.png";
 import { ref, nextTick, onMounted, onBeforeUnmount } from "vue";
 import { CusModal, EquipmentComp } from "./index";
+const toggle = ref(true)
 const duration = ref(2);
 const cusmodal: any = ref(null); // 使用ref引用弹窗组件实例
-const curClickPopupContent = ref('')
+const curClickPopupContent = ref("");
 
 // 引用图片资源
-const imageUrl = '/src/assets/img/centerimg.png'; // 替换为实际图片路径
+const imageUrl = "/src/assets/img/centerimg.png"; // 替换为实际图片路径
 // 引用 canvas 元素和绘图上下文
 const canvasRef = ref(null);
 const ctxRef = ref(null);
 const popupContainerRef = ref(null); // 添加对 popup-container 的引用
 // 存储弹窗数据，包括位置和内容
 const popups = ref([
-    {
-      id: 'popup1',
-      x: 0.2, // 相对于图片宽度的x坐标
-      y: 1.1, // 相对于图片高度的y坐标
-      content: '钢带进卷机',
-      style: {
-        width: '140px', // 弹窗宽度
-        height: '74px', // 弹窗高度
-        background: 'rgb(24, 136, 176, 0.8)',
-        borderRadius: '10px',
-        border: '2px solid #fff',
-        // backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
-        cursor: 'pointer'
-      },
-      contenStyle: {
-        'borderBottom': '4px solid #28d4ff',
-        'paddingBottom': '2px',
-        'display': 'inline-block',
-        pop_bar_bg: `url(${'/src/assets/img/blue_pop_bar.png'})`
-      },
-      onClick: () => alert('弹窗1被点击')
+  {
+    id: "popup1",
+    x: 0.2, // 相对于图片宽度的x坐标
+    y: 1.1, // 相对于图片高度的y坐标
+    content: "钢带进卷机",
+    style: {
+      width: "140px", // 弹窗宽度
+      height: "74px", // 弹窗高度
+      background: "rgb(24, 136, 176, 0.8)",
+      borderRadius: "10px",
+      border: "2px solid #fff",
+      // backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
+      cursor: "pointer",
     },
-    // 可以添加更多弹窗
-    {
-      id: 'popup2',
-      x: 0.9, // 相对于图片宽度的x坐标
-      y: 0.9, // 相对于图片高度的y坐标
-      content: '去油机',
-      style: {
-        width: '140px', // 弹窗宽度
-        height: '74px', // 弹窗高度
-        background: 'rgb(24, 136, 176, 0.8)',
-        borderRadius: '10px',
-        border: '2px solid #fff',
-        // backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
-        cursor: 'pointer'
-      },
-      contenStyle: {
-        'borderBottom': '4px solid #28d4ff', 'paddingBottom': '2px', display: 'inline-block',
-        pop_bar_bg: `url(${'/src/assets/img/green_pop_bar.png'})`
-      },
-      onClick: () => alert('弹窗22被点击')
+    contenStyle: {
+      borderBottom: "4px solid #28d4ff",
+      paddingBottom: "2px",
+      display: "inline-block",
+      pop_bar_bg: `url(${"/src/assets/img/blue_pop_bar.png"})`,
     },
-    {
-      id: 'popup3',
-      x: 1.6, // 相对于图片宽度的x坐标
-      y: 1.1, // 相对于图片高度的y坐标
-      content: '水洗机一',
-      style: {
-        width: '140px', // 弹窗宽度
-        height: '74px', // 弹窗高度
-        background: 'rgb(24, 136, 176, 0.8)',
-        borderRadius: '10px',
-        border: '2px solid #fff',
-        // backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
-        cursor: 'pointer'
-      },
-      contenStyle: {
-        'borderBottom': '4px solid #ffc57a', 'paddingBottom': '2px', display: 'inline-block',
-        pop_bar_bg: `url(${'/src/assets/img/yellow_pop_bar.png'})`
-      },
-      onClick: () => alert('弹窗3被点击')
+    onClick: () => alert("弹窗1被点击"),
+  },
+  // 可以添加更多弹窗
+  {
+    id: "popup2",
+    x: 0.9, // 相对于图片宽度的x坐标
+    y: 0.9, // 相对于图片高度的y坐标
+    content: "去油机",
+    style: {
+      width: "140px", // 弹窗宽度
+      height: "74px", // 弹窗高度
+      background: "rgb(24, 136, 176, 0.8)",
+      borderRadius: "10px",
+      border: "2px solid #fff",
+      // backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
+      cursor: "pointer",
     },
-    {
-      id: 'popup4',
-      x: 2.0, // 相对于图片宽度的x坐标
-      y: 2.0, // 相对于图片高度的y坐标
-      content: '水洗机二',
-      style: {
-        width: '140px', // 弹窗宽度
-        height: '74px', // 弹窗高度
-        background: 'rgb(24, 136, 176, 0.8)',
-        borderRadius: '10px',
-        border: '2px solid #fff',
-        // backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
-        cursor: 'pointer'
-      },
-      contenStyle: {
-        'borderBottom': '4px solid #ffc57a', 'paddingBottom': '2px', display: 'inline-block',
-        pop_bar_bg: `url(${'/src/assets/img/yellow_pop_bar.png'})`
-      },
-      onClick: () => alert('弹窗3被点击')
+    contenStyle: {
+      borderBottom: "4px solid #28d4ff",
+      paddingBottom: "2px",
+      display: "inline-block",
+      pop_bar_bg: `url(${"/src/assets/img/green_pop_bar.png"})`,
     },
-    {
-      id: 'popup5',
-      x: 2.0, // 相对于图片宽度的x坐标
-      y: 3.2, // 相对于图片高度的y坐标
-      content: '烘干炉',
-      style: {
-        width: '140px', // 弹窗宽度
-        height: '74px', // 弹窗高度
-        background: 'rgb(24, 136, 176, 0.8)',
-        borderRadius: '10px',
-        border: '2px solid #fff',
-        // backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
-        cursor: 'pointer'
-      },
-      contenStyle: {
-        'borderBottom': '4px solid #ffc57a', 'paddingBottom': '2px', display: 'inline-block',
-        pop_bar_bg: `url(${'/src/assets/img/yellow_pop_bar.png'})`
-      },
-      onClick: () => alert('弹窗3被点击')
+    onClick: () => alert("弹窗22被点击"),
+  },
+  {
+    id: "popup3",
+    x: 1.6, // 相对于图片宽度的x坐标
+    y: 1.1, // 相对于图片高度的y坐标
+    content: "水洗机一",
+    style: {
+      width: "140px", // 弹窗宽度
+      height: "74px", // 弹窗高度
+      background: "rgb(24, 136, 176, 0.8)",
+      borderRadius: "10px",
+      border: "2px solid #fff",
+      // backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
+      cursor: "pointer",
     },
-    {
-      id: 'popup6',
-      x: 1.1, // 相对于图片宽度的x坐标
-      y: 3.2, // 相对于图片高度的y坐标
-      content: '印刷机',
-      style: {
-        width: '140px', // 弹窗宽度
-        height: '74px', // 弹窗高度
-        background: 'rgb(24, 136, 176, 0.8)',
-        borderRadius: '10px',
-        border: '2px solid #fff',
-        // backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
-        cursor: 'pointer'
-      },
-      contenStyle: {
-        'borderBottom': '4px solid #ffc57a', 'paddingBottom': '2px', display: 'inline-block',
-        pop_bar_bg: `url(${'/src/assets/img/yellow_pop_bar.png'})`
-      },
-      onClick: () => alert('弹窗3被点击')
+    contenStyle: {
+      borderBottom: "4px solid #ffc57a",
+      paddingBottom: "2px",
+      display: "inline-block",
+      pop_bar_bg: `url(${"/src/assets/img/yellow_pop_bar.png"})`,
     },
-    {
-      id: 'popup7',
-      x: 0.2, // 相对于图片宽度的x坐标
-      y: 3.2, // 相对于图片高度的y坐标
-      content: '清洗机',
-      style: {
-        width: '140px', // 弹窗宽度
-        height: '74px', // 弹窗高度
-        background: 'rgb(24, 136, 176, 0.8)',
-        borderRadius: '10px',
-        border: '2px solid #fff',
-        // backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
-        cursor: 'pointer'
-      },
-      contenStyle: {
-        'borderBottom': '4px solid #ffc57a', 'paddingBottom': '2px', display: 'inline-block',
-        pop_bar_bg: `url(${'/src/assets/img/yellow_pop_bar.png'})`
-      },
-      onClick: () => alert('弹窗3被点击')
+    onClick: () => alert("弹窗3被点击"),
+  },
+  {
+    id: "popup4",
+    x: 2.0, // 相对于图片宽度的x坐标
+    y: 2.0, // 相对于图片高度的y坐标
+    content: "水洗机二",
+    style: {
+      width: "140px", // 弹窗宽度
+      height: "74px", // 弹窗高度
+      background: "rgb(24, 136, 176, 0.8)",
+      borderRadius: "10px",
+      border: "2px solid #fff",
+      // backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
+      cursor: "pointer",
     },
-    {
-      id: 'popup8',
-      x: 0.3, // 相对于图片宽度的x坐标
-      y: 2.2, // 相对于图片高度的y坐标
-      content: '冷却槽',
-      style: {
-        width: '140px', // 弹窗宽度
-        height: '74px', // 弹窗高度
-        background: 'rgb(24, 136, 176, 0.8)',
-        borderRadius: '10px',
-        border: '2px solid #fff',
-        // backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
-        cursor: 'pointer'
-      },
-      contenStyle: {
-        'borderBottom': '4px solid #ffc57a', 'paddingBottom': '2px', display: 'inline-block',
-        pop_bar_bg: `url(${'/src/assets/img/yellow_pop_bar.png'})`
-      },
-      onClick: () => alert('弹窗3被点击')
+    contenStyle: {
+      borderBottom: "4px solid #ffc57a",
+      paddingBottom: "2px",
+      display: "inline-block",
+      pop_bar_bg: `url(${"/src/assets/img/yellow_pop_bar.png"})`,
     },
-    {
-      id: 'popup9',
-      x: 1.0, // 相对于图片宽度的x坐标
-      y: 2.2, // 相对于图片高度的y坐标
-      content: '防护炉',
-      style: {
-        width: '140px', // 弹窗宽度
-        height: '74px', // 弹窗高度
-        background: 'rgb(24, 136, 176, 0.8)',
-        borderRadius: '10px',
-        border: '2px solid #fff',
-        // backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
-        cursor: 'pointer'
-      },
-      contenStyle: {
-        'borderBottom': '4px solid #ffc57a', 'paddingBottom': '2px', display: 'inline-block',
-        pop_bar_bg: `url(${'/src/assets/img/yellow_pop_bar.png'})`
-      },
-      onClick: () => alert('弹窗3被点击')
+    onClick: () => alert("弹窗3被点击"),
+  },
+  {
+    id: "popup5",
+    x: 2.0, // 相对于图片宽度的x坐标
+    y: 3.2, // 相对于图片高度的y坐标
+    content: "烘干炉",
+    style: {
+      width: "140px", // 弹窗宽度
+      height: "74px", // 弹窗高度
+      background: "rgb(24, 136, 176, 0.8)",
+      borderRadius: "10px",
+      border: "2px solid #fff",
+      // backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
+      cursor: "pointer",
     },
-  ]);
-  
+    contenStyle: {
+      borderBottom: "4px solid #ffc57a",
+      paddingBottom: "2px",
+      display: "inline-block",
+      pop_bar_bg: `url(${"/src/assets/img/yellow_pop_bar.png"})`,
+    },
+    onClick: () => alert("弹窗3被点击"),
+  },
+  {
+    id: "popup6",
+    x: 1.1, // 相对于图片宽度的x坐标
+    y: 3.2, // 相对于图片高度的y坐标
+    content: "印刷机",
+    style: {
+      width: "140px", // 弹窗宽度
+      height: "74px", // 弹窗高度
+      background: "rgb(24, 136, 176, 0.8)",
+      borderRadius: "10px",
+      border: "2px solid #fff",
+      // backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
+      cursor: "pointer",
+    },
+    contenStyle: {
+      borderBottom: "4px solid #ffc57a",
+      paddingBottom: "2px",
+      display: "inline-block",
+      pop_bar_bg: `url(${"/src/assets/img/yellow_pop_bar.png"})`,
+    },
+    onClick: () => alert("弹窗3被点击"),
+  },
+  {
+    id: "popup7",
+    x: 0.2, // 相对于图片宽度的x坐标
+    y: 3.2, // 相对于图片高度的y坐标
+    content: "清洗机",
+    style: {
+      width: "140px", // 弹窗宽度
+      height: "74px", // 弹窗高度
+      background: "rgb(24, 136, 176, 0.8)",
+      borderRadius: "10px",
+      border: "2px solid #fff",
+      // backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
+      cursor: "pointer",
+    },
+    contenStyle: {
+      borderBottom: "4px solid #ffc57a",
+      paddingBottom: "2px",
+      display: "inline-block",
+      pop_bar_bg: `url(${"/src/assets/img/yellow_pop_bar.png"})`,
+    },
+    onClick: () => alert("弹窗3被点击"),
+  },
+  {
+    id: "popup8",
+    x: 0.3, // 相对于图片宽度的x坐标
+    y: 2.2, // 相对于图片高度的y坐标
+    content: "冷却槽",
+    style: {
+      width: "140px", // 弹窗宽度
+      height: "74px", // 弹窗高度
+      background: "rgb(24, 136, 176, 0.8)",
+      borderRadius: "10px",
+      border: "2px solid #fff",
+      // backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
+      cursor: "pointer",
+    },
+    contenStyle: {
+      borderBottom: "4px solid #ffc57a",
+      paddingBottom: "2px",
+      display: "inline-block",
+      pop_bar_bg: `url(${"/src/assets/img/yellow_pop_bar.png"})`,
+    },
+    onClick: () => alert("弹窗3被点击"),
+  },
+  {
+    id: "popup9",
+    x: 1.0, // 相对于图片宽度的x坐标
+    y: 2.2, // 相对于图片高度的y坐标
+    content: "防护炉",
+    style: {
+      width: "140px", // 弹窗宽度
+      height: "74px", // 弹窗高度
+      background: "rgb(24, 136, 176, 0.8)",
+      borderRadius: "10px",
+      border: "2px solid #fff",
+      // backgroundImage: `url(${'/src/assets/img/yellow_bg.png'})`,
+      cursor: "pointer",
+    },
+    contenStyle: {
+      borderBottom: "4px solid #ffc57a",
+      paddingBottom: "2px",
+      display: "inline-block",
+      pop_bar_bg: `url(${"/src/assets/img/yellow_pop_bar.png"})`,
+    },
+    onClick: () => alert("弹窗3被点击"),
+  },
+]);
+
 const handlePopupClick = async (popup: any) => {
   // 处理弹窗点击事件
   // alert(`Popup clicked: ${popup.content}`);
-  curClickPopupContent.value = popup.content
-  await nextTick()
-  cusmodal.value.methods.openModal(popup.content)
-}
+  curClickPopupContent.value = popup.content;
+  await nextTick();
+  cusmodal.value.methods.openModal(popup.content);
+};
 
 const closeCusModal = () => {
-  cusmodal.value.methods.closeModal()
-}
-  // 加载并显示图片
-  function loadImage() {
-    const image = new Image();
-    console.log('image', image)
-    image.onload = () => {
-      const canvas: any = canvasRef.value;
-      const ctx = canvas.getContext('2d');
-      ctxRef.value = ctx;
-      canvas.width = image.width;
-      canvas.height = image.height;
-      ctx.drawImage(image, 0, 0, image.width, image.height);
-      // drawPopupsWithCanvas();
-      // 设置 popup-container 大小
-      const container:any = popupContainerRef.value;
-      // container.style.width = `${image.width}px`;
-      container.style.width = `100%`;
-      container.style.height = `${image.height}px`;
-      // 初始显示弹窗 图片加载完成后，计算并设置弹窗位置
-      popups.value.forEach(popup => {
-        setPopupPosition(popup);
-      });
-    };
-    image.src = imageUrl;
-  }
-
-  function setPopupPosition(popup: any) {
-    // 根据 canvas 的尺寸和 popup 的相对位置计算实际位置
-    // 并设置到对应的弹窗 div 上
-    const popupElement: any = document.querySelector(`.popup[data-index="${popup.index}"]`);
-    if (popupElement) {
-      const style: any = getPopupStyle(popup);
-      popupElement.style.left = style.left;
-      popupElement.style.top = style.top;
-    }
-  }
-  
-  // 使用canvas绘制所有弹窗
-  // function drawPopupsWithCanvas() {
-  //   const ctx: any = ctxRef.value;
-  //   popups.value.forEach(popup => {
-  //     const { x, y, content, width, height, style } = popup;
-  //     const image: any = canvasRef.value;
-  //     const posX = (image.width * x) - (width / 2);
-  //     const posY = (image.height * y) - (height / 2);
-  
-  //     // 绘制弹窗背景和边框
-  //     ctx.fillStyle = style.backgroundColor;
-  //     ctx.fillRect(posX, posY, width, height);
-  //     ctx.strokeStyle = style.border;
-  //     ctx.lineWidth = 1;
-  //     ctx.strokeRect(posX, posY, width, height);
-  
-  //     // 绘制弹窗内容
-  //     ctx.fillStyle = '#000'; // 文字颜色
-  //     ctx.font = '16px Arial'; // 文字样式
-  //     ctx.textAlign = 'center';
-  //     ctx.textBaseline = 'middle';
-  //     ctx.fillText(content, posX + width / 2, posY + height / 2);
-  //   });
-  // }
-  
-  // 监听窗口大小变化，重新绘制弹窗
-  function handleResize() {
+  cusmodal.value.methods.closeModal();
+};
+// 加载并显示图片
+function loadImage() {
+  const image = new Image();
+  image.onload = () => {
     const canvas: any = canvasRef.value;
-    if (canvas) {
-      console.log(111, canvas)
-      // 接下来可以使用 ctx 进行绘图操作
-      loadImage();
-    }
-  }
-  
+    const ctx = canvas.getContext("2d");
+    ctxRef.value = ctx;
+    canvas.width = image.width;
+    canvas.height = image.height;
+    ctx.drawImage(image, 0, 0, image.width, image.height);
+    // drawPopupsWithCanvas();
+    // 设置 popup-container 大小
+    const container: any = popupContainerRef.value;
+    // container.style.width = `${image.width}px`;
+    container.style.width = `100%`;
+    container.style.height = `${image.height}px`;
+    // 初始显示弹窗 图片加载完成后，计算并设置弹窗位置
+    popups.value.forEach((popup) => {
+      setPopupPosition(popup);
+    });
+  };
+  image.src = imageUrl;
+}
 
-  function getPopupStyle(popup: any, index?: any) {
+function setPopupPosition(popup: any) {
+  // 根据 canvas 的尺寸和 popup 的相对位置计算实际位置
+  // 并设置到对应的弹窗 div 上
+  const popupElement: any = document.querySelector(
+    `.popup[data-index="${popup.index}"]`
+  );
+  if (popupElement) {
+    const style: any = getPopupStyle(popup);
+    popupElement.style.left = style.left;
+    popupElement.style.top = style.top;
+  }
+}
+
+// 使用canvas绘制所有弹窗
+// function drawPopupsWithCanvas() {
+//   const ctx: any = ctxRef.value;
+//   popups.value.forEach(popup => {
+//     const { x, y, content, width, height, style } = popup;
+//     const image: any = canvasRef.value;
+//     const posX = (image.width * x) - (width / 2);
+//     const posY = (image.height * y) - (height / 2);
+
+//     // 绘制弹窗背景和边框
+//     ctx.fillStyle = style.backgroundColor;
+//     ctx.fillRect(posX, posY, width, height);
+//     ctx.strokeStyle = style.border;
+//     ctx.lineWidth = 1;
+//     ctx.strokeRect(posX, posY, width, height);
+
+//     // 绘制弹窗内容
+//     ctx.fillStyle = '#000'; // 文字颜色
+//     ctx.font = '16px Arial'; // 文字样式
+//     ctx.textAlign = 'center';
+//     ctx.textBaseline = 'middle';
+//     ctx.fillText(content, posX + width / 2, posY + height / 2);
+//   });
+// }
+
+// 监听窗口大小变化，重新绘制弹窗
+function handleResize() {
+  const canvas: any = canvasRef.value;
+  if (canvas) {
+    console.log(111, canvas);
+    // 接下来可以使用 ctx 进行绘图操作
+    loadImage();
+  }
+}
+
+function getPopupStyle(popup: any, index?: any) {
   // 这里我们使用 index 而不是 id 来选择元素，因为直接使用 id 作为 data 属性可能不安全
   const canvas: any = canvasRef.value;
   if (canvas) {
@@ -389,42 +494,46 @@ const closeCusModal = () => {
     const baseY = canvas.height * popup.y;
     // const left = `150px` // 假设弹窗宽度为100px，这里减去一半
     // const top = `100px` // 假设弹窗高度为50px，这里减去一半
-    const left = `${baseX - 50}px` // 假设弹窗宽度为100px，这里减去一半
-    const top = `${baseY - 25}px` // 假设弹窗高度为50px，这里减去一半
-    console.log(3333, left, top)
+    const left = `${baseX - 50}px`; // 假设弹窗宽度为100px，这里减去一半
+    const top = `${baseY - 25}px`; // 假设弹窗高度为50px，这里减去一半
+    console.log(3333, left, top);
     return {
-      'left': left, // 假设弹窗宽度为100px，这里减去一半
-      'top': top, // 假设弹窗高度为50px，这里减去一半
+      left: left, // 假设弹窗宽度为100px，这里减去一半
+      top: top, // 假设弹窗高度为50px，这里减去一半
       ...popup.style,
     };
   }
 }
 
-  onMounted( async  () => {
-    await nextTick()
-    window.addEventListener('resize', handleResize);
-    handleResize()
-  });
-  
-  onBeforeUnmount(() => {
-    window.removeEventListener('resize', handleResize);
-  });
+onMounted(async () => {
+  await nextTick();
+  window.addEventListener("resize", handleResize);
+  handleResize();
+});
 
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", handleResize);
+});
 </script>
 
 <style scoped lang="scss">
 .splitshort {
-  background-image: url('@/assets/img/split_line_short.png')
+  background-repeat: no-repeat;
+  background-image: url("@/assets/img/split_line_short.png");
 }
+
 .title_item_wrap {
-  flex:1;height: 100%;background: rgb(87, 158, 189);
-  // background: url('@/assets/icon/co2_icon.png');
-  // background-repeat: round;
+  height: 100%;
+  background: rgba(51, 66, 105, 0.493);
+  border: 2px solid rgb(36, 89, 234);
   border-radius: 8px;
   display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 6px;
   overflow: hidden;
 }
+
 .canvas-container {
   position: relative;
   width: 100%;
@@ -444,7 +553,7 @@ canvas {
   height: 140%;
   top: 8px;
 }
-  
+
 .popup-container {
   position: absolute;
   width: 100%;
@@ -454,11 +563,12 @@ canvas {
 
 .popup {
   position: absolute;
-  display: flex; flex-direction: column;  height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   /* 初始状态不可见，待计算位置后再显示 */
   // visibility: hidden;
 }
-
 
 .centerimg {
   height: 100%;
@@ -467,21 +577,32 @@ canvas {
   background-repeat: no-repeat;
   background-position: center;
 }
+
 .centermap {
   margin-bottom: 30px;
   position: relative;
+
   .maptitle {
-    height: 60px;
     display: flex;
     justify-content: center;
-    padding-top: 10px;
-    box-sizing: border-box;
+    margin-top: 30px;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+    height: 120px;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 6px;
+    color: #fff;
 
     .titletext {
       font-size: 28px;
       font-weight: 900;
       letter-spacing: 6px;
-      background: linear-gradient(92deg, #0072ff 0%, #00eaff 48.8525390625%, #01aaff 100%);
+      background: linear-gradient(92deg,
+          #0072ff 0%,
+          #00eaff 48.8525390625%,
+          #01aaff 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin: 0 10px;
@@ -524,12 +645,10 @@ canvas {
       line-height: 26px;
       letter-spacing: 6px;
       cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0, 237, 237, 0.5), 0 0 6px rgba(0, 237, 237, 0.4);
+      box-shadow: 0 2px 4px rgba(0, 237, 237, 0.5),
+        0 0 6px rgba(0, 237, 237, 0.4);
       z-index: 10;
     }
   }
 }
 </style>
-
-
-

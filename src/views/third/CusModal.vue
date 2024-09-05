@@ -39,20 +39,11 @@
           "
         >
           <div>
-            <el-select
-            class="custom-select" 
-              v-model="dataValue"
-              placeholder="Select"
-              size="small"
-              style="width: 80px"
-            >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
+            <CusTomSelect
+              v-model="selectedValue"
+              :options="options"
+              placeholder="请选择"
+            />
           </div>
           <div><button class="close-btn" @click="closeModal">×</button></div>
         </div>
@@ -68,7 +59,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps} from "vue";
+import { ref, defineProps } from "vue";
+import CusTomSelect from "./CusTomSelect.vue";
 
 interface ModalProps {
   // visible: boolean;
@@ -78,31 +70,19 @@ interface ModalProps {
 const visible = ref(false);
 const title = ref("");
 
+const selectedValue: any = ref("");
+const options = [
+  { value: "option1", label: "2021" },
+  { value: "option2", label: "2022" },
+  { value: "option3", label: "2023" },
+  { value: "option31", label: "2024" },
+  { value: "option32", label: "2025" },
+  { value: "option33", label: "2026" },
+  { value: "option34", label: "2027" },
+];
+
 const props = defineProps<ModalProps>();
 const dataValue = ref("");
-
-const options = [
-  {
-    value: "Option1",
-    label: "2021年",
-  },
-  {
-    value: "Option2",
-    label: "2022年",
-  },
-  {
-    value: "Option3",
-    label: "2023年",
-  },
-  {
-    value: "Option4",
-    label: "2024年",
-  },
-  {
-    value: "Option5",
-    label: "2025年",
-  },
-];
 
 function openModal(titleval: any) {
   title.value = titleval;
@@ -142,7 +122,7 @@ defineExpose({
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   max-width: 90%;
-  
+
   /* width: 600px; */
 }
 
@@ -155,7 +135,9 @@ defineExpose({
 }
 
 .modal-body {
-  padding: 20px;width: 1000px; height: 600px;
+  padding: 10px;
+  width: 1400px;
+  height: 740px;
 }
 
 .modal-footer {
@@ -177,6 +159,6 @@ defineExpose({
 
 <style lang="scss" scoped>
 :deep(.el-select__wrapper) {
-    background-color: #0d60dea8;
+  background-color: #0d60dea8;
 }
 </style>

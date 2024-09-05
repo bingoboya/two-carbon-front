@@ -4,3 +4,8 @@ declare module "*.vue" {
   export default Component;
 }
 
+
+declare module 'echarts' {
+  const echarts: any
+  export default echarts
+}

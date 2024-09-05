@@ -1,157 +1,320 @@
-<script setup lang="ts">
-import { ref, reactive } from "vue";
-import { graphic } from "echarts/core";
-import { countUserNum } from "@/api";
-import {ElMessage} from "element-plus"
 
-let colors = ["#0BFC7F", "#A0A0A0", "#F48C02", "#F4023C"];
-const option = ref({});
-const state = reactive({
-  lockNum: 0,
-  offlineNum: 0,
-  onlineNum: 0,
-  alarmNum: 0,
-  totalNum: 0,
-});
-const echartsGraphic = (colors: string[]) => {
-  return new graphic.LinearGradient(1, 0, 0, 0, [
-    { offset: 0, color: colors[0] },
-    { offset: 1, color: colors[1] },
-  ]);
-};
-const getData = () => {
-  countUserNum().then((res) => {
-    console.log("左中--用户总览",res);
-    if (res.success) {
-      state.lockNum = res.data.lockNum;
-      state.offlineNum = res.data.offlineNum;
-      state.onlineNum = res.data.onlineNum;
-      state.totalNum = res.data.totalNum;
-      state.alarmNum = res.data.alarmNum;
-      setOption();
-    }else{
-      ElMessage.error(res.msg)
-    }
-  }).catch(err=>{
-    ElMessage.error(err)
-  });
-};
-getData();
-const setOption = () => {
-  option.value = {
-    title: {
-      top: "center",
-      left: "center",
-      text: [`{value|${state.totalNum}}`, "{name|总数}"].join("\n"),
-      textStyle: {
-        rich: {
-          value: {
-            color: "#ffffff",
-            fontSize: 24,
-            fontWeight: "bold",
-            lineHeight: 20,
-            padding:[4,0,4,0]
-          },
-          name: {
-            color: "#ffffff",
-            lineHeight: 20,
-          },
-        },
-      },
+
+<template><div style="width: 100%; height: 100%">
+  <v-chart
+    class="chart"
+    style="width: 100%; height: 100%"
+    :option="option"
+    v-if="JSON.stringify(option) != '{}'"
+  />
+</div>
+</template>
+<script setup lang="ts">
+import { ref, reactive, onMounted, nextTick } from "vue";
+import { installationPlan } from "@/api";
+import { graphic } from "echarts/core";
+import { ElMessage } from "element-plus";
+
+const option: any = ref({});
+
+// 
+const offsetX = 6;
+const offsetY = 3;
+// 绘制左侧面
+const CubeLeft = graphic.extendShape({
+    shape: {
+        x: 0,
+        y: 0,
     },
+    buildPath: function (ctx: any, shape) {
+        // 会canvas的应该都能看得懂，shape是从custom传入的
+        const xAxisPoint = shape.xAxisPoint;
+        // console.log(shape);
+        const c0 = [shape.x, shape.y];
+        const c1 = [shape.x - offsetX, shape.y - offsetY];
+        const c2 = [xAxisPoint[0] - offsetX, xAxisPoint[1] - offsetY];
+        const c3 = [xAxisPoint[0], xAxisPoint[1]];
+        ctx.moveTo(c0[0], c0[1]).lineTo(c1[0], c1[1]).lineTo(c2[0], c2[1]).lineTo(c3[0], c3[1]).closePath();
+    },
+});
+// 绘制右侧面
+const CubeRight = graphic.extendShape({
+    shape: {
+        x: 0,
+        y: 0,
+    },
+    buildPath: function (ctx: any, shape) {
+        const xAxisPoint = shape.xAxisPoint;
+        const c1 = [shape.x, shape.y];
+        const c2 = [xAxisPoint[0], xAxisPoint[1]];
+        const c3 = [xAxisPoint[0] + offsetX, xAxisPoint[1] - offsetY];
+        const c4 = [shape.x + offsetX, shape.y - offsetY];
+        ctx.moveTo(c1[0], c1[1]).lineTo(c2[0], c2[1]).lineTo(c3[0], c3[1]).lineTo(c4[0], c4[1]).closePath();
+    },
+});
+// 绘制顶面
+const CubeTop = graphic.extendShape({
+    shape: {
+        x: 0,
+        y: 0,
+    },
+    buildPath: function (ctx: any, shape) {
+        const c1 = [shape.x, shape.y];
+        const c2 = [shape.x + offsetX, shape.y - offsetY]; //右点
+        const c3 = [shape.x, shape.y - offsetX];
+        const c4 = [shape.x - offsetX, shape.y - offsetY];
+        ctx.moveTo(c1[0], c1[1]).lineTo(c2[0], c2[1]).lineTo(c3[0], c3[1]).lineTo(c4[0], c4[1]).closePath();
+    },
+});
+// 注册三个面图形
+graphic.registerShape('CubeLeft', CubeLeft);
+graphic.registerShape('CubeRight', CubeRight);
+graphic.registerShape('CubeTop', CubeTop);
+
+const VALUE = [100, 200, 300, 300, 300, 200, 100, 220, 120, 80, 300, 100];
+const LineVALUE =  [-2, 2 , 12, 0, 1, 3 ,1, -1, -8, 2, 1, -3];
+
+const newOption = {
+    // tooltip: {
+    //     trigger: 'axis',
+    //     axisPointer: {
+    //         type: 'cross'
+    //     },
+    // },
     tooltip: {
-      trigger: "item",
+      trigger: "axis",
+      axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+        },
       backgroundColor: "rgba(0,0,0,.6)",
       borderColor: "rgba(147, 235, 248, .8)",
-      textStyle: {
         color: "#FFF",
+      formatter: function (params: any) {
+        // 添加单位
+        var result = params[0].name + "<br>";
+        params.forEach(function (item: any) {
+          if (item.value) {
+            if (item.seriesName == "同比") {
+              result += item.marker + " " + item.seriesName + " : " + item.value + "%</br>";
+            } else {
+              result += item.marker + " " + item.seriesName + " : " + item.value + "个</br>";
+            }
+          } else {
+            result += item.marker + " " + item.seriesName + " :  - </br>";
+          }
+        });
+        return result;
       },
     },
-    series: [
-      {
-        name: "用户总览",
-        type: "pie",
-        radius: ["40%", "70%"],
-        // avoidLabelOverlap: false,
-        itemStyle: {
-          borderRadius: 6,
-          borderColor: "rgba(255,255,255,0)",
-          borderWidth: 2,
-        },
-        color: colors,
-        label: {
-          show: true,
-          formatter: "   {b|{b}}   \n   {c|{c}个}   {per|{d}%}  ",
-          //   position: "outside",
-          rich: {
-            b: {
-              color: "#fff",
-              fontSize: 12,
-              lineHeight: 26,
-            },
-            c: {
-              color: "#31ABE3",
-              fontSize: 14,
-            },
-            per: {
-              color: "#31ABE3",
-              fontSize: 14,
-            },
-          },
-        },
-        emphasis: {
-          show: false,
-        },
-        legend: {
-          show: false,
-        },
-        tooltip: { show: true },
-
-        labelLine: {
-          show: true,
-          length: 20, // 第一段线 长度
-          length2: 36, // 第二段线 长度
-          smooth: 0.2,
-          lineStyle: {},
-        },
-        data: [
-          {
-            value: state.onlineNum,
-            name: "在线",
-            itemStyle: {
-              color: echartsGraphic(["#0BFC7F", "#A3FDE0"]),
-            },
-          },
-          {
-            value: state.offlineNum,
-            name: "离线",
-            itemStyle: {
-              color: echartsGraphic(["#A0A0A0", "#DBDFDD"]),
-            },
-          },
-          {
-            value: state.lockNum,
-            name: "锁定",
-            itemStyle: {
-              color: echartsGraphic(["#F48C02", "#FDDB7D"]),
-            },
-          },
-          {
-            value: state.alarmNum,
-            name: "异常",
-            itemStyle: {
-              color: echartsGraphic(["#F4023C", "#FB6CB7"]),
-            },
-          },
-        ],
+    legend: {
+      data: ["电力", "产量"],
+        color: "#B4B4B4",
+        textStyle: {
+        color: "#fff",
       },
+    //   top: "0",
+    },
+    grid: {
+      left: "10px",
+      right: "24px",
+      bottom: "30px",
+      top: "50px",
+      borderColor: "#1F63A3",
+      containLabel: true,
+    },
+    xAxis: {
+        type: 'category',
+        data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+        axisTick: {
+            show: true,
+            alignWithLabel: true
+        },
+        // axisLine: {
+        //     show: true,
+        //     lineStyle: {
+        //         width: 2,
+        //         color: '#2B7BD6',
+        //     },
+        // },
+        // axisLabel: {
+        //     fontSize: 14,
+        // },
+    },
+    yAxis: [
+        {
+            type: 'value',
+            name: '电力(kwh)',
+            position: 'left',
+            nameTextStyle: {
+              color: '#fff',
+              align: 'left'
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: "rgba(31,99,163,.2)",
+              },
+            },
+            axisLine: {
+              show: true,
+              lineStyle: {
+                color: "rgba(31,99,163, 1)",
+              },
+            },
+            axisLabel: {
+              show: true,
+              color: "#fff",
+              // color: "#7EB7FD",
+              fontWeight: "500",
+            },
+       
+            // boundaryGap: ['20%', '20%'],
+        }, 
+        {
+            type: 'value',
+            position: 'right',
+            name: '产量(吨)',
+            alignTicks: true,
+            nameTextStyle: {
+              color: '#fff',
+              align: 'left'
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: "rgba(31,99,163,.2)",
+              },
+            },
+            axisLine: {
+              show: true,
+              lineStyle: {
+                color: "rgba(31,99,163, 1)",
+              },
+            },
+            axisLabel: {
+              show: true,
+              color: "#fff",
+              // color: "#7EB7FD",
+              fontWeight: "500",
+            },
+            // boundaryGap: ['20%', '20%'],
+        }
     ],
-  };
+    series: [
+        {
+            name: "电力",
+            barMinHeight: 10,
+            type: "pictorialBar",
+            barCategoryGap: "60%",
+            // symbol: 'path://M0,10 L10,10 L5,0 L0,10 z',
+            symbol: "path://M0,10 L10,10 C5.5,10 5.5,5 5,0 C4.5,5 4.5,10 0,10 z",
+            itemStyle: {
+              //barBorderRadius: 5,
+              //渐变色
+              color: new graphic.LinearGradient(0, 0, 0, 1, [{
+                      offset: 0,
+                      color: "#01EAED"
+                  },
+                  {
+                      offset: 0.5,
+                      color: "#02C4DD"
+                  },
+                  {
+                      offset: 1,
+                      color: "#029ED9"
+                  }
+              ])
+            },
+            label: {
+              show: !true,
+              position: "top",
+                  color: "#fff",
+                  // fontSize:20
+            },
+            data: VALUE,
+            z: 10
+        },
+        {
+            name: "hill",
+            type: "bar",
+            barWidth: '40%',
+            symbol: "path://M0,10 L10,10 C5.5,10 5.5,5 5,0 C4.5,5 4.5,10 0,10 z",
+            itemStyle: {
+                    color: "rgba(11,47,68,.2)"
+            },
+            data: [300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300],
+            z: 9
+        },
+        {
+            name: '产量',
+            type: 'line',
+            yAxisIndex: 1,
+            smooth: true,
+            showAllSymbol: true,
+            symbol: 'circle',
+            symbolSize: 0,
+            // itemStyle: {
+            //     color: '#fff',
+            //     shadowColor: '#5ce0e2',
+            //     shadowBlur: 20,
+            //     borderColor: '#5ce0e2',
+            //     borderWidth: 5,
+            // },
+            lineStyle: {
+                width: 1,
+                color: 'orange',
+                shadowColor: 'orange',
+                shadowBlur: 10,
+            },
+            data: LineVALUE,
+            areaStyle: { //区域填充样式
+                //线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
+                color: new graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0,
+                        color: "rgba(25,163,223,.3)"
+                    },
+                    {
+                        offset: 1,
+                        color: "rgba(25,163,223, 0)"
+                    }
+                ], false),
+                shadowColor: 'rgba(25,163,223, 0.5)', //阴影颜色
+                shadowBlur: 20 //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
+        },
+        }
+    ],
+}
+
+
+
+// 
+
+const getData = () => {
+  installationPlan()
+    .then((res) => {
+      if (res.success) {
+        setOption(res.data);
+      } else {
+        ElMessage({
+          message: res.msg,
+          type: "warning",
+        });
+      }
+    })
+    .catch((err) => {
+      ElMessage.error(err);
+    });
 };
+const setOption = async (newData: any) => {
+  option.value = newOption
+ };
+
+
+
+
+
+onMounted(() => {
+  getData();
+});
 </script>
-
-<template>
-  <v-chart class="chart" :option="option" />
-</template>
-
 <style scoped lang="scss"></style>

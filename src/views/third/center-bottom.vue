@@ -1,16 +1,24 @@
 <script setup lang="ts">
-import { ref,  onMounted } from "vue";
-import { installationPlan } from "@/api";
+import { ref, onMounted } from "vue";
+import { alarmNum } from "@/api";
 import { graphic } from "echarts/core";
 import { ElMessage } from "element-plus";
 
 const option = ref({});
 const getData = () => {
-  installationPlan()
+  alarmNum()
     .then((res) => {
-      console.log("中下--安装计划", res);
+      console.log("右上--报警次数 ", res);
       if (res.success) {
-        setOption(res.data);
+
+        res.data = {
+          dateList: ['1月', '2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+          numList: [ 12, 32, 123, 53, 12, 33, 44, 11, 66, 34, 23, 15 ],
+          numList2: [ 32, 11, 13, 43, 22, 31, 51, 26, null, null, null, null ],
+          numList3: [ null, null, null, null, null, null, null, 26, 16, 5, 33, 45 ],
+        }
+
+        setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3);
       } else {
         ElMessage({
           message: res.msg,
@@ -22,8 +30,46 @@ const getData = () => {
       ElMessage.error(err);
     });
 };
-const setOption = async (newData: any) => {
+const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[]) => {
+  // 找出 Y 值为 null 的数据点的索引
+  // const nullIndices = yData2.reduce((acc, val, index) => {
+  //   if (val === null) {
+  //     acc.push(index);
+  //   }
+  //   return acc;
+  // }, []);
+  // const ddd = nullIndices.map((index: any) => ({
+  //           xAxis: index
+  //         }))
+  // console.log(nullIndices, 2222, ddd);
+  const findNullIndex = yData2.findIndex(item => item === null)
   option.value = {
+
+    // tooltip: {
+    //   trigger: "axis",
+    //   backgroundColor: "rgba(0,0,0,.6)",
+    //   borderColor: "rgba(147, 235, 248, .8)",
+    //   textStyle: {
+    //     color: "#FFF",
+    //   },
+    // },
+    // legend: {
+    //   textStyle: {
+    //     color: '#fff',
+    //   }
+    // },
+    grid: {
+      show: true,
+      left: "0px",
+      right: "14px",
+      bottom: "0px",
+      top: "50px",
+      containLabel: true,
+      borderColor: "#1F63A3",
+    },
+
+    
+
     tooltip: {
       trigger: "axis",
       backgroundColor: "rgba(0,0,0,.6)",
@@ -36,10 +82,10 @@ const setOption = async (newData: any) => {
         var result = params[0].name + "<br>";
         params.forEach(function (item: any) {
           if (item.value) {
-            if (item.seriesName == "安装率") {
-              result += item.marker + " " + item.seriesName + " : " + item.value + "%</br>";
+            if (item.seriesName == "电量") {
+              result += item.marker + " " + item.seriesName + " : " + item.value + "元</br>";
             } else {
-              result += item.marker + " " + item.seriesName + " : " + item.value + "个</br>";
+              result += item.marker + " " + item.seriesName + " : " + item.value + "千瓦时</br>";
             }
           } else {
             result += item.marker + " " + item.seriesName + " :  - </br>";
@@ -49,96 +95,138 @@ const setOption = async (newData: any) => {
       },
     },
     legend: {
-      data: ["已安装", "计划安装", "安装率"],
+      data: ["实际电量", '预测电量'],
       textStyle: {
-        color: "#B4B4B4",
+        color: "#fff",
       },
-      top: "0",
+    //   top: "0",
     },
-    grid: {
-      left: "50px",
-      right: "40px",
-      bottom: "30px",
-      top: "20px",
-    },
+    
     xAxis: {
-      data: newData.category,
-      axisLine: {
+      type: "category",
+      data: xData,
+      boundaryGap: false, // 不留白，从原点开始
+      splitLine: {
+        show: true,
         lineStyle: {
-          color: "#B4B4B4",
+          color: "rgba(31,99,163,.2)",
         },
       },
-      axisTick: {
-        show: false,
+      axisLine: {
+        // show:false,
+        lineStyle: {
+          color: "rgba(31,99,163,.1)",
+        },
+      },
+      axisLabel: {
+        color: "#7EB7FD",
+        fontWeight: "500",
       },
     },
     yAxis: [
       {
-        splitLine: { show: false },
-        axisLine: {
+        type: "value",
+        name: '电量(Kwh)',
+        position: 'left',
+        nameTextStyle: {
+          color: '#fff',
+          align: 'left'
+        },
+        splitLine: {
+          show: true,
           lineStyle: {
-            color: "#B4B4B4",
+            color: "rgba(31,99,163,.2)",
           },
         },
-
-        axisLabel: {
-          formatter: "{value}",
-        },
-      },
-      {
-        splitLine: { show: false },
         axisLine: {
+          show: true,
           lineStyle: {
-            color: "#B4B4B4",
+            color: "rgba(31,99,163, 1)",
           },
         },
         axisLabel: {
-          formatter: "{value}% ",
+          show: true,
+          color: "#fff",
+          // color: "#7EB7FD",
+          fontWeight: "500",
         },
-      },
+      }
     ],
+    
     series: [
       {
-        name: "已安装",
-        type: "bar",
-        barWidth: 10,
-        itemStyle: {
-          borderRadius: 5,
-          color: new graphic.LinearGradient(0, 0, 0, 1, [
-            { offset: 0, color: "#956FD4" },
-            { offset: 1, color: "#3EACE5" },
-          ]),
-        },
-        data: newData.barData,
-      },
-      {
-        name: "计划安装",
-        type: "bar",
-        barGap: "-100%",
-        barWidth: 10,
-        itemStyle: {
-          borderRadius: 5,
-          color: new graphic.LinearGradient(0, 0, 0, 1, [
-            { offset: 0, color: "rgba(156,107,211,0.8)" },
-            { offset: 0.2, color: "rgba(156,107,211,0.5)" },
-            { offset: 1, color: "rgba(156,107,211,0.2)" },
-          ]),
-        },
-        z: -12,
-        data: newData.lineData,
-      },
-      {
-        name: "安装率",
+        data: yData2,
         type: "line",
+        yAxisIndex: 0,
         smooth: true,
-        showAllSymbol: true,
-        symbol: "emptyCircle",
-        symbolSize: 8,
-        yAxisIndex: 1,
-        itemStyle: {
-          color: "#F02FC2",
+        symbol: "none", //去除点
+        name: "实际电量",
+        color: "rgba(252,144,16,.7)",
+        areaStyle: {
+          //右，下，左，上
+          color: new graphic.LinearGradient(
+            0,
+            0,
+            0,
+            1,
+            [
+              {
+                offset: 0,
+                color: "rgba(252,144,16,.7)",
+              },
+              {
+                offset: 1,
+                color: "rgba(9,202,243,.0)",
+              },
+            ],
+            false
+          ),
         },
-        data: newData.rateData,
+        markLine: {
+          symbol: ['none', 'none'],
+          slient: true,
+          lineStyle: {
+            // color: 'red',
+            width: 1
+          },
+          label: { show: false },
+          // data: nullIndices.map((index: any) => ({
+          //   xAxis: index
+          // }))
+          data: [{xAxis: findNullIndex - 1}]
+        },
+      },
+      {
+        data: yData3,
+        type: "line",
+        yAxisIndex: 0,
+        smooth: true,
+        symbol: "none", //去除点
+        name: "预测电量",
+        color: "rgba(252,144,16,.7)",
+        lineStyle: {
+          type: 'dotted'
+        },
+        areaStyle: {
+          //右，下，左，上
+          color: new graphic.LinearGradient(
+            0,
+            0,
+            0,
+            1,
+            [
+              {
+                offset: 0,
+                color: "rgba(252,144,16,.7)",
+              },
+              {
+                offset: 1,
+                color: "rgba(9,202,243,.0)",
+              },
+            ],
+            false
+          ),
+        },
       },
     ],
   };
@@ -148,8 +236,14 @@ onMounted(() => {
 });
 </script>
 
-<template>
-  <v-chart class="chart" :option="option" v-if="JSON.stringify(option) != '{}'" />
+<template><div style="width: 100%; height: 100%">
+  <v-chart
+    class="chart"
+    style="width: 100%; height: 100%"
+    :option="option"
+    v-if="JSON.stringify(option) != '{}'"
+  />
+</div>
 </template>
 
 <style scoped lang="scss"></style>

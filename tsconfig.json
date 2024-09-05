@@ -36,6 +36,7 @@
     "src/**/*.vue",
     "types/env.d.ts",
     "types/*.d.ts"
+    
   ],
   "exclude": ["node_modules","public"],
   "references": [

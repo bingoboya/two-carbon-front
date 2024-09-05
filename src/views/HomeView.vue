@@ -2,8 +2,8 @@
 
 <template>
   <scale-screen
-    width="1920"
-    height="1080"
+    :width="screenWidth"
+    :height="screenHeight"
     :delay="500"
     :fullScreen="false"
     :boxStyle="{
@@ -23,18 +23,24 @@
   <Setting />
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { RouterView } from "vue-router";
 import ScaleScreen from "@/components/scale-screen";
 import Headers from "./header.vue";
 import Setting from "./setting.vue";
 import { useSettingStore } from "@/stores/index";
 import { storeToRefs } from "pinia";
-import MessageContent from "@/components/Plugins/MessageContent";
+// import MessageContent from "@/components/Plugins/MessageContent";
 
+// const screenWidth = 4000
+// const screenHeight = 857
+const screenWidth = 1980
+const screenHeight = 1080
 const settingStore = useSettingStore();
 const { isScale } = storeToRefs(settingStore);
 const wrapperStyle = {};
+
+
 
 </script>
 <style lang="scss" scoped>
