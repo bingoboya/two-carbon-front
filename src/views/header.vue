@@ -1,7 +1,6 @@
 <template>
-  <div ref="headerComp" class="title_wrap">
-    <HeaderWebm :videoSrc="'/src/assets/webm/headerbg.webm'"/>
-    <!-- <HeaderWebm :videoSrc="'./headerbg.webm'"/> -->
+  <div ref="headerComp" class="title_wrap" style="position: relative;">
+    <VideoPlayer :videoSrc="'/src/assets/webm/headerbg.webm'" />
     <div class="titleleft">
       <div>辽宁省本溪市</div>
       <div>晴</div>
@@ -19,10 +18,10 @@
 </template>
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue";
-import HeaderWebm from '@/components/HeaderWebm';
 import dayjs from 'dayjs';
+import VideoPlayer  from '@/components/VideoPlayer.vue';
 import type {DateDataType} from "./index.d"
-import {useSettingStore} from "@/stores/index"
+// import {useSettingStore} from "@/stores/index"
 import { gsap } from 'gsap';
 const headerComp = ref<HTMLDivElement | null>(null)
 
@@ -54,7 +53,7 @@ const dateData = reactive<DateDataType>({
   timing:null
 });
 
-const { setSettingShow} =useSettingStore()
+// const { setSettingShow} =useSettingStore()
 const weekday= ["周日", "周一", "周二", "周三", "周四", "周五", "周六"]
 const timeFn = () => {
   dateData.timing = setInterval(() => {

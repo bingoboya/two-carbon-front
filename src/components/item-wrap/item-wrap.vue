@@ -3,6 +3,10 @@
 <template>
   <BorderBox13>
     <div class="item_title" v-if="title !== ''">
+      <!-- <video ref="videoRef" class="video-js" style="position: absolute;width: 100% !important;
+              height: 100% !important; background-color: #f0f8ff00 !important;" preload="auto" muted>
+        <source :src="'/src/assets/webm/e顶部卡片短背景.webm'" type="video/webm" />
+      </video> -->
       <div class="title-inner"> &nbsp;&nbsp;{{ title }}&nbsp;&nbsp; </div>
     </div>
     <div style="flex:1; width: 100%;padding: 12px;">
@@ -32,7 +36,7 @@ $item_title_content-height: calc(100% - 46px);
   height: $item-title-height;
   line-height: $item-title-height;
   width: 100%;
-  color: #31abe3;
+  // color: #31abe3;
   text-align: center;
   background-image: url('@/assets/img/item_wrap_top_bg.png');
   background-repeat: round;
@@ -40,28 +44,5 @@ $item_title_content-height: calc(100% - 46px);
   position: relative;
   display: flex;
   align-items: center;
-
-  .zuo,
-  .you {
-    width: 58px;
-    height: 14px;
-    background-image: url("@/assets/img/titles/zuo.png");
-  }
-
-  .you {
-    transform: rotate(180deg);
-  }
-  .title-inner {
-    font-weight: 900;
-    letter-spacing: 2px;
-    background: linear-gradient(
-      0deg,
-      rgb(245, 246, 247) 0%,
-      #ebebeb 48.8525390625%,
-      #01aaff 100%
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
 }
 </style>

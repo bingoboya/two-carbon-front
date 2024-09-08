@@ -6,7 +6,6 @@ import router from './router'
 import DataVVue3 from '@kjgl77/datav-vue3'
 import '@/assets/css/main.scss'
 import '@/assets/css/tailwind.css'
-
 import {registerEcharts} from "@/plugins/echarts"
 //不使用mock 请注释掉
 import { mockXHR } from "@/mock/index";

@@ -4,10 +4,7 @@
       <div class="center_wrapper" >
 
         <div class="item_wrap" style="position: relative;">
-          <video ref="videoRef" class="video-js" style="position: absolute;width: 100% !important;
-                  height: 100% !important; background-color: #f0f8ff00 !important;" preload="auto" muted>
-            <source :src="'/src/assets/webm/e顶部卡片短背景.webm'" type="video/webm" />
-          </video>
+          <VideoPlayer :videoSrc="'/src/assets/webm/e顶部卡片短背景.webm'" />
           <div style="position: absolute; display: flex; flex-direction: row;justify-content: center; align-items: center;">
             <div style="padding: 0 0px;width: 76px;height: 76px;display: flex; flex-direction: row;justify-content: center; align-items: center;" >
               <AnimatedLoader :iconSrc="'/src/assets/webm/co2_icon.png'" />
@@ -31,10 +28,7 @@
           </div>
         </div>
         <div class="item_wrap" style="position: relative;">
-          <video ref="videoRef1" class="video-js" style="position: absolute;width: 100% !important;
-                  height: 100% !important; background-color: #f0f8ff00 !important;" preload="auto" muted>
-            <source :src="'/src/assets/webm/e顶部卡片短背景.webm'" type="video/webm" />
-          </video>
+          <VideoPlayer :videoSrc="'/src/assets/webm/e顶部卡片短背景.webm'" />
           <div style="position: absolute; display: flex; flex-direction: row;justify-content: center; align-items: center;">
             <div style="padding: 0 0px;width: 76px;height: 76px;display: flex; flex-direction: row;justify-content: center; align-items: center;" >
               <AnimatedLoader :iconSrc="'/src/assets/icon/icon2.png'" />
@@ -58,10 +52,7 @@
           </div>
         </div>
         <div class="item_wrap" style="position: relative;">
-          <video ref="videoRef2" class="video-js" style="position: absolute;width: 100% !important;
-                  height: 100% !important; background-color: #f0f8ff00 !important;" preload="auto" muted>
-            <source :src="'/src/assets/webm/e顶部卡片短背景.webm'" type="video/webm" />
-          </video>
+          <VideoPlayer :videoSrc="'/src/assets/webm/e顶部卡片短背景.webm'" />
           <div style="position: absolute; display: flex; flex-direction: row;justify-content: center; align-items: center;">
             <div style="padding: 0 0px;width: 76px;height: 76px;display: flex; flex-direction: row;justify-content: center; align-items: center;" >
               <AnimatedLoader :iconSrc="'/src/assets/webm/co2_icon.png'" />
@@ -86,10 +77,7 @@
         </div>
 
         <div class="top_info_card" style="flex: 266;position: relative;">
-          <video ref="videoRef3" class="video-js" style="position: absolute; width: 100% !important;
-                  height: 100% !important; background-color: #f0f8ff00 !important;" preload="auto" muted>
-            <source :src="'/src/assets/webm/e顶部卡片长背景.webm'" type="video/webm" />
-          </video>
+          <VideoPlayer :videoSrc="'/src/assets/webm/e顶部卡片长背景.webm'" />
           <div style="position: absolute; display: flex; flex-direction: row;justify-content: center; align-items: center;">
             <div style="padding: 0 0px;width: 76px;height: 76px;display: flex; flex-direction: row;justify-content: center; align-items: center;" >
               <AnimatedLoader :iconSrc="'/src/assets/webm/co2_icon.png'" />
@@ -181,90 +169,12 @@ import arrow_down_icon from '@/assets/icon/arrow_down_icon.png'
 import arrow_top_icon from '@/assets/icon/arrow_top_icon.png'
 import InteractiveFactoryMap from '@/components/InteractiveFactoryMap';
 import AnimatedLoader from './AnimatedLoader.vue';
-import videojs from 'video.js';
-import 'video.js/dist/video-js.css';  // 重要：保留这行代码
-const videoRef = ref<HTMLVideoElement | null>(null);
-const videoRef1= ref<HTMLVideoElement | null>(null);
-const videoRef2 = ref<HTMLVideoElement | null>(null);
-const videoRef3 = ref<HTMLVideoElement | null>(null);
-let player: any = null;
-let player1: any = null;
-let player2: any = null;
-let player3: any = null;
+import VideoPlayer  from '@/components/VideoPlayer.vue';
 const duration = ref(2);
-// const videoSrc = ref('/src/assets/webm/a总碳排放量图标动效.webm')
 
-onMounted(async () => {
-  await nextTick()
-  if (videoRef.value) {
-    player = videojs(videoRef.value, {
-      fluid: true,
-      controls: false,
-      autoplay: true,
-      loop: true,
-      muted: true
-    });
-  }
-  if (videoRef1.value) {
-    player1 = videojs(videoRef1.value, {
-      fluid: true,
-      controls: false,
-      autoplay: true,
-      loop: true,
-      muted: true
-    });
-  }
-  if (videoRef2.value) {
-    player2 = videojs(videoRef2.value, {
-      fluid: true,
-      controls: false,
-      autoplay: true,
-      loop: true,
-      muted: true
-    });
-  }
-  if (videoRef3.value) {
-    player3 = videojs(videoRef3.value, {
-      fluid: true,
-      controls: false,
-      autoplay: true,
-      loop: true,
-      muted: true
-    });
-  }
-});
-onUnmounted(() => {
-  if (player) {
-    player.dispose();
-  }
-  if (player1) {
-    player1.dispose();
-  }
-  if (player2) {
-    player2.dispose();
-  }
-  if (player3) {
-    player3.dispose();
-  }
-});
 </script>
 
 <style scoped lang="scss">
-.video-js {
-  // width: 100% !important;
-  // height: 100% !important;
-  // background-color: #f0f8ff00;
-  // position: absolute;
-}
-.vjs-loading-spinner { /* 设置加载圆圈 */
-  display: none !important;
-  font-size: 0em;
-  width: 0em;
-  height: 0em;
-  border-radius: 0em;
-  margin-top: -10000em;
-  margin-left: -10000em;
-}
 .card_right {
   flex: 1; height: 100%;display: flex; flex-direction: column; justify-content: center;gap: 8px;
 } 

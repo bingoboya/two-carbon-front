@@ -12,12 +12,11 @@
 <script lang="ts">
 import { createApp } from 'vue'
 import { defineComponent, onMounted, ref, computed, watch, onUnmounted, nextTick } from 'vue';
-import videojs from 'video.js';
-import 'video.js/dist/video-js.css';  // 重要：保留这行代码
 import * as THREE from 'three';
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 import BuildingLabel from './BuildingLabel.vue';
 import { useRouter } from 'vue-router'
+
 interface Building {
   id: number;
   x: number;
@@ -82,7 +81,6 @@ export default defineComponent({
        }
     ];
 
-    let player: videojs.Player | null = null;
     let scene: THREE.Scene;
     let camera: THREE.OrthographicCamera;
     let renderer: THREE.WebGLRenderer;
@@ -107,8 +105,6 @@ export default defineComponent({
       });
       // 设置渲染器的尺寸，匹配 canvas 的大小
       renderer.setSize(width.value, height.value);
-
-      
 
       // 方法二 初始化 CSS2DRenderer
       labelRenderer = new CSS2DRenderer();
@@ -232,14 +228,6 @@ export default defineComponent({
     onMounted(async () => {
       console.log('onMounted------')
       await nextTick()
-      if (videoRef.value) {
-        player = videojs(videoRef.value, {
-          controls: false,
-          autoplay: true,
-          loop: true,
-          muted: true
-        });
-      }
 
       window.addEventListener('resize', updateSize);
       window.addEventListener('resize', () => {
@@ -259,9 +247,7 @@ export default defineComponent({
     });
 
     onUnmounted(() => {
-      if (player) {
-        player.dispose();
-      }
+      
       window.removeEventListener('resize', updateSize);
       if (canvasRef.value) {
         canvasRef.value.removeEventListener('click', onCanvasClick);

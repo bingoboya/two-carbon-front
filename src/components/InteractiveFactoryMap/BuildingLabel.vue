@@ -1,51 +1,27 @@
 <template>
   <div class="container" @mouseenter="showTooltip" @mouseleave="hideTooltip">
     <div class="overlay"></div> <!-- 半透明遮罩层 -->
-    <!-- <div v-show="isHover === false" style="position: relative;width: 180px; height: 50px;"> -->
-      <video ref="videoRef" class="video-js" preload="auto" muted>
-        <source :src="videoSrcPress" type="video/webm" />
-      </video>
-      <div @click="handleClick" class="tooltip_container"
-        style="height: 100%;display: flex; justify-content: center;align-items: center;">
-        <div v-if="isVisible" :style="tooltipStyle"  class="tooltip">
-          <div>我是{{ name }}提示</div>
-          <div>{{ 'asdasdasd2' }}</div>
-          <div>{{ 'asdasdasd3' }}</div>
-        </div>
-        <div :style="labelStyle" class="label_style">
-          {{ name }}
-        </div>
+    <VideoPlayer :videoSrc="videoSrcPress" />
+    <div @click="handleClick" class="tooltip_container"
+      style="height: 100%;display: flex; justify-content: center;align-items: center;">
+      <div v-if="isVisible" :style="tooltipStyle"  class="tooltip">
+        <div>我是{{ name }}提示</div>
+        <div>{{ 'asdasdasd2' }}</div>
+        <div>{{ 'asdasdasd3' }}</div>
       </div>
-      <div class="arrow_wrapper" :style="{ backgroundImage: `url(${arrowPicSrc})` }"
-        style="pointer-events: none !important;"></div>
-      <!-- 打开下面的代码，是同时渲染两个video,通过ishover切换两个video组件，但是页面静置一段时间后，video会报错，没找到解决方案 -->
-    <!-- <div v-show="isHover === true" style="position: relative;width: 180px; height: 50px;">
-      <video ref="videoRef2" class="video-js" preload="auto" muted>
-        <source :src="videoSrcPress" type="video/webm" />
-      </video>
-
-      <div @click="handleClick" class="tooltip_container"
-        style="height: 100%;display: flex; justify-content: center;align-items: center;">
-        <div v-if="isVisible" :style="tooltipStyle" class="tooltip">
-          <div>我是{{ name }}提示</div>
-          <div>{{ 'asdasdasd2' }}</div>
-          <div>{{ 'asdasdasd3' }}</div>
-        </div>
-        <div :style="labelStyle" class="label_style">
-          {{ name }}
-        </div>
+      <div :style="labelStyle" class="label_style">
+        {{ name }}
       </div>
-      <div class="arrow_wrapper" :style="{ backgroundImage: `url(${arrowPicSrc})` }"
-        style="pointer-events: none !important;">
-      </div>
-    </div> -->
-  </div>
+    </div>
+    <div class="arrow_wrapper" :style="{ backgroundImage: `url(${arrowPicSrc})` }"
+      style="pointer-events: none !important;">
+    </div>
+     </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, nextTick, onMounted, onUnmounted, PropType, ref } from 'vue';
-import videojs from 'video.js';
-import 'video.js/dist/video-js.css';  // 重要：保留这行代码
+import VideoPlayer  from '@/components/VideoPlayer.vue';
 
 export default defineComponent({
   name: 'BuildingLabel',
@@ -86,12 +62,8 @@ export default defineComponent({
     }
   },
   setup(props: any) {
-    const videoRef = ref<HTMLVideoElement | null>(null);
-    const videoRef2 = ref<HTMLVideoElement | null>(null);
     const isVisible = ref(false);
     const isHover = ref(false)
-    let player: any = null;
-    let player2: any = null;
     const tooltipStyle = computed(() => ({
       // left: `${props.positionX}px`,
       // top: `${props.positionY + 20}px`,
@@ -118,25 +90,6 @@ export default defineComponent({
       isVisible.value = false;
       // changeVideoSrc(player, props.videoSrcPress)
     };
-    onMounted(async () => {
-      await nextTick()
-      if (videoRef.value) {
-        player = videojs(videoRef.value, {
-          controls: false,
-          autoplay: true,
-          loop: true,
-          muted: true
-        });
-      }
-      if (videoRef2.value) {
-        player2 = videojs(videoRef2.value, {
-          controls: false,
-          autoplay: true,
-          loop: true,
-          muted: true
-        });
-      }
-    });
     // 动态切换视频
     const changeVideoSrc=(target: any, src: any) => {
       // 切换视频可以，但是切换速度慢，不适用当前场景
@@ -154,17 +107,7 @@ export default defineComponent({
       }
 
     }
-    onUnmounted(() => {
-      if (player) {
-        player.dispose();
-      }
-      if (player2) {
-        player2.dispose();
-      }
-    });
     return {
-      videoRef,
-      videoRef2,
       handleClick,
       showTooltip,
       isVisible, tooltipStyle, isHover,

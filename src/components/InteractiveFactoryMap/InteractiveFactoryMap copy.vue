@@ -1,7 +1,9 @@
 <!--  InteractiveFactoryMap.vue -->
 <template>
   <div ref="containerRef" class="video-container">
-    <video
+    <VideoPlayer :videoSrc="videoSrc" />
+
+    <!-- <video
       v-if='false'
       ref="videoRef"
       class="video-js"
@@ -9,7 +11,7 @@
       muted
     >
       <source :src="videoSrc" type="video/webm" />
-    </video>
+    </video> -->
     <canvas ref="canvasRef"></canvas>
     <div v-if="selectedBuilding" class="info-card" :style="infoCardStyle">
       <h3>{{ selectedBuilding.name }}</h3>
@@ -25,8 +27,10 @@
 <script lang="ts">
 import { createApp } from 'vue'
 import { defineComponent, onMounted, ref, computed, watch, onUnmounted, nextTick } from 'vue';
-import videojs from 'video.js';
-import 'video.js/dist/video-js.css';  // 重要：保留这行代码
+// import videojs from 'video.js';
+// import 'video.js/dist/video-js.css';  // 重要：保留这行代码
+import VideoPlayer  from '@/components/VideoPlayer.vue';
+
 import * as THREE from 'three';
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 import BuildingLabel from './BuildingLabel.vue';
