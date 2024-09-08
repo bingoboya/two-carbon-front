@@ -44,6 +44,7 @@ export default defineComponent({
   },
   setup(props) {
     let labelRenderer: any;
+    let appList: any = []
     const router = useRouter()
     const containerRef = ref<HTMLDivElement | null>(null);
     const videoRef = ref<HTMLVideoElement | null>(null);
@@ -134,7 +135,7 @@ export default defineComponent({
         scene.add(mesh);
 
         // 创建 Vue 组件实例
-        const app: any = createApp(BuildingLabel, {
+        const app = createApp(BuildingLabel, {
           // videoSrc: building.videoSrc,
           videoSrcPress: building.videoSrcPress,
           arrowPicSrc: building.arrowPicSrc,
@@ -148,6 +149,7 @@ export default defineComponent({
             // 在这里添加你想要的标签点击处理逻辑
           }
         });
+        appList.push(app)
         // 创建一个 div 元素作为 Vue 组件的挂载点
         const container = document.createElement('div');
         app.mount(container);
@@ -246,7 +248,10 @@ export default defineComponent({
     });
 
     onUnmounted(() => {
-      
+      // TODO 需要销毁创建的 BuildingLabel
+      appList.forEach((app: any) => {
+        app.unmount()
+      })
       window.removeEventListener('resize', updateSize);
       if (canvasRef.value) {
         canvasRef.value.removeEventListener('click', onCanvasClick);

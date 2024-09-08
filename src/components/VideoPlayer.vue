@@ -1,4 +1,5 @@
 <template>
+    <!-- TODO video组件设置id,设置ref时会出现页面静置一段时间后，video停止播放 -->
         <!-- ref="videoPlayer" -->
         <!-- :ref="`video-player-${elId}`" -->
     <video 
@@ -68,6 +69,7 @@ onMounted(async () => {
 
 onUnmounted(() => {
   if (player) {
+    console.log('销毁', `video-player-${props.elId}`)
     player.dispose();
   }
 });

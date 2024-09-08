@@ -24,12 +24,13 @@ import dayjs from 'dayjs';
 import type {DateDataType} from "./index.d"
 import {useSettingStore} from "@/stores/index"
 import { gsap } from 'gsap';
+import { onBeforeRouteLeave } from "vue-router";
 const headerComp = ref<HTMLDivElement | null>(null)
 
 const animateDivs = () => {
-  console.log(1)
   if (headerComp.value) {
-    gsap.from(headerComp.value, { y: -120, duration: 2 });
+    const height = headerComp.value.getBoundingClientRect().height; // x: -458
+    gsap.from(headerComp.value, { y: -height, duration: 2 });
   }
   // if (leftDiv.value) {
   //   gsap.from(leftDiv.value, { x: -40, duration: 1 });
@@ -45,8 +46,34 @@ onMounted(() => {
   animateDivs();
 });
 
-
-
+const animateDivsReverce = (calback: any) => {
+  if (headerComp.value) {
+    const height = headerComp.value.getBoundingClientRect().height; // x: -458
+    gsap.to(headerComp.value, { y: height, duration: 2, 
+      onComplete: () => {
+        console.log('动画完成')
+        calback()
+      }
+     });
+  }
+};
+onBeforeRouteLeave((to, from, next) => {
+  // const answer = window.confirm(
+  //   'Do you really want to leave? you have unsaved changes!'
+  // )
+  // // 取消导航并停留在同一页面上
+  // if (!answer) return false
+  // if (centerBottomCompRef.value) {
+  //   const height = centerBottomCompRef.value.getBoundingClientRect().height; // x: -458
+  //   gsap.to(centerBottomCompRef.value, { y: height, duration: 2, 
+  //     onComplete: () => {
+  //       console.log('动画完成')
+  //       next()
+  //     }
+  //    });
+  // }
+  animateDivsReverce(next)
+})
 const dateData = reactive<DateDataType>({
   dateDay: "",
   dateYear: "",

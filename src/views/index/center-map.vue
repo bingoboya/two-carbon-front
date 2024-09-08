@@ -158,7 +158,7 @@
              或者 
           <InteractiveFactoryMap :videoSrc="'/src/assets/webm/gaolubg.webm'" />
       -->
-      <InteractiveFactoryMap :videoSrc="''"/>
+      <InteractiveFactoryMap v-if="showInteractiveFactoryMap" :videoSrc="''"/>
     </div>
   </div>
 </template>
@@ -171,7 +171,10 @@ import InteractiveFactoryMap from '@/components/InteractiveFactoryMap';
 import AnimatedLoader from './AnimatedLoader.vue';
 import VideoPlayer  from '@/components/VideoPlayer.vue';
 const duration = ref(2);
-
+const showInteractiveFactoryMap = ref(true)
+onUnmounted(()=>{
+  showInteractiveFactoryMap.value = false
+})
 </script>
 
 <style scoped lang="scss">

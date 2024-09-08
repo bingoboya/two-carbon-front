@@ -26,19 +26,10 @@ import { gsap } from 'gsap';
 const headerComp = ref<HTMLDivElement | null>(null)
 
 const animateDivs = () => {
-  console.log(1)
   if (headerComp.value) {
-    gsap.from(headerComp.value, { y: -120, duration: 2 });
+    const height = headerComp.value.getBoundingClientRect().height; // x: -458
+    gsap.from(headerComp.value, { y: -height, duration: 2 });
   }
-  // if (leftDiv.value) {
-  //   gsap.from(leftDiv.value, { x: -40, duration: 1 });
-  // }
-  // if (rightDiv.value) {
-  //   gsap.from(rightDiv.value, { x: 40, duration: 1 });
-  // }
-  // if (bottomDiv.value) {
-  //   gsap.from(bottomDiv.value, { y: 40, duration: 1 });
-  // }
 };
 onMounted(() => {
   animateDivs();

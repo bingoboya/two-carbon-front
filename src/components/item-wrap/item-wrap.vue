@@ -3,10 +3,6 @@
 <template>
   <BorderBox13>
     <div class="item_title" v-if="title !== ''">
-      <!-- <video ref="videoRef" class="video-js" style="position: absolute;width: 100% !important;
-              height: 100% !important; background-color: #f0f8ff00 !important;" preload="auto" muted>
-        <source :src="'/src/assets/webm/e顶部卡片短背景.webm'" type="video/webm" />
-      </video> -->
       <div class="title-inner"> &nbsp;&nbsp;{{ title }}&nbsp;&nbsp; </div>
     </div>
     <div style="flex:1; width: 100%;padding: 12px;">
