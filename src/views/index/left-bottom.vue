@@ -295,8 +295,8 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
       itemHeight: 14,
       right: "0",
       // bottom: "20",
-      bottom: "2%",
-      padding: [4, 20],
+      bottom: "2",
+      padding: [4, 60],
       itemGap: 20,
       align: 'auto',
       // icon:'diamond',
@@ -348,9 +348,8 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
           }
           const v = tarValue;
           const unit = tarUnit
-          return [
-            `{name|${name}} {value|${v}}{unit|${unit}} {num|${tarNum}}`,
-          ].join('');
+          return [`{name|${name}} {value|${v}}{unit|${unit}}`].join('');
+          // return [`{name|${name}} {value|${v}}{unit|${unit}} {num|${tarNum}}`].join('');
       },
     },
     tooltip: {

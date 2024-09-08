@@ -1,16 +1,16 @@
-// InteractiveFactoryMap.vue
+<!--  InteractiveFactoryMap.vue -->
 <template>
   <div ref="containerRef" class="video-container">
     <video
+      v-if='false'
       ref="videoRef"
       class="video-js"
       preload="auto"
       muted
-      style="background: #0e0e0e08;"
     >
       <source :src="videoSrc" type="video/webm" />
     </video>
-    <canvas ref="canvasRef" style="background: #ffffff33;"></canvas>
+    <canvas ref="canvasRef"></canvas>
     <div v-if="selectedBuilding" class="info-card" :style="infoCardStyle">
       <h3>{{ selectedBuilding.name }}</h3>
       <p>{{ selectedBuilding.info }}</p>
@@ -30,7 +30,7 @@ import 'video.js/dist/video-js.css';  // 重要：保留这行代码
 import * as THREE from 'three';
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 import BuildingLabel from './BuildingLabel.vue';
-import BuildingTooltip from './BuildingTooltip.vue';
+// import BuildingTooltip from './BuildingTooltip.vue';
 import { useRouter } from 'vue-router'
 interface Building {
   id: number;
@@ -45,6 +45,9 @@ interface Building {
 
 export default defineComponent({
   name: 'InteractiveFactoryMap',
+  components: {
+    BuildingLabel
+  },
   props: {
     videoSrc: {
       type: String,
@@ -63,9 +66,9 @@ export default defineComponent({
     const selectedBuilding = ref<Building | null>(null);
 
     const buildings: Building[] = [
-      { id: 1, x: 100, y: 100, width: 100, height: 100, name: "电镀锌", info: "这是主要办公区域", alwaysVisible: !true },
-      { id: 2, x: 300, y: 200, width: 150, height: 80, name: "冷轧", info: "主要生产区域", alwaysVisible: !true },
-      { id: 3, x: 500, y: 150, width: 120, height: 120, name: "热轧", info: "主要生产区域", alwaysVisible: !true }
+      { id: 1, x: 310, y: 160, width: 100, height: 100, name: "电镀锌1", info: "这是主要办公区域", alwaysVisible: !true },
+      { id: 2, x: 480, y: 210, width: 150, height: 80, name: "冷轧", info: "主要生产区域", alwaysVisible: !true },
+      { id: 3, x: 740, y: 300, width: 120, height: 120, name: "热轧", info: "主要生产区域", alwaysVisible: !true }
     ];
 
     let player: videojs.Player | null = null;
@@ -79,24 +82,6 @@ export default defineComponent({
       left: `${selectedBuilding.value?.x}px`,
       top: `${selectedBuilding.value?.y}px`,
     }));
-
-    // const createTextLabel = (text: string) => {
-    //   console.log(111)
-    //   const canvas = document.createElement('canvas');
-    //   const context = canvas.getContext('2d');
-    //   if (context) {
-    //     context.font = '24px Arial';
-    //     context.fillStyle = '#fff';
-    //     context.fillText(text, 0, 24);
-    //   }
-    //   const texture = new THREE.CanvasTexture(canvas);
-    //   const material = new THREE.SpriteMaterial({ map: texture });
-    //   const sprite = new THREE.Sprite(material);
-    //   sprite.scale.set(100, 50, 1); // Adjust the scale to your needs
-    //   return sprite;
-    // };
-
-    
 
     const initThree = () => {
       if (!canvasRef.value) return;
@@ -113,89 +98,7 @@ export default defineComponent({
       // 设置渲染器的尺寸，匹配 canvas 的大小
       renderer.setSize(width.value, height.value);
 
-
-
-      // 创建响应式数据
- const tooltipData = ref({
-    building: null as Building | null,
-    mousePosition: { x: 0, y: 0 }
-  });
-      // 创建一个容器用于悬浮提示
-  const tooltipContainer = document.createElement('div');
-  document.body.appendChild(tooltipContainer);
- 
-   // 为悬浮提示创建一个 Vue 应用
-   const tooltipApp = createApp(BuildingTooltip, {
-    building: computed(() => tooltipData.value.building),
-    mousePosition: computed(() => tooltipData.value.mousePosition)
-  });
-  const tooltipVM: any = tooltipApp.mount(tooltipContainer);
-
- // 创建 Raycaster 和鼠标向量
- const raycaster = new THREE.Raycaster();
-  const mouse = new THREE.Vector2();
-
-  // 跟踪当前悬停的对象
-  let currentIntersected: THREE.Object3D | null = null;
-
-  // 鼠标移动事件处理函数
-  const onMouseMove = (event: MouseEvent) => {
-    event.preventDefault();
-
-    // 计算鼠标位置的归一化设备坐标
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-    // 更新 raycaster
-    raycaster.setFromCamera(mouse, camera);
-
-    // 检查射线与对象的交叉点
-    const intersects = raycaster.intersectObjects(scene.children);
-
-    if (intersects.length > 0) {
-      const intersectedObject = intersects[0].object;
-
-      if (currentIntersected !== intersectedObject) {
-        // 鼠标进入新对象
-        if (currentIntersected) {
-          // 鼠标离开之前的对象
-          handleMouseOut();
-        }
-        currentIntersected = intersectedObject;
-        handleMouseOver(intersectedObject, event);
-      } else {
-        // 鼠标在对象上移动
-        handleMouseMove(event);
-      }
-    } else if (currentIntersected) {
-      // 鼠标离开对象
-      handleMouseOut();
-      currentIntersected = null;
-    }
-  };
-
-  // 鼠标悬停处理函数
-  const handleMouseOver = (object: THREE.Object3D, event: MouseEvent) => {
-    const building = object.userData as Building;
-    tooltipVM.building = building;
-    tooltipVM.position = { x: event.clientX, y: event.clientY };
-    tooltipContainer.style.display = 'block';
-  };
-
-  // 鼠标移动处理函数
-  const handleMouseMove = (event: MouseEvent) => {
-    tooltipVM.position = { x: event.clientX, y: event.clientY };
-  };
-
-  // 鼠标离开处理函数
-  const handleMouseOut = () => {
-    tooltipContainer.style.display = 'none';
-  };
-
-  // 添加鼠标移动事件监听器
-  canvasRef.value.addEventListener('mousemove', onMouseMove);
-
-
+      
 
       // 方法二 初始化 CSS2DRenderer
       labelRenderer = new CSS2DRenderer();
@@ -224,32 +127,15 @@ export default defineComponent({
         // 将创建的网格添加到场景中。
         scene.add(mesh);
 
-
-
-  //       // 为网格添加鼠标事件
-  //   mesh.addEventListener('mouseover', (event) => {
-  //     event.stopPropagation();
-  //     tooltipVM.building = building;
-  //     tooltipVM.position = { x: event.clientX, y: event.clientY };
-  //     tooltipContainer.style.display = 'block';
-  //   });
-
-  //   mesh.addEventListener('mousemove', (event) => {
-  //     event.stopPropagation();
-  //     tooltipVM.position = { x: event.clientX, y: event.clientY };
-  //   });
-
-  //   mesh.addEventListener('mouseout', (event) => {
-  //     event.stopPropagation();
-  //     tooltipContainer.style.display = 'none';
-  //   });
-  // });
-
         // 创建 Vue 组件实例
         const app = createApp(BuildingLabel, {
           name: building.name,
-          onLabelClick: (name: any) => {
-            console.log('Label clicked:', name);
+          info: building.info,
+          positionX: building.x + building.width / 2,
+          positionY: height.value - (building.y + building.height/2),
+          onLabelClick: (name: string) => {
+            console.log('标签被点击:', name);
+            router.push({ path: 'second', query: { typename: building.name }})
             // 在这里添加你想要的标签点击处理逻辑
           }
         });
@@ -258,6 +144,8 @@ export default defineComponent({
         app.mount(container);
         // 使用这个容器创建 CSS2DObject
         const textLabel = new CSS2DObject(container);
+        
+        // 这个位置是相对于mesh的相对位置
         textLabel.position.set(0, building.height / 2 + 10, 0);
         mesh.add(textLabel);
 
@@ -288,72 +176,42 @@ export default defineComponent({
       // 设置相机的 z 位置。在正交相机中，这个值主要影响渲染顺序，而不影响物体大小。
       camera.position.z = 5;
       // 创建 raycaster 和鼠标向量，用于后续的鼠标交互检测。
-      // raycaster = new THREE.Raycaster();
-      // mouse = new THREE.Vector2();
+      raycaster = new THREE.Raycaster();
+      mouse = new THREE.Vector2();
       // 添加 canvas 点击事件监听器
       canvasRef.value.style.zIndex = '1';
       canvasRef.value.addEventListener('click', onCanvasClick);
+      
       // 启动动画循环，持续渲染场景。
       animate();
     };
-
+    
     // 定义 canvas 点击事件处理函数
-    const onCanvasClick = (event: any) => {
+    const onCanvasClick = (event: MouseEvent) => {
+      if (!canvasRef.value) return;
       console.log('onCanvasClick')
-      // 计算鼠标在 canvas 中的位置
+      // 计算鼠标在 canvas 中的位置， 这行获取canvas元素的边界矩形，包含其位置和尺寸信息。
       const rect = canvasRef.value?.getBoundingClientRect();
-      mouse.x = ((event.clientX - rect!.left) / rect!.width) * 2 - 1;
-      mouse.y = -((event.clientY - rect!.top) / rect!.height) * 2 + 1;
+      mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
       // 更新 raycaster
       raycaster.setFromCamera(mouse, camera);
-
       // 检查射线与哪些物体相交
       const intersects = raycaster.intersectObjects(scene.children);
-
       if (intersects.length > 0) {
         // 获取第一个相交的物体
         const clickedObject = intersects[0].object;
-        console.log('Clicked on mesh:', clickedObject.userData.name);
+        console.log('Clicked on mesh:', clickedObject.userData.name, intersects.length);
         // 在这里添加你想要的 mesh 点击处理逻辑
-      }
-    };
-
-    const animate = () => {
-      requestAnimationFrame(animate);
-      renderer.render(scene, camera);
-      labelRenderer.render(scene, camera);
-    };
-
-    const onMouseClick = (event: MouseEvent) => {
-      if (!canvasRef.value) return;
-      console.log('onMouseClick')
-      // 这行获取canvas元素的边界矩形，包含其位置和尺寸信息。
-      const rect = canvasRef.value.getBoundingClientRect();
-      console.log('rect', rect)
-      // 这两行将鼠标点击位置转换为Three.js使用的标准化设备坐标（范围从-1到1）。
-      mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-      mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-      // 设置raycaster，从相机射向鼠标点击位置。
-      raycaster.setFromCamera(mouse, camera);
-      // 检查射线与场景中的对象是否相交，返回相交的对象数组。
-      const intersects = raycaster.intersectObjects(scene.children);
-      console.log('Mouse position:', mouse);
-      console.log('Scene children:', scene.children);
-      console.log('intersects', intersects)
-
-
-      if (intersects.length > 0) {
-        console.log('intersects.length1', intersects.length)
-        const building = intersects[0].object.userData as Building;
-        console.log('building', building)
-        selectedBuilding.value = building;
-        if (!building.alwaysVisible) {
-          (intersects[0].object as THREE.Mesh).material.opacity = 0.5;
-        }
-        if (building.name === '冷轧') {
-          router.push({ path: 'second', query: { typename: building.name }})
-        }
+        // const building = intersects[0].object.userData as Building;
+        // selectedBuilding.value = building;
+        // if (!building.alwaysVisible) {
+        //   (intersects[0].object as THREE.Mesh).material.opacity = 0.5;
+        // }
+        // if (building.name === '冷轧') {
+        //   router.push({ path: 'second', query: { typename: building.name }})
+        // }
       } else {
         console.log('intersects.length2', intersects.length)
         selectedBuilding.value = null;
@@ -365,25 +223,31 @@ export default defineComponent({
       }
     };
 
-    const togglePlayPause = () => {
-      if (player) {
-        if (player.paused()) {
-          player.play();
-          isPlaying.value = true;
-        } else {
-          player.pause();
-          isPlaying.value = false;
-        }
-      }
+    const animate = () => {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+      labelRenderer.render(scene, camera);
     };
 
-    const restart = () => {
-      if (player) {
-        player.currentTime(0);
-        player.play();
-        isPlaying.value = true;
-      }
-    };
+    // const togglePlayPause = () => {
+    //   if (player) {
+    //     if (player.paused()) {
+    //       player.play();
+    //       isPlaying.value = true;
+    //     } else {
+    //       player.pause();
+    //       isPlaying.value = false;
+    //     }
+    //   }
+    // };
+
+    // const restart = () => {
+    //   if (player) {
+    //     player.currentTime(0);
+    //     player.play();
+    //     isPlaying.value = true;
+    //   }
+    // };
 
     const updateSize = async () => {
       if (containerRef.value) {
@@ -433,7 +297,7 @@ export default defineComponent({
       await initThree();
 
       if (canvasRef.value) {
-        canvasRef.value.addEventListener('click', onMouseClick);
+        canvasRef.value.addEventListener('click', onCanvasClick);
       }
     });
 
@@ -445,7 +309,7 @@ export default defineComponent({
       // resizeObserver.disconnect();
       window.removeEventListener('resize', updateSize);
       if (canvasRef.value) {
-        canvasRef.value.removeEventListener('click', onMouseClick);
+        canvasRef.value.removeEventListener('click', onCanvasClick);
       }
     });
     
@@ -480,8 +344,8 @@ export default defineComponent({
       isPlaying,
       selectedBuilding,
       infoCardStyle,
-      togglePlayPause,
-      restart
+      // togglePlayPause,
+      // restart
     };
   }
 });
@@ -491,6 +355,19 @@ export default defineComponent({
 .video-js {
   width: 100% !important;
   height: 100% !important;
+  background-color: #f0f8ff00;
+  .vjs-loading-spinner {
+    display: none !important;
+  }
+}
+.vjs-loading-spinner { /* 设置加载圆圈 */
+  display: none !important;
+  font-size: 0em;
+  width: 0em;
+  height: 0em;
+  border-radius: 0em;
+  margin-top: -10000em;
+  margin-left: -10000em;
 }
 .video-container {
   position: relative;

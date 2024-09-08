@@ -1,24 +1,12 @@
 <!--  InteractiveFactoryMap.vue -->
 <template>
   <div ref="containerRef" class="video-container">
-    <video
-      ref="videoRef"
-      class="video-js"
-      preload="auto"
-      muted
-    >
-      <source :src="videoSrc" type="video/webm" />
-    </video>
     <canvas ref="canvasRef"></canvas>
     <div v-if="selectedBuilding" class="info-card" :style="infoCardStyle">
       <h3>{{ selectedBuilding.name }}</h3>
       <p>{{ selectedBuilding.info }}</p>
     </div>
   </div>
-  <!-- <div class="controls">
-    <button @click="togglePlayPause">{{ isPlaying ? '暂停' : '播放' }}</button>
-    <button @click="restart">重新开始</button>
-  </div> -->
 </template>
 
 <script lang="ts">
@@ -29,7 +17,6 @@ import 'video.js/dist/video-js.css';  // 重要：保留这行代码
 import * as THREE from 'three';
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 import BuildingLabel from './BuildingLabel.vue';
-// import BuildingTooltip from './BuildingTooltip.vue';
 import { useRouter } from 'vue-router'
 interface Building {
   id: number;
@@ -40,6 +27,9 @@ interface Building {
   name: string;
   info: string;
   alwaysVisible?: boolean;
+  videoSrc?: String,
+  arrowPicSrc?: String,
+  videoSrcPress?: String
 }
 
 export default defineComponent({
@@ -65,9 +55,31 @@ export default defineComponent({
     const selectedBuilding = ref<Building | null>(null);
 
     const buildings: Building[] = [
-      { id: 1, x: 310, y: 160, width: 100, height: 100, name: "电镀锌1", info: "这是主要办公区域", alwaysVisible: !true },
-      { id: 2, x: 480, y: 210, width: 150, height: 80, name: "冷轧", info: "主要生产区域", alwaysVisible: !true },
-      { id: 3, x: 740, y: 300, width: 120, height: 120, name: "热轧", info: "主要生产区域", alwaysVisible: !true }
+      { id: 1, x: 130, y: 530, width: 100, height: 100, name: "电镀锌", info: "这是主要办公区域", alwaysVisible: !true, 
+        videoSrc: '/src/assets/webm/dianduxin_default.webm',
+        videoSrcPress: '/src/assets/webm/dianduxin_press.webm',
+        // arrowPicSrc: '/src/assets/icon/dianduxinarrow.png',
+       },
+      { id: 2, x: 350, y: 280, width: 150, height: 80, name: "冷轧", info: "主要生产区域", alwaysVisible: !true, 
+      videoSrc: '/src/assets/webm/lengza_default.webm',
+        videoSrcPress: '/src/assets/webm/lengza_press.webm',
+        // arrowPicSrc: '/src/assets/icon/lengzaarrow.png',
+       },
+        { id: 3, x: 400, y: 550, width: 120, height: 120, name: "热轧", info: "主要生产区域", alwaysVisible: !true, 
+        videoSrc: '/src/assets/webm/reza_default.webm',
+        videoSrcPress: '/src/assets/webm/reza_press.webm',
+        // arrowPicSrc: '/src/assets/icon/rezaarrow.png',
+       },
+        { id: 4, x: 590, y: 240, width: 120, height: 120, name: "高炉", info: "主要生产区域", alwaysVisible: !true, 
+        videoSrc: '/src/assets/webm/gaolu_default.webm',
+        videoSrcPress: '/src/assets/webm/gaolu_press.webm',
+        // arrowPicSrc: '/src/assets/icon/gaoluarrow.png',
+       },
+        { id: 5, x: 760, y: 470, width: 120, height: 120, name: "炼钢", info: "主要生产区域", alwaysVisible: !true, 
+        videoSrc: '/src/assets/webm/liangang_default.webm',
+        videoSrcPress: '/src/assets/webm/liangang_press.webm',
+        // arrowPicSrc: '/src/assets/icon/liangangarrow.png',
+       }
     ];
 
     let player: videojs.Player | null = null;
@@ -76,7 +88,6 @@ export default defineComponent({
     let renderer: THREE.WebGLRenderer;
     let raycaster: THREE.Raycaster;
     let mouse: THREE.Vector2;
-    let resizeObserver: any = null;
     const infoCardStyle = computed(() => ({
       left: `${selectedBuilding.value?.x}px`,
       top: `${selectedBuilding.value?.y}px`,
@@ -127,7 +138,10 @@ export default defineComponent({
         scene.add(mesh);
 
         // 创建 Vue 组件实例
-        const app = createApp(BuildingLabel, {
+        const app: any = createApp(BuildingLabel, {
+          videoSrc: building.videoSrc,
+          videoSrcPress: building.videoSrcPress,
+          // arrowPicSrc: building.arrowPicSrc,
           name: building.name,
           info: building.info,
           positionX: building.x + building.width / 2,
@@ -147,29 +161,6 @@ export default defineComponent({
         // 这个位置是相对于mesh的相对位置
         textLabel.position.set(0, building.height / 2 + 10, 0);
         mesh.add(textLabel);
-
-
-        // // 方法一 创建文本标签并添加到场景中
-        // const textLabel = createTextLabel(building.name);
-        // textLabel.position.set(building.x + building.width / 2, height.value - (building.y + building.height / 2) + 60, 0);
-        // scene.add(textLabel);
-        // 方法二 创建文本标签
-        // const textDiv = document.createElement('div');
-        // textDiv.textContent = building.name;
-        // textDiv.style.backgroundColor = 'rgba(0,0,0,0.7)';
-        // textDiv.style.color = 'white';
-        // textDiv.style.padding = '2px 5px';
-        // textDiv.style.borderRadius = '3px';
-        // textDiv.style.fontSize = '12px';
-        // const textLabel = new CSS2DObject(textDiv);
-        // textLabel.position.set(0, building.height / 2 + 10, 0);
-        // mesh.add(textLabel);
-        // 为 textLabel 添加点击事件监听器
-        // textDiv.addEventListener('click', (event) => {
-        //   event.stopPropagation(); // 阻止事件冒泡
-        //   console.log('Clicked on label:', building.name);
-        //   // 在这里添加你想要的标签点击处理逻辑
-        // });
       });
 
       // 设置相机的 z 位置。在正交相机中，这个值主要影响渲染顺序，而不影响物体大小。
@@ -228,25 +219,6 @@ export default defineComponent({
       labelRenderer.render(scene, camera);
     };
 
-    // const togglePlayPause = () => {
-    //   if (player) {
-    //     if (player.paused()) {
-    //       player.play();
-    //       isPlaying.value = true;
-    //     } else {
-    //       player.pause();
-    //       isPlaying.value = false;
-    //     }
-    //   }
-    // };
-
-    // const restart = () => {
-    //   if (player) {
-    //     player.currentTime(0);
-    //     player.play();
-    //     isPlaying.value = true;
-    //   }
-    // };
 
     const updateSize = async () => {
       if (containerRef.value) {
@@ -269,20 +241,6 @@ export default defineComponent({
         });
       }
 
-      //TODO 使用 ResizeObserver 实现监听resize,和使用window.addEventListener('resize')两个方式有区别，ResizeObserver初次效果很好，但是切换路由再返回当前路由后，有bug，有时间再调试
-      //  resizeObserver = new ResizeObserver((entries) => {
-      //   for (let entry of entries) {
-      //     updateSize();
-      //     console.log('new ResizeObserver')
-      //   }
-      // });
-
-      // if (containerRef.value) {
-      //   console.log('new ResizeObserver2')
-      //   resizeObserver.observe(containerRef.value);
-      //   updateSize();
-      // }
-
       window.addEventListener('resize', updateSize);
       window.addEventListener('resize', () => {
         if (labelRenderer) {
@@ -304,8 +262,6 @@ export default defineComponent({
       if (player) {
         player.dispose();
       }
-      console.log('new ResizeObserver disconnect')
-      // resizeObserver.disconnect();
       window.removeEventListener('resize', updateSize);
       if (canvasRef.value) {
         canvasRef.value.removeEventListener('click', onCanvasClick);
@@ -343,8 +299,6 @@ export default defineComponent({
       isPlaying,
       selectedBuilding,
       infoCardStyle,
-      // togglePlayPause,
-      // restart
     };
   }
 });
@@ -355,6 +309,18 @@ export default defineComponent({
   width: 100% !important;
   height: 100% !important;
   background-color: #f0f8ff00;
+  .vjs-loading-spinner {
+    display: none !important;
+  }
+}
+.vjs-loading-spinner { /* 设置加载圆圈 */
+  display: none !important;
+  font-size: 0em;
+  width: 0em;
+  height: 0em;
+  border-radius: 0em;
+  margin-top: -10000em;
+  margin-left: -10000em;
 }
 .video-container {
   position: relative;

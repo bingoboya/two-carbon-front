@@ -1,7 +1,7 @@
 
 
 <template>
-  <div class="index-box" style="margin-top: -50px;">
+  <div class="index_box" >
     <!-- 第二级页面主体 -->
     <div class="contetn_left">
       <div style="height: 20px;display: flex; gap: 4px;">
@@ -75,8 +75,9 @@ const options = [
 ];
 </script>
 <style scoped lang="scss">
-.index-box {
+.index_box {
   width: 100%;
+  margin-top: -74px;
   display: flex;
   min-height: calc(100% - 64px);
   justify-content: space-between;
@@ -89,13 +90,13 @@ const options = [
   flex-direction: column;
   justify-content: space-around;
   position: relative;
-  width: 458px;
+  width: 430px;
   box-sizing: border-box;
   flex-shrink: 0;
 }
 .contetn_center {
   flex: 1;
-  margin: 0 54px;
+  margin: 0 30px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;

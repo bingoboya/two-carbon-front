@@ -34,7 +34,8 @@ const mergedColor = computed<[string, string]>(() => {
 
 <style scoped lang="scss">
 .dv-border-box {
-  background-image: url('@/assets/icon/item_wrap_bg.png');
+  background-image: url('@/assets/icon/item_wrap_bg1.png');
+  // background-image: url('@/assets/icon/item_wrap_bg.png');
   background-repeat: round;
   background-size: cover;
   // position: relative;

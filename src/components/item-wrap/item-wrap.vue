@@ -8,7 +8,7 @@
     <div style="flex:1; width: 100%;padding: 12px;">
       <slot></slot>
     </div>
-    </BorderBox13>
+  </BorderBox13>
 </template>
 <script setup lang="ts">
 import BorderBox13 from "@/components/datav/border-box-13";

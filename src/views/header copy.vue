@@ -1,25 +1,25 @@
 <template>
   <div ref="headerComp" class="title_wrap">
-    <HeaderWebm :videoSrc="'/src/assets/webm/headerbg.webm'"/>
-    <!-- <HeaderWebm :videoSrc="'./headerbg.webm'"/> -->
     <div class="titleleft">
       <div>辽宁省本溪市</div>
       <div>晴</div>
       <div>{{ 21 }}-{{ 55 }}°C</div>
     </div>
+    <div class="">
+      <div class="title">
+        <span class="title-text">企业典型工艺碳排放监测</span>
+      </div>
+    </div>
     <div class="timers">
-      <!-- {{ dateData.dateYear }}  -->
-      <!-- {{ dateData.dateWeek }}  -->
-      <span style="color: #58C2FF">{{ dateData.dateDay }}</span>
-      <!-- <div class="setting_icon"   @click="setSettingShow(true)">
+      {{ dateData.dateYear }} {{ dateData.dateWeek }} {{ dateData.dateDay }}
+      <div class="setting_icon"   @click="setSettingShow(true)">
           <img src="@/assets/img/headers/setting.png" alt="设置">
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue";
-import HeaderWebm from '@/components/HeaderWebm';
 import dayjs from 'dayjs';
 import type {DateDataType} from "./index.d"
 import {useSettingStore} from "@/stores/index"
@@ -68,6 +68,8 @@ timeFn()
 .title_wrap {
   // height: 60px;
   height: 120px;
+  background-image: url("../assets/img/header_bg.png");
+  // background-image: url("../assets/img/top.png");
   background-size: cover;
   background-position: center center;
   position: relative;

@@ -322,7 +322,7 @@ flex-shrink: 0;
 }
 .contetn_center {
 flex: 1;
-margin: 0 54px;
+margin: 0 30px;
 display: flex;
 flex-direction: column;
 justify-content: space-around;
