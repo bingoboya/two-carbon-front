@@ -1,7 +1,7 @@
 <template>
   <div class="container" @mouseenter="showTooltip" @mouseleave="hideTooltip">
     <div class="overlay"></div> <!-- 半透明遮罩层 -->
-    <VideoPlayer :videoSrc="videoSrcPress" />
+    <VideoPlayer :elId="`2-${name}`" :videoSrc="videoSrcPress" />
     <div @click="handleClick" class="tooltip_container"
       style="height: 100%;display: flex; justify-content: center;align-items: center;">
       <div v-if="isVisible" :style="tooltipStyle"  class="tooltip">
@@ -16,11 +16,11 @@
     <div class="arrow_wrapper" :style="{ backgroundImage: `url(${arrowPicSrc})` }"
       style="pointer-events: none !important;">
     </div>
-     </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, onMounted, onUnmounted, PropType, ref } from 'vue';
+import { computed, defineComponent, PropType, ref } from 'vue';
 import VideoPlayer  from '@/components/VideoPlayer.vue';
 
 export default defineComponent({
@@ -32,10 +32,10 @@ export default defineComponent({
       type: String,
       default: '/src/assets/icon/gaoluarrow.png'
     },
-    videoSrc: {
-      type: String,
-      required: true
-    },
+    // videoSrc: {
+    //   type: String,
+    //   required: true
+    // },
     videoSrcPress: {
       type: String,
       default: '/src/assets/icon/gaoluarrowpress.png'
@@ -79,7 +79,6 @@ export default defineComponent({
     };
 
     const showTooltip = () => {
-      console.log('showTooltip', tooltipStyle)
       isHover.value = true
       isVisible.value = true;
       // changeVideoSrc(player, props.videoSrc)
@@ -113,7 +112,7 @@ export default defineComponent({
       isVisible, tooltipStyle, isHover,
       hideTooltip,
       labelStyle,
-      ...props // 使用展开运算符返回所有 props
+      ...props
     };
   }
 });
@@ -121,20 +120,20 @@ export default defineComponent({
 
 <style scoped>
 .overlay {
-    position: absolute; /* 绝对定位覆盖在容器上 */
+    position: absolute;
     top: 50%;
     transform: translateY(-50%);
     left: 0;
-    width: 100%; /* 覆盖整个容器 */
+    width: 100%;
     height: 80%;
-    background-color: rgba(0, 0, 0, 0.2); /* 半透明黑色 */
-    display: block; /* 初始隐藏 */
+    background-color: rgba(0, 0, 0, 0.2); 
+    display: block;
     z-index: 1;
 }
 .container{
   position: relative;width: 180px; height: 50px;
   &:hover .overlay {
-    display: none; /* 鼠标悬停时显示遮罩层 */
+    display: none;
   }
 }
 
@@ -145,37 +144,19 @@ export default defineComponent({
   width: 48px;
   height: 32px;
   background-size: cover;
-  /* background-image: url('@/assets/icon/gaoluarrow.png'); */
   background-repeat: no-repeat;
-}
-
-.video-js {
-  width: 100% !important;
-  height: 100% !important;
-  background-color: #f0f8ff00;
-  position: absolute;
-}
-.vjs-loading-spinner { /* 设置加载圆圈 */
-  display: none !important;
-  font-size: 0em;
-  width: 0em;
-  height: 0em;
-  border-radius: 0em;
-  margin-top: -10000em;
-  margin-left: -10000em;
 }
 
 .label_style {
   z-index: 2;
-  /* font-size: 12px; */
   font-size: 22px;
-  /* letter-spacing: 4px; */
+  letter-spacing: 4px;
   color: rgb(255, 255, 255);
   background-color: 'rgba(0,0,0,0.7)';
   color: 'white';
-  padding: '2px 5px';
-  border-color: '3px';
-  font-style: '14px';
+  padding: 2px 5px;
+  border-color: 3px;
+  font-style: 14px;
 }
 
 .tooltip_container {

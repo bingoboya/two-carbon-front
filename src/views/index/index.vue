@@ -20,7 +20,11 @@
     <div class="contetn_center">
       <!-- <CenterMap title="设备分布图" /> -->
       <CenterMap class="centermapComp" style="flex: 2;" />
-      <div ref="greenComp">
+
+      <CenterBottomComp />
+
+      <!-- 中间-底部
+        <div ref="greenComp">
         <ItemWrap class="contetn_center-bottom" title="绿证消费策略">
           <div style="display: flex; width: 100%;height: 100%;">
             <div style="height: 100%; padding: 10px;">
@@ -55,7 +59,7 @@
             </div>
           </div>
         </ItemWrap>
-      </div>
+      </div> -->
     </div>
     <div ref="contentRightComp" class="contetn_right">
       <div style="height: 20px;">
@@ -85,7 +89,8 @@ import {
   LeftTop,
   LeftBottom,
   CenterMap,
-  CenterBottom,
+  // CenterBottom,
+  CenterBottomComp,
   RightBottom,
   RightCenter,
   LeftCenter,
@@ -100,19 +105,19 @@ const greenComp = ref<HTMLDivElement | null>(null)
 const animateDivs = () => {
   if (contentLeftComp.value) {
     const width = contentLeftComp.value.getBoundingClientRect().width; // x: -458
-    gsap.from(contentLeftComp.value, { opacity: .1, x: -width, duration: 2, lazy: true });
+    gsap.from(contentLeftComp.value, { opacity: .1, x: -width, duration: 2, lazy: !true });
   }
   if (contentRightComp.value) {
     const width = contentRightComp.value.getBoundingClientRect().width; // x: 458
-    gsap.from(contentRightComp.value, { opacity: .1, x: width, duration: 2, lazy: true });
+    gsap.from(contentRightComp.value, { opacity: .1, x: width, duration: 2, lazy: !true });
   }
   if (greenComp.value) {
     // 获取domtwo的高度
     const height = greenComp.value.getBoundingClientRect().height;
     // 对domtwo进行向上移动的动画
-    gsap.from(greenComp.value, { opacity: .1, y: height, duration: 2, lazy: true });
+    gsap.from(greenComp.value, { opacity: .1, y: height, duration: 2, lazy: !true });
   }
-  gsap.fromTo('.centermapComp', { opacity: 0 }, { opacity: 1, duration: 3, lazy: true });
+  gsap.fromTo('.centermapComp', { opacity: 0 }, { opacity: 1, duration: 3, lazy: !true });
 };
 onMounted(() => {
   animateDivs();

@@ -55,29 +55,29 @@ export default defineComponent({
 
     const buildings: Building[] = [
       { id: 1, x: 130, y: 530, width: 100, height: 100, name: "电镀锌", info: "这是主要办公区域", alwaysVisible: !true, 
-        videoSrc: '/src/assets/webm/dianduxin_default.webm',
+        // videoSrc: '/src/assets/webm/dianduxin_default.webm',
         videoSrcPress: '/src/assets/webm/dianduxin_press.webm',
-        // arrowPicSrc: '/src/assets/icon/dianduxinarrow.png',
+        arrowPicSrc: '/src/assets/icon/dianduxinarrow.png',
        },
       { id: 2, x: 350, y: 280, width: 150, height: 80, name: "冷轧", info: "主要生产区域", alwaysVisible: !true, 
-      videoSrc: '/src/assets/webm/lengza_default.webm',
+        // videoSrc: '/src/assets/webm/lengza_default.webm',
         videoSrcPress: '/src/assets/webm/lengza_press.webm',
-        // arrowPicSrc: '/src/assets/icon/lengzaarrow.png',
+        arrowPicSrc: '/src/assets/icon/lengzaarrow.png',
        },
         { id: 3, x: 400, y: 550, width: 120, height: 120, name: "热轧", info: "主要生产区域", alwaysVisible: !true, 
-        videoSrc: '/src/assets/webm/reza_default.webm',
+        // videoSrc: '/src/assets/webm/reza_default.webm',
         videoSrcPress: '/src/assets/webm/reza_press.webm',
-        // arrowPicSrc: '/src/assets/icon/rezaarrow.png',
+        arrowPicSrc: '/src/assets/icon/rezaarrow.png',
        },
         { id: 4, x: 590, y: 240, width: 120, height: 120, name: "高炉", info: "主要生产区域", alwaysVisible: !true, 
-        videoSrc: '/src/assets/webm/gaolu_default.webm',
+        // videoSrc: '/src/assets/webm/gaolu_default.webm',
         videoSrcPress: '/src/assets/webm/gaolu_press.webm',
-        // arrowPicSrc: '/src/assets/icon/gaoluarrow.png',
+        arrowPicSrc: '/src/assets/icon/gaoluarrow.png',
        },
         { id: 5, x: 760, y: 470, width: 120, height: 120, name: "炼钢", info: "主要生产区域", alwaysVisible: !true, 
-        videoSrc: '/src/assets/webm/liangang_default.webm',
+        // videoSrc: '/src/assets/webm/liangang_default.webm',
         videoSrcPress: '/src/assets/webm/liangang_press.webm',
-        // arrowPicSrc: '/src/assets/icon/liangangarrow.png',
+        arrowPicSrc: '/src/assets/icon/liangangarrow.png',
        }
     ];
 
@@ -135,15 +135,15 @@ export default defineComponent({
 
         // 创建 Vue 组件实例
         const app: any = createApp(BuildingLabel, {
-          videoSrc: building.videoSrc,
+          // videoSrc: building.videoSrc,
           videoSrcPress: building.videoSrcPress,
-          // arrowPicSrc: building.arrowPicSrc,
+          arrowPicSrc: building.arrowPicSrc,
           name: building.name,
           info: building.info,
           positionX: building.x + building.width / 2,
           positionY: height.value - (building.y + building.height/2),
           onLabelClick: (name: string) => {
-            console.log('标签被点击:', name);
+            // console.log('标签被点击:', name);
             router.push({ path: 'second', query: { typename: building.name }})
             // 在这里添加你想要的标签点击处理逻辑
           }
@@ -226,7 +226,6 @@ export default defineComponent({
 
     
     onMounted(async () => {
-      console.log('onMounted------')
       await nextTick()
 
       window.addEventListener('resize', updateSize);
@@ -291,23 +290,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.video-js {
-  width: 100% !important;
-  height: 100% !important;
-  background-color: #f0f8ff00;
-  .vjs-loading-spinner {
-    display: none !important;
-  }
-}
-.vjs-loading-spinner { /* 设置加载圆圈 */
-  display: none !important;
-  font-size: 0em;
-  width: 0em;
-  height: 0em;
-  border-radius: 0em;
-  margin-top: -10000em;
-  margin-left: -10000em;
-}
 .video-container {
   position: relative;
   width: 100%;

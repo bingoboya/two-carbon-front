@@ -4,7 +4,7 @@
       <div class="center_wrapper" >
 
         <div class="item_wrap" style="position: relative;">
-          <VideoPlayer :videoSrc="'/src/assets/webm/e顶部卡片短背景.webm'" />
+          <VideoPlayer :elId="10" :videoSrc="'/src/assets/webm/e顶部卡片短背景.webm'" />
           <div style="position: absolute; display: flex; flex-direction: row;justify-content: center; align-items: center;">
             <div style="padding: 0 0px;width: 76px;height: 76px;display: flex; flex-direction: row;justify-content: center; align-items: center;" >
               <AnimatedLoader :iconSrc="'/src/assets/webm/co2_icon.png'" />
@@ -28,7 +28,7 @@
           </div>
         </div>
         <div class="item_wrap" style="position: relative;">
-          <VideoPlayer :videoSrc="'/src/assets/webm/e顶部卡片短背景.webm'" />
+          <VideoPlayer :elId="11" :videoSrc="'/src/assets/webm/e顶部卡片短背景.webm'" />
           <div style="position: absolute; display: flex; flex-direction: row;justify-content: center; align-items: center;">
             <div style="padding: 0 0px;width: 76px;height: 76px;display: flex; flex-direction: row;justify-content: center; align-items: center;" >
               <AnimatedLoader :iconSrc="'/src/assets/icon/icon2.png'" />
@@ -52,7 +52,7 @@
           </div>
         </div>
         <div class="item_wrap" style="position: relative;">
-          <VideoPlayer :videoSrc="'/src/assets/webm/e顶部卡片短背景.webm'" />
+          <VideoPlayer :elId="12" :videoSrc="'/src/assets/webm/e顶部卡片短背景.webm'" />
           <div style="position: absolute; display: flex; flex-direction: row;justify-content: center; align-items: center;">
             <div style="padding: 0 0px;width: 76px;height: 76px;display: flex; flex-direction: row;justify-content: center; align-items: center;" >
               <AnimatedLoader :iconSrc="'/src/assets/webm/co2_icon.png'" />
@@ -77,7 +77,7 @@
         </div>
 
         <div class="top_info_card" style="flex: 266;position: relative;">
-          <VideoPlayer :videoSrc="'/src/assets/webm/e顶部卡片长背景.webm'" />
+          <VideoPlayer :elId="13" :videoSrc="'/src/assets/webm/e顶部卡片长背景.webm'" />
           <div style="position: absolute; display: flex; flex-direction: row;justify-content: center; align-items: center;">
             <div style="padding: 0 0px;width: 76px;height: 76px;display: flex; flex-direction: row;justify-content: center; align-items: center;" >
               <AnimatedLoader :iconSrc="'/src/assets/webm/co2_icon.png'" />

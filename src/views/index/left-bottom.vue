@@ -388,31 +388,31 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
 const setOption = () => {
   const mockData = [
         {
-          value: 116,
+          value: 46,
           name: '热轧',
           unit: '%',
           num: 2541,
-          itemStyle: {
-              color: "#99D3F3",
-            },
+          // itemStyle: {
+              // color: "#99D3F3",
+            // },
         },
         {
-          value: 181,
+          value: 31,
           name: '冷轧',
           unit: '%',
           num: 25,
-          itemStyle: {
-              color: "#007AFF",
-            },
+          // itemStyle: {
+              // color: "#007AFF",
+            // },
         },
         {
           value: 81,
           name: '炼钢',
           unit: '%',
           num: 22354,
-          itemStyle: {
-              color: "#2563AE",
-            },
+          // itemStyle: {
+              // color: "#2563AE",
+            // },
         },
         {
           value: 61,

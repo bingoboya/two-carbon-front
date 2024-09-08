@@ -1,6 +1,6 @@
 <template>
   <div ref="headerComp" class="title_wrap" style="position: relative;">
-    <VideoPlayer :videoSrc="'/src/assets/webm/headerbg.webm'" />
+    <VideoPlayer :elId="1" :videoSrc="'/src/assets/webm/headerbg.webm'" />
     <div class="titleleft">
       <div>辽宁省本溪市</div>
       <div>晴</div>

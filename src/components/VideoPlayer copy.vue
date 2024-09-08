@@ -1,9 +1,6 @@
 <template>
-        <!-- ref="videoPlayer" -->
-        <!-- :ref="`video-player-${elId}`" -->
-    <video 
-            :id="`video-player-${elId}`"
-            class="video-js" style="position: absolute; width: 100% !important;
+    <!-- /* <video :ref="`video-player-${elId}`" class="video-js" style="position: absolute; width: 100% !important; */ -->
+    <video ref="videoPlayer" class="video-js" style="position: absolute; width: 100% !important;
             height: 100% !important; background-color: #f0f8ff00 !important;" preload="auto" muted>
         <source :src="videoSrc" type="video/webm" />
     </video>
@@ -45,25 +42,25 @@ const generateUniqueId = (() => {
 
 const uniqueId = generateUniqueId();
 
-// const videoPlayer: any = ref<any>(null);
+const videoPlayer: any = ref<HTMLVideoElement | null>(null);
 let player: any = null;
 // 使用函数设置ref
-// const setVideoRef: any = (el: HTMLVideoElement | null) => {
-//   if (el) {
-//     videoPlayer.value = el;
-//   }
-// };
+const setVideoRef: any = (el: HTMLVideoElement | null) => {
+  if (el) {
+    videoPlayer.value = el;
+  }
+};
 onMounted(async () => {
     await nextTick()
-    // if (videoPlayer.value) {
-        player = videojs(`video-player-${props.elId}`, {
+    if (videoPlayer.value) {
+        player = videojs(videoPlayer.value, {
             ...props.options,
             },
             function onPlayerReady() {
                 console.log('onPlayerReady', this);
             }
         );
-    // }
+    }
 })
 
 onUnmounted(() => {

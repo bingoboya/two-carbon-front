@@ -1,7 +1,7 @@
 <!--  InteractiveFactoryMap.vue -->
 <template>
   <div ref="containerRef" class="video-container">
-    <VideoPlayer :videoSrc="videoSrc" />
+    <VideoPlayer :elId="3" :videoSrc="videoSrc" />
 
     <!-- <video
       v-if='false'
@@ -356,23 +356,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.video-js {
-  width: 100% !important;
-  height: 100% !important;
-  background-color: #f0f8ff00;
-  .vjs-loading-spinner {
-    display: none !important;
-  }
-}
-.vjs-loading-spinner { /* 设置加载圆圈 */
-  display: none !important;
-  font-size: 0em;
-  width: 0em;
-  height: 0em;
-  border-radius: 0em;
-  margin-top: -10000em;
-  margin-left: -10000em;
-}
 .video-container {
   position: relative;
   width: 100%;

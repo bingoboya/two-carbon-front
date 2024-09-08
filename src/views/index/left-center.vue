@@ -296,40 +296,43 @@ const newOption = {
         },
         {
             name: '同比',
+            data: LineVALUE,
             type: 'line',
             yAxisIndex: 1,
             smooth: true,
-            showAllSymbol: true,
-            symbol: 'circle',
-            symbolSize: 4,
-            itemStyle: {
-                color: '#fff',
-                shadowColor: '#5ce0e2',
-                shadowBlur: 20,
-                borderColor: '#5ce0e2',
-                borderWidth: 5,
-            },
+            symbol: "none",
+            color: "rgba(255, 163, 33, 1)",
+            // showAllSymbol: !true,
+            // symbol: 'circle',
+            // symbolSize: 4,
+            // itemStyle: {
+            //     color: '#fff',
+            //     shadowColor: '#FFA321',
+            //     shadowBlur: 20,
+            //     borderColor: '#FFA321',
+            //     borderWidth: 5,
+            // },
             lineStyle: {
-                width: 2,
-                color: '#5ce0e2',
-                shadowColor: '#5ce0e2',
-                shadowBlur: 20,
+                // width: 2,
+                // color: '#FFA321',
+                // shadowColor: '#FFA321',
+                // shadowBlur: 20,
             },
-            data: LineVALUE,
             areaStyle: { //区域填充样式
+                //右，下，左，上
                 //线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
                 color: new graphic.LinearGradient(0, 0, 0, 1, [{
                         offset: 0,
-                        color: "rgba(25,163,223,.3)"
+                        color: "rgba(255, 163, 33, .6)"
                     },
                     {
                         offset: 1,
-                        color: "rgba(25,163,223, 0)"
+                        color: "rgba(255, 163, 33, 0)"
                     }
                 ], false),
-                shadowColor: 'rgba(25,163,223, 0.5)', //阴影颜色
-                shadowBlur: 20 //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
-        },
+                // shadowColor: 'rgba(252,144,16,.3)', //阴影颜色
+                // shadowBlur: 20 //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
+            },
         }
     ],
 }
