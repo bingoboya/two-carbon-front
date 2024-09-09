@@ -1,5 +1,12 @@
 
 ## 项目描述
+/**
+ * TODO  该版本： 大概效果实现，但是当页面中使用video组件超过7个（不论大小），就会出现bug,
+ * 1. 在浏览器运行当前项目，切换浏览器tab页签，再返回到当前页面，页面中的video组件会报错：该浏览器不支持video格式。
+ * 2. 浏览器运行该页面，静置长时间后，video组件会出现loading,项目中使用 setInterval 简单处理该问题，但不是根本解决方案
+ * 目前项目中运行后，只保留显示7个video组件，上面的问题是不存在的
+*/
+
 
 [IofTV-Screen](https://gitee.com/daidaibg/IofTV-Screen/tree/main)  的 Vue3+vite版本，
 
