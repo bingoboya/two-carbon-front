@@ -39,7 +39,6 @@ export default defineComponent({
   props: {
     videoSrc: {
       type: String,
-      required: true
     }
   },
   setup(props) {
@@ -60,26 +59,26 @@ export default defineComponent({
         videoSrcPress: '/src/assets/webm/dianduxin_press.webm',
         arrowPicSrc: '/src/assets/icon/dianduxinarrow.png',
        },
-      { id: 2, x: 350, y: 280, width: 150, height: 80, name: "冷轧", info: "主要生产区域", alwaysVisible: !true, 
-        // videoSrc: '/src/assets/webm/lengza_default.webm',
-        videoSrcPress: '/src/assets/webm/lengza_press.webm',
-        arrowPicSrc: '/src/assets/icon/lengzaarrow.png',
-       },
-        { id: 3, x: 400, y: 550, width: 120, height: 120, name: "热轧", info: "主要生产区域", alwaysVisible: !true, 
-        // videoSrc: '/src/assets/webm/reza_default.webm',
-        videoSrcPress: '/src/assets/webm/reza_press.webm',
-        arrowPicSrc: '/src/assets/icon/rezaarrow.png',
-       },
-        { id: 4, x: 590, y: 240, width: 120, height: 120, name: "高炉", info: "主要生产区域", alwaysVisible: !true, 
-        // videoSrc: '/src/assets/webm/gaolu_default.webm',
-        videoSrcPress: '/src/assets/webm/gaolu_press.webm',
-        arrowPicSrc: '/src/assets/icon/gaoluarrow.png',
-       },
-        { id: 5, x: 760, y: 470, width: 120, height: 120, name: "炼钢", info: "主要生产区域", alwaysVisible: !true, 
-        // videoSrc: '/src/assets/webm/liangang_default.webm',
-        videoSrcPress: '/src/assets/webm/liangang_press.webm',
-        arrowPicSrc: '/src/assets/icon/liangangarrow.png',
-       }
+      // { id: 2, x: 350, y: 280, width: 150, height: 80, name: "冷轧", info: "主要生产区域", alwaysVisible: !true, 
+      //   // videoSrc: '/src/assets/webm/lengza_default.webm',
+      //   videoSrcPress: '/src/assets/webm/lengza_press.webm',
+      //   arrowPicSrc: '/src/assets/icon/lengzaarrow.png',
+      //  },
+      //   { id: 3, x: 400, y: 550, width: 120, height: 120, name: "热轧", info: "主要生产区域", alwaysVisible: !true, 
+      //   // videoSrc: '/src/assets/webm/reza_default.webm',
+      //   videoSrcPress: '/src/assets/webm/reza_press.webm',
+      //   arrowPicSrc: '/src/assets/icon/rezaarrow.png',
+      //  },
+      //   { id: 4, x: 590, y: 240, width: 120, height: 120, name: "高炉", info: "主要生产区域", alwaysVisible: !true, 
+      //   // videoSrc: '/src/assets/webm/gaolu_default.webm',
+      //   videoSrcPress: '/src/assets/webm/gaolu_press.webm',
+      //   arrowPicSrc: '/src/assets/icon/gaoluarrow.png',
+      //  },
+      //   { id: 5, x: 760, y: 470, width: 120, height: 120, name: "炼钢", info: "主要生产区域", alwaysVisible: !true, 
+      //   // videoSrc: '/src/assets/webm/liangang_default.webm',
+      //   videoSrcPress: '/src/assets/webm/liangang_press.webm',
+      //   arrowPicSrc: '/src/assets/icon/liangangarrow.png',
+      //  }
     ];
 
     let scene: THREE.Scene;

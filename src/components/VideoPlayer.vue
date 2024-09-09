@@ -14,7 +14,12 @@
 import { onMounted, onUnmounted, ref, nextTick } from 'vue';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';  // 重要：保留这行代码
-
+/**
+ * TODO  该版本： 大概效果实现，但是当页面中使用video组件超过7个（不论大小），就会出现bug,
+ * 1. 在浏览器运行当前项目，切换浏览器tab页签，再返回到当前页面，页面中的video组件会报错：该浏览器不支持video格式。
+ * 2. 浏览器运行该页面，静置长时间后，video组件会出现loading,项目中使用 setInterval 简单处理该问题，但不是根本解决方案
+ * 目前项目中运行后，只保留显示7个video组件，上面的问题是不存在的
+*/
 
 const props = defineProps({
     elId: {
@@ -45,7 +50,7 @@ const generateUniqueId = (() => {
 })();
 
 const uniqueId = generateUniqueId();
-
+let timer: any = null
 // const videoPlayer: any = ref<any>(null);
 let player: any = null;
 // 使用函数设置ref
@@ -61,16 +66,53 @@ onMounted(async () => {
             ...props.options,
             },
             function onPlayerReady() {
-                console.log('onPlayerReady', this);
+                // console.log('onPlayerReady', this);
             }
         );
     // }
+
+
+            // 添加错误监听器
+    // player.on('error', (error: any) => {
+    //   console.error('Video.js error:', error)
+    //   console.error('Error details:', player.error())
+    // })
+
+    // // 添加其他事件监听器
+    // player.on('loadedmetadata', () => {
+    //   console.log('Video metadata loaded')
+    // })
+
+    // player.on('loadeddata', () => {
+    //   console.log('Video data loaded')
+    // })
+
+    // player.on('canplay', () => {
+    //   console.log('Video can play')
+    // })
+
+
+
+    timer = setInterval(async () => {
+        if (player) {
+            // console.log('player', player,  player.pause)
+            await player.pause()
+            await nextTick()
+            player.play()
+            console.log('reload')
+        }
+    }, 20000);
+    
 })
 
 onUnmounted(() => {
   if (player) {
     console.log('销毁', `video-player-${props.elId}`)
     player.dispose();
+  }
+  console.log('timer', timer)
+  if (timer) {
+      clearInterval(timer)
   }
 });
 

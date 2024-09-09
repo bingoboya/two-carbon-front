@@ -1,7 +1,7 @@
 <template>
   <div class="centermap">
     <div class="interactivefactorymap_wrap">
-      <div class="center_wrapper" >
+      <div v-if="!false" class="center_wrapper" >
 
         <div class="item_wrap" style="position: relative;">
           <VideoPlayer :elId="10" :videoSrc="'/src/assets/webm/e顶部卡片短背景.webm'" />
@@ -74,8 +74,7 @@
               </div>
             </div>
           </div>
-        </div>
-
+        </div> 
         <div class="top_info_card" style="flex: 266;position: relative;">
           <VideoPlayer :elId="13" :videoSrc="'/src/assets/webm/e顶部卡片长背景.webm'" />
           <div style="position: absolute; display: flex; flex-direction: row;justify-content: center; align-items: center;">
@@ -158,7 +157,7 @@
              或者 
           <InteractiveFactoryMap :videoSrc="'/src/assets/webm/gaolubg.webm'" />
       -->
-      <InteractiveFactoryMap v-if="showInteractiveFactoryMap" :videoSrc="''"/>
+      <InteractiveFactoryMap v-if="!false" />
     </div>
   </div>
 </template>
