@@ -54,26 +54,31 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       },
       formatter: function (params: any) {
         // 添加单位
-        var result = params[0].name + "<br>";
+        let result = params[0].name + "<br>";
         params.forEach(function (item: any) {
-          if (item.value) {
-            if (item.seriesName == "电量") {
-              result += item.marker + " " + item.seriesName + " : " + item.value + "元</br>";
-            } else {
-              result += item.marker + " " + item.seriesName + " : " + item.value + "千瓦时</br>";
-            }
-          } else {
+          if (item.seriesName == "实际能耗") {
+            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(255,136,30,1);"></span>`
+            item.marker = mark
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}吨</br>` : '- </br>'}`;
+          } else if (item.seriesName == "预测能耗") {
+            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(253,253,30, 1);"></span>`
+            item.marker = mark
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}吨</br>` : '- </br>'}`;
+          } else if (item.seriesName == "预测上限") {
+            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(13,255,198, 1);"></span>`
+            item.marker = mark
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}吨</br>` : '- </br>'}`;
+          }else if (item.seriesName == "预测下限") {
+            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(31,254,255, 1);"></span>`
+            item.marker = mark
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}吨</br>` : '- </br>'}`;
+          }else {
             result += item.marker + " " + item.seriesName + " :  - </br>";
           }
         });
         return result;
-      },
+      }
     },
-
-
-
-
-
 
 
     legend: {
@@ -136,13 +141,14 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       },
       axisLabel: {
         color: "#7EB7FD",
-        fontWeight: "500",
+        // fontWeight: "500",
+        interval: 0 // 设置成 0 强制显示所有标签
       },
     },
     yAxis: [
       {
         type: "value",
-        name: '能耗(吨标准煤)',
+        name: '能耗(吨)',
         position: 'left',
         nameTextStyle: {
           color: '#fff',

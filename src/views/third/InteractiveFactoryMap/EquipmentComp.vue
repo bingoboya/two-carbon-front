@@ -46,7 +46,9 @@
       </ItemWrap>
     </div>
     <div style="flex:2; display: flex; flex-direction: column;">
-      <ModalCenterBottom style="flex: 1;" />
+      <div style="width: 100%; height: 100%;">
+        <ThreeDPngEffect :image-src="'/src/assets/bgpng/department1.png'" :max-tilt-angle="30" />
+      </div>
       <ItemWrap style="height: 315px;" title="维护记录">
         <div class="my_table">
           <div class="table_th">
@@ -78,9 +80,10 @@
 </template>
 
 <script setup lang="ts">
-import { LeftTop, RightBottom, ModalCenterBottom } from "../index";
+import { LeftTop, RightBottom } from "../index";
 import { Vue3SeamlessScroll } from "vue3-seamless-scroll";
 // import { BorderBox8 as DvBorderBox8, ScrollBoard } from '@kjgl77/datav-vue3'
+import ThreeDPngEffect from './ThreeDPngEffect.vue';
 
 import ItemWrap from "@/components/item-wrap";
 import { onMounted, reactive, ref } from "vue";

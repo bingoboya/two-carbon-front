@@ -18,29 +18,25 @@
       </ItemWrap>
     </div>
     <div class="contetn_center">
-      <CenterMap class="centermapComp" style="flex: 1;" />
+      <CenterMap ref="centerMapRef" class="centermapComp" style="flex: 1;" />
       <div ref="centerBottomCompRef" class="centerBottomCompRef" style="height:120px;background-color: rgb(0,0,0,0);">
         <div style="position: relative;width: 120%; height: 100%;left: 50%; transform: translateX(-50%);">
           <VideoPlayer :elId="4" :videoSrc="'/src/assets/webm/d底部背景动效.webm'" />
         </div>
         <div class="bottom_item_wrapper">
-          <div @click="routerGo('高炉')" class="bottom_item" >
+          <div @mouseenter="enterBottomBtn('高炉')" @mouseleave="leaveBottomBtn('高炉')" @click="routerGo('高炉')" class="bottom_item" >
             <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/高炉按钮_default.png')` }"></div>
             <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/高炉按钮_press.png')` }"></div>
           </div>
-          <div @click="routerGo('炼钢')" class="bottom_item" >
+          <div @mouseenter="enterBottomBtn('炼钢')" @mouseleave="leaveBottomBtn('炼钢')" @click="routerGo('炼钢')" class="bottom_item" >
             <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/炼钢按钮_default.png')` }"></div>
             <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/炼钢按钮_press.png')` }"></div>
           </div>
-          <div @click="routerGo('热轧')" class="bottom_item" >
+          <div @mouseenter="enterBottomBtn('热轧')" @mouseleave="leaveBottomBtn('热轧')" @click="routerGo('热轧')" class="bottom_item" >
             <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/热轧按钮_default.png')` }"></div>
             <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/热轧按钮_press.png')` }"></div>
           </div>
-          <!-- <div @click="routerGo('冷轧')" class="bottom_item" >
-            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/冷轧按钮_default.png')` }"></div>
-            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/冷轧按钮_press.png')` }"></div>
-          </div> -->
-          <div @click="routerGo('电镀锌')" class="bottom_item" >
+          <div @mouseenter="enterBottomBtn('电镀锌')" @mouseleave="leaveBottomBtn('电镀锌')" @click="routerGo('电镀锌')" class="bottom_item" >
             <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/电镀锌按钮_default.png')` }"></div>
             <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/电镀锌按钮_press.png')` }"></div>
           </div>
@@ -86,9 +82,19 @@ const router = useRouter()
 const routerGo = (name: any) => {
   router.push({ path: 'second', query: { typename: name }})
 }
+
+const centerMapRef: any = ref<HTMLDivElement | null>(null)
 const contentLeftComp = ref<HTMLDivElement | null>(null)
 const contentRightComp = ref<HTMLDivElement | null>(null)
 const centerBottomCompRef = ref<HTMLDivElement | null>(null)
+const enterBottomBtn = (name: any) => {
+  // console.log('enterBottomBtn', name, centerMapRef.value)
+  centerMapRef.value?.callBackFunc(name, 'enter')
+}
+const leaveBottomBtn = (name: any) => {
+  // console.log('leaveBottomBtn', name, centerMapRef.value)
+  centerMapRef.value?.callBackFunc(name, 'leave')
+}
 const animateDivs = () => {
   if (contentLeftComp.value) {
     const width = contentLeftComp.value.getBoundingClientRect().width; // x: -458

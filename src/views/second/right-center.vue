@@ -30,17 +30,7 @@ const getData = () => {
     });
 };
 const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[]) => {
-  // 找出 Y 值为 null 的数据点的索引
-  // const nullIndices = yData2.reduce((acc, val, index) => {
-  //   if (val === null) {
-  //     acc.push(index);
-  //   }
-  //   return acc;
-  // }, []);
-  // const ddd = nullIndices.map((index: any) => ({
-  //           xAxis: index
-  //         }))
-  // console.log(nullIndices, 2222, ddd);
+
   const findNullIndex = yData2.findIndex(item => item === null)
   option.value = {
 
@@ -65,20 +55,22 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       },
       formatter: function (params: any) {
         // 添加单位
-        var result = params[0].name + "<br>";
+        let result = params[0].name + "<br>";
         params.forEach(function (item: any) {
-          if (item.value) {
-            if (item.seriesName == "实际碳排") {
-              result += item.marker + " " + item.seriesName + " : " + item.value + "元</br>";
-            } else {
-              result += item.marker + " " + item.seriesName + " : " + item.value + "千瓦时</br>";
-            }
+          if (item.seriesName == "实际电量") {
+            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(12, 246, 209, 1);"></span>`
+            item.marker = mark
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}千瓦时</br>` : '- </br>'}`;
+          } else if (item.seriesName == "预测电量") {
+            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(0, 235, 138, 1);"></span>`
+            item.marker = mark
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}千瓦时</br>` : '- </br>'}`;
           } else {
             result += item.marker + " " + item.seriesName + " :  - </br>";
           }
         });
         return result;
-      },
+      }
     },
     legend: {
       data: [
@@ -122,7 +114,8 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       },
       axisLabel: {
         color: "#7EB7FD",
-        fontWeight: "500",
+        // fontWeight: "500",
+        interval: 0 // 设置成 0 强制显示所有标签
       },
     },
     yAxis: [

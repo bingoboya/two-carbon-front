@@ -154,7 +154,7 @@ const newOption = {
       axisLabel: {
         color: "#7EB7FD",
         // fontWeight: "500",
-        fontSize: '9px'
+        interval: 0 // 设置成 0 强制显示所有标签
       },
     },
     yAxis: [
@@ -167,19 +167,23 @@ const newOption = {
                 // align: 'left'
                 padding: [0,0,0,40]
             },
-            axisLine: {
-                show: true,
-                lineStyle: {
-                    width: 2,
-                    color: '#2B7BD6',
-                },
-            },
-            axisLabel: {
-                show: true,
-                color: "#fff",
-                // color: "#7EB7FD",
-                fontWeight: "500",
-            }
+            splitLine: {
+        show: true,
+        lineStyle: {
+          color: "rgba(31,99,163,.2)",
+        },
+      },
+      axisLine: {
+        show: true,
+        lineStyle: {
+          color: "rgba(31,99,163, 1)",
+        },
+      },
+      axisLabel: {
+        show: true,
+        color: "#fff",
+        fontWeight: "500",
+      },
         }, 
         {
             type: 'value',
@@ -190,19 +194,23 @@ const newOption = {
                 // align: 'right'
             },
             alignTicks: true,
-            axisLabel: {
-                show: true,
-                color: "#fff",
-                // color: "#7EB7FD",
-                fontWeight: "500",
-            },
-            axisLine: {
-                show: true,
-                lineStyle: {
-                    // width: 2,
-                    color: '#2B7BD6',
-                },
-            },
+            splitLine: {
+        show: true,
+        lineStyle: {
+          color: "rgba(31,99,163,.2)",
+        },
+      },
+      axisLine: {
+        show: true,
+        lineStyle: {
+          color: "rgba(31,99,163, 1)",
+        },
+      },
+      axisLabel: {
+        show: true,
+        color: "#fff",
+        fontWeight: "500",
+      },
         }
     ],
     series: [

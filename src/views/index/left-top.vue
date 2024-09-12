@@ -9,12 +9,11 @@ const getData = () => {
   alarmNum()
     .then((res) => {
       if (res.success) {
-
         res.data = {
-          dateList: ['1月', '2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
-          numList: [ 12, 32, 123, 53, 12, 33, 44, 11, 66, 34, 23, 15 ],
-          numList2: [ 32, 11, 13, 43, 22, 31, 51, 26, null, null, null, null ],
-          numList3: [ null, null, null, null, null, null, null, 26, 16, 5, 33, 45 ],
+          dateList: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+          numList: [12, 32, 123, 53, 12, 33, 44, 11, 66, 34, 23, 15],
+          numList2: [32, 11, 13, 43, 22, 31, 51, 26, null, null, null, null],
+          numList3: [null, null, null, null, null, null, null, 26, 16, 5, 33, 45],
         }
 
         setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3);
@@ -43,20 +42,6 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
   // console.log(nullIndices, 2222, ddd);
   const findNullIndex = yData2.findIndex(item => item === null)
   option.value = {
-
-    // tooltip: {
-    //   trigger: "axis",
-    //   backgroundColor: "rgba(0,0,0,.6)",
-    //   borderColor: "rgba(147, 235, 248, .8)",
-    //   textStyle: {
-    //     color: "#FFF",
-    //   },
-    // },
-    // legend: {
-    //   textStyle: {
-    //     color: '#fff',
-    //   }
-    // },
     grid: {
       show: true,
       left: "0px",
@@ -76,15 +61,21 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       },
       formatter: function (params: any) {
         // 添加单位
-        var result = params[0].name + "<br>";
+        let result = params[0].name + "<br>";
         params.forEach(function (item: any) {
-          if (item.value) {
-            if (item.seriesName == "绿证价格") {
-              result += item.marker + " " + item.seriesName + " : " + item.value + "元</br>";
-            } else {
-              result += item.marker + " " + item.seriesName + " : " + item.value + "千瓦时</br>";
-            }
-          } else {
+          if (item.seriesName == "绿证价格") {
+            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(25, 181, 255, 1);"></span>`
+            item.marker = mark
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}元</br>` : '- </br>'}`;
+          } else if (item.seriesName == "电量") {
+            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(255, 163, 33, 1);"></span>`
+            item.marker = mark
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}千瓦时</br>` : '- </br>'}`;
+          } else if (item.seriesName == "电量预测") {
+            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(255, 105, 59, 1);"></span>`
+            item.marker = mark
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}千瓦时</br>` : '- </br>'}`;
+          }  else {
             result += item.marker + " " + item.seriesName + " :  - </br>";
           }
         });
@@ -95,8 +86,8 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       data: [
         {
           name: "绿证价格",
-          itemStyle:{ 
-            opacity:0,
+          itemStyle: {
+            opacity: 0,
           },
           textStyle: {
             color: "#fff",
@@ -104,8 +95,8 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         },
         {
           name: "电量",
-          itemStyle:{ 
-            opacity:0,
+          itemStyle: {
+            opacity: 0,
           },
           textStyle: {
             color: "#fff",
@@ -113,8 +104,8 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         },
         {
           name: "电量预测",
-          itemStyle:{ 
-            opacity:0,
+          itemStyle: {
+            opacity: 0,
           },
           textStyle: {
             color: "#fff",
@@ -122,7 +113,6 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         },
       ],
     },
-    
     xAxis: {
       type: "category",
       data: xData,
@@ -141,7 +131,8 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       },
       axisLabel: {
         color: "#7EB7FD",
-        fontWeight: "500",
+        // fontWeight: "500",
+        interval: 0 // 设置成 0 强制显示所有标签
       },
     },
     yAxis: [
@@ -151,17 +142,17 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         position: 'left',
         nameTextStyle: {
           color: '#fff',
-          padding: [0,0,0,30]
+          padding: [0, 0, 0, 30]
           // align: 'left'
         },
         splitLine: {
-          show: !true,
+          show: true,
           lineStyle: {
             color: "rgba(31,99,163,.2)",
           },
         },
         axisLine: {
-          show: !true,
+          show: true,
           lineStyle: {
             color: "rgba(31,99,163, 1)",
           },
@@ -169,36 +160,39 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         axisLabel: {
           show: true,
           color: "#fff",
-          // color: "#7EB7FD",
           fontWeight: "500",
         },
       },
 
       {
-            type: 'value',
-            position: 'right',
-            name: '电量(千瓦时)',
-            nameTextStyle: {
-                color: '#fff',
-                // align: 'right'
-            },
-            alignTicks: true,
-            axisLabel: {
-                show: true,
-                color: "#fff",
-                // color: "#7EB7FD",
-                fontWeight: "400",
-            },
-            axisLine: {
-                show: true,
-                lineStyle: {
-                    // width: 2,
-                    color: '#2B7BD6',
-                },
-            },
-        }
+        type: 'value',
+        position: 'right',
+        name: '电量(千瓦时)',
+        nameTextStyle: {
+          color: '#fff',
+          // align: 'right'
+        },
+        alignTicks: true,
+        splitLine: {
+          show: true,
+          lineStyle: {
+            color: "rgba(31,99,163,.2)",
+          },
+        },
+        axisLine: {
+          show: true,
+          lineStyle: {
+            color: "rgba(31,99,163, 1)",
+          },
+        },
+        axisLabel: {
+          show: true,
+          color: "#fff",
+          fontWeight: "500",
+        },
+      }
     ],
-    
+
     series: [
       {
         data: yData,
@@ -265,10 +259,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
             width: 2
           },
           label: { show: false },
-          // data: nullIndices.map((index: any) => ({
-          //   xAxis: index
-          // }))
-          data: [{xAxis: findNullIndex - 1}]
+          data: [{ xAxis: findNullIndex - 1 }]
         },
       },
       {
@@ -314,13 +305,8 @@ onMounted(() => {
 
 <template>
   <div style="width: 100%; height: 100%">
-    <v-chart
-      class="chart"
-      autoresize
-      style="width: 100%; height: 100%"
-      :option="option"
-      v-if="JSON.stringify(option) != '{}'"
-    />
+    <v-chart class="chart" autoresize style="width: 100%; height: 100%" :option="option"
+      v-if="JSON.stringify(option) != '{}'" />
   </div>
 </template>
 

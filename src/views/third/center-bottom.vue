@@ -31,33 +31,8 @@ const getData = () => {
     });
 };
 const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[]) => {
-  // 找出 Y 值为 null 的数据点的索引
-  // const nullIndices = yData2.reduce((acc, val, index) => {
-  //   if (val === null) {
-  //     acc.push(index);
-  //   }
-  //   return acc;
-  // }, []);
-  // const ddd = nullIndices.map((index: any) => ({
-  //           xAxis: index
-  //         }))
-  // console.log(nullIndices, 2222, ddd);
   const findNullIndex = yData2.findIndex(item => item === null)
   option.value = {
-
-    // tooltip: {
-    //   trigger: "axis",
-    //   backgroundColor: "rgba(0,0,0,.6)",
-    //   borderColor: "rgba(147, 235, 248, .8)",
-    //   textStyle: {
-    //     color: "#FFF",
-    //   },
-    // },
-    // legend: {
-    //   textStyle: {
-    //     color: '#fff',
-    //   }
-    // },
     grid: {
       show: true,
       left: "0px",
@@ -120,7 +95,8 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       },
       axisLabel: {
         color: "#7EB7FD",
-        fontWeight: "500",
+        // fontWeight: "500",
+        interval: 0 // 设置成 0 强制显示所有标签
       },
     },
     yAxis: [

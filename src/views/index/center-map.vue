@@ -90,7 +90,7 @@
              或者 
           <InteractiveFactoryMap :videoSrc="'/src/assets/webm/gaolubg.webm'" />
       -->
-      <InteractiveFactoryMap />
+      <InteractiveFactoryMap ref="InteractiveFactoryMapRef" />
     </div>
   </div>
 </template>
@@ -101,10 +101,18 @@ import arrow_down_icon from '@/assets/icon/arrow_down_icon.png'
 import arrow_top_icon from '@/assets/icon/arrow_top_icon.png'
 import InteractiveFactoryMap from './InteractiveFactoryMap';
 import AnimatedLoader from '@/components/AnimatedLoader.vue';
+const InteractiveFactoryMapRef: any = ref<HTMLDivElement | null>(null)
 const duration = ref(2);
 const showInteractiveFactoryMap = ref(true)
+const callBackFunc= (params: any, type: string) => {
+  console.log('InteractiveFactoryMapRef', params, type)
+  InteractiveFactoryMapRef.value?.callFunabcForBuilding(params, type)
+}
 onUnmounted(()=>{
   showInteractiveFactoryMap.value = false
+})
+defineExpose({
+  callBackFunc
 })
 </script>
 

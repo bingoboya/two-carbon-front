@@ -130,9 +130,10 @@ const newOption = {
         //         color: '#2B7BD6',
         //     },
         // },
-        // axisLabel: {
-        //     fontSize: 14,
-        // },
+        axisLabel: {
+            // fontSize: 14,
+            interval: 0 // 设置成 0 强制显示所有标签
+        },
     },
     yAxis: [
         {

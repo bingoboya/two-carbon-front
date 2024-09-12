@@ -30,17 +30,6 @@ const getData = () => {
     });
 };
 const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[]) => {
-  // 找出 Y 值为 null 的数据点的索引
-  // const nullIndices = yData2.reduce((acc, val, index) => {
-  //   if (val === null) {
-  //     acc.push(index);
-  //   }
-  //   return acc;
-  // }, []);
-  // const ddd = nullIndices.map((index: any) => ({
-  //           xAxis: index
-  //         }))
-  // console.log(nullIndices, 2222, ddd);
   const findNullIndex = yData2.findIndex(item => item === null)
   
   option.value = {
@@ -107,6 +96,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       axisLabel: {
         color: "#7EB7FD",
         fontWeight: "500",
+        interval: 0 // 设置成 0 强制显示所有标签
       },
     },
     yAxis: [
