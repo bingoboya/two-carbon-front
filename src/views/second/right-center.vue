@@ -8,7 +8,6 @@ const option = ref({});
 const getData = () => {
   alarmNum()
     .then((res) => {
-      console.log("右上--报警次数 ", res);
       if (res.success) {
 
         res.data = {
@@ -45,19 +44,6 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
   const findNullIndex = yData2.findIndex(item => item === null)
   option.value = {
 
-    // tooltip: {
-    //   trigger: "axis",
-    //   backgroundColor: "rgba(0,0,0,.6)",
-    //   borderColor: "rgba(147, 235, 248, .8)",
-    //   textStyle: {
-    //     color: "#FFF",
-    //   },
-    // },
-    // legend: {
-    //   textStyle: {
-    //     color: '#fff',
-    //   }
-    // },
     grid: {
       show: true,
       left: "0px",
@@ -82,7 +68,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         var result = params[0].name + "<br>";
         params.forEach(function (item: any) {
           if (item.value) {
-            if (item.seriesName == "电量") {
+            if (item.seriesName == "实际碳排") {
               result += item.marker + " " + item.seriesName + " : " + item.value + "元</br>";
             } else {
               result += item.marker + " " + item.seriesName + " : " + item.value + "千瓦时</br>";
@@ -95,11 +81,27 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       },
     },
     legend: {
-      data: ["实际电量", '预测电量'],
-      textStyle: {
-        color: "#fff",
-      },
-    //   top: "0",
+      data: [
+        {
+          name: "实际电量",
+          itemStyle:{ 
+            opacity:0,
+          },
+          textStyle: {
+            color: "#fff",
+          },
+        },
+        {
+          name: "预测电量",
+          itemStyle:{ 
+            opacity:0,
+          },
+          textStyle: {
+            color: "#fff",
+          },
+        },
+      ],
+      top: -4,
     },
     
     xAxis: {
@@ -126,11 +128,12 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
     yAxis: [
       {
         type: "value",
-        name: '电量(Kwh)',
+        name: '碳排放量(万吨)',
         position: 'left',
         nameTextStyle: {
           color: '#fff',
-          align: 'left'
+          // align: 'left'
+          padding: [0,0,0,30]
         },
         splitLine: {
           show: true,
@@ -161,7 +164,10 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         smooth: true,
         symbol: "none", //去除点
         name: "实际电量",
-        color: "rgba(252,144,16,.7)",
+        lineStyle: {
+          color: "rgba(12, 246, 209, 1)",
+          width: 2
+        },
         areaStyle: {
           //右，下，左，上
           color: new graphic.LinearGradient(
@@ -172,11 +178,11 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
             [
               {
                 offset: 0,
-                color: "rgba(252,144,16,.7)",
+                color: "rgba(12, 246, 209, .7)",
               },
               {
                 offset: 1,
-                color: "rgba(9,202,243,.0)",
+                color: "rgba(12, 246, 209, 0)",
               },
             ],
             false
@@ -186,8 +192,8 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
           symbol: ['none', 'none'],
           slient: true,
           lineStyle: {
-            // color: 'red',
-            width: 1
+            color: 'rgba(112, 158, 227, 1)',
+            width: 2
           },
           label: { show: false },
           // data: nullIndices.map((index: any) => ({
@@ -203,9 +209,10 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         smooth: true,
         symbol: "none", //去除点
         name: "预测电量",
-        color: "rgba(252,144,16,.7)",
         lineStyle: {
-          type: 'dotted'
+          type: 'dotted',
+          color: "rgba(0, 235, 138, 1)",
+          width: 2
         },
         areaStyle: {
           //右，下，左，上
@@ -217,11 +224,11 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
             [
               {
                 offset: 0,
-                color: "rgba(252,144,16,.7)",
+                color: "rgba(0, 235, 138, 1)",
               },
               {
                 offset: 1,
-                color: "rgba(9,202,243,.0)",
+                color: "rgba(9,202,243,0)",
               },
             ],
             false
@@ -236,14 +243,16 @@ onMounted(() => {
 });
 </script>
 
-<template><div style="width: 100%; height: 100%">
-  <v-chart
-    class="chart"
-    style="width: 100%; height: 100%"
-    :option="option"
-    v-if="JSON.stringify(option) != '{}'"
-  />
-</div>
+<template>
+  <div style="width: 100%; height: 100%">
+    <v-chart
+      class="chart"
+      autoresize
+      style="width: 100%; height: 100%"
+      :option="option"
+      v-if="JSON.stringify(option) != '{}'"
+    />
+  </div>
 </template>
 
 <style scoped lang="scss"></style>

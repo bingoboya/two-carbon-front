@@ -8,6 +8,7 @@ const option = ref({});
 const getData = () => {
   alarmNum()
     .then((res) => {
+      console.log("右上--报警次数 ", res);
       if (res.success) {
 
         res.data = {
@@ -41,6 +42,9 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       containLabel: true,
       borderColor: "#1F63A3",
     },
+
+    
+
     tooltip: {
       trigger: "axis",
       backgroundColor: "rgba(0,0,0,.6)",
@@ -65,13 +69,50 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         return result;
       },
     },
+
+
     legend: {
-      data: ["实际能耗", '预测能耗', '预测上限', '预测下限'],
-      textStyle: {
-        color: "#fff",
-      },
-    //   top: "0",
+      data: [
+        {
+          name: "实际能耗",
+          itemStyle:{ 
+            opacity:0,
+          },
+          textStyle: {
+            color: "#fff",
+          },
+        },
+        {
+          name: "预测能耗",
+          itemStyle:{ 
+            opacity:0,
+          },
+          textStyle: {
+            color: "#fff",
+          },
+        },
+        {
+          name: "预测上限",
+          itemStyle:{ 
+            opacity:0,
+          },
+          textStyle: {
+            color: "#fff",
+          },
+        },
+        {
+          name: "预测下限",
+          itemStyle:{ 
+            opacity:0,
+          },
+          textStyle: {
+            color: "#fff",
+          },
+        },
+      ],
+      top: -4,
     },
+
     
     xAxis: {
       type: "category",
@@ -97,7 +138,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
     yAxis: [
       {
         type: "value",
-        name: '碳排放量(吨)',
+        name: '能耗(吨标准煤)',
         position: 'left',
         nameTextStyle: {
           color: '#fff',
@@ -131,7 +172,10 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         smooth: true,
         symbol: "none", //去除点
         name: "实际能耗",
-        color: "rgba(252,144,16,.7)",
+        lineStyle: {
+          color: "rgba(31, 254, 255, 1)",
+          width: 2
+        },
         areaStyle: {
           //右，下，左，上
           color: new graphic.LinearGradient(
@@ -160,9 +204,10 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         smooth: true,
         symbol: "none", //去除点
         name: "预测能耗",
-        color: "rgba(122,63,46,.7)",
         lineStyle: {
-          type: 'dotted'
+          type: 'dotted',
+          color: "rgba(9,118,109,1)",
+          width: 2
         },
       },
       {
@@ -172,9 +217,10 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         smooth: true,
         symbol: "none", //去除点
         name: "预测上限",
-        color: "rgba(852,44,16,.7)",
         lineStyle: {
-          type: 'dotted'
+          color: "rgba(188,196,48,1)",
+          type: 'dotted',
+          width: 2
         },
       },
       {
@@ -184,9 +230,10 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         smooth: true,
         symbol: "none", //去除点
         name: "预测下限",
-        color: "rgba(52,144,6,.7)",
         lineStyle: {
-          type: 'dotted'
+          color: "rgba(229,126,47,1)",
+          type: 'dotted',
+          width: 2
         },
       },
     ],
@@ -200,6 +247,7 @@ onMounted(() => {
 <template><div style="width: 100%; height: 100%">
   <v-chart
     class="chart"
+      autoresize
     style="width: 100%; height: 100%"
     :option="option"
     v-if="JSON.stringify(option) != '{}'"

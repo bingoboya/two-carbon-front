@@ -4,6 +4,7 @@
   <div style="width: 100%; height: 100%">
     <v-chart
       class="chart"
+      autoresize
       style="width: 100%; height: 100%"
       :option="option"
       v-if="JSON.stringify(option) != '{}'"
@@ -107,11 +108,24 @@ const newOption = {
       },
     },
     legend: {
-      data: ["生产产量", "单位产品碳排放量"],
-      textStyle: {
-        color: "#B4B4B4",
-      },
-    //   top: "0",
+      top: -4,
+      data: [
+      {
+          name: "生产产量",
+          textStyle: {
+            color: "#fff",
+          },
+        },
+        {
+          name: "单位产品碳排放量",
+          itemStyle:{ 
+            opacity:0,
+          },
+          textStyle: {
+            color: "#fff",
+          },
+        },
+      ],
     },
     grid: {
       left: "0px",
@@ -150,7 +164,8 @@ const newOption = {
             position: 'left',
             nameTextStyle: {
                 color: '#fff',
-                align: 'left'
+                padding: [0,0,0,30]
+                // align: 'left'
             },
             axisLine: {
                 show: true,
@@ -172,7 +187,8 @@ const newOption = {
             alignTicks: true,
             nameTextStyle: {
                 color: '#fff',
-                align: 'right'
+                // align: 'right'
+                padding: [0,60,0,0]
             },
             axisLabel: {
                 show: true,
@@ -212,19 +228,11 @@ const newOption = {
                             },
                             style: {
                                 fill: new graphic.LinearGradient(0, 0, 0, 1, [
-                                    { offset: 0, color: "#956FD4" },
-                                    { offset: 1, color: "#3EACE5" },
+                                    { offset: 0, color: "rgba(33, 162, 163, 1)" },
+                                    { offset: 1, color: "rgba(33, 162, 163, 1)" },
+                                    // { offset: 0, color: "#956FD4" },
+                                    // { offset: 1, color: "#3EACE5" },
                                 ]),
-                                // fill: new graphic.LinearGradient(0, 0, 0, 1, [
-                                //     {
-                                //         offset: 0,
-                                //         color: '#33BCEB',
-                                //     },
-                                //     {
-                                //         offset: 1,
-                                //         color: '#337CEB',
-                                //     },
-                                // ]),
                             },
                         },
                         {
@@ -239,19 +247,11 @@ const newOption = {
                             },
                             style: {
                                 fill: new graphic.LinearGradient(0, 0, 0, 1, [
-                                    { offset: 0, color: "#956FD4" },
-                                    { offset: 1, color: "#3EACE5" },
+                                    { offset: 0, color: "rgba(65, 221, 221, 1)" },
+                                    { offset: 1, color: "rgba(65, 221, 221, 1)" },
+                                    // { offset: 0, color: "#956FD4" },
+                                    // { offset: 1, color: "#3EACE5" },
                                 ]),
-                                // fill: new graphic.LinearGradient(0, 0, 0, 1, [
-                                //     {
-                                //         offset: 0,
-                                //         color: '#28A2CE',
-                                //     },
-                                //     {
-                                //         offset: 1,
-                                //         color: '#1A57B7',
-                                //     },
-                                // ]),
                             },
                         },
                         {
@@ -266,19 +266,12 @@ const newOption = {
                             },
                             style: {
                                 fill: new graphic.LinearGradient(0, 0, 0, 1, [
-                                    { offset: 0, color: "#956FD4" },
-                                    { offset: 1, color: "#3EACE5" },
+                                    { offset: 0, color: "RGBA(179, 231, 210, 1)" },
+                                    { offset: 1, color: "RGBA(179, 231, 210, 1)" },
+                                    // { offset: 0, color: "#956FD4" },
+                                    // { offset: 1, color: "#3EACE5" },
                                 ]),
-                                // fill: new graphic.LinearGradient(0, 0, 0, 1, [
-                                //     {
-                                //         offset: 0,
-                                //         color: '#43C4F1',
-                                //     },
-                                //     {
-                                //         offset: 1,
-                                //         color: '#28A2CE',
-                                //     },
-                                // ]),
+                                
                             },
                         },
                     ],
@@ -298,38 +291,52 @@ const newOption = {
             name: '单位产品碳排放量',
             type: 'line',
             yAxisIndex: 1,
-            smooth: true,
-            showAllSymbol: true,
-            symbol: 'circle',
-            symbolSize: 4,
+            // smooth: true,
+            symbol: "none", //去除点
+            // showAllSymbol: true,
+            // symbolSize: 4,
             itemStyle: {
                 color: '#fff',
-                shadowColor: '#5ce0e2',
+                shadowColor: 'rgba(255, 131, 21, 1)',
                 shadowBlur: 20,
-                borderColor: '#5ce0e2',
+                borderColor: 'rgba(255, 131, 21, 1)',
                 borderWidth: 5,
             },
             lineStyle: {
                 width: 2,
-                color: '#5ce0e2',
-                shadowColor: '#5ce0e2',
+                color: 'rgba(255, 131, 21, 1)',
+                shadowColor: 'rgba(255, 131, 21, 1)',
                 shadowBlur: 20,
             },
             data: LineVALUE,
-            areaStyle: { //区域填充样式
-                //线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
-                color: new graphic.LinearGradient(0, 0, 0, 1, [{
-                        offset: 0,
-                        color: "rgba(25,163,223,.3)"
-                    },
-                    {
-                        offset: 1,
-                        color: "rgba(25,163,223, 0)"
-                    }
-                ], false),
-                shadowColor: 'rgba(25,163,223, 0.5)', //阴影颜色
-                shadowBlur: 20 //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
-        },
+            // areaStyle: { //区域填充样式
+            //     color: new graphic.LinearGradient(0, 0, 0, 1, [{
+            //             offset: 0,
+            //             color: "rgba(255, 131, 21, 0.7)"
+            //         },
+            //         {
+            //             offset: 1,
+            //             color: "rgba(255, 131, 21, 0)"
+            //         }
+            //     ], false),
+            //     // shadowColor: 'rgba(255, 131, 21, 0)', //阴影颜色
+            //     // shadowBlur: 20 //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
+            // },
+            areaStyle: {
+          //右，下，左，上
+          //线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
+          color: new graphic.LinearGradient(0, 0, 0, 1,
+            [
+              {
+                offset: 0,
+                color: "rgba(255, 131, 22, .7)",
+              },
+              {
+                offset: 1,
+                color: "rgba(255, 131, 22, 0)",
+              },], false
+          ),
+        }
         }
     ],
 }

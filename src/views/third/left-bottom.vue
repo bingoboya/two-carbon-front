@@ -1,475 +1,258 @@
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
+import { alarmNum } from "@/api";
+import { graphic } from "echarts/core";
+import { ElMessage } from "element-plus";
 
+const option = ref({});
+const getData = () => {
+  alarmNum()
+    .then((res) => {
+      if (res.success) {
 
-<template><div style="width: 100%; height: 100%">
+        res.data = {
+          dateList: ['1月', '2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+          numList: [ 12, 32, 123, 53, 12, 33, 44, 11, 66, 34, 23, 15 ],
+          numList2: [ 32, 11, 13, 43, 22, 31, 51, 26, null, null, null, null ],
+          numList3: [ null, null, null, null, null, null, null, 26, 16, 5, 33, 45 ],
+        }
+
+        setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3);
+      } else {
+        ElMessage({
+          message: res.msg,
+          type: "warning",
+        });
+      }
+    })
+    .catch((err) => {
+      ElMessage.error(err);
+    });
+};
+const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[]) => {
+  // 找出 Y 值为 null 的数据点的索引
+  // const nullIndices = yData2.reduce((acc, val, index) => {
+  //   if (val === null) {
+  //     acc.push(index);
+  //   }
+  //   return acc;
+  // }, []);
+  // const ddd = nullIndices.map((index: any) => ({
+  //           xAxis: index
+  //         }))
+  // console.log(nullIndices, 2222, ddd);
+  const findNullIndex = yData2.findIndex(item => item === null)
+  option.value = {
+
+    grid: {
+      show: true,
+      left: "0px",
+      right: "14px",
+      bottom: "0px",
+      top: "50px",
+      containLabel: true,
+      borderColor: "#1F63A3",
+    },
+
+    
+
+    tooltip: {
+      trigger: "axis",
+      backgroundColor: "rgba(0,0,0,.6)",
+      borderColor: "rgba(147, 235, 248, .8)",
+      textStyle: {
+        color: "#FFF",
+      },
+      formatter: function (params: any) {
+        // 添加单位
+        var result = params[0].name + "<br>";
+        params.forEach(function (item: any) {
+          if (item.value) {
+            if (item.seriesName == "实际碳排") {
+              result += item.marker + " " + item.seriesName + " : " + item.value + "元</br>";
+            } else {
+              result += item.marker + " " + item.seriesName + " : " + item.value + "千瓦时</br>";
+            }
+          } else {
+            result += item.marker + " " + item.seriesName + " :  - </br>";
+          }
+        });
+        return result;
+      },
+    },
+    legend: {
+      data: [
+        {
+          name: "实际电量",
+          itemStyle:{ 
+            opacity:0,
+          },
+          textStyle: {
+            color: "#fff",
+          },
+        },
+        {
+          name: "预测电量",
+          itemStyle:{ 
+            opacity:0,
+          },
+          textStyle: {
+            color: "#fff",
+          },
+        },
+      ],
+      top: -4,
+    },
+    
+    xAxis: {
+      type: "category",
+      data: xData,
+      boundaryGap: false, // 不留白，从原点开始
+      splitLine: {
+        show: true,
+        lineStyle: {
+          color: "rgba(31,99,163,.2)",
+        },
+      },
+      axisLine: {
+        // show:false,
+        lineStyle: {
+          color: "rgba(31,99,163,.1)",
+        },
+      },
+      axisLabel: {
+        color: "#7EB7FD",
+        fontWeight: "500",
+      },
+    },
+    yAxis: [
+      {
+        type: "value",
+        name: '碳排放量(万吨)',
+        position: 'left',
+        nameTextStyle: {
+          color: '#fff',
+          // align: 'left'
+          padding: [0,0,0,30]
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            color: "rgba(31,99,163,.2)",
+          },
+        },
+        axisLine: {
+          show: true,
+          lineStyle: {
+            color: "rgba(31,99,163, 1)",
+          },
+        },
+        axisLabel: {
+          show: true,
+          color: "#fff",
+          // color: "#7EB7FD",
+          fontWeight: "500",
+        },
+      }
+    ],
+    
+    series: [
+      {
+        data: yData2,
+        type: "line",
+        yAxisIndex: 0,
+        smooth: true,
+        symbol: "none", //去除点
+        name: "实际电量",
+        lineStyle: {
+          color: "rgba(255, 168, 21, 1)",
+          width: 2
+        },
+        areaStyle: {
+          //右，下，左，上
+          color: new graphic.LinearGradient(
+            0,
+            0,
+            0,
+            1,
+            [
+              {
+                offset: 0,
+                color: "rgba(255, 168, 21, .7)",
+              },
+              {
+                offset: 1,
+                color: "rgba(255, 168, 21, 0)",
+              },
+            ],
+            false
+          ),
+        },
+        markLine: {
+          symbol: ['none', 'none'],
+          slient: true,
+          lineStyle: {
+            color: 'rgba(112, 158, 227, 1)',
+            width: 2
+          },
+          label: { show: false },
+          // data: nullIndices.map((index: any) => ({
+          //   xAxis: index
+          // }))
+          data: [{xAxis: findNullIndex - 1}]
+        },
+      },
+      {
+        data: yData3,
+        type: "line",
+        yAxisIndex: 0,
+        smooth: true,
+        symbol: "none", //去除点
+        name: "预测电量",
+        lineStyle: {
+          type: 'dotted',
+          color: "rgba(255, 230, 0, 1)",
+          width: 2
+        },
+        areaStyle: {
+          //右，下，左，上
+          color: new graphic.LinearGradient(
+            0,
+            0,
+            0,
+            1,
+            [
+              {
+                offset: 0,
+                color: "rgba(255, 230, 0, 1)",
+              },
+              {
+                offset: 1,
+                color: "rgba(9,202,243,0)",
+              },
+            ],
+            false
+          ),
+        },
+      },
+    ],
+  };
+};
+onMounted(() => {
+  getData();
+});
+</script>
+
+<template>
+  <div style="width: 100%; height: 100%">
     <v-chart
       class="chart"
+      autoresize
       style="width: 100%; height: 100%"
       :option="option"
       v-if="JSON.stringify(option) != '{}'"
     />
   </div>
-  </template>
-  <script setup lang="ts">
-  import { ref, reactive, onMounted, nextTick } from "vue";
-  import { installationPlan } from "@/api";
-  import { graphic } from "echarts/core";
-  import { ElMessage } from "element-plus";
-  
-  const option: any = ref({});
-  
-  // 
-  const offsetX = 6;
-  const offsetY = 3;
-  // 绘制左侧面
-  const CubeLeft = graphic.extendShape({
-      shape: {
-          x: 0,
-          y: 0,
-      },
-      buildPath: function (ctx: any, shape) {
-          // 会canvas的应该都能看得懂，shape是从custom传入的
-          const xAxisPoint = shape.xAxisPoint;
-          // console.log(shape);
-          const c0 = [shape.x, shape.y];
-          const c1 = [shape.x - offsetX, shape.y - offsetY];
-          const c2 = [xAxisPoint[0] - offsetX, xAxisPoint[1] - offsetY];
-          const c3 = [xAxisPoint[0], xAxisPoint[1]];
-          ctx.moveTo(c0[0], c0[1]).lineTo(c1[0], c1[1]).lineTo(c2[0], c2[1]).lineTo(c3[0], c3[1]).closePath();
-      },
-  });
-  // 绘制右侧面
-  const CubeRight = graphic.extendShape({
-      shape: {
-          x: 0,
-          y: 0,
-      },
-      buildPath: function (ctx: any, shape) {
-          const xAxisPoint = shape.xAxisPoint;
-          const c1 = [shape.x, shape.y];
-          const c2 = [xAxisPoint[0], xAxisPoint[1]];
-          const c3 = [xAxisPoint[0] + offsetX, xAxisPoint[1] - offsetY];
-          const c4 = [shape.x + offsetX, shape.y - offsetY];
-          ctx.moveTo(c1[0], c1[1]).lineTo(c2[0], c2[1]).lineTo(c3[0], c3[1]).lineTo(c4[0], c4[1]).closePath();
-      },
-  });
-  // 绘制顶面
-  const CubeTop = graphic.extendShape({
-      shape: {
-          x: 0,
-          y: 0,
-      },
-      buildPath: function (ctx: any, shape) {
-          const c1 = [shape.x, shape.y];
-          const c2 = [shape.x + offsetX, shape.y - offsetY]; //右点
-          const c3 = [shape.x, shape.y - offsetX];
-          const c4 = [shape.x - offsetX, shape.y - offsetY];
-          ctx.moveTo(c1[0], c1[1]).lineTo(c2[0], c2[1]).lineTo(c3[0], c3[1]).lineTo(c4[0], c4[1]).closePath();
-      },
-  });
-  // 注册三个面图形
-  graphic.registerShape('CubeLeft', CubeLeft);
-  graphic.registerShape('CubeRight', CubeRight);
-  graphic.registerShape('CubeTop', CubeTop);
-  
-  const VALUE = [100, 200, 300, 300, 300, 200, 100, 220, 120, 80, 300, 100];
-  const LineVALUE =  [-2, 2 , 12, 0, 1, 3 ,1, -1, -8, 2, 1, -3];
-  
-  const newOption = {
-      // tooltip: {
-      //     trigger: 'axis',
-      //     axisPointer: {
-      //         type: 'cross'
-      //     },
-      // },
-      tooltip: {
-        trigger: "axis",
-        backgroundColor: "rgba(0,0,0,.6)",
-        borderColor: "rgba(147, 235, 248, .8)",
-        textStyle: {
-          color: "#FFF",
-        },
-        formatter: function (params: any) {
-          // 添加单位
-          var result = params[0].name + "<br>";
-          params.forEach(function (item: any) {
-            if (item.value) {
-              if (item.seriesName == "同比") {
-                result += item.marker + " " + item.seriesName + " : " + item.value + "%</br>";
-              } else {
-                result += item.marker + " " + item.seriesName + " : " + item.value + "个</br>";
-              }
-            } else {
-              result += item.marker + " " + item.seriesName + " :  - </br>";
-            }
-          });
-          return result;
-        },
-      },
-      legend: {
-        data: ["产量", "同比"],
-        textStyle: {
-          color: "#B4B4B4",
-        },
-      //   top: "0",
-      },
-      grid: {
-        left: "10px",
-        right: "24px",
-        bottom: "30px",
-        top: "50px",
-        containLabel: true,
-      },
-      xAxis: {
-          type: 'category',
-          data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-          axisTick: {
-              show: true,
-              alignWithLabel: true
-          },
-          // axisLine: {
-          //     show: true,
-          //     lineStyle: {
-          //         width: 2,
-          //         color: '#2B7BD6',
-          //     },
-          // },
-          // axisLabel: {
-          //     fontSize: 14,
-          // },
-      },
-      yAxis: [
-          {
-              type: 'value',
-              name: '产量(万吨)',
-              position: 'left',
-              axisLine: {
-                  show: true,
-                  lineStyle: {
-                      width: 2,
-                      color: '#2B7BD6',
-                  },
-              },
-              // splitLine: {
-              //     show: true,
-              //     lineStyle: {
-              //         color: '#153D7D',
-              //     },
-              // },
-              // axisTick: {
-              //     show: false,
-              // },
-              // axisLabel: {
-              //     fontSize: 14,
-              // },
-              // boundaryGap: ['20%', '20%'],
-          }, 
-          {
-              type: 'value',
-              position: 'right',
-              name: '同比(%)',
-              alignTicks: true,
-              axisLine: {
-                  show: true,
-                  lineStyle: {
-                      // width: 2,
-                      color: '#2B7BD6',
-                  },
-              },
-              // splitLine: {
-              //     show: true,
-              //     lineStyle: {
-              //         color: '#153D7D',
-              //     },
-              // },
-              // axisTick: {
-              //     show: true,
-              // },
-              // axisLabel: {
-              //     fontSize: 14,
-              // },
-              // boundaryGap: ['20%', '20%'],
-          }
-      ],
-      series: [
-          {
-              type: 'custom',
-              name: '产量',
-              yAxisIndex: 0,
-              renderItem: (params: any, api: any) => {
-                  const location = api.coord([api.value(0), api.value(1)]);
-                  return {
-                      type: 'group',
-                      children: [
-                          {
-                              type: 'CubeLeft',
-                              shape: {
-                                  api,
-                                  xValue: api.value(0),
-                                  yValue: api.value(1),
-                                  x: location[0],
-                                  y: location[1],
-                                  xAxisPoint: api.coord([api.value(0), 0]),
-                              },
-                              style: {
-                                  fill: new graphic.LinearGradient(0, 0, 0, 1, [
-                                      { offset: 0, color: "#956FD4" },
-                                      { offset: 1, color: "#3EACE5" },
-                                  ]),
-                                  // fill: new graphic.LinearGradient(0, 0, 0, 1, [
-                                  //     {
-                                  //         offset: 0,
-                                  //         color: '#33BCEB',
-                                  //     },
-                                  //     {
-                                  //         offset: 1,
-                                  //         color: '#337CEB',
-                                  //     },
-                                  // ]),
-                              },
-                          },
-                          {
-                              type: 'CubeRight',
-                              shape: {
-                                  api,
-                                  xValue: api.value(0),
-                                  yValue: api.value(1),
-                                  x: location[0],
-                                  y: location[1],
-                                  xAxisPoint: api.coord([api.value(0), 0]),
-                              },
-                              style: {
-                                  fill: new graphic.LinearGradient(0, 0, 0, 1, [
-                                      { offset: 0, color: "#956FD4" },
-                                      { offset: 1, color: "#3EACE5" },
-                                  ]),
-                                  // fill: new graphic.LinearGradient(0, 0, 0, 1, [
-                                  //     {
-                                  //         offset: 0,
-                                  //         color: '#28A2CE',
-                                  //     },
-                                  //     {
-                                  //         offset: 1,
-                                  //         color: '#1A57B7',
-                                  //     },
-                                  // ]),
-                              },
-                          },
-                          {
-                              type: 'CubeTop',
-                              shape: {
-                                  api,
-                                  xValue: api.value(0),
-                                  yValue: api.value(1),
-                                  x: location[0],
-                                  y: location[1],
-                                  xAxisPoint: api.coord([api.value(0), 0]),
-                              },
-                              style: {
-                                  fill: new graphic.LinearGradient(0, 0, 0, 1, [
-                                      { offset: 0, color: "#956FD4" },
-                                      { offset: 1, color: "#3EACE5" },
-                                  ]),
-                                  // fill: new graphic.LinearGradient(0, 0, 0, 1, [
-                                  //     {
-                                  //         offset: 0,
-                                  //         color: '#43C4F1',
-                                  //     },
-                                  //     {
-                                  //         offset: 1,
-                                  //         color: '#28A2CE',
-                                  //     },
-                                  // ]),
-                              },
-                          },
-                      ],
-                  };
-              },
-              data: VALUE,
-              // 碳排放量legend背景样式设置
-              itemStyle: {
-                  borderRadius: 5,
-                  color: new graphic.LinearGradient(0, 0, 0, 1, [
-                      { offset: 0, color: "#956FD4" },
-                      { offset: 1, color: "#3EACE5" },
-                  ]),
-              }
-          },
-          {
-              name: '同比',
-              type: 'line',
-              yAxisIndex: 1,
-              smooth: true,
-              showAllSymbol: true,
-              symbol: 'circle',
-              symbolSize: 4,
-              itemStyle: {
-                  color: '#fff',
-                  shadowColor: '#5ce0e2',
-                  shadowBlur: 20,
-                  borderColor: '#5ce0e2',
-                  borderWidth: 5,
-              },
-              lineStyle: {
-                  width: 2,
-                  color: '#5ce0e2',
-                  shadowColor: '#5ce0e2',
-                  shadowBlur: 20,
-              },
-              data: LineVALUE,
-              areaStyle: { //区域填充样式
-                  //线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
-                  color: new graphic.LinearGradient(0, 0, 0, 1, [{
-                          offset: 0,
-                          color: "rgba(25,163,223,.3)"
-                      },
-                      {
-                          offset: 1,
-                          color: "rgba(25,163,223, 0)"
-                      }
-                  ], false),
-                  shadowColor: 'rgba(25,163,223, 0.5)', //阴影颜色
-                  shadowBlur: 20 //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
-          },
-          }
-      ],
-  }
-  
-  
-  
-  // 
-  
-  const getData = () => {
-    installationPlan()
-      .then((res) => {
-        if (res.success) {
-          setOption(res.data);
-        } else {
-          ElMessage({
-            message: res.msg,
-            type: "warning",
-          });
-        }
-      })
-      .catch((err) => {
-        ElMessage.error(err);
-      });
-  };
-  const setOption = async (newData: any) => {
-    option.value = newOption
-    // option.value = {
-    //   tooltip: {
-    //     trigger: "axis",
-    //     backgroundColor: "rgba(0,0,0,.6)",
-    //     borderColor: "rgba(147, 235, 248, .8)",
-    //     textStyle: {
-    //       color: "#FFF",
-    //     },
-    //     formatter: function (params: any) {
-    //       // 添加单位
-    //       var result = params[0].name + "<br>";
-    //       params.forEach(function (item: any) {
-    //         if (item.value) {
-    //           if (item.seriesName == "同比") {
-    //             result += item.marker + " " + item.seriesName + " : " + item.value + "%</br>";
-    //           } else {
-    //             result += item.marker + " " + item.seriesName + " : " + item.value + "个</br>";
-    //           }
-    //         } else {
-    //           result += item.marker + " " + item.seriesName + " :  - </br>";
-    //         }
-    //       });
-    //       return result;
-    //     },
-    //   },
-    //   legend: {
-    //     data: ["产量", "同比"],
-    //     textStyle: {
-    //       color: "#B4B4B4",
-    //     },
-    //     top: "0",
-    //   },
-    //   grid: {
-    //     left: "50px",
-    //     right: "50px",
-    //     bottom: "30px",
-    //     top: "50px",
-    //   },
-    //   xAxis: {
-    //     data: newData.category,
-    //     axisLine: {
-    //       lineStyle: {
-    //         color: "#B4B4B4",
-    //       },
-    //     },
-    //     axisTick: {
-    //       show: false,
-    //     },
-    //   },
-    //   yAxis: [
-    //     {
-    //       name: '产量(万吨)',
-    //       splitLine: { show: false },
-    //       axisLine: {
-    //         lineStyle: {
-    //           color: "#B4B4B4",
-    //         },
-    //       },
-    //       axisLabel: {
-    //         formatter: "{value}",
-    //       },
-    //     },
-    //     {
-    //       name: '同比',
-    //       splitLine: { show: false },
-    //       axisLine: {
-    //         lineStyle: {
-    //           color: "#B4B4B4",
-    //         },
-    //       },
-    //       axisLabel: {
-    //         formatter: "{value}% ",
-    //       },
-    //     },
-    //   ],
-    //   series: [
-    //     {
-    //       name: "产量",
-    //       type: "bar",
-    //       barWidth: 10,
-    //       itemStyle: {
-    //         borderRadius: 5,
-    //         color: new graphic.LinearGradient(0, 0, 0, 1, [
-    //           { offset: 0, color: "#956FD4" },
-    //           { offset: 1, color: "#3EACE5" },
-    //         ]),
-    //       },
-    //       data: newData.barData,
-    //     },
-        
-    //     {
-    //       name: "同比",
-    //       type: "line",
-    //       smooth: true,
-    //       showAllSymbol: true,
-    //       symbol: "emptyCircle",
-    //       symbolSize: 8,
-    //       yAxisIndex: 1,
-    //       itemStyle: {
-    //         color: "#F02FC2",
-    //       },
-    //       data: newData.rateData,
-    //     },
-    //   ],
-    // };
-  };
-  
-  
-  
-  
-  
-  onMounted(() => {
-    getData();
-  });
-  </script>
-  <style scoped lang="scss"></style>
-  
+</template>
+
+<style scoped lang="scss"></style>

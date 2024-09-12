@@ -94,11 +94,36 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       },
     },
     legend: {
-      data: ["实际碳排", "测算碳排", '预测碳排'],
-      textStyle: {
-        color: "#fff",
-      },
-    //   top: "0",
+      data: [
+        {
+          name: "实际碳排",
+          itemStyle:{ 
+            opacity:0,
+          },
+          textStyle: {
+            color: "#fff",
+          },
+        },
+        {
+          name: "测算碳排",
+          itemStyle:{ 
+            opacity:0,
+          },
+          textStyle: {
+            color: "#fff",
+          },
+        },
+        {
+          name: "预测碳排",
+          itemStyle:{ 
+            opacity:0,
+          },
+          textStyle: {
+            color: "#fff",
+          },
+        },
+      ],
+      top: -4,
     },
     
     xAxis: {
@@ -125,11 +150,12 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
     yAxis: [
       {
         type: "value",
-        name: '实际碳排(元)',
+        name: '碳排放量(万吨)',
         position: 'left',
         nameTextStyle: {
           color: '#fff',
-          align: 'left'
+          // align: 'left'
+          padding: [0,0,0,30]
         },
         splitLine: {
           show: true,
@@ -182,10 +208,13 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         data: yData,
         type: "line",
         yAxisIndex: 0,
-        smooth: true,
+        // smooth: true,
         symbol: "none", //去除点
         name: "实际碳排",
-        color: "rgba(9,202,243,.7)",
+        lineStyle: {
+          color: "rgba(1, 245, 255, 1)",
+          width: 2
+        },
         areaStyle: {
           //右，下，左，上
           color: new graphic.LinearGradient(
@@ -211,10 +240,13 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         data: yData2,
         type: "line",
         yAxisIndex: 0,
-        smooth: true,
+        // smooth: true,
         symbol: "none", //去除点
         name: "测算碳排",
-        color: "rgba(252,144,16,.7)",
+        lineStyle: {
+          color: "rgba(255, 163, 33, 1)",
+          width: 2
+        },
         areaStyle: {
           //右，下，左，上
           color: new graphic.LinearGradient(
@@ -239,8 +271,8 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
           symbol: ['none', 'none'],
           slient: true,
           lineStyle: {
-            // color: 'red',
-            width: 1
+            color: 'rgba(112, 158, 227, 1)',
+            width: 2
           },
           label: { show: false },
           // data: nullIndices.map((index: any) => ({
@@ -253,12 +285,13 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         data: yData3,
         type: "line",
         yAxisIndex: 0,
-        smooth: true,
+        // smooth: true,
         symbol: "none", //去除点
         name: "预测碳排",
-        color: "rgba(252,144,16,.7)",
         lineStyle: {
-          type: 'dotted'
+          type: 'dotted',
+          color: "rgba(255, 128, 36, 1)",
+          width: 2
         },
         areaStyle: {
           //右，下，左，上
@@ -270,11 +303,11 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
             [
               {
                 offset: 0,
-                color: "rgba(252,144,16,.7)",
+                color: "rgba(255, 128, 36, 1)",
               },
               {
                 offset: 1,
-                color: "rgba(9,202,243,.0)",
+                color: "rgba(9,202,243,0)",
               },
             ],
             false
@@ -293,6 +326,7 @@ onMounted(() => {
   <div style="width: 100%; height: 100%">
     <v-chart
       class="chart"
+      autoresize
       style="width: 100%; height: 100%"
       :option="option"
       v-if="JSON.stringify(option) != '{}'"

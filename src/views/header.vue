@@ -4,7 +4,7 @@
     <div class="titleleft">
       <div>辽宁省本溪市</div>
       <div>晴</div>
-      <div>{{ 21 }}-{{ 55 }}°C</div>
+      <div>{{ 21 }}-{{ 25 }}°C</div>
     </div>
     <div class="timers">
       <!-- {{ dateData.dateYear }}  -->

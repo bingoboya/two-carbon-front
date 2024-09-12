@@ -29,6 +29,7 @@ interface Building {
   videoSrc?: String,
   arrowPicSrc?: String,
   videoSrcPress?: String
+  bgPicSrc?: String
 }
 
 export default defineComponent({
@@ -56,29 +57,34 @@ export default defineComponent({
     const buildings: Building[] = [
       { id: 1, x: 130, y: 530, width: 100, height: 100, name: "电镀锌", info: "这是主要办公区域", alwaysVisible: !true, 
         // videoSrc: '/src/assets/webm/dianduxin_default.webm',
-        videoSrcPress: '/src/assets/webm/dianduxin_press.webm',
+        // videoSrcPress: '/src/assets/webm/dianduxin_press.webm',
         arrowPicSrc: '/src/assets/icon/dianduxinarrow.png',
+        bgPicSrc: '/src/assets/bgpng/电镀锌弹框_default.png',
        },
-      // { id: 2, x: 350, y: 280, width: 150, height: 80, name: "冷轧", info: "主要生产区域", alwaysVisible: !true, 
-      //   // videoSrc: '/src/assets/webm/lengza_default.webm',
-      //   videoSrcPress: '/src/assets/webm/lengza_press.webm',
-      //   arrowPicSrc: '/src/assets/icon/lengzaarrow.png',
-      //  },
-      //   { id: 3, x: 400, y: 550, width: 120, height: 120, name: "热轧", info: "主要生产区域", alwaysVisible: !true, 
-      //   // videoSrc: '/src/assets/webm/reza_default.webm',
-      //   videoSrcPress: '/src/assets/webm/reza_press.webm',
-      //   arrowPicSrc: '/src/assets/icon/rezaarrow.png',
-      //  },
-      //   { id: 4, x: 590, y: 240, width: 120, height: 120, name: "高炉", info: "主要生产区域", alwaysVisible: !true, 
-      //   // videoSrc: '/src/assets/webm/gaolu_default.webm',
-      //   videoSrcPress: '/src/assets/webm/gaolu_press.webm',
-      //   arrowPicSrc: '/src/assets/icon/gaoluarrow.png',
-      //  },
-      //   { id: 5, x: 760, y: 470, width: 120, height: 120, name: "炼钢", info: "主要生产区域", alwaysVisible: !true, 
-      //   // videoSrc: '/src/assets/webm/liangang_default.webm',
-      //   videoSrcPress: '/src/assets/webm/liangang_press.webm',
-      //   arrowPicSrc: '/src/assets/icon/liangangarrow.png',
-      //  }
+      { id: 2, x: 350, y: 280, width: 150, height: 80, name: "冷轧", info: "主要生产区域", alwaysVisible: !true, 
+        // videoSrc: '/src/assets/webm/lengza_default.webm',
+        // videoSrcPress: '/src/assets/webm/lengza_press.webm',
+        arrowPicSrc: '/src/assets/icon/lengzaarrow.png',
+        bgPicSrc: '/src/assets/bgpng/冷轧弹框_default.png',
+       },
+        { id: 3, x: 400, y: 550, width: 120, height: 120, name: "热轧", info: "主要生产区域", alwaysVisible: !true, 
+        // videoSrc: '/src/assets/webm/reza_default.webm',
+        // videoSrcPress: '/src/assets/webm/reza_press.webm',
+        arrowPicSrc: '/src/assets/icon/rezaarrow.png',
+        bgPicSrc: '/src/assets/bgpng/热轧弹框_default.png',
+       },
+        { id: 4, x: 590, y: 240, width: 120, height: 120, name: "高炉", info: "主要生产区域", alwaysVisible: !true, 
+        // videoSrc: '/src/assets/webm/gaolu_default.webm',
+        // videoSrcPress: '/src/assets/webm/gaolu_press.webm',
+        arrowPicSrc: '/src/assets/icon/gaoluarrow.png',
+        bgPicSrc: '/src/assets/bgpng/高炉弹框_default.png',
+       },
+        { id: 5, x: 760, y: 470, width: 120, height: 120, name: "炼钢", info: "主要生产区域", alwaysVisible: !true, 
+        // videoSrc: '/src/assets/webm/liangang_default.webm',
+        // videoSrcPress: '/src/assets/webm/liangang_press.webm',
+        arrowPicSrc: '/src/assets/icon/liangangarrow.png',
+        bgPicSrc: '/src/assets/bgpng/炼钢弹框_default.png',
+       }
     ];
 
     let scene: THREE.Scene;
@@ -136,8 +142,9 @@ export default defineComponent({
         // 创建 Vue 组件实例
         const app = createApp(BuildingLabel, {
           // videoSrc: building.videoSrc,
-          videoSrcPress: building.videoSrcPress,
+          // videoSrcPress: building.videoSrcPress,
           arrowPicSrc: building.arrowPicSrc,
+          bgPicSrc: building.bgPicSrc,
           name: building.name,
           info: building.info,
           positionX: building.x + building.width / 2,

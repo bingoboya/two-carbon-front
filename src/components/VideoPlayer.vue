@@ -43,13 +43,8 @@ const props = defineProps({
         }
     }
 })
-// 生成唯一ID的函数
-const generateUniqueId = (() => {
-  let id = 0;
-  return () => `video-player-${props.elId}`;
-})();
 
-const uniqueId = generateUniqueId();
+
 let timer: any = null
 // const videoPlayer: any = ref<any>(null);
 let player: any = null;
@@ -107,10 +102,8 @@ onMounted(async () => {
 
 onUnmounted(() => {
   if (player) {
-    console.log('销毁', `video-player-${props.elId}`)
     player.dispose();
   }
-  console.log('timer', timer)
   if (timer) {
       clearInterval(timer)
   }

@@ -282,6 +282,7 @@ onMounted(() => {
     <v-chart
       class="chart"
       style="width: 100%; height: 100%"
+      autoresize
       :option="option"
       v-if="JSON.stringify(option) != '{}'"
     />

@@ -1,0 +1,136 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 300 200"
+>
+  <!-- 第一个矩形 -->
+  <rect
+    fill="rgba(255,255,255,0.699)"
+    stroke="rgba(255,255,255,0.699)"
+    stroke-width="0"
+    width="10"
+    height="30"
+    x="25"      
+    y="85"      
+    transform="rotate(30, 30, 100)"
+  >
+    <animate
+      attributeName="opacity"
+      calcMode="spline"
+      dur="3.7"
+      values="1;0;1;"
+      keySplines=".5 0 .5 1;.5 0 .5 1"
+      repeatCount="indefinite"
+      begin="-.4"
+    ></animate>
+  </rect>
+
+  <!-- 第二个矩形 -->
+  <rect
+    fill="rgba(255,255,255,0.699)"
+    stroke="rgba(255,255,255,0.699)"
+    stroke-width="0"
+    width="10"
+    height="30"
+    x="75"      
+    y="85"      
+    transform="rotate(30, 80, 100)"
+  >
+    <animate
+      attributeName="opacity"
+      calcMode="spline"
+      dur="3.7"
+      values="1;0;1;"
+      keySplines=".5 0 .5 1;.5 0 .5 1"
+      repeatCount="indefinite"
+      begin="-.2"
+    ></animate>
+  </rect>
+
+  <!-- 第三个矩形 -->
+  <rect
+    fill="rgba(255,255,255,0.699)"
+    stroke="rgba(255,255,255,0.699)"
+    stroke-width="0"
+    width="10"
+    height="30"
+    x="125"     
+    y="85"      
+    transform="rotate(30, 130, 100)"
+  >
+    <animate
+      attributeName="opacity"
+      calcMode="spline"
+      dur="3.7"
+      values="1;0;1;"
+      keySplines=".5 0 .5 1;.5 0 .5 1"
+      repeatCount="indefinite"
+      begin="0"
+    ></animate>
+  </rect>
+
+  <!-- 第四个矩形 -->
+  <rect
+    fill="rgba(255,255,255,0.699)"
+    stroke="rgba(255,255,255,0.699)"
+    stroke-width="0"
+    width="10"
+    height="30"
+    x="175"     
+    y="85"      
+    transform="rotate(30, 180, 100)"
+  >
+    <animate
+      attributeName="opacity"
+      calcMode="spline"
+      dur="3.7"
+      values="1;0;1;"
+      keySplines=".5 0 .5 1;.5 0 .5 1"
+      repeatCount="indefinite"
+      begin=".2"
+    ></animate>
+  </rect>
+
+  <!-- 第五个矩形 -->
+  <rect
+    fill="rgba(255,255,255,0.699)"
+    stroke="rgba(255,255,255,0.699)"
+    stroke-width="0"
+    width="10"
+    height="30"
+    x="225"     
+    y="85"      
+    transform="rotate(30, 230, 100)"
+  >
+    <animate
+      attributeName="opacity"
+      calcMode="spline"
+      dur="3.7"
+      values="1;0;1;"
+      keySplines=".5 0 .5 1;.5 0 .5 1"
+      repeatCount="indefinite"
+      begin=".4"
+    ></animate>
+  </rect>
+
+  <!-- 第六个矩形 -->
+  <rect
+    fill="rgba(255,255,255,0.699)"
+    stroke="rgba(255,255,255,0.699)"
+    stroke-width="0"
+    width="10"
+    height="30"
+    x="275"     
+    y="85"      
+    transform="rotate(30, 280, 100)"
+  >
+    <animate
+      attributeName="opacity"
+      calcMode="spline"
+      dur="3.7"
+      values="1;0;1;"
+      keySplines=".5 0 .5 1;.5 0 .5 1"
+      repeatCount="indefinite"
+      begin=".6"
+    ></animate>
+  </rect>
+</svg>

@@ -5,6 +5,7 @@
     <v-chart
       class="chart"
       style="width: 100%; height: 100%"
+      autoresize
       :option="option"
       v-if="JSON.stringify(option) != '{}'"
     />
@@ -107,11 +108,24 @@ const newOption = {
       },
     },
     legend: {
-      data: ["碳排放量", "同比"],
-      textStyle: {
-        color: "#B4B4B4",
-      },
-    //   top: "0",
+      top: -4,
+      data: [
+        {
+          name: "碳排放量",
+          textStyle: {
+            color: "#fff",
+          },
+        },
+        {
+          name: "同比",
+          itemStyle:{ 
+            opacity:0,
+          },
+          textStyle: {
+            color: "#fff",
+          },
+        },
+      ],
     },
     grid: {
       left: "0px",
@@ -150,7 +164,8 @@ const newOption = {
             position: 'left',
             nameTextStyle: {
                 color: '#fff',
-                align: 'left'
+                // align: 'left'
+                padding: [0,0,0,40]
             },
             axisLine: {
                 show: true,
@@ -172,7 +187,7 @@ const newOption = {
             name: '同比(%)',
             nameTextStyle: {
                 color: '#fff',
-                align: 'right'
+                // align: 'right'
             },
             alignTicks: true,
             axisLabel: {
@@ -212,19 +227,11 @@ const newOption = {
                             },
                             style: {
                                 fill: new graphic.LinearGradient(0, 0, 0, 1, [
-                                    { offset: 0, color: "#956FD4" },
-                                    { offset: 1, color: "#3EACE5" },
-                                ]),
-                                // fill: new graphic.LinearGradient(0, 0, 0, 1, [
-                                //     {
-                                //         offset: 0,
-                                //         color: '#33BCEB',
-                                //     },
-                                //     {
-                                //         offset: 1,
-                                //         color: '#337CEB',
-                                //     },
-                                // ]),
+                                    { offset: 0, color: "rgba(53, 243, 255, 1)" },
+                                    { offset: 1, color: "rgba(38, 107, 223, 1)" },
+                                    // { offset: 0, color: "#956FD4" },
+                                    // { offset: 1, color: "#3EACE5" },
+                                ])
                             },
                         },
                         {
@@ -239,19 +246,11 @@ const newOption = {
                             },
                             style: {
                                 fill: new graphic.LinearGradient(0, 0, 0, 1, [
-                                    { offset: 0, color: "#956FD4" },
-                                    { offset: 1, color: "#3EACE5" },
-                                ]),
-                                // fill: new graphic.LinearGradient(0, 0, 0, 1, [
-                                //     {
-                                //         offset: 0,
-                                //         color: '#28A2CE',
-                                //     },
-                                //     {
-                                //         offset: 1,
-                                //         color: '#1A57B7',
-                                //     },
-                                // ]),
+                                    { offset: 0, color: "rgba(12, 147, 176, 1)" },
+                                    { offset: 1, color: "rgba(14, 74, 174, 1)" },
+                                    // { offset: 0, color: "#956FD4" },
+                                    // { offset: 1, color: "#3EACE5" },
+                                ])
                             },
                         },
                         {
@@ -266,19 +265,9 @@ const newOption = {
                             },
                             style: {
                                 fill: new graphic.LinearGradient(0, 0, 0, 1, [
-                                    { offset: 0, color: "#956FD4" },
-                                    { offset: 1, color: "#3EACE5" },
-                                ]),
-                                // fill: new graphic.LinearGradient(0, 0, 0, 1, [
-                                //     {
-                                //         offset: 0,
-                                //         color: '#43C4F1',
-                                //     },
-                                //     {
-                                //         offset: 1,
-                                //         color: '#28A2CE',
-                                //     },
-                                // ]),
+                                    { offset: 0, color: "rgba(172, 232, 255, 1)" },
+                                    { offset: 1, color: "rgba(172, 232, 255, 1)" },
+                                ])
                             },
                         },
                     ],
@@ -289,8 +278,8 @@ const newOption = {
             itemStyle: {
                 borderRadius: 5,
                 color: new graphic.LinearGradient(0, 0, 0, 1, [
-                    { offset: 0, color: "#956FD4" },
-                    { offset: 1, color: "#3EACE5" },
+                    { offset: 0, color: "rgba(53, 243, 255, 1)" },
+                    { offset: 1, color: "rgba(38, 107, 223, 1)" },
                 ]),
             }
         },

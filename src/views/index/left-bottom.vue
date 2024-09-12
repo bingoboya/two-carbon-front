@@ -1,7 +1,68 @@
+<!-- 
+ 
+  /*************************
+  【 getParametricEquation 函数说明 】 :
+  *************************
+      根据传入的
+      startRatio（浮点数）: 当前扇形起始比例，取值区间 [0, endRatio)
+      endRatio（浮点数）: 当前扇形结束比例，取值区间 (startRatio, 1]
+      isSelected（布尔值）:是否选中，效果参照二维饼图选中效果（单选）
+      isHovered（布尔值）: 是否放大，效果接近二维饼图高亮（放大）效果（未能实现阴影）
+      k（0~1之间的浮点数）：用于参数方程的一个参数，取值 0~1 之间，通过「内径/外径」的值换算而来。
+      
+      生成 3D 扇形环曲面
+
+  *************************
+  【 getPie3D 函数说明 】 :
+  *************************
+    根据传入的
+    pieData（object）：饼图数据
+    internalDiameterRatio（0~1之间的浮点数）：内径/外径的值（默认值 1/2），当该值等于 0 时，为普通饼图
+    
+    生成模拟 3D 饼图的配置项 option
+    
+    备注：饼图数据格式示意如下
+    [{
+        name: '数据1',
+        value: 10
+    }, {
+        // 数据项名称
+        name: '数据2',
+        value : 56,
+        itemStyle:{
+            // 透明度
+            opacity: 0.5,
+            // 扇形颜色
+            color: 'green'
+        }
+    }]
+    
+*************************
+【 鼠标事件监听说明 】 :
+*************************
+    click： 实现饼图的选中效果（单选）
+            大致思路是，通过监听点击事件，获取到被点击数据的系列序号 params.seriesIndex，
+            然后将对应扇形向外/向内移动 10% 的距离。
+            
+    mouseover： 近似实现饼图的高亮（放大）效果
+            大致思路是，在饼图外部套一层透明的圆环，然后监听 mouseover 事件，获取
+            到对应数据的系列序号 params.seriesIndex 或系列名称 params.seriesName，
+            如果鼠标移到了扇形上，则先取消高亮之前的扇形（如果有）,再高亮当前扇形；
+            如果鼠标移到了透明圆环上，则只取消高亮之前的扇形（如果有），不做任何高亮。
+            
+    globalout： 当鼠标移动过快，直接划出图表区域时，有可能监听不到透明圆环的 mouseover，
+            导致此前高亮没能取消，所以补充了对 globalout 的监听。
+*************************/
+
+-->
 <template>
   <div style="width: 100%; height: 100%">
+    <!-- @click="clickFun"
+    @globalout="globaloutFunc" -->
     <v-chart
       class="chart"
+      @mouseover="mouseoverFun"
+      autoresize
       style="width: 100%; height: 100%"
       :option="option"
       v-if="JSON.stringify(option) != '{}'"
@@ -9,14 +70,16 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive} from "vue";
 import { countUserNum } from "@/api";
 
-const option = ref({});
+// 监听鼠标事件，实现饼图选中效果（单选），近似实现高亮（放大）效果。
+let selectedIndex = '';
+let hoveredIndex = '';
+const option: any = ref({});
 const state: any = reactive({
   data: []
 });
-// TODO
 // 生成扇形的曲面参数方程，用于 series-surface.parametricEquation
 function getParametricEquation(
         startRatio: any,
@@ -106,6 +169,85 @@ function getParametricEquation(
           },
         };
 }
+
+const mouseoverFun = (params: any) => {
+  // console.log('11111', params)
+    // 准备重新渲染扇形所需的参数
+    let isSelected;
+    let isHovered;
+    let startRatio;
+    let endRatio;
+    let k;
+
+    // 如果触发 mouseover 的扇形当前已高亮，则不做操作
+    if (hoveredIndex === params.seriesIndex) {
+          return;
+          // 否则进行高亮及必要的取消高亮操作
+    } else {
+      // 如果当前有高亮的扇形，取消其高亮状态（对 option 更新）
+      if (hoveredIndex !== "") {
+        // 从 option.series 中读取重新渲染扇形所需的参数，将是否高亮设置为 false。
+        isSelected = option.value.series[hoveredIndex].pieStatus.selected;
+        isHovered = false;
+        startRatio = option.value.series[hoveredIndex].pieData.startRatio;
+        endRatio = option.value.series[hoveredIndex].pieData.endRatio;
+        k = option.value.series[hoveredIndex].pieStatus.k;
+
+        // 对当前点击的扇形，执行取消高亮操作（对 option.value 更新）
+        option.value.series[hoveredIndex].parametricEquation =
+          getParametricEquation(
+            startRatio,
+            endRatio,
+            isSelected,
+            isHovered,
+            k,
+            option.value.series[hoveredIndex].pieData.value
+          );
+        option.value.series[hoveredIndex].pieStatus.hovered = isHovered;
+
+        // 将此前记录的上次选中的扇形对应的系列号 seriesIndex 清空
+        hoveredIndex = "";
+      }
+
+      // 如果触发 mouseover 的扇形不是透明圆环，将其高亮（对 option.value 更新）
+      if (params.seriesName !== "mouseoutSeries") {
+        // 从 option.value.series 中读取重新渲染扇形所需的参数，将是否高亮设置为 true。
+        isSelected = option.value.series[params.seriesIndex].pieStatus.selected;
+        isHovered = true;
+        startRatio = option.value.series[params.seriesIndex].pieData.startRatio;
+        endRatio = option.value.series[params.seriesIndex].pieData.endRatio;
+        k = option.value.series[params.seriesIndex].pieStatus.k;
+
+        // 对当前点击的扇形，执行高亮操作（对 option.value 更新）
+        option.value.series[params.seriesIndex].parametricEquation =
+          getParametricEquation(
+            startRatio,
+            endRatio,
+            isSelected,
+            isHovered,
+            k,
+            option.value.series[params.seriesIndex].pieData.value + 5
+          );
+        option.value.series[params.seriesIndex].pieStatus.hovered = isHovered;
+
+        // 记录上次高亮的扇形对应的系列号 seriesIndex
+        hoveredIndex = params.seriesIndex;
+      }
+
+      // 使用更新后的 option，渲染图表
+      // myChart.setOption(option);
+    }
+}
+
+// // 监听点击事件，实现选中效果（单选）
+// const clickFun = (params: any) => {
+      
+// } 
+
+// const globaloutFunc = (params: any) => {
+//   // 鼠标划出echarts的区域时响应
+//   console.log('globaloutFunc', params)
+// }
 
 // 生成模拟 3D 饼图的配置项
 function getPie3D(pieData: any, internalDiameterRatio: any) {
@@ -385,42 +527,46 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
   };
   return option;
 }
-const setOption = () => {
-  const mockData = [
+
+
+const getData = () => {
+  countUserNum().then((res) => {
+    if (res.success) {
+      state.data = [
         {
-          value: 46,
-          name: '热轧',
+          value: 36,
+          name: '天然气',
           unit: '%',
           num: 2541,
-          // itemStyle: {
-              // color: "#99D3F3",
-            // },
+          itemStyle: {
+              color: "rgba(71, 171, 231, 1)",
+            },
         },
         {
-          value: 31,
-          name: '冷轧',
+          value: 16,
+          name: '电力',
           unit: '%',
           num: 25,
-          // itemStyle: {
-              // color: "#007AFF",
-            // },
+          itemStyle: {
+              color: "rgba(237, 187, 67, 1)",
+            },
         },
         {
-          value: 81,
-          name: '炼钢',
+          value: 20,
+          name: '石油',
           unit: '%',
           num: 22354,
-          // itemStyle: {
-              // color: "#2563AE",
-            // },
+          itemStyle: {
+              color: "rgba(91, 205, 153, 1)",
+            },
         },
         {
-          value: 61,
-          name: '工艺',
+          value: 10,
+          name: '其他',
           unit: '%',
           num: 254,
           itemStyle: {
-              color: "#1F9AA7",
+              color: "rgba(73, 135, 231, 1)",
             },
         }
           // {
@@ -431,22 +577,11 @@ const setOption = () => {
           //     color: "#F5B64C",
           //   },
           // },
-  ]
-  state.data = mockData
-  option.value = getPie3D(
-    mockData,
-        0.8
-  );
-  };
-// TODO
-
-
-
-
-const getData = () => {
-  countUserNum().then((res) => {
-    if (res.success) {
-      setOption();
+      ]
+      option.value = getPie3D(
+        state.data,
+            0.8
+      );
     }else{
       console.log(res.msg)
     }
@@ -456,9 +591,6 @@ const getData = () => {
 };
 getData();
 
-onMounted(() => {
-  // setOption();
-});
 </script>
 
 <style scoped lang="scss"></style>

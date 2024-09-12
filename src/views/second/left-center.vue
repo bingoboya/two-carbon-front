@@ -3,6 +3,7 @@
 <template><div style="width: 100%; height: 100%">
   <v-chart
     class="chart"
+      autoresize
     style="width: 100%; height: 100%"
     :option="option"
     v-if="JSON.stringify(option) != '{}'"
@@ -17,7 +18,6 @@ import { ElMessage } from "element-plus";
 
 const option: any = ref({});
 
-// 
 const offsetX = 6;
 const offsetY = 3;
 // 绘制左侧面
@@ -75,12 +75,6 @@ const VALUE = [100, 200, 300, 300, 300, 200, 100, 220, 120, 80, 300, 100];
 const LineVALUE =  [-2, 2 , 12, 0, 1, 3 ,1, -1, -8, 2, 1, -3];
 
 const newOption = {
-    // tooltip: {
-    //     trigger: 'axis',
-    //     axisPointer: {
-    //         type: 'cross'
-    //     },
-    // },
     tooltip: {
       trigger: "axis",
       axisPointer: { // 坐标轴指示器，坐标轴触发有效
@@ -233,17 +227,6 @@ const newOption = {
             },
             data: VALUE,
             z: 10
-        },
-        {
-            name: "hill",
-            type: "bar",
-            barWidth: '40%',
-            symbol: "path://M0,10 L10,10 C5.5,10 5.5,5 5,0 C4.5,5 4.5,10 0,10 z",
-            itemStyle: {
-                    color: "rgba(11,47,68,.2)"
-            },
-            data: [300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300],
-            z: 9
         },
         {
             name: '产量',

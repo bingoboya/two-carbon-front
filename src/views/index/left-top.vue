@@ -67,8 +67,6 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       borderColor: "#1F63A3",
     },
 
-    
-
     tooltip: {
       trigger: "axis",
       backgroundColor: "rgba(0,0,0,.6)",
@@ -81,7 +79,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         var result = params[0].name + "<br>";
         params.forEach(function (item: any) {
           if (item.value) {
-            if (item.seriesName == "实际碳排") {
+            if (item.seriesName == "绿证价格") {
               result += item.marker + " " + item.seriesName + " : " + item.value + "元</br>";
             } else {
               result += item.marker + " " + item.seriesName + " : " + item.value + "千瓦时</br>";
@@ -94,11 +92,35 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       },
     },
     legend: {
-      data: ["实际碳排", "测算碳排", '预测碳排'],
-      textStyle: {
-        color: "#fff",
-      },
-    //   top: "0",
+      data: [
+        {
+          name: "绿证价格",
+          itemStyle:{ 
+            opacity:0,
+          },
+          textStyle: {
+            color: "#fff",
+          },
+        },
+        {
+          name: "电量",
+          itemStyle:{ 
+            opacity:0,
+          },
+          textStyle: {
+            color: "#fff",
+          },
+        },
+        {
+          name: "电量预测",
+          itemStyle:{ 
+            opacity:0,
+          },
+          textStyle: {
+            color: "#fff",
+          },
+        },
+      ],
     },
     
     xAxis: {
@@ -106,13 +128,13 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       data: xData,
       boundaryGap: false, // 不留白，从原点开始
       splitLine: {
-        show: true,
+        show: !true,
         lineStyle: {
           color: "rgba(31,99,163,.2)",
         },
       },
       axisLine: {
-        // show:false,
+        show: false,
         lineStyle: {
           color: "rgba(31,99,163,.1)",
         },
@@ -125,20 +147,21 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
     yAxis: [
       {
         type: "value",
-        name: '实际碳排(元)',
+        name: '绿证价格(元)',
         position: 'left',
         nameTextStyle: {
           color: '#fff',
-          align: 'left'
+          padding: [0,0,0,30]
+          // align: 'left'
         },
         splitLine: {
-          show: true,
+          show: !true,
           lineStyle: {
             color: "rgba(31,99,163,.2)",
           },
         },
         axisLine: {
-          show: true,
+          show: !true,
           lineStyle: {
             color: "rgba(31,99,163, 1)",
           },
@@ -149,32 +172,31 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
           // color: "#7EB7FD",
           fontWeight: "500",
         },
-      }
-      // {
-      //   type: "value",
-      //   position: 'right',
-      //   name: '测算碳排(千瓦时)',
-      //   nameTextStyle: {
-      //           color: '#fff',
-      //           align: 'right'
-      //       },
-      //   splitLine: {
-      //     show: true,
-      //     lineStyle: {
-      //       color: "rgba(31,99,163,.2)",
-      //     },
-      //   },
-      //   axisLine: {
-      //     lineStyle: {
-      //       color: "rgba(31,99,163,.1)",
-      //     },
-      //   },
-      //   axisLabel: {
-      //     // color: "#7EB7FD",
-      //     color: "#fff",
-      //     fontWeight: "500",
-      //   },
-      // }
+      },
+
+      {
+            type: 'value',
+            position: 'right',
+            name: '电量(千瓦时)',
+            nameTextStyle: {
+                color: '#fff',
+                // align: 'right'
+            },
+            alignTicks: true,
+            axisLabel: {
+                show: true,
+                color: "#fff",
+                // color: "#7EB7FD",
+                fontWeight: "400",
+            },
+            axisLine: {
+                show: true,
+                lineStyle: {
+                    // width: 2,
+                    color: '#2B7BD6',
+                },
+            },
+        }
     ],
     
     series: [
@@ -184,37 +206,37 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         yAxisIndex: 0,
         smooth: true,
         symbol: "none", //去除点
-        name: "实际碳排",
-        color: "rgba(9,202,243,.7)",
+        name: "绿证价格",
+        lineStyle: {
+          color: "rgba(25, 181, 255, 1)",
+          width: 2
+        },
         areaStyle: {
           //右，下，左，上
-          color: new graphic.LinearGradient(
-            0,
-            0,
-            0,
-            1,
+          color: new graphic.LinearGradient(0, 0, 0, 1,
             [
               {
                 offset: 0,
-                color: "rgba(9,202,243,.7)",
+                color: "rgba(25, 181, 255, .7)",
               },
               {
                 offset: 1,
-                color: "rgba(252,144,16,.0)",
-              },
-            ],
-            false
+                color: "rgba(25, 181, 255,.0)",
+              },], false
           ),
         }
       },
       {
         data: yData2,
         type: "line",
-        yAxisIndex: 0,
+        yAxisIndex: 1,
         smooth: true,
         symbol: "none", //去除点
-        name: "测算碳排",
-        color: "rgba(252,144,16,.7)",
+        name: "电量",
+        lineStyle: {
+          width: 2,
+          color: "rgba(255, 163, 33, 1)",
+        },
         areaStyle: {
           //右，下，左，上
           color: new graphic.LinearGradient(
@@ -225,7 +247,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
             [
               {
                 offset: 0,
-                color: "rgba(252,144,16,.7)",
+                color: "rgba(255, 163, 33, 1)",
               },
               {
                 offset: 1,
@@ -239,8 +261,8 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
           symbol: ['none', 'none'],
           slient: true,
           lineStyle: {
-            // color: 'red',
-            width: 1
+            color: 'rgba(112, 158, 227, 1)',
+            width: 2
           },
           label: { show: false },
           // data: nullIndices.map((index: any) => ({
@@ -252,13 +274,14 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       {
         data: yData3,
         type: "line",
-        yAxisIndex: 0,
+        yAxisIndex: 1,
         smooth: true,
         symbol: "none", //去除点
-        name: "预测碳排",
-        color: "rgba(252,144,16,.7)",
+        name: "电量预测",
+        color: "rgba(255, 105, 59, 1)",
         lineStyle: {
-          type: 'dotted'
+          type: 'dotted',
+          width: 2
         },
         areaStyle: {
           //右，下，左，上
@@ -270,7 +293,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
             [
               {
                 offset: 0,
-                color: "rgba(252,144,16,.7)",
+                color: "rgba(255, 105, 59, 1)",
               },
               {
                 offset: 1,
@@ -293,6 +316,7 @@ onMounted(() => {
   <div style="width: 100%; height: 100%">
     <v-chart
       class="chart"
+      autoresize
       style="width: 100%; height: 100%"
       :option="option"
       v-if="JSON.stringify(option) != '{}'"

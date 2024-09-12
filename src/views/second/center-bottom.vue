@@ -2,6 +2,7 @@
   <div style="width: 100%; height: 100%">
     <v-chart
       class="chart"
+      autoresize
       style="width: 100%; height: 100%"
       :option="option"
       v-if="JSON.stringify(option) != '{}'"

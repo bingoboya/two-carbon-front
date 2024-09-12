@@ -1,12 +1,15 @@
 <template>
   <div style="width: 100%; height: 100%">
-    <v-chart class="chart" style="width: 100%; height: 100%" :option="option" v-if="JSON.stringify(option) != '{}'" />
+    <v-chart class="chart"  @mouseover="mouseoverFun"
+    autoresize style="width: 100%; height: 100%" :option="option" v-if="JSON.stringify(option) != '{}'" />
   </div>
 </template>
 <script setup lang="ts">
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive} from "vue";
 import { countUserNum } from "@/api";
-
+// 监听鼠标事件，实现饼图选中效果（单选），近似实现高亮（放大）效果。
+let selectedIndex = '';
+let hoveredIndex = '';
 const option = ref({});
 const state: any = reactive({
   data: []
@@ -377,80 +380,163 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
   };
   return option;
 }
-const setOption = () => {
-  const mockData = [
+
+const mouseoverFun = (params: any) => {
+  // console.log('11111', params)
+    // 准备重新渲染扇形所需的参数
+    let isSelected;
+    let isHovered;
+    let startRatio;
+    let endRatio;
+    let k;
+
+    // 如果触发 mouseover 的扇形当前已高亮，则不做操作
+    if (hoveredIndex === params.seriesIndex) {
+          return;
+          // 否则进行高亮及必要的取消高亮操作
+    } else {
+      // 如果当前有高亮的扇形，取消其高亮状态（对 option 更新）
+      if (hoveredIndex !== "") {
+        // 从 option.series 中读取重新渲染扇形所需的参数，将是否高亮设置为 false。
+        isSelected = option.value.series[hoveredIndex].pieStatus.selected;
+        isHovered = false;
+        startRatio = option.value.series[hoveredIndex].pieData.startRatio;
+        endRatio = option.value.series[hoveredIndex].pieData.endRatio;
+        k = option.value.series[hoveredIndex].pieStatus.k;
+
+        // 对当前点击的扇形，执行取消高亮操作（对 option.value 更新）
+        option.value.series[hoveredIndex].parametricEquation =
+          getParametricEquation(
+            startRatio,
+            endRatio,
+            isSelected,
+            isHovered,
+            k,
+            option.value.series[hoveredIndex].pieData.value
+          );
+        option.value.series[hoveredIndex].pieStatus.hovered = isHovered;
+
+        // 将此前记录的上次选中的扇形对应的系列号 seriesIndex 清空
+        hoveredIndex = "";
+      }
+
+      // 如果触发 mouseover 的扇形不是透明圆环，将其高亮（对 option.value 更新）
+      if (params.seriesName !== "mouseoutSeries") {
+        // 从 option.value.series 中读取重新渲染扇形所需的参数，将是否高亮设置为 true。
+        isSelected = option.value.series[params.seriesIndex].pieStatus.selected;
+        isHovered = true;
+        startRatio = option.value.series[params.seriesIndex].pieData.startRatio;
+        endRatio = option.value.series[params.seriesIndex].pieData.endRatio;
+        k = option.value.series[params.seriesIndex].pieStatus.k;
+
+        // 对当前点击的扇形，执行高亮操作（对 option.value 更新）
+        option.value.series[params.seriesIndex].parametricEquation =
+          getParametricEquation(
+            startRatio,
+            endRatio,
+            isSelected,
+            isHovered,
+            k,
+            option.value.series[params.seriesIndex].pieData.value + 5
+          );
+        option.value.series[params.seriesIndex].pieStatus.hovered = isHovered;
+
+        // 记录上次高亮的扇形对应的系列号 seriesIndex
+        hoveredIndex = params.seriesIndex;
+      }
+
+      // 使用更新后的 option，渲染图表
+      // myChart.setOption(option);
+    }
+}
+
+// // 监听点击事件，实现选中效果（单选）
+// const clickFun = (params: any) => {
+      
+// } 
+
+// const globaloutFunc = (params: any) => {
+//   // 鼠标划出echarts的区域时响应
+//   console.log('globaloutFunc', params)
+// }
+
+
+const getData = () => {
+  countUserNum().then((res) => {
+    if (res.success) {
+      state.data = [
     {
-      value: 116,
+      value: 36,
       name: '热轧',
       unit: '%',
       num: 2541,
-      // itemStyle: {
-        // color: "#99D3F3",
-      // },
+      itemStyle: {
+        color: "rgba(17, 95, 255, 1)",
+      },
     },
     {
-      value: 181,
+      value: 21,
       name: '冷轧',
       unit: '%',
       num: 25,
-      // itemStyle: {
-        // color: "#007AFF",
-      // },
+      itemStyle: {
+        color: "rgba(9, 169, 243, 1)",
+      },
     },
     {
-      value: 81,
+      value: 16,
       name: '炼钢',
       unit: '%',
       num: 22354,
-      // itemStyle: {
-        // color: "#2563AE",
-      // },
+      itemStyle: {
+        color: "rgba(17, 219, 231, 1)",
+      },
     },
     {
-      value: 61,
+      value: 10,
       name: '工艺',
       unit: '%',
       num: 254,
-      // itemStyle: {
-        // color: "#1F9AA7",
-      // },
+      itemStyle: {
+        color: "rgba(0, 177, 151, 1)",
+      },
     },
     {
-      value: 61,
+      value: 10,
       name: '工艺1',
       unit: '%',
       num: 254,
-      // itemStyle: {
-        // color: "#1F9AA7",
-      // },
+      itemStyle: {
+        color: "rgba(199, 181, 0, 1)",
+      },
     },
     {
-      value: 61,
+      value: 9,
       name: '工艺2',
       unit: '%',
       num: 254,
-      // itemStyle: {
-        // color: "#1F9AA7",
-      // },
+      itemStyle: {
+        color: "rgba(231, 141, 0, 1)",
+      },
     },
     {
-      value: 61,
-      name: '工艺3',
+      value: 4,
+      name: '其他',
       unit: '%',
       num: 254,
-      // itemStyle: {
-        // color: "#1F9AA7",
-      // },
+      itemStyle: {
+        color: "rgba(197, 77, 29, 1)",
+      },
     },
-    {
-      value: 61,
-      name: '工艺4',
-      unit: '%',
-      num: 254,
-      // itemStyle: {
-        // color: "#1F9AA7",
-      // },
-    }
+    // {
+    //   value: 61,
+    //   name: '工艺4',
+    //   unit: '%',
+    //   num: 254,
+    //   // itemStyle: {
+    //     // color: "#1F9AA7",
+    //   // },
+    // }
     // {
     //   name: "代码安全",
     //   value: 11,
@@ -459,22 +545,11 @@ const setOption = () => {
     //     color: "#F5B64C",
     //   },
     // },
-  ]
-  state.data = mockData
-  option.value = getPie3D(
-    mockData,
-    0.8
-  );
-};
-// TODO
-
-
-
-
-const getData = () => {
-  countUserNum().then((res) => {
-    if (res.success) {
-      setOption();
+      ]
+      option.value = getPie3D(
+        state.data,
+            0.8
+      );
     } else {
       console.log(res.msg)
     }
@@ -484,9 +559,6 @@ const getData = () => {
 };
 getData();
 
-onMounted(() => {
-  // setOption();
-});
 </script>
 
 <style scoped lang="scss"></style>
