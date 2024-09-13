@@ -64,7 +64,7 @@
 import { onBeforeRouteLeave, useRouter } from 'vue-router'
 import VideoPlayer  from '@/components/VideoPlayer.vue';
 import ItemWrap from "@/components/item-wrap";
-import CusTomSelect from './CusTomSelect.vue'
+import CusTomSelect from '@/components/CusTomSelect.vue'
 import { gsap } from 'gsap';
 import {
   LeftTop,

@@ -84,8 +84,8 @@
 
 <script setup lang="ts">
 import { ref, defineProps } from "vue";
-import CusTomSelect from "./CusTomSelect.vue";
-import ScaleScreen from "@/components/scale-screen";
+import CusTomSelect from "@/components/CusTomSelect.vue";
+// import ScaleScreen from "@/components/scale-screen";
 import { useSettingStore } from "@/stores/index";
 import { storeToRefs } from "pinia";
 const screenWidth = 1980
@@ -114,7 +114,6 @@ const options = [
 ];
 
 const props = defineProps<ModalProps>();
-const dataValue = ref("");
 
 function openModal(titleval: any) {
   title.value = titleval;
@@ -123,13 +122,10 @@ function openModal(titleval: any) {
 function closeModal() {
   visible.value = false;
 }
-const methods = {
-  openModal,
-  closeModal,
-};
 
 defineExpose({
-  methods,
+  openModal,
+  closeModal
 });
 </script>
 
@@ -146,7 +142,8 @@ defineExpose({
 .modal_wrapper {
   position: fixed;
   /* background-color: rgba(0, 0, 0, 0.5); */
-  top: 60px;
+  top: 0;
+  /* top: 60px; */
   left: 0;
   width: 100%;
   height: 100%;
@@ -166,8 +163,10 @@ defineExpose({
   /* background-color: white; */
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-  width: 154%;
-  height: 100%;
+  width: 80%;
+  height: 80%;
+  /* width: 154%;
+  height: 100%; */
   position: relative;
               /* z-index: 2; */
 }

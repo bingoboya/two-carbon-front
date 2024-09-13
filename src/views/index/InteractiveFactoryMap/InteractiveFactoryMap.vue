@@ -33,6 +33,10 @@ interface Building {
 const props = defineProps({
     videoSrc: {
       type: String,
+    },
+    buildingArr: {
+      type: Array,
+      default: []
     }
   })
   let labelRenderer: any;
@@ -44,38 +48,7 @@ const props = defineProps({
     const width = ref(0);
     const height = ref(0);
     const selectedBuilding = ref<Building | null>(null);
-    const buildings: Building[] = [
-      { id: 1, x: 130, y: 530, width: 100, height: 100, name: "电镀锌", info: "这是主要办公区域", alwaysVisible: !true, 
-        // videoSrc: '/src/assets/webm/dianduxin_default.webm',
-        // videoSrcPress: '/src/assets/webm/dianduxin_press.webm',
-        arrowPicSrc: '/src/assets/icon/dianduxinarrow.png',
-        bgPicSrc: '/src/assets/bgpng/电镀锌弹框_default.png',
-      },
-      { id: 3, x: 400, y: 550, width: 120, height: 120, name: "热轧", info: "主要生产区域", alwaysVisible: !true, 
-      // videoSrc: '/src/assets/webm/reza_default.webm',
-      // videoSrcPress: '/src/assets/webm/reza_press.webm',
-      arrowPicSrc: '/src/assets/icon/rezaarrow.png',
-      bgPicSrc: '/src/assets/bgpng/热轧弹框_default.png',
-      },
-      { id: 4, x: 590, y: 240, width: 120, height: 120, name: "高炉", info: "主要生产区域", alwaysVisible: !true, 
-      // videoSrc: '/src/assets/webm/gaolu_default.webm',
-      // videoSrcPress: '/src/assets/webm/gaolu_press.webm',
-      arrowPicSrc: '/src/assets/icon/gaoluarrow.png',
-      bgPicSrc: '/src/assets/bgpng/高炉弹框_default.png',
-      },
-      { id: 5, x: 760, y: 470, width: 120, height: 120, name: "炼钢", info: "主要生产区域", alwaysVisible: !true, 
-      // videoSrc: '/src/assets/webm/liangang_default.webm',
-      // videoSrcPress: '/src/assets/webm/liangang_press.webm',
-      arrowPicSrc: '/src/assets/icon/liangangarrow.png',
-      bgPicSrc: '/src/assets/bgpng/炼钢弹框_default.png',
-      },
-  // { id: 2, x: 350, y: 280, width: 150, height: 80, name: "冷轧", info: "主要生产区域", alwaysVisible: !true, 
-  //   // videoSrc: '/src/assets/webm/lengza_default.webm',
-  //   // videoSrcPress: '/src/assets/webm/lengza_press.webm',
-  //   arrowPicSrc: '/src/assets/icon/lengzaarrow.png',
-  //   bgPicSrc: '/src/assets/bgpng/冷轧弹框_default.png',
-  //  },
-    ];
+    const buildings: any[] = props.buildingArr
     let scene: THREE.Scene;
     let camera: THREE.OrthographicCamera;
     let renderer: THREE.WebGLRenderer;

@@ -20,21 +20,21 @@
       </ItemWrap>
     </div>
     <div class="contetn_center">
-      <CenterMap class="centermapComp" style="flex: 1;" />
+      <CenterMap ref="centerMapRef" class="centermapComp" style="flex: 1;" />
       <div ref="centerBottomCompRef" class="centerBottomCompRef" style="transform: translate(0px, 0px);height:120px;background-color: rgb(0,0,0,0);">
         <div style="position: relative;width: 120%; height: 100%;left: 50%; transform: translateX(-50%);">
           <VideoPlayer :elId="41" :videoSrc="'/src/assets/webm/d底部背景动效.webm'" />
         </div>
         <div class="bottom_item_wrapper">
-          <div @click="routerGo('酸轧')" class="bottom_item" >
+          <div @mouseenter="enterBottomBtn('酸轧')" @mouseleave="leaveBottomBtn('酸轧')" @click="routerGo('酸轧')" class="bottom_item" >
             <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/高炉按钮_default.png')` }"></div>
             <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/高炉按钮_press.png')` }"></div>
           </div>
-          <div @click="routerGo('连退')" class="bottom_item" >
+          <div @mouseenter="enterBottomBtn('连退')" @mouseleave="leaveBottomBtn('连退')" @click="routerGo('连退')" class="bottom_item" >
             <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/炼钢按钮_default.png')` }"></div>
             <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/炼钢按钮_press.png')` }"></div>
           </div>
-          <div @click="routerGo('电镀(精整)')" class="bottom_item" >
+          <div @mouseenter="enterBottomBtn('电镀(精整)')" @mouseleave="leaveBottomBtn('电镀(精整)')" @click="routerGo('电镀(精整)')" class="bottom_item" >
             <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/热轧按钮_default.png')` }"></div>
             <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/热轧按钮_press.png')` }"></div>
           </div>
@@ -67,10 +67,10 @@
 
 <script setup lang="ts">
 import { onBeforeRouteLeave, useRouter } from 'vue-router'
-import VideoPlayer  from '@/components/VideoPlayer.vue';
 import { gsap } from 'gsap';
+import VideoPlayer  from '@/components/VideoPlayer.vue';
 import ItemWrap from "@/components/item-wrap";
-import CusTomSelect from './CusTomSelect.vue'
+import CusTomSelect from '@/components/CusTomSelect.vue'
 import { LeftTop,
     LeftBottom,
     CenterMap,
@@ -84,9 +84,18 @@ const router = useRouter()
 const routerGo = (name: any) => {
   router.push({ path: 'third', query: { typename: name }})
 }
+const centerMapRef: any = ref<HTMLDivElement | null>(null)
 const contentLeftComp = ref<HTMLDivElement | null>(null)
 const contentRightComp = ref<HTMLDivElement | null>(null)
 const centerBottomCompRef = ref<HTMLDivElement | null>(null)
+const enterBottomBtn = (name: any) => {
+  // console.log('enterBottomBtn', name, centerMapRef.value)
+  centerMapRef.value?.callBackFunc(name, 'enter')
+}
+const leaveBottomBtn = (name: any) => {
+  // console.log('leaveBottomBtn', name, centerMapRef.value)
+  centerMapRef.value?.callBackFunc(name, 'leave')
+}
 const animateDivs = () => {
   if (contentLeftComp.value) {
     const width = contentLeftComp.value.getBoundingClientRect().width; // x: -458

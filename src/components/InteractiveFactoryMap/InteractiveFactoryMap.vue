@@ -9,14 +9,13 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { createApp } from 'vue'
-import { defineComponent, onMounted, ref, computed, watch, onUnmounted, nextTick } from 'vue';
+import { onMounted, ref, computed, watch, onUnmounted, nextTick } from 'vue';
 import * as THREE from 'three';
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
-import BuildingLabel from './BuildingLabel.vue';
+import BuildingLabel from '@/components/BuildingLabel.vue';
 import { useRouter } from 'vue-router'
-
 interface Building {
   id: number;
   x: number;
@@ -31,62 +30,27 @@ interface Building {
   videoSrcPress?: String
   bgPicSrc?: String
 }
+const emits = defineEmits(['callBackFunction'])
 
-export default defineComponent({
-  name: 'InteractiveFactoryMap',
-  components: {
-    BuildingLabel
-  },
-  props: {
+const props = defineProps({
     videoSrc: {
       type: String,
+    },
+    buildingArr: {
+      type: Array,
+      default: []
     }
-  },
-  setup(props) {
-    let labelRenderer: any;
+  })
+  let labelRenderer: any;
     let appList: any = []
     const router = useRouter()
+    const buildingRefs = ref<{ [key: string]: any }>({});
     const containerRef = ref<HTMLDivElement | null>(null);
-    const videoRef = ref<HTMLVideoElement | null>(null);
     const canvasRef = ref<HTMLCanvasElement | null>(null);
     const width = ref(0);
     const height = ref(0);
-    const isPlaying = ref(true);
     const selectedBuilding = ref<Building | null>(null);
-
-    const buildings: Building[] = [
-      { id: 1, x: 130, y: 530, width: 100, height: 100, name: "电镀锌", info: "这是主要办公区域", alwaysVisible: !true, 
-        // videoSrc: '/src/assets/webm/dianduxin_default.webm',
-        // videoSrcPress: '/src/assets/webm/dianduxin_press.webm',
-        arrowPicSrc: '/src/assets/icon/dianduxinarrow.png',
-        bgPicSrc: '/src/assets/bgpng/电镀锌弹框_default.png',
-       },
-      { id: 2, x: 350, y: 280, width: 150, height: 80, name: "冷轧", info: "主要生产区域", alwaysVisible: !true, 
-        // videoSrc: '/src/assets/webm/lengza_default.webm',
-        // videoSrcPress: '/src/assets/webm/lengza_press.webm',
-        arrowPicSrc: '/src/assets/icon/lengzaarrow.png',
-        bgPicSrc: '/src/assets/bgpng/冷轧弹框_default.png',
-       },
-        { id: 3, x: 400, y: 550, width: 120, height: 120, name: "热轧", info: "主要生产区域", alwaysVisible: !true, 
-        // videoSrc: '/src/assets/webm/reza_default.webm',
-        // videoSrcPress: '/src/assets/webm/reza_press.webm',
-        arrowPicSrc: '/src/assets/icon/rezaarrow.png',
-        bgPicSrc: '/src/assets/bgpng/热轧弹框_default.png',
-       },
-        { id: 4, x: 590, y: 240, width: 120, height: 120, name: "高炉", info: "主要生产区域", alwaysVisible: !true, 
-        // videoSrc: '/src/assets/webm/gaolu_default.webm',
-        // videoSrcPress: '/src/assets/webm/gaolu_press.webm',
-        arrowPicSrc: '/src/assets/icon/gaoluarrow.png',
-        bgPicSrc: '/src/assets/bgpng/高炉弹框_default.png',
-       },
-        { id: 5, x: 760, y: 470, width: 120, height: 120, name: "炼钢", info: "主要生产区域", alwaysVisible: !true, 
-        // videoSrc: '/src/assets/webm/liangang_default.webm',
-        // videoSrcPress: '/src/assets/webm/liangang_press.webm',
-        arrowPicSrc: '/src/assets/icon/liangangarrow.png',
-        bgPicSrc: '/src/assets/bgpng/炼钢弹框_default.png',
-       }
-    ];
-
+    const buildings: any[] = props.buildingArr
     let scene: THREE.Scene;
     let camera: THREE.OrthographicCamera;
     let renderer: THREE.WebGLRenderer;
@@ -151,7 +115,8 @@ export default defineComponent({
           positionY: height.value - (building.y + building.height/2),
           onLabelClick: (name: string) => {
             // console.log('标签被点击:', name);
-            router.push({ path: 'second', query: { typename: building.name }})
+            emits('callBackFunction', name)
+            // router.push({ path: 'second', query: { typename: building.name }})
             // 在这里添加你想要的标签点击处理逻辑
           }
         });
@@ -159,6 +124,12 @@ export default defineComponent({
         // 创建一个 div 元素作为 Vue 组件的挂载点
         const container = document.createElement('div');
         app.mount(container);
+
+
+        // 将组件实例存储在buildingRefs中
+        buildingRefs.value[building.name] = app._instance?.exposed;
+
+
         // 使用这个容器创建 CSS2DObject
         const textLabel = new CSS2DObject(container);
         
@@ -179,18 +150,31 @@ export default defineComponent({
       // 启动动画循环，持续渲染场景。
       animate();
     };
-    
+
+
+    // 调用特定建筑的 funabc 函数
+    const callFunabcForBuilding = (buildingName: string, type: string) => {
+      const buildingRef = buildingRefs.value[buildingName];
+      if (buildingRef && typeof buildingRef.funabc === 'function') {
+        buildingRef.funabc(buildingName, type);
+      } else {
+        console.error(`未找到建筑${buildingName}的funabc函数`);
+      }
+    };
+
+
     // 定义 canvas 点击事件处理函数
     const onCanvasClick = (event: MouseEvent) => {
       if (!canvasRef.value) return;
       console.log('onCanvasClick')
       // 计算鼠标在 canvas 中的位置， 这行获取canvas元素的边界矩形，包含其位置和尺寸信息。
       const rect = canvasRef.value?.getBoundingClientRect();
+
       mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
       mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
       // 更新 raycaster
       raycaster.setFromCamera(mouse, camera);
+
       // 检查射线与哪些物体相交
       const intersects = raycaster.intersectObjects(scene.children);
       if (intersects.length > 0) {
@@ -235,17 +219,19 @@ export default defineComponent({
     
     onMounted(async () => {
       await nextTick()
-
       window.addEventListener('resize', updateSize);
+
       window.addEventListener('resize', () => {
         if (labelRenderer) {
           labelRenderer.setSize(width.value, height.value);
         }
       });
       setTimeout(() => {
+        // 确保所有组件都已挂载
+        //TODO callFunabcForBuilding('电镀锌', 'enter');
         // 要触发一下resize,重新获取 containerRef容器的宽高，重新设置three的宽高，撑满containerRef容器
         let myEvent = new Event('resize'); window.dispatchEvent(myEvent);
-      });
+      }, 0);
       await initThree();
 
       if (canvasRef.value) {
@@ -285,19 +271,9 @@ export default defineComponent({
       }
       animate()
     });
-
-    return {
-      containerRef,
-      videoRef,
-      canvasRef,
-      width,
-      height,
-      isPlaying,
-      selectedBuilding,
-      infoCardStyle,
-    };
-  }
-});
+    defineExpose({
+      callFunabcForBuilding
+    })
 </script>
 
 <style scoped>

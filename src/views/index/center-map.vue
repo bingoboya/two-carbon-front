@@ -90,27 +90,62 @@
              或者 
           <InteractiveFactoryMap :videoSrc="'/src/assets/webm/gaolubg.webm'" />
       -->
-      <InteractiveFactoryMap ref="InteractiveFactoryMapRef" />
+      <InteractiveFactoryMap @callBackFunction="gogogo"  ref="InteractiveFactoryMapRef" :buildingArr="defaultBuildingArr" />
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { ref, onUnmounted } from "vue";
+import { ref } from "vue";
 import CountUp from "@/components/count-up";
 import arrow_down_icon from '@/assets/icon/arrow_down_icon.png'
 import arrow_top_icon from '@/assets/icon/arrow_top_icon.png'
-import InteractiveFactoryMap from './InteractiveFactoryMap';
+import InteractiveFactoryMap from '@/components/InteractiveFactoryMap/index';
 import AnimatedLoader from '@/components/AnimatedLoader.vue';
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
 const InteractiveFactoryMapRef: any = ref<HTMLDivElement | null>(null)
 const duration = ref(2);
-const showInteractiveFactoryMap = ref(true)
+const gogogo = (buildingName: any) => {
+  router.push({ path: 'second', query: { typename: buildingName }})
+}
+const defaultBuildingArr = [
+      { id: 1, x: 150, y: 530, width: 50, height: 80, name: "电镀锌", info: "这是主要办公区域", alwaysVisible: !true, 
+        // videoSrc: '/src/assets/webm/dianduxin_default.webm',
+        // videoSrcPress: '/src/assets/webm/dianduxin_press.webm',
+        arrowPicSrc: '/src/assets/icon/dianduxinarrow.png',
+        bgPicSrc: '/src/assets/bgpng/电镀锌弹框_default.png',
+      },
+      { id: 3, x: 420, y: 550, width: 50, height: 80, name: "热轧", info: "主要生产区域", alwaysVisible: !true, 
+      // videoSrc: '/src/assets/webm/reza_default.webm',
+      // videoSrcPress: '/src/assets/webm/reza_press.webm',
+      arrowPicSrc: '/src/assets/icon/rezaarrow.png',
+      bgPicSrc: '/src/assets/bgpng/热轧弹框_default.png',
+      },
+      { id: 4, x: 610, y: 240, width: 50, height: 80, name: "高炉", info: "主要生产区域", alwaysVisible: !true, 
+      // videoSrc: '/src/assets/webm/gaolu_default.webm',
+      // videoSrcPress: '/src/assets/webm/gaolu_press.webm',
+      arrowPicSrc: '/src/assets/icon/gaoluarrow.png',
+      bgPicSrc: '/src/assets/bgpng/高炉弹框_default.png',
+      },
+      { id: 5, x: 780, y: 470, width: 50, height: 80, name: "炼钢", info: "主要生产区域", alwaysVisible: !true, 
+      // videoSrc: '/src/assets/webm/liangang_default.webm',
+      // videoSrcPress: '/src/assets/webm/liangang_press.webm',
+      arrowPicSrc: '/src/assets/icon/liangangarrow.png',
+      bgPicSrc: '/src/assets/bgpng/炼钢弹框_default.png',
+      },
+  // { id: 2, x: 350, y: 280, width: 150, height: 80, name: "冷轧", info: "主要生产区域", alwaysVisible: !true, 
+  //   // videoSrc: '/src/assets/webm/lengza_default.webm',
+  //   // videoSrcPress: '/src/assets/webm/lengza_press.webm',
+  //   arrowPicSrc: '/src/assets/icon/lengzaarrow.png',
+  //   bgPicSrc: '/src/assets/bgpng/冷轧弹框_default.png',
+  //  },
+];
 const callBackFunc= (params: any, type: string) => {
   console.log('InteractiveFactoryMapRef', params, type)
   InteractiveFactoryMapRef.value?.callFunabcForBuilding(params, type)
 }
-onUnmounted(()=>{
-  showInteractiveFactoryMap.value = false
-})
+
 defineExpose({
   callBackFunc
 })

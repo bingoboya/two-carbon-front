@@ -17,21 +17,21 @@
       </ItemWrap>
     </div>
     <div class="contetn_center">
-      <CenterMap ref="centermapCompRef" class="centermapComp" style="flex: 1;" />
+      <CenterMap ref="centerMapRef" @handlePopupClick="handlePopupClick" class="centermapComp" style="flex: 1;" />
       <div ref="centerBottomCompRef" class="centerBottomCompRef" style="transform: translate(0px, 0px);height:120px;background-color: rgb(0,0,0,0);">
         <div style="pointer-events: none; position: relative;width: 120%; height: 100%;left: 50%; transform: translateX(-50%);">
           <VideoPlayer :elId="41" :videoSrc="'/src/assets/webm/d底部背景动效.webm'" />
         </div>
         <div class="bottom_item_wrapper">
-          <div @click="routerGo('酸轧')" class="bottom_item" >
+          <div  @mouseenter="enterBottomBtn('本浦冷轧2#')" @mouseleave="leaveBottomBtn('本浦冷轧2#')" @click="routerGo('本浦冷轧2#')" class="bottom_item" >
             <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/高炉按钮_default.png')` }"></div>
             <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/高炉按钮_press.png')` }"></div>
           </div>
-          <div @click="routerGo('连退')" class="bottom_item" >
+          <div  @mouseenter="enterBottomBtn('本浦冷轧3#')" @mouseleave="leaveBottomBtn('本浦冷轧3#')" @click="routerGo('本浦冷轧3#')" class="bottom_item" >
             <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/炼钢按钮_default.png')` }"></div>
             <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/炼钢按钮_press.png')` }"></div>
           </div>
-          <div @click="routerGo('电镀(精整)')" class="bottom_item" >
+          <div  @mouseenter="enterBottomBtn('电镀锌机组')" @mouseleave="leaveBottomBtn('电镀锌机组')" @click="routerGo('电镀锌机组')" class="bottom_item" >
             <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/热轧按钮_default.png')` }"></div>
             <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/热轧按钮_press.png')` }"></div>
           </div>
@@ -57,36 +57,58 @@
       </ItemWrap>
     </div>
   </div>
+  
+  
+
+  <CusModal ref="cusmodalRef" :mountedOnBody="false">
+    <template #content>
+      <EquipmentComp />
+    </template>
+  </CusModal>
+
+
 </template>
 
 <script setup lang="ts">
 import { onBeforeRouteLeave, useRouter } from 'vue-router'
 import VideoPlayer  from '@/components/VideoPlayer.vue';
 import { gsap } from 'gsap';
+import CusModal from "@/components/CusModal.vue";
+import EquipmentComp from "@/components/EquipmentComp.vue";
 import ItemWrap from "@/components/item-wrap";
-import CusTomSelect from './CusTomSelect.vue'
+import CusTomSelect from '@/components/CusTomSelect.vue'
 import { LeftTop,
     LeftBottom,
     CenterMap,
     RightBottom,
     RightTop
    } from "./index";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, nextTick } from "vue";
 const selectedValue = ref('');
+
+const cusmodalRef: any = ref<HTMLDivElement | null>(null); // 使用ref引用弹窗组件实例
+const handlePopupClick = async (popup: any) => {
+  // 处理弹窗点击事件
+  await nextTick();
+  cusmodalRef.value.openModal(popup);
+};
+
 const router = useRouter()
 const routerGo = (name: any) => {
-  // router.push({ path: 'third', query: { typename: name }})
-  getChildRefFun(name)
+  handlePopupClick(name)
 }
-const centermapCompRef: any = ref<HTMLDivElement | null>(null)
+
+const enterBottomBtn = (name: any) => {
+  centerMapRef.value?.callBackFunc(name, 'enter')
+}
+const leaveBottomBtn = (name: any) => {
+  centerMapRef.value?.callBackFunc(name, 'leave')
+}
+
+const centerMapRef: any = ref<HTMLDivElement | null>(null)
 const contentLeftComp = ref<HTMLDivElement | null>(null)
 const contentRightComp = ref<HTMLDivElement | null>(null)
 const centerBottomCompRef = ref<HTMLDivElement | null>(null)
-
-const getChildRefFun = (name: any) => {
-  console.log('getChildRef', centermapCompRef.value.getChildRef)
-  centermapCompRef.value.getChildRef(name)
-}
 
 const animateDivs = () => {
   if (contentLeftComp.value) {

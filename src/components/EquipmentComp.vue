@@ -70,22 +70,23 @@
     </div>
     <div style="flex:1;display: flex; flex-direction: column;gap: 20px; z-index: 2;">
       <ItemWrap title="碳排放情况">
-        <LeftTop />
+        <EquipmentLeftTop />
       </ItemWrap>
       <ItemWrap title="电量情况">
-        <RightBottom />
+        <EquipmentRightBottom />
       </ItemWrap>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { LeftTop, RightBottom } from "../index";
 import { Vue3SeamlessScroll } from "vue3-seamless-scroll";
 // import { BorderBox8 as DvBorderBox8, ScrollBoard } from '@kjgl77/datav-vue3'
-import ThreeDPngEffect from './ThreeDPngEffect.vue';
+import ThreeDPngEffect from '@/components/ThreeDPngEffect.vue';
 
 import ItemWrap from "@/components/item-wrap";
+import EquipmentLeftTop from "@/components/EquipmentLeftTop.vue";
+import EquipmentRightBottom from "@/components/EquipmentRightBottom.vue";
 import { onMounted, reactive, ref } from "vue";
 
 const TableData: any = reactive({
