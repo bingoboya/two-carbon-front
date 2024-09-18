@@ -62,7 +62,6 @@
           <!-- </div> -->
         </div>
         <div class="item_wrap" style="position: relative;">
-          <!-- <div style="position: absolute; display: flex; flex-direction: row;justify-content: center; align-items: center;"> -->
           <div class="card_left">
             <img style="width: 60px;" :src="'/src/assets/icon/耗电量icon.png'" alt="">
 
@@ -88,7 +87,6 @@
               <div style="color: gray">%</div>
             </div>
           </div>
-          <!-- </div> -->
         </div>
 
       </div>
