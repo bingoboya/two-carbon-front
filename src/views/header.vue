@@ -1,10 +1,14 @@
 <template>
-  <div ref="headerComp" class="title_wrap" style="position: relative;">
-    <VideoPlayer :elId="1" :videoSrc="'/src/assets/webm/headerbg.webm'" />
+  <div ref="headerComp" class="title_wrap" style="position: relative;user-select: none;">
+    <VideoPlayer :elId="1" :videoSrc="'/src/assets/webm/t头部背景动效_无文字.webm'" />
+    <!-- <VideoPlayer :elId="1" :videoSrc="'/src/assets/webm/headerbg.webm'" /> -->
     <div class="titleleft">
       <div>辽宁省本溪市</div>
       <div>晴</div>
       <div>{{ 21 }}-{{ 25 }}°C</div>
+    </div>
+    <div class="title_content">
+      <div class="title">本钢典型工艺碳排放监测</div>
     </div>
     <div class="timers">
       <!-- {{ dateData.dateYear }}  -->
@@ -57,7 +61,7 @@ timeFn()
 <style scoped lang="scss">
 .title_wrap {
   // height: 60px;
-  height: 120px;
+  height: 72px;
   background-size: cover;
   background-position: center center;
   position: relative;
@@ -113,6 +117,33 @@ timeFn()
     display: flex;
     align-items: center;
     display: flex; gap: 10px;
+  }
+  .title_content {
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    .title {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      /* 字体设置 */
+      // font-family: 'Noto Sans SC', sans-serif;
+      /* 文字渐变 */
+      background: linear-gradient(to top, #95dbff, #ffffff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      
+      /* 文字阴影 */
+      // text-shadow: 0 0 24px #021b2a;
+      
+      /* 其他样式 */
+      font-weight: bold;
+      font-size: 32px; /* 您可以根据需要调整字体大小 */
+    }
   }
 }
 .title {

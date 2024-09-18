@@ -9,10 +9,10 @@
         <span>工序</span>/
         <span>排放检测</span> -->
       </div>
-      <ItemWrap class="contetn_left-top " title="碳排放量情况">
+      <ItemWrap class="contetn_left-top " backgroundImg="src/assets/bgpng/底部长bg.png"  title="碳排放量情况">
         <LeftTop />
       </ItemWrap>
-      <ItemWrap  class="contetn_left-center " title="用电情况">
+      <ItemWrap  class="contetn_left-center " backgroundImg="src/assets/bgpng/底部长bg.png" title="用电情况">
         <LeftBottom />
       </ItemWrap>
     </div>
@@ -24,16 +24,16 @@
         </div>
         <div class="bottom_item_wrapper">
           <div  @mouseenter="enterBottomBtn('本浦冷轧2#')" @mouseleave="leaveBottomBtn('本浦冷轧2#')" @click="routerGo('本浦冷轧2#')" class="bottom_item" >
-            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/高炉按钮_default.png')` }"></div>
-            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/高炉按钮_press.png')` }"></div>
+            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/本浦冷轧2重卷机组按钮_default.png')` }"></div>
+            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/本浦冷轧2重卷机组按钮_press.png')` }"></div>
           </div>
           <div  @mouseenter="enterBottomBtn('本浦冷轧3#')" @mouseleave="leaveBottomBtn('本浦冷轧3#')" @click="routerGo('本浦冷轧3#')" class="bottom_item" >
-            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/炼钢按钮_default.png')` }"></div>
-            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/炼钢按钮_press.png')` }"></div>
+            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/本浦冷轧3重卷机组按钮_default.png')` }"></div>
+            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/本浦冷轧3重卷机组按钮_press.png')` }"></div>
           </div>
           <div  @mouseenter="enterBottomBtn('电镀锌机组')" @mouseleave="leaveBottomBtn('电镀锌机组')" @click="routerGo('电镀锌机组')" class="bottom_item" >
-            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/热轧按钮_default.png')` }"></div>
-            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/热轧按钮_press.png')` }"></div>
+            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/电镀锌机组_default.png')` }"></div>
+            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/电镀锌机组_press.png')` }"></div>
           </div>
         </div>
       </div>
@@ -49,10 +49,10 @@
         />
         <div class="returnBtn" @click="router.go(-1)"></div>
       </div>
-      <ItemWrap  class="contetn_left-bottom " title="能耗预测分析">
+      <ItemWrap  class="contetn_left-bottom " backgroundImg="src/assets/bgpng/底部长bg.png" title="能耗预测分析">
         <RightTop />
       </ItemWrap>
-      <ItemWrap  class="contetn_left-bottom " title="碳排预测分析" >
+      <ItemWrap  class="contetn_left-bottom " backgroundImg="src/assets/bgpng/底部长bg.png" title="碳排预测分析" >
         <RightBottom />
       </ItemWrap>
     </div>
@@ -202,7 +202,7 @@ const options = [
     }
     .bottom_item_btn_default {
       display: block;
-      width: 176px;
+      width: 290px;
       height: 54px;
       // background-image: url('@/assets/bgpng/炼钢按钮_default.png');
       background-size: contain;
@@ -210,7 +210,7 @@ const options = [
     }
     .bottom_item_btn_press {
       display: none;
-      width: 176px;
+      width: 290px;
       height: 54px;
       // background-image: url('@/assets/bgpng/炼钢按钮_default.png');
       background-size: contain;
@@ -219,8 +219,10 @@ const options = [
   }
 }
 .index_box {
+  user-select: none;
   width: 100%;
-  margin-top: -74px;
+  margin-top: -32px;
+  // margin-top: -74px;
   display: flex;
   min-height: calc(100% - 64px);
   justify-content: space-between;

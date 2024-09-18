@@ -209,8 +209,10 @@ const options = [
   }
 }
 .index_box {
+  user-select: none;
   width: 100%;
-  margin-top: -74px;
+  margin-top: -32px;
+  // margin-top: -74px;
   display: flex;
   min-height: calc(100% - 64px);
   justify-content: space-between;

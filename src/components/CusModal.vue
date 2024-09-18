@@ -176,7 +176,7 @@ defineExpose({
   transform: translate(-20%, -140px);
   background-color: rgba(0, 0, 0, 0.5);
 }
-.modal_wrapper {
+.modal_wrapper {user-select: none;
   position: fixed;
   /* background-color: rgba(0, 0, 0, 0.5); */
   top: 0;
@@ -208,9 +208,9 @@ defineExpose({
 
 .modal_body {
   padding: 36px;
+  padding-top: 0;
   width: 100%;
   height: 100%;
-  /* flex: 1; */
   overflow: hidden;
 }
 

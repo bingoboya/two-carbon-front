@@ -155,31 +155,11 @@ defineExpose({
     flex-direction: row;
     align-items: center;
     height: 100px;
-    background-image: url('@/assets/bgpng/顶部前三个卡片bg.png');
+    background-image: url('@/assets/bgpng/顶部卡片bg.png');
     background-size: contain;
     background-repeat: round;
   }
-  .item {
-    flex: 226;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
-    background-image: url('@/assets/bgpng/顶部前三个卡片bg.png');
-    background-size: contain;
-    background-repeat: round;
-  }
-  .top_info_card {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
-    background-image: url('@/assets/bgpng/顶部最后一个卡片bg.png');
-    background-size: contain;
-    background-repeat: round;
-  }
+
 }
 .centermap {
   position: relative;

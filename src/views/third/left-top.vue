@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%; height: 100%">
+  <div style="width: 100%; height: 100%" >
     <v-chart class="chart" style="width: 100%; height: 100%" autoresize :option="option"
       v-if="JSON.stringify(option) != '{}'" />
   </div>
@@ -361,4 +361,5 @@ onMounted(() => {
   getData();
 });
 </script>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>

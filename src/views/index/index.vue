@@ -1,5 +1,5 @@
 <template>
-  <div class="index-box">
+  <div class="index_box">
     <!-- 第一级页面主体 -->
     <div ref="contentLeftComp" class="contetn_left">
       <div style="height: 20px;display: flex; gap: 4px;">
@@ -200,9 +200,9 @@ const options = [
 
 
 
-.index-box {
+.index_box {
   width: 100%;
-  margin-top: -70px;
+  margin-top: -32px;
   display: flex;
   min-height: calc(100% - 64px);
   justify-content: space-between;

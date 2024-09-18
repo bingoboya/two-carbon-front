@@ -1,5 +1,5 @@
 <template>
-  <div class="dv-border-box-13 dv-border-box" ref="domRef">
+  <div class="dv-border-box-13 dv-border-box" :style="{ backgroundImage: `url(${backgroundImg})` }" ref="domRef">
     <div class="dv-border-box-content">
       <slot></slot>
     </div>
@@ -11,6 +11,10 @@ import merge from "lodash/merge";
 import { useElementSize  } from "@vueuse/core";
 import type { PropType } from "vue";
 const props = defineProps({
+  backgroundImg: {
+    type: String,
+    default: "src/assets/icon/item_wrap_bg1.png",
+  },
   color: {
     type: Array as unknown as PropType<[string, string]>,
     default: () => [],
@@ -34,7 +38,8 @@ const mergedColor = computed<[string, string]>(() => {
 
 <style scoped lang="scss">
 .dv-border-box {
-  background-image: url('@/assets/icon/item_wrap_bg1.png');
+  // background-image: url('src/assets/icon/item_wrap_bg1.png');
+  background-image: url('src/assets/bgpng/底部长bg.png');
   // background-image: url('@/assets/icon/item_wrap_bg.png');
   background-repeat: round;
   background-size: cover;

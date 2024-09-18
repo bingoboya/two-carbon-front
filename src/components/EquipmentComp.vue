@@ -1,7 +1,7 @@
 <template>
   <div class="equipment_wrap">
-    <div style="flex:1; z-index: 2;">
-      <ItemWrap title="运行参数情况">
+    <div style="flex:418; z-index: 2;">
+      <ItemWrap title="运行参数情况" titlebg='/src/assets/bgpng/头部2.png' >
         <div style="width: 100%; height: 100%; display: flex; flex-direction: column; gap: 6px;">
           <div class="params_wrapper">
             <div class="params_title" >当前参数</div>
@@ -55,11 +55,11 @@
         </div>
       </ItemWrap>
     </div>
-    <div style="flex:2; display: flex; flex-direction: column;">
+    <div style="flex:546; display: flex; flex-direction: column;">
       <div class="model_wrapper">
         <ThreeDPngEffect :image-src="'/src/assets/bgpng/department1.png'" :max-tilt-angle="30" />
       </div>
-      <ItemWrap style="height: 315px;" title="维护记录">
+      <ItemWrap titlebg='/src/assets/bgpng/二级标题头部长bg.png' style="height: 315px;" title="维护记录">
         <div class="my_table">
           <div class="table_th">
             <div class="table_content_left">日期</div>
@@ -78,7 +78,7 @@
         </div>
       </ItemWrap>
     </div>
-    <div style="flex:1;display: flex; flex-direction: column;gap: 20px; z-index: 2;">
+    <div style="flex:418;display: flex; flex-direction: column;gap: 20px; z-index: 2;">
       <ItemWrap title="碳排放情况">
         <EquipmentLeftTop />
       </ItemWrap>
@@ -213,7 +213,7 @@ const TableData: any = reactive({
 .params_wrapper {
   padding: 10px;
   background-image: url('src/assets/bgpng/当前参数bg.png');
-  background-repeat: no-repeat;
+  background-repeat: round;
   flex: 1;
   display: flex;
   flex-direction: column;
