@@ -26,7 +26,7 @@
         </div>
         <div class="item_wrap" style="position: relative;">
             <div class="card_left"  >
-              <AnimatedLoader :iconSrc="'/src/assets/newicon/co2_icon.png'" />
+              <AnimatedLoader :iconSrc="'/src/assets/newicon/总能耗icon.png'" />
             </div>
             <div class="card_right">
               <div>耗电量</div>
