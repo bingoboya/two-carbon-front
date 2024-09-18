@@ -99,19 +99,19 @@ const gogogo = (buildingName: any) => {
 const duration = ref(2);
 const InteractiveFactoryMapRef: any = ref<HTMLDivElement | null>(null)
 const defaultBuildingArr =  [
-      { id: 1, x: 80, y: 210, width: 100, height: 100, name: "酸轧", info: "这是主要办公区域", alwaysVisible: !true, 
+      { id: 1, x: 70, y: 210, width: 100, height: 100, name: "酸轧", info: "这是主要办公区域", alwaysVisible: !true, 
         // videoSrc: '/src/assets/webm/dianduxin_default.webm',
         // videoSrcPress: '/src/assets/webm/dianduxin_press.webm',
         arrowPicSrc: '/src/assets/icon/dianduxinarrow.png',
         bgPicSrc: '/src/assets/bgpng/电镀锌弹框_default.png',
        },
-      { id: 2, x: 80, y: 450, width: 150, height: 80, name: "连退", info: "主要生产区域", alwaysVisible: !true, 
+      { id: 2, x: 50, y: 450, width: 150, height: 80, name: "连退", info: "主要生产区域", alwaysVisible: !true, 
         // videoSrc: '/src/assets/webm/lengza_default.webm',
         // videoSrcPress: '/src/assets/webm/lengza_press.webm',
         arrowPicSrc: '/src/assets/icon/lengzaarrow.png',
         bgPicSrc: '/src/assets/bgpng/冷轧弹框_default.png',
        },
-        { id: 3, x: 80, y: 730, width: 120, height: 120, name: "电镀(精整)", info: "主要生产区域", alwaysVisible: !true, 
+        { id: 3, x: 70, y: 730, width: 120, height: 120, name: "电镀(精整)", info: "主要生产区域", alwaysVisible: !true, 
         // videoSrc: '/src/assets/webm/reza_default.webm',
         // videoSrcPress: '/src/assets/webm/reza_press.webm',
         arrowPicSrc: '/src/assets/icon/rezaarrow.png',
