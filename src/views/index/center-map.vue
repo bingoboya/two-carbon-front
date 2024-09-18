@@ -165,7 +165,7 @@ defineExpose({
 } 
 .center_wrapper {
   display: flex;
-  z-index: 2;
+  z-index: 1;
   flex-direction: row;
   gap: 20px;
   padding: 0 2px;

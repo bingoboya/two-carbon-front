@@ -5,7 +5,7 @@
 
         <div class="item_wrap" style="position: relative;">
             <div class="card_left" >
-              <img style="width: 60px;" :src="'/src/assets/icon/co2_icon.png'" alt="">
+              <img style="width: 60px;" :src="'/src/assets/icon/总碳排放量icon.png'" alt="">
             </div>
             <div class="card_right">
               <div>总碳排放量</div>
@@ -26,7 +26,7 @@
         </div>
         <div class="item_wrap" style="position: relative;">
             <div class="card_left" >
-              <img style="width: 60px;" :src="'/src/assets/icon/co2_icon.png'" alt="">
+              <img style="width: 60px;" :src="'/src/assets/icon/耗电量icon.png'" alt="">
 
             </div>
             <div class="card_right">
@@ -48,7 +48,7 @@
         </div>
         <div class="item_wrap" style="position: relative;">
             <div class="card_left" >
-              <img style="width: 60px;" :src="'/src/assets/icon/co2_icon.png'" alt="">
+              <img style="width: 60px;" :src="'/src/assets/icon/耗电量icon.png'" alt="">
 
             </div>
             <div class="card_right">
@@ -74,7 +74,11 @@
              或者 
           <InteractiveFactoryMap :videoSrc="'/src/assets/webm/gaolubg.webm'" />
       -->
-      <InteractiveFactoryMap ref="InteractiveFactoryMapRef" :buildingArr="defaultBuildingArr" @callBackFunction="gogogo" />
+      <InteractiveFactoryMap ref="InteractiveFactoryMapRef"
+       :buildingArr="defaultBuildingArr"
+        @callBackFunction="gogogo"
+        :backgroundImageSrc="'src/assets/bgpng/中间流程图.png'" 
+        />
     </div>
   </div>
 </template>
@@ -83,7 +87,8 @@ import { ref } from "vue";
 import CountUp from "@/components/count-up";
 import arrow_down_icon from '@/assets/icon/arrow_down_icon.png'
 import arrow_top_icon from '@/assets/icon/arrow_top_icon.png'
-import InteractiveFactoryMap from '@/components/InteractiveFactoryMap/index';
+import InteractiveFactoryMap from './InteractiveFactoryMap/index';
+// import InteractiveFactoryMap from '@/components/InteractiveFactoryMap/index';
 import { useRouter } from 'vue-router'
 
 
@@ -94,19 +99,19 @@ const gogogo = (buildingName: any) => {
 const duration = ref(2);
 const InteractiveFactoryMapRef: any = ref<HTMLDivElement | null>(null)
 const defaultBuildingArr =  [
-      { id: 1, x: 130, y: 450, width: 100, height: 100, name: "酸轧", info: "这是主要办公区域", alwaysVisible: !true, 
+      { id: 1, x: 80, y: 210, width: 100, height: 100, name: "酸轧", info: "这是主要办公区域", alwaysVisible: !true, 
         // videoSrc: '/src/assets/webm/dianduxin_default.webm',
         // videoSrcPress: '/src/assets/webm/dianduxin_press.webm',
         arrowPicSrc: '/src/assets/icon/dianduxinarrow.png',
         bgPicSrc: '/src/assets/bgpng/电镀锌弹框_default.png',
        },
-      { id: 2, x: 420, y: 450, width: 150, height: 80, name: "连退", info: "主要生产区域", alwaysVisible: !true, 
+      { id: 2, x: 80, y: 450, width: 150, height: 80, name: "连退", info: "主要生产区域", alwaysVisible: !true, 
         // videoSrc: '/src/assets/webm/lengza_default.webm',
         // videoSrcPress: '/src/assets/webm/lengza_press.webm',
         arrowPicSrc: '/src/assets/icon/lengzaarrow.png',
         bgPicSrc: '/src/assets/bgpng/冷轧弹框_default.png',
        },
-        { id: 3, x: 780, y: 450, width: 120, height: 120, name: "电镀(精整)", info: "主要生产区域", alwaysVisible: !true, 
+        { id: 3, x: 80, y: 730, width: 120, height: 120, name: "电镀(精整)", info: "主要生产区域", alwaysVisible: !true, 
         // videoSrc: '/src/assets/webm/reza_default.webm',
         // videoSrcPress: '/src/assets/webm/reza_press.webm',
         arrowPicSrc: '/src/assets/icon/rezaarrow.png',
@@ -133,7 +138,7 @@ defineExpose({
 } 
 .center_wrapper {
   display: flex;
-  z-index: 2;
+  z-index: 1;
   flex-direction: row;
   gap: 20px;
   padding: 0 2px;

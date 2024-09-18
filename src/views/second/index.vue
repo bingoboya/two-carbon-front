@@ -27,16 +27,16 @@
         </div>
         <div class="bottom_item_wrapper">
           <div @mouseenter="enterBottomBtn('酸轧')" @mouseleave="leaveBottomBtn('酸轧')" @click="routerGo('酸轧')" class="bottom_item" >
-            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/高炉按钮_default.png')` }"></div>
-            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/高炉按钮_press.png')` }"></div>
+            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/酸轧按钮_default.png')` }"></div>
+            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/酸轧按钮_press.png')` }"></div>
           </div>
           <div @mouseenter="enterBottomBtn('连退')" @mouseleave="leaveBottomBtn('连退')" @click="routerGo('连退')" class="bottom_item" >
-            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/炼钢按钮_default.png')` }"></div>
-            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/炼钢按钮_press.png')` }"></div>
+            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/连退按钮_default.png')` }"></div>
+            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/连退按钮_press.png')` }"></div>
           </div>
           <div @mouseenter="enterBottomBtn('电镀(精整)')" @mouseleave="leaveBottomBtn('电镀(精整)')" @click="routerGo('电镀(精整)')" class="bottom_item" >
-            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/热轧按钮_default.png')` }"></div>
-            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/热轧按钮_press.png')` }"></div>
+            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/电镀精整按钮_default.png')` }"></div>
+            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/电镀精整按钮_press.png')` }"></div>
           </div>
         </div>
       </div>
@@ -50,7 +50,7 @@
           :options="options"
           placeholder="请选择"
         />
-        <div><button @click="router.go(-1)">返回</button></div>
+        <div class="returnBtn" @click="router.go(-1)"></div>
       </div>
       <ItemWrap  class="contetn_left-bottom " title="碳排占比">
         <RightTop />
@@ -152,6 +152,16 @@ const options = [
 ];
 </script>
 <style scoped lang="scss">
+.returnBtn {
+  width: 66px;
+  height: 28px;
+  cursor: pointer;
+  background-image: url('src/assets/bgpng/返回btn_default.png');
+  background-repeat: round;
+  &:hover {
+    background-image: url('src/assets/bgpng/返回btn_press.png');
+  }
+}
 .bottom_item_wrapper {
   width: 100%;
   // height: 100%;

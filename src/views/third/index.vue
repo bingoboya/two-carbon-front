@@ -47,7 +47,7 @@
           :options="options"
           placeholder="请选择"
         />
-        <div><button @click="router.go(-1)">返回</button></div>
+        <div class="returnBtn" @click="router.go(-1)"></div>
       </div>
       <ItemWrap  class="contetn_left-bottom " title="能耗预测分析">
         <RightTop />
@@ -164,8 +164,17 @@ const options = [
 ];
 </script>
 <style scoped lang="scss">
+.returnBtn {
+  width: 66px;
+  height: 28px;
+  cursor: pointer;
+  background-image: url('src/assets/bgpng/返回btn_default.png');
+  background-repeat: round;
+  &:hover {
+    background-image: url('src/assets/bgpng/返回btn_press.png');
+  }
+}
 .bottom_item_wrapper {
-  
   width: 100%;
   // height: 100%;
   // height: 60%;
@@ -183,8 +192,6 @@ const options = [
     cursor: pointer;
     &:hover{
       .bottom_item_btn_default {
-        // background-image: url('@/assets/bgpng/炼钢按钮_press.png');
-        // transform: translateY(-10px);
         display: none;
       }
       .bottom_item_btn_press {

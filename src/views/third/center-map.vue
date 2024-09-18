@@ -6,7 +6,7 @@
         <div class="item_wrap" style="position: relative;">
           <!-- <div style="position: absolute; display: flex; flex-direction: row;justify-content: center; align-items: center;"> -->
           <div class="card_left">
-            <img style="width: 60px;" :src="'/src/assets/icon/co2_icon.png'" alt="">
+            <img style="width: 60px;" :src="'/src/assets/icon/总碳排放量icon.png'" alt="">
 
           </div>
           <div class="card_right">
@@ -35,7 +35,7 @@
         <div class="item_wrap" style="position: relative;">
           <!-- <div style="position: absolute; display: flex; flex-direction: row;justify-content: center; align-items: center;"> -->
           <div class="card_left">
-            <img style="width: 60px;" :src="'/src/assets/icon/co2_icon.png'" alt="">
+            <img style="width: 60px;" :src="'/src/assets/icon/耗电量icon.png'" alt="">
 
           </div>
           <div class="card_right">
@@ -64,7 +64,7 @@
         <div class="item_wrap" style="position: relative;">
           <!-- <div style="position: absolute; display: flex; flex-direction: row;justify-content: center; align-items: center;"> -->
           <div class="card_left">
-            <img style="width: 60px;" :src="'/src/assets/icon/co2_icon.png'" alt="">
+            <img style="width: 60px;" :src="'/src/assets/icon/耗电量icon.png'" alt="">
 
           </div>
           <div class="card_right">
@@ -98,7 +98,10 @@
           <InteractiveFactoryMap :videoSrc="'/src/assets/webm/gaolubg.webm'" />
       -->
       <InteractiveFactoryMap @callBackFunction="gogogo" ref="InteractiveFactoryMapRef"
-        :buildingArr="defaultBuildingArr" />
+        :buildingArr="defaultBuildingArr" 
+        :backgroundImageSrc="'src/assets/bgpng/中间流程图.png'" 
+        
+        />
     </div>
   </div>
 </template>

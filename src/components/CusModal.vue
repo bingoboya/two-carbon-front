@@ -20,10 +20,10 @@
     :autoScale="isScale"
   >
   <div class="content_wrapper">
-    <div class="content_wrap">
+    <div class="cusmodal_content_wrap">
     <div class="modal_wrapper" @click.self="closeModal">
       <div class="modal_container" style="border: 4px solid #4890f8a1">
-        <div class="modal-header" style="position: relative">
+        <div class="modal_header" style="position: relative">
           <div style=" flex: 1; display: flex; justify-content: center; align-items: center;">
             <h3>{{ title }}</h3>
           </div>
@@ -53,24 +53,26 @@
 
   <div v-if="!mountedOnBody && visible" class="modal_wrapper" @click.self="closeModal">
     <div @click.self="closeModal" class="overlay"></div>
-    <!-- z-index: 1; -->
-
     <div class="modal_container">
-      <div class="modal-header" >
-        <div style=" flex: 1; display: flex; justify-content: center; align-items: center;">
-          <h3>{{ title }}</h3>
-        </div>
-        <div style=" display: flex; gap: 16px; position: absolute; right: 12px; flex-direction: row; align-items: center;" >
-          <div>
-            <CusTomSelect
-              v-model="selectedValue"
-              :options="options"
-              placeholder="请选择"
-            />
+      <!-- <div class="modal_header" > -->
+        <div class="modal_header" >
+          <div class="modal_title_wrap" >
+            {{ title }}
           </div>
-          <div><button class="close-btn" @click="closeModal">×</button></div>
+          <div style=" display: flex; gap: 16px; position: absolute; right: 36px; flex-direction: row; align-items: center;" >
+            <div>
+              <CusTomSelect
+                v-model="selectedValue"
+                :options="options"
+                placeholder="请选择"
+              />
+            </div>
+            <div class="close_btn" @click="closeModal">
+              <!-- <button class="close-btn" @click="closeModal">×</button> -->
+            </div>
+          </div>
         </div>
-      </div>
+      <!-- </div> -->
       <div class="modal_body">
         <slot name="content"></slot>
       </div>
@@ -128,8 +130,43 @@ defineExpose({
   closeModal
 });
 </script>
-
 <style scoped>
+.modal_title_wrap {
+  flex: 1; display: flex; justify-content: center; align-items: center;
+  font-size: 22px;
+  font-weight: 600;
+  background: url("src/assets/bgpng/弹框头部两边箭头.png");
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+}
+.modal_header {
+  margin-top: 23px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: url("src/assets/bgpng/弹框头部bg.png");
+  background-repeat: round;
+}
+
+.close_btn {
+  width: 24px;
+  height: 24px;
+  background: url("src/assets/bgpng/关闭icon.png");
+  background-repeat: round;
+  cursor: pointer;
+
+}
+.close-btn {
+  font-size: 20px;
+  font-weight: bold;
+  color: #999;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
 .overlay {
   position: absolute;
   top: 0;
@@ -157,31 +194,20 @@ defineExpose({
 .modal_container {
   display: flex;
   flex-direction: column;
-  border: 4px solid #4890f8a1;
-  background: url("@/assets/img/bg.jpg");
+  /* border: 4px solid #4890f8a1; */
+  background: url("src/assets/bgpng/弹框bg.png");
+  /* background: url("@/assets/img/bg.jpg"); */
   background-repeat: round;
-  /* background-color: white; */
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  /* border-radius: 8px; */
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33); */
   width: 80%;
   height: 80%;
-  /* width: 154%;
-  height: 100%; */
   position: relative;
-              /* z-index: 2; */
 }
 
-.modal-header {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  border-bottom: 1px solid #e5e5e5;
-}
 
 .modal_body {
-  padding: 10px;
+  padding: 36px;
   width: 100%;
   height: 100%;
   /* flex: 1; */
@@ -195,14 +221,7 @@ defineExpose({
   border-top: 1px solid #e5e5e5;
 }
 
-.close-btn {
-  font-size: 20px;
-  font-weight: bold;
-  color: #999;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
+
 </style>
 
 <style lang="scss" scoped>
@@ -211,21 +230,21 @@ defineExpose({
 }
 </style>
 <style lang="scss" scoped>
-.content_wrapper {
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  background-image: url("@/assets/img/wholebg.jpg");
-  background-size: cover;
-  background-position: center center;
-}
-.content_wrap {
-  width: 100%;
-  height: 100%;
-  padding: 0px 16px 16px 16px;
-  box-sizing: border-box;
-  background-image: url("@/assets/img/masklayer.png");
-  background-size: cover;
-  background-position: center center;
-}
+// .content_wrapper {
+//   width: 100%;
+//   height: 100%;
+//   box-sizing: border-box;
+//   background-image: url("@/assets/img/wholebg.jpg");
+//   background-size: cover;
+//   background-position: center center;
+// }
+// .cusmodal_content_wrap {
+//   width: 100%;
+//   height: 100%;
+//   padding: 0px 16px 16px 16px;
+//   box-sizing: border-box;
+//   background: url("src/assets/bgpng/masklayer.png");
+//   background-size: cover;
+//   background-position: center center;
+// }
 </style>

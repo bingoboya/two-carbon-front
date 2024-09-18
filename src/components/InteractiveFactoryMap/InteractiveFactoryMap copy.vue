@@ -1,11 +1,7 @@
 <!--  InteractiveFactoryMap.vue -->
 <template>
   <div ref="containerRef" class="video-container">
-    <!-- 这个canvas元素显示的话，点击canvas时，img元素会出现光标 -->
-    <canvas v-show="false" ref="canvasRef"></canvas>
-    <div v-if="backgroundImageSrc" class="pic_wrap">
-      <img :src="backgroundImageSrc" alt="">
-    </div>
+    <canvas ref="canvasRef"></canvas>
     <div v-if="selectedBuilding" class="info-card" :style="infoCardStyle">
       <h3>{{ selectedBuilding.name }}</h3>
       <p>{{ selectedBuilding.info }}</p>
@@ -17,8 +13,11 @@
 import { createApp } from 'vue'
 import { onMounted, ref, computed, watch, onUnmounted, nextTick } from 'vue';
 import * as THREE from 'three';
+import { TextureLoader } from 'three';
+
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 import BuildingLabel from '@/components/BuildingLabel.vue';
+import { useRouter } from 'vue-router'
 interface Building {
   id: number;
   x: number;
@@ -36,7 +35,7 @@ interface Building {
 const emits = defineEmits(['callBackFunction'])
 
 const props = defineProps({
-    backgroundImageSrc: {
+    backgroundImage: {
       type: String,
       default: ''
     },
@@ -50,7 +49,7 @@ const props = defineProps({
   })
   let labelRenderer: any;
     let appList: any = []
-    
+    const router = useRouter()
     const buildingRefs = ref<{ [key: string]: any }>({});
     const containerRef = ref<HTMLDivElement | null>(null);
     const canvasRef = ref<HTMLCanvasElement | null>(null);
@@ -63,17 +62,75 @@ const props = defineProps({
     let renderer: THREE.WebGLRenderer;
     let raycaster: THREE.Raycaster;
     let mouse: THREE.Vector2;
-    const backgroundImage = ref<HTMLImageElement | null>(null);
+    // let backgroundTexture: THREE.Texture | null = null;
+    // let backgroundMesh: THREE.Mesh | null = null;
     const infoCardStyle = computed(() => ({
       left: `${selectedBuilding.value?.x}px`,
       top: `${selectedBuilding.value?.y}px`,
     }));
 
 
+    // const updateBackgroundImage = () => {
+    //   if (!backgroundTexture) return;
+
+    //   const aspectRatio = backgroundTexture.image.width / backgroundTexture.image.height;
+    //   const bgGeometry = new THREE.PlaneGeometry(width.value, width.value / aspectRatio);
+      
+    //   if (!backgroundMesh) {
+    //     const bgMaterial = new THREE.MeshBasicMaterial({ 
+    //       map: backgroundTexture,
+    //       transparent: true,
+    //       alphaTest: 0.5
+    //     });
+    //     backgroundMesh = new THREE.Mesh(bgGeometry, bgMaterial);
+    //     scene.add(backgroundMesh);
+    //   } else {
+    //     backgroundMesh.geometry.dispose();
+    //     backgroundMesh.geometry = bgGeometry;
+    //     (backgroundMesh.material as THREE.MeshBasicMaterial).map = backgroundTexture;
+    //   }
+      
+    //   backgroundMesh.position.set(width.value / 2, height.value / 2, -1);
+    // };
+
     const initThree = () => {
       if (!canvasRef.value) return;
       // 创建一个新的 Three.js 场景。场景是所有 3D 对象和灯光的容器。
       scene = new THREE.Scene();
+
+
+
+
+      console.log('fsfsfsfss')
+      // 添加背景图片
+      // if (props.backgroundImage) {
+      //   console.log(3232)
+      //   const textureLoader = new TextureLoader();
+      //   textureLoader.load(props.backgroundImage, (texture) => {
+      //     // const aspectRatio = texture.image.width / texture.image.height;
+      //     // const bgGeometry = new THREE.PlaneGeometry(width.value, width.value / aspectRatio);
+      //     // const bgMaterial = new THREE.MeshBasicMaterial({ map: texture });
+      //     // backgroundMesh = new THREE.Mesh(bgGeometry, bgMaterial);
+      //     // backgroundMesh.position.set(width.value / 2, height.value / 2, -1);
+      //     // scene.add(backgroundMesh);
+      //     backgroundTexture = texture;
+      //     updateBackgroundImage();
+          
+      //   });
+      // }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       console.log('width.value', width.value, height.value)
       // 创建一个正交相机。参数分别是左、右、上、下边界，以及近平面和远平面。这里相机视口与 canvas 尺寸匹配。
@@ -214,6 +271,13 @@ const props = defineProps({
     const animate = () => {
       requestAnimationFrame(animate);
 
+      // 确保背景总是先渲染
+      // scene.children.sort((a, b) => {
+      //   if (a === backgroundMesh) return -1;
+      //   if (b === backgroundMesh) return 1;
+      //   return 0;
+      // });
+
       renderer.render(scene, camera);
       labelRenderer.render(scene, camera);
     };
@@ -237,24 +301,20 @@ const props = defineProps({
           labelRenderer.setSize(width.value, height.value);
         }
       });
-     
-      await initThree();
-
-      if (canvasRef.value) {
-        canvasRef.value.addEventListener('click', onCanvasClick);
-      }
-
       setTimeout(() => {
         // 确保所有组件都已挂载
         //TODO callFunabcForBuilding('电镀锌', 'enter');
         // 要触发一下resize,重新获取 containerRef容器的宽高，重新设置three的宽高，撑满containerRef容器
         let myEvent = new Event('resize'); window.dispatchEvent(myEvent);
       }, 0);
+      await initThree();
+
+      if (canvasRef.value) {
+        canvasRef.value.addEventListener('click', onCanvasClick);
+      }
     });
 
     onUnmounted(() => {
-
-      
       // TODO 需要销毁创建的 BuildingLabel
       appList.forEach((app: any) => {
         app.unmount()
@@ -263,13 +323,12 @@ const props = defineProps({
       if (canvasRef.value) {
         canvasRef.value.removeEventListener('click', onCanvasClick);
       }
-
-      if (backgroundImage.value) {
-        backgroundImage.value.onload = null;
-      }
     });
     
     watch([width, height], () => {
+
+      // updateBackgroundImage();
+
 
       if (renderer && camera) {
         renderer.setSize(width.value, height.value);
@@ -296,24 +355,7 @@ const props = defineProps({
     })
 </script>
 
-<style lang="scss" scoped>
-.pic_wrap {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  img {
-    width: 94%;
-    height: auto;
-    -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-  }
-}
+<style scoped>
 .video-container {
   position: relative;
   width: 100%;

@@ -283,15 +283,14 @@ defineExpose({
 
 .tooltip {
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 1px solid #fff;
   color: white;
-  padding: 5px 10px;
+  padding: 10px;
   border-radius: 4px;
   font-size: 14px;
-  z-index: 100000000;
   white-space: nowrap;
   pointer-events: none;
-  transform: translate(-25%, -100%);
-  margin-top: -10px;
+  transform: translate(0, -90%);
 }
 </style>

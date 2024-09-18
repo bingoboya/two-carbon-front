@@ -4,25 +4,35 @@
       <ItemWrap title="运行参数情况">
         <div style="width: 100%; height: 100%; display: flex; flex-direction: column; gap: 6px;">
           <div class="params_wrapper">
-            <div style="background: rgb(67 133 156 / 21%);">当前参数</div>
+            <div class="params_title" >当前参数</div>
             <div class="params_wrap">
               <div class="params_item">
+
                 <div class="temp_item">
-                  <div>150</div>
-                  <div>°C</div>
+                  <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+                    <div style="color: RGBA(95, 249, 255, 1); font-size: 22px; font-weight: 600;">150</div>
+                    <div>°C</div>
+                  </div>
                 </div>
-                <div>温度</div>
+                <div style="flex: 1; margin-top: 4px;">温度</div>
               </div>
               <div class="params_item">
+
                 <div class="temp_item">
-                  <div>150</div>
-                  <div>分钟</div>
+                  <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+                    <div style="color: RGBA(95, 249, 255, 1); font-size: 22px; font-weight: 600;">15</div>
+                    <div>分钟</div>
+                  </div>
                 </div>
-                <div>加热时间</div>
+                <div style="flex: 1; margin-top: 4px;">加热时间</div>
               </div>
               <div style="display: flex;flex: 1;align-items: center;" class="params_item ">
-                <div class="temp_item">良好</div>
-                <div>状态</div>
+                <div class="temp_item" style="color: RGBA(95, 249, 255, 1); font-size: 22px; font-weight: 600;">
+                  <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+                    良好
+                  </div>
+                </div>
+                <div style="flex: 1; margin-top: 4px;">状态</div>
               </div>
             </div>
           </div>
@@ -46,7 +56,7 @@
       </ItemWrap>
     </div>
     <div style="flex:2; display: flex; flex-direction: column;">
-      <div style="width: 100%; height: 100%;">
+      <div class="model_wrapper">
         <ThreeDPngEffect :image-src="'/src/assets/bgpng/department1.png'" :max-tilt-angle="30" />
       </div>
       <ItemWrap style="height: 315px;" title="维护记录">
@@ -178,21 +188,32 @@ const TableData: any = reactive({
 );
 </script>
 <style scoped lang="scss">
+.model_wrapper {
+  width: 100%; height: 100%;
+  background-image: url('src/assets/bgpng/机组两边点缀bg.png');
+  background-repeat: round;
+}
+.params_title {
+  text-indent: 10px;
+  background-image: url('src/assets/bgpng/当前参数文字bg.png');
+  background-repeat: no-repeat;
+}
 .temp_item {
   width: 100%;
-  display: flex;
-  flex: 1;
-  align-items: flex-start;
+  // display: flex;
+  flex: 3;
+  // align-items: center;
   justify-content: center;
-  background: url('@/assets/icon/co2_icon.png');
+  background-image: url('src/assets/bgpng/当前参数图标bg.png');
   background-repeat: no-repeat;
   background-position-x: center;
+  background-position-y: bottom;
 }
 
 .params_wrapper {
-  padding: 4px;
-  border: 2px solid;
-  border-radius: 4px;
+  padding: 10px;
+  background-image: url('src/assets/bgpng/当前参数bg.png');
+  background-repeat: no-repeat;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -200,7 +221,7 @@ const TableData: any = reactive({
 
 .params_wrap {
   height: 100%;
-  padding: 12px 2px;
+  padding: 20px 0px;
   width: 100%;
   gap: 4px;
   align-items: center;
@@ -214,7 +235,7 @@ const TableData: any = reactive({
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: #454545a8;
+  // background-color: #454545a8;
   justify-content: center;
   align-items: center;
 }
@@ -276,14 +297,14 @@ const TableData: any = reactive({
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  border: 2px solid #2ac8ee;
+  border: 2px solid RGBA(42, 182, 255, 1);
   border-bottom: none;
-  background: #086fce;
+  background: RGBA(8, 111, 206, 1);
 }
 
 .scroll {
   //   margin: 100px auto;
-  border: 2px solid #2ac8ee;
+  border: 2px solid RGBA(42, 182, 255, 1);
   border-top: none;
   flex: 1;
   width: 100%;
@@ -291,11 +312,11 @@ const TableData: any = reactive({
 }
 
 .scroll>div>div>div:nth-child(2n) {
-  background-color: #06337a;
+  background-color: rgba(6, 50, 122, 0.336);
 }
 
 .scroll>div>div>div:nth-child(2n + 1) {
-  background-color: #073f8c;
+  background-color: rgba(7, 62, 140, 0.644);
 }
 
 .scroll .item {

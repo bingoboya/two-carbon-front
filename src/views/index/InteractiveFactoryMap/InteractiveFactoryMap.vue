@@ -13,6 +13,7 @@
 import { createApp } from 'vue'
 import { onMounted, ref, computed, watch, onUnmounted, nextTick } from 'vue';
 import * as THREE from 'three';
+import { TextureLoader } from 'three';
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 import BuildingLabel from '@/components/BuildingLabel.vue';
 import { useRouter } from 'vue-router'
@@ -31,6 +32,10 @@ interface Building {
   bgPicSrc?: String
 }
 const props = defineProps({
+    backgroundImage: {
+      type: String,
+      default: ''
+    },
     videoSrc: {
       type: String,
     },
@@ -54,6 +59,7 @@ const props = defineProps({
     let renderer: THREE.WebGLRenderer;
     let raycaster: THREE.Raycaster;
     let mouse: THREE.Vector2;
+    let backgroundMesh: THREE.Mesh;
     const infoCardStyle = computed(() => ({
       left: `${selectedBuilding.value?.x}px`,
       top: `${selectedBuilding.value?.y}px`,
@@ -63,6 +69,27 @@ const props = defineProps({
       if (!canvasRef.value) return;
       // 创建一个新的 Three.js 场景。场景是所有 3D 对象和灯光的容器。
       scene = new THREE.Scene();
+
+      console.log('propssssss')
+      // 添加背景图片
+      // if (props.backgroundImage) {
+      //   console.log(3232)
+      //   const textureLoader = new TextureLoader();
+      //   textureLoader.load(props.backgroundImage, (texture) => {
+      //     const aspectRatio = texture.image.width / texture.image.height;
+      //     const bgGeometry = new THREE.PlaneGeometry(width.value, width.value / aspectRatio);
+      //     const bgMaterial = new THREE.MeshBasicMaterial({ map: texture });
+      //     backgroundMesh = new THREE.Mesh(bgGeometry, bgMaterial);
+      //     backgroundMesh.position.set(width.value / 2, height.value / 2, -1);
+      //     scene.add(backgroundMesh);
+      //   });
+      // }
+
+
+
+
+
+
       console.log('width.value', width.value, height.value)
       // 创建一个正交相机。参数分别是左、右、上、下边界，以及近平面和远平面。这里相机视口与 canvas 尺寸匹配。
       camera = new THREE.OrthographicCamera(0, width.value, 0, height.value, 0.1, 1000);
@@ -215,6 +242,8 @@ const props = defineProps({
 
     
     onMounted(async () => {
+      alert(2)
+
       await nextTick()
       window.addEventListener('resize', updateSize);
 
@@ -248,6 +277,17 @@ const props = defineProps({
     });
     
     watch([width, height], () => {
+
+      // if (backgroundMesh) {
+      //   const texture = (backgroundMesh.material as THREE.MeshBasicMaterial).map;
+      //   if (texture) {
+      //     const aspectRatio = texture.image.width / texture.image.height;
+      //     backgroundMesh.scale.set(width.value, width.value / aspectRatio, 1);
+      //     backgroundMesh.position.set(width.value / 2, height.value / 2, -1);
+      //   }
+      // }
+
+
       if (renderer && camera) {
         renderer.setSize(width.value, height.value);
         camera.right = width.value;
