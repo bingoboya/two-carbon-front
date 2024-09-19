@@ -234,7 +234,6 @@ defineExpose({
 //   width: 100%;
 //   height: 100%;
 //   box-sizing: border-box;
-//   background-image: url("@/assets/img/wholebg.jpg");
 //   background-size: cover;
 //   background-position: center center;
 // }

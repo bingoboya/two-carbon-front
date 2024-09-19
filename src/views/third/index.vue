@@ -1,5 +1,3 @@
-
-
 <template>
   <div class="index_box" >
     <!-- 第三级页面主体 -->
@@ -18,7 +16,9 @@
     </div>
     <div class="contetn_center">
       <CenterMap ref="centerMapRef" @handlePopupClick="handlePopupClick" class="centermapComp" style="flex: 1;" />
-      <div ref="centerBottomCompRef" class="centerBottomCompRef" style="transform: translate(0px, 0px);height:120px;background-color: rgb(0,0,0,0);">
+      <div ref="centerBottomCompRef" class="centerBottomCompRef" 
+      style="transform: translate(0px, 0px);height:120px;
+      background-color: rgb(0,0,0,0);">
         <div style="pointer-events: none; position: relative;width: 120%; height: 100%;left: 50%; transform: translateX(-50%);">
           <VideoPlayer :elId="41" :videoSrc="'/src/assets/webm/d底部背景动效.webm'" />
         </div>

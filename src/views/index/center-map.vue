@@ -115,31 +115,33 @@ const defaultBuildingArr = [
         // videoSrcPress: '/src/assets/webm/dianduxin_press.webm',
         arrowPicSrc: '/src/assets/icon/dianduxinarrow.png',
         bgPicSrc: '/src/assets/bgpng/电镀锌弹框_default.png',
+        toolTipBg: '/src/assets/bgpng/电镀锌框.png',
+        arrowItemLine: '/src/assets/icon/电镀锌弹框线.png',
       },
       { id: 3, x: 420, y: 550, width: 50, height: 80, name: "热轧", info: "主要生产区域", alwaysVisible: !true, 
       // videoSrc: '/src/assets/webm/reza_default.webm',
       // videoSrcPress: '/src/assets/webm/reza_press.webm',
       arrowPicSrc: '/src/assets/icon/rezaarrow.png',
       bgPicSrc: '/src/assets/bgpng/热轧弹框_default.png',
+      toolTipBg: '/src/assets/bgpng/热轧框.png',
+      arrowItemLine: '/src/assets/icon/热轧弹框线.png',
       },
       { id: 4, x: 610, y: 240, width: 50, height: 80, name: "高炉", info: "主要生产区域", alwaysVisible: !true, 
       // videoSrc: '/src/assets/webm/gaolu_default.webm',
       // videoSrcPress: '/src/assets/webm/gaolu_press.webm',
       arrowPicSrc: '/src/assets/icon/gaoluarrow.png',
       bgPicSrc: '/src/assets/bgpng/高炉弹框_default.png',
+      toolTipBg: '/src/assets/bgpng/高炉框.png',
+      arrowItemLine: '/src/assets/icon/高炉弹框线.png',
       },
       { id: 5, x: 780, y: 470, width: 50, height: 80, name: "炼钢", info: "主要生产区域", alwaysVisible: !true, 
       // videoSrc: '/src/assets/webm/liangang_default.webm',
       // videoSrcPress: '/src/assets/webm/liangang_press.webm',
       arrowPicSrc: '/src/assets/icon/liangangarrow.png',
       bgPicSrc: '/src/assets/bgpng/炼钢弹框_default.png',
+      toolTipBg: '/src/assets/bgpng/炼钢框.png',
+      arrowItemLine: '/src/assets/icon/炼钢弹框线.png',
       },
-  // { id: 2, x: 350, y: 280, width: 150, height: 80, name: "冷轧", info: "主要生产区域", alwaysVisible: !true, 
-  //   // videoSrc: '/src/assets/webm/lengza_default.webm',
-  //   // videoSrcPress: '/src/assets/webm/lengza_press.webm',
-  //   arrowPicSrc: '/src/assets/icon/lengzaarrow.png',
-  //   bgPicSrc: '/src/assets/bgpng/冷轧弹框_default.png',
-  //  },
 ];
 const callBackFunc= (params: any, type: string) => {
   console.log('InteractiveFactoryMapRef', params, type)
@@ -209,7 +211,7 @@ defineExpose({
   }
 }
 .centermap {
-  position: relative;
+  position: relative;flex: 1;
 }
 .interactivefactorymap_wrap {
   width: 100%; height: 100%; position: absolute; left: 50%;transform: translateX(-50%); 

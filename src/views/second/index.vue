@@ -21,22 +21,27 @@
     </div>
     <div class="contetn_center">
       <CenterMap ref="centerMapRef" class="centermapComp" style="flex: 1;" />
-      <div ref="centerBottomCompRef" class="centerBottomCompRef" style="transform: translate(0px, 0px);height:120px;background-color: rgb(0,0,0,0);">
+      <div ref="centerBottomCompRef" class="centerBottomCompRef"
+       style="transform: translate(0px, 0px);height:120px;
+       background-color: rgb(0,0,0,0);
+        position: absolute; bottom: 0px;width: 100%;
+       "
+       >
         <div style="position: relative;width: 120%; height: 100%;left: 50%; transform: translateX(-50%);">
           <VideoPlayer :elId="41" :videoSrc="'/src/assets/webm/d底部背景动效.webm'" />
         </div>
         <div class="bottom_item_wrapper">
           <div @mouseenter="enterBottomBtn('酸轧')" @mouseleave="leaveBottomBtn('酸轧')" @click="routerGo('酸轧')" class="bottom_item" >
-            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/酸轧按钮_default.png')` }"></div>
-            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/酸轧按钮_press.png')` }"></div>
+            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('/src/assets/bgpng/酸轧按钮_default.png')` }"></div>
+            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('/src/assets/bgpng/酸轧按钮_press.png')` }"></div>
           </div>
           <div @mouseenter="enterBottomBtn('连退')" @mouseleave="leaveBottomBtn('连退')" @click="routerGo('连退')" class="bottom_item" >
-            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/连退按钮_default.png')` }"></div>
-            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/连退按钮_press.png')` }"></div>
+            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('/src/assets/bgpng/连退按钮_default.png')` }"></div>
+            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('/src/assets/bgpng/连退按钮_press.png')` }"></div>
           </div>
           <div @mouseenter="enterBottomBtn('电镀(精整)')" @mouseleave="leaveBottomBtn('电镀(精整)')" @click="routerGo('电镀(精整)')" class="bottom_item" >
-            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/电镀精整按钮_default.png')` }"></div>
-            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/电镀精整按钮_press.png')` }"></div>
+            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('/src/assets/bgpng/电镀精整按钮_default.png')` }"></div>
+            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('/src/assets/bgpng/电镀精整按钮_press.png')` }"></div>
           </div>
         </div>
       </div>
@@ -156,10 +161,10 @@ const options = [
   width: 66px;
   height: 28px;
   cursor: pointer;
-  background-image: url('src/assets/bgpng/返回btn_default.png');
+  background-image: url('/src/assets/bgpng/返回btn_default.png');
   background-repeat: round;
   &:hover {
-    background-image: url('src/assets/bgpng/返回btn_press.png');
+    background-image: url('/src/assets/bgpng/返回btn_press.png');
   }
 }
 .bottom_item_wrapper {
@@ -229,6 +234,7 @@ const options = [
   width: 430px;
 }
 .contetn_center {
+  position: relative;
   flex: 1;
   margin: 0 30px;
   display: flex;

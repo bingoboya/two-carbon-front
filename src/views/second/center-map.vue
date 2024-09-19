@@ -1,8 +1,6 @@
 <template>
   <div class="centermap">
-    <div class="interactivefactorymap_wrap">
       <div class="center_wrapper" >
-
         <div class="item_wrap" style="position: relative;">
             <div class="card_left" >
               <img style="width: 60px;" :src="'/src/assets/icon/总碳排放量icon.png'" alt="">
@@ -77,9 +75,8 @@
       <InteractiveFactoryMap ref="InteractiveFactoryMapRef"
        :buildingArr="defaultBuildingArr"
         @callBackFunction="gogogo"
-        :backgroundImageSrc="'src/assets/bgpng/中间流程图.png'" 
+        :backgroundImageSrc="'/src/assets/bgpng/二级中间流程图.png'" 
         />
-    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -130,12 +127,9 @@ defineExpose({
 </script>
 
 <style scoped lang="scss">
-.card_left {
-  padding: 0 0px;width: 106px;height: 76px;display: flex; flex-direction: row;justify-content: center; align-items: center;
+.centermap {
+  position: relative;
 }
-.card_right {color: #fff;
-  flex: 1; height: 100%;display: flex; flex-direction: column; justify-content: center;
-} 
 .center_wrapper {
   display: flex;
   z-index: 1;
@@ -161,11 +155,11 @@ defineExpose({
   }
 
 }
-.centermap {
-  position: relative;
-}
-.interactivefactorymap_wrap {
-  width: 100%; height: 100%; position: absolute; left: 50%;transform: translateX(-50%); 
-}
 
+.card_left {
+  padding: 0 0px;width: 106px;height: 76px;display: flex; flex-direction: row;justify-content: center; align-items: center;
+}
+.card_right {color: #fff;
+  flex: 1; height: 100%;display: flex; flex-direction: column; justify-content: center;
+} 
 </style>

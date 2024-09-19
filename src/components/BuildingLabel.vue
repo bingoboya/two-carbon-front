@@ -1,34 +1,57 @@
 <template>
   <div class="container" :class="isHover ? 'container_style_large' : 'container_style_small'"
-    :style="{ 'backgroundImage': `url(${bgPicSrc})` }" @mouseenter="showTooltip" @mouseleave="hideTooltip">
+    :style="{ 'backgroundImage': `url(${bgPicSrc})`, width: buildWidth }" @mouseenter="showTooltip" @mouseleave="hideTooltip">
     <div class="overlay" :class="isHover ? 'hidden_overlay' : 'show_overlay'"></div> <!-- 半透明遮罩层 -->
     <!-- <VideoPlayer :elId="`2-${name}`" :videoSrc="videoSrcPress" /> -->
     <div @click="handleClick" class="tooltip_container"
       style="height: 100%;display: flex; justify-content: center;align-items: center;">
       <div v-if="isVisible" :style="tooltipStyle" class="tooltip">
-        <div>我是{{ name }}提示</div>
-        <div>我是{{ name }}提示</div>
-        <div>我是{{ name }}提示</div>
+        <div class="tooltip_content_wrap" >
+          <div>碳排放量</div>
+          <div>425845</div>
+          <div>万吨</div>
+        </div>
+        <div class="tooltip_content_wrap">
+          <div>能耗</div>
+          <div>445</div>
+          <div>吨标准煤</div>
+        </div>
+        <div class="tooltip_content_wrap">
+          <div>耗电量</div>
+          <div>4285</div>
+          <div>千瓦时</div>
+        </div>
       </div>
       <div :style="labelStyle" class="label_style">
         {{ name }}
       </div>
     </div>
-    <div class="arrow_wrapper" :style="{ '--animation-duration': `${animationDuration}s` }"
-      style="pointer-events: none !important;">
-      <div v-for="(_, index) in 3" :key="index" class="arrow_item" :style="{ backgroundImage: `url(${arrowPicSrc})` }">
-      </div>
+    <div class="arrow_wrapper" :style="{ '--animation-duration': `${animationDuration}s` }">
+      <!-- <div v-for="(_, index) in 3" :key="index" class="arrow_item" :style="{ backgroundImage: `url(${arrowPicSrc})` }"></div> -->
+      <div class="arrow_item_line" :style="{ backgroundImage: `url(${arrowItemLine})` }"></div>
+      <!-- <div class="arrow_item" :style="{ backgroundImage: `url(${arrowPicSrc})` }"></div> -->
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
 import { computed, PropType, ref } from 'vue';
 
 const props = defineProps({
+  arrowItemLine: {
+    type: String,
+    default: 'src/assets/icon/电镀锌弹框线.png'
+  },
+  toolTipBg: {
+    type: String,
+    default: 'src/assets/bgpng/电镀锌框.png'
+  },
   bgPicSrc: {
     type: String,
     default: '/src/assets/bgpng/电镀锌弹框_default.png'
+  },
+  buildWidth: {
+    type: String,
+    default: '146px'
   },
   arrowPicSrc: {
     type: String,
@@ -73,6 +96,7 @@ const props = defineProps({
 const isVisible = ref(false);
 const isHover = ref(false)
 const tooltipStyle = computed(() => ({
+  backgroundImage: `url(${props.toolTipBg})`
   // left: `${props.positionX}px`,
   // top: `${props.positionY + 20}px`,
 }));
@@ -143,17 +167,57 @@ defineExpose({
   funabc
 })
 </script>
+<style lang="scss" scoped>
+.container {
+  background-size: contain;
+  background-repeat: round;
+  position: relative;
+  // width: 210px;
+  // width: 146px;
+  height: 40px;
+  will-change: transform;
 
 
+  /* &:hover .overlay {
+    display: none;
+  } */
 
-<style scoped>
+  /* &:hover {
+    transform: scale(1.05);
+  } */
+}
+.label_style {
+  z-index: 2;
+  font-size: 16px;
+  letter-spacing: 4px;
+  color: rgb(255, 255, 255);
+  /* background-color: rgba(0,0,0,0.7); */
+  padding: 2px 5px;
+}
+.tooltip_content_wrap {
+  display: flex; flex-direction: row;
+  gap: 10px;
+  >:nth-child(1) {
+    width: 54px;
+    text-align-last: justify;
+    text-align: justify;
+  }
+}
 .arrow_wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  pointer-events: none !important;
 }
-
+.arrow_item_line {
+  width: 2px;
+  height: 66px;
+  // transform: rotate(180deg);
+  background-repeat: round;
+  // opacity: 0;
+  // animation: fadeInOut var(--animation-duration) infinite;
+}
 .arrow_item {
   width: 30px;
   height: 30px;
@@ -228,23 +292,7 @@ defineExpose({
     transform: translateY(-6px);
   }
 }
-.container {
-  background-size: contain;
-  background-repeat: no-repeat;
-  position: relative;
-  width: 146px;
-  height: 40px;
-  will-change: transform;
 
-
-  /* &:hover .overlay {
-    display: none;
-  } */
-
-  /* &:hover {
-    transform: scale(1.05);
-  } */
-}
 
 .arrow_wrapper {
   position: absolute;
@@ -266,14 +314,7 @@ defineExpose({
   background-repeat: no-repeat;
 }
 
-.label_style {
-  z-index: 2;
-  font-size: 16px;
-  letter-spacing: 4px;
-  color: rgb(255, 255, 255);
-  /* background-color: rgba(0,0,0,0.7); */
-  padding: 2px 5px;
-}
+
 
 .tooltip_container {
   position: relative;
@@ -283,12 +324,13 @@ defineExpose({
 
 .tooltip {
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.8);
-  border: 1px solid #fff;
+  // background-image: url('src/assets/bgpng/电镀锌框.png');
+  background-repeat: round;
+  // border: 1px solid #fff;
   color: white;
-  padding: 10px;
+  padding: 10px 20px;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 12px;
   white-space: nowrap;
   pointer-events: none;
   transform: translate(0, -90%);

@@ -8,18 +8,24 @@
         <span>排放检测</span> -->
       </div>
       <ItemWrap class="contetn_left-top " titlebg='/src/assets/bgpng/头部2.png' title="绿证消费策略">
-        <LeftTop />
+        <!-- <LeftTop /> -->
       </ItemWrap>
       <ItemWrap class="contetn_left-center " titlebg='/src/assets/bgpng/头部2.png' title="碳排放量情况">
-        <LeftCenter />
+        <!-- <LeftCenter /> -->
       </ItemWrap>
       <ItemWrap class="contetn_left-bottom " titlebg='/src/assets/bgpng/头部2.png' title="能源结构占比">
-        <LeftBottom />
+        <!-- <LeftBottom /> -->
       </ItemWrap>
     </div>
     <div class="contetn_center">
-      <CenterMap ref="centerMapRef" class="centermapComp" style="flex: 1;" />
-      <div ref="centerBottomCompRef" class="centerBottomCompRef" style="height:120px;background-color: rgb(0,0,0,0);">
+      <div class="centermapComp" style="flex: 1;display: flex;" >
+        <CenterMap  ref="centerMapRef" />
+      </div>
+      <!-- <CenterMap  ref="centerMapRef" class="centermapComp"  /> -->
+      <div v-if="!false" ref="centerBottomCompRef" class="centerBottomCompRef" 
+        style="height:120px;background-color: rgb(0,0,0,0);
+          position: absolute; width: 100%;bottom: 0;
+        ">
         <div style="position: relative;width: 120%; height: 100%;left: 50%; transform: translateX(-50%);">
           <VideoPlayer :elId="4" :videoSrc="'/src/assets/webm/d底部背景动效.webm'" />
         </div>
@@ -48,13 +54,13 @@
         <CusTomSelect v-model="selectedValue" :width="'84px'" :options="options" placeholder="请选择" />
       </div>
       <ItemWrap class="contetn_left-bottom " titlebg='/src/assets/bgpng/头部2.png' title="工艺碳排占比">
-        <RightTop />
+        <!-- <RightTop /> -->
       </ItemWrap>
       <ItemWrap class="contetn_left-bottom " titlebg='/src/assets/bgpng/头部长2.png' title="生产产量与单位产品碳排放量情况">
-        <RightCenter />
+        <!-- <RightCenter /> -->
       </ItemWrap>
       <ItemWrap class="contetn_left-bottom " titlebg='/src/assets/bgpng/头部长2.png' title=" 实际碳排放量与预测值对比">
-        <RightBottom />
+        <!-- <RightBottom /> -->
       </ItemWrap>
     </div>
   </div>
@@ -70,7 +76,6 @@ import {
   LeftTop,
   LeftBottom,
   CenterMap,
-  // CenterBottom,
   RightBottom,
   RightCenter,
   LeftCenter,
@@ -221,6 +226,7 @@ const options = [
 }
 
 .contetn_center {
+  position: relative;
   flex: 1;
   margin: 0 30px;
   display: flex;

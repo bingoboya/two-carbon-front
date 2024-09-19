@@ -1,8 +1,6 @@
 <template>
   <div class="centermap">
-    <div class="interactivefactorymap_wrap">
       <div class="center_wrapper">
-
         <div class="item_wrap" style="position: relative;">
           <!-- <div style="position: absolute; display: flex; flex-direction: row;justify-content: center; align-items: center;"> -->
           <div class="card_left">
@@ -88,7 +86,6 @@
             </div>
           </div>
         </div>
-
       </div>
       <!-- ./mapdemo.webm 是public文件夹中的文件路径
           <InteractiveFactoryMap :videoSrc="'./mapdemo.webm'"/>
@@ -97,10 +94,10 @@
       -->
       <InteractiveFactoryMap @callBackFunction="gogogo" ref="InteractiveFactoryMapRef"
         :buildingArr="defaultBuildingArr" 
-        :backgroundImageSrc="'src/assets/bgpng/三级中间流程图.png'" 
+        :backgroundImageSrc="'src/assets/bgpng/三级流程图.png'" 
         />
+        <!-- :backgroundImageSrc="'src/assets/bgpng/三级中间流程图.png'"  -->
     </div>
-  </div>
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
@@ -120,14 +117,14 @@ const gogogo = (buildingName: any) => {
 }
 const defaultBuildingArr = [
   {
-    id: 1, x: 130, y: 450, width: 100, height: 100, name: "本浦冷轧2#", info: "这是主要办公区域", alwaysVisible: !true,
+    id: 1, x: 130, y: 450, width: 260, height: 100, name: "本浦冷轧2#重卷机组", info: "这是主要办公区域", alwaysVisible: !true,
     // videoSrc: '/src/assets/webm/dianduxin_default.webm',
     // videoSrcPress: '/src/assets/webm/dianduxin_press.webm',
     arrowPicSrc: '/src/assets/icon/dianduxinarrow.png',
     bgPicSrc: '/src/assets/bgpng/电镀锌弹框_default.png',
   },
   {
-    id: 2, x: 420, y: 450, width: 150, height: 80, name: "本浦冷轧3#", info: "主要生产区域", alwaysVisible: !true,
+    id: 2, x: 420, y: 450, width: 150, height: 80, name: "本浦冷轧3#重卷机组", info: "主要生产区域", alwaysVisible: !true,
     // videoSrc: '/src/assets/webm/lengza_default.webm',
     // videoSrcPress: '/src/assets/webm/lengza_press.webm',
     arrowPicSrc: '/src/assets/icon/lengzaarrow.png',
@@ -153,6 +150,36 @@ defineExpose({
 </script>
 
 <style scoped lang="scss">
+.centermap {
+  position: relative;
+}
+
+
+.center_wrapper {
+  display: flex;
+  z-index: 1;
+  flex-direction: row;
+  gap: 20px;
+  padding: 0 2px;
+  justify-content: space-around;
+  align-items: center;
+  width: 80%;
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  .item_wrap {
+    flex: 226;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100px;
+    background-image: url('@/assets/bgpng/顶部卡片bg.png');
+    background-size: contain;
+    background-repeat: round;
+  }
+}
+
 .card_left {
   padding: 0 0px;
   width: 106px;
@@ -170,44 +197,5 @@ defineExpose({
   flex-direction: column;
   justify-content: center;
   color: #fff;
-}
-
-.center_wrapper {
-  display: flex;
-  // z-index: 2;
-  flex-direction: row;
-  gap: 20px;
-  padding: 0 2px;
-  justify-content: space-around;
-  align-items: center;
-  width: 80%;
-  position: absolute;
-  top: 50px;
-  left: 50%;
-  transform: translateX(-50%);
-
-  .item_wrap {
-    flex: 226;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 100px;
-    background-image: url('@/assets/bgpng/顶部卡片bg.png');
-    background-size: contain;
-    background-repeat: round;
-  }
-}
-
-.centermap {
-  position: relative;
-  z-index: 1;
-}
-
-.interactivefactorymap_wrap {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
 }
 </style>
