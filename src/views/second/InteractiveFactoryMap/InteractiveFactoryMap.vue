@@ -5,7 +5,7 @@
     <canvas v-show="false" ref="canvasRef"></canvas>
     <div v-if="backgroundImageSrc" class="pic_wrap">
       <div class="process_overlay">
-        <div class="process_top">
+        <div class="process_top" @click="clickItem('酸轧')">
           <div style="position: absolute; left: 0;">
             <img src="/src/assets/bgpng/1.png" alt="">
           </div>
@@ -14,7 +14,7 @@
             <img src="/src/assets/bgpng/1-1.png" alt="">
           </div>
         </div>
-        <div class="process_center">
+        <div class="process_center" @click="clickItem('连退')">
           <div style="position: absolute; left: 0;">
             <img src="/src/assets/bgpng/2.png" alt="">
           </div>
@@ -23,7 +23,7 @@
             <img src="/src/assets/bgpng/2-2.png" alt="">
           </div>
         </div>
-        <div class="process_bottom">
+        <div class="process_bottom" @click="clickItem('电镀(精整)')">
           <div style="position: absolute; left: 0;">
             <img src="/src/assets/bgpng/3.png" alt="">
           </div>
@@ -106,7 +106,9 @@ const infoCardStyle = computed(() => ({
   top: `${selectedBuilding.value?.y}px`,
 }));
 
-
+const clickItem = (name: any) => {
+  emits('callBackFunction', name)
+}
 const initThree = () => {
   if (!canvasRef.value) return;
   // 创建一个新的 Three.js 场景。场景是所有 3D 对象和灯光的容器。

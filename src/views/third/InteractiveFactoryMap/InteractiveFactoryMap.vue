@@ -5,35 +5,42 @@
     <canvas v-show="false" ref="canvasRef"></canvas>
     <div v-if="backgroundImageSrc" class="pic_wrap">
       <div class="process_overlay">
-        <div class="process_top" @click="aaaaaa">
+        <div class="process_top" @click="clickItem('本浦冷轧2#重卷机组')">
           <div style="position: absolute; left: 0;">
             <img src="/src/assets/bgpng/1.png" alt="">
           </div>
-          <div style="writing-mode: vertical-lr;letter-spacing: 16px;color: gray;">酸轧</div>
+          <div style="display: flex; flex-direction: row;align-items: center;height: 100%;">
+            <div style="display: flex; flex-direction: column;align-items: center;">
+              <div style="writing-mode: vertical-lr; letter-spacing: 2px; color: gray;">本浦冷轧</div>
+              <div style="color: gray;">2#</div>
+            </div>
+            <div style="writing-mode: vertical-lr; letter-spacing: 2px; color: gray;">重卷机组</div>
+          </div>
           <div style="position: absolute; right: 0;">
             <img src="/src/assets/bgpng/1-1.png" alt="">
           </div>
         </div>
-        <div class="process_center">
+        <div class="process_center" @click="clickItem('本浦冷轧3#重卷机组')">
           <div style="position: absolute; left: 0;">
             <img src="/src/assets/bgpng/2.png" alt="">
           </div>
-          <div style=" writing-mode: vertical-lr; letter-spacing: 16px; color: gray;">连退</div>
+          <div style="display: flex; flex-direction: row;align-items: center;height: 100%;">
+            <div style="display: flex; flex-direction: column;align-items: center;">
+              <div style="writing-mode: vertical-lr; letter-spacing: 2px; color: gray;">本浦冷轧</div>
+              <div style="color: gray;">3#</div>
+            </div>
+            <div style="writing-mode: vertical-lr; letter-spacing: 2px; color: gray;">重卷机组</div>
+          </div>
           <div style="position: absolute; right: 0;">
             <img src="/src/assets/bgpng/2-2.png" alt="">
           </div>
         </div>
-        <div class="process_bottom">
+        <div class="process_bottom" @click="clickItem('电镀锌机组')">
           <div style="position: absolute; left: 0;">
             <img src="/src/assets/bgpng/3.png" alt="">
           </div>
           <div style="display: flex;flex-direction: column; align-items: center;color: gray;">
-            <div>电</div>
-            <div>镀</div>
-            <div style="writing-mode: vertical-lr;padding-left: 2px;">(</div>
-            <div>精</div>
-            <div>整</div>
-            <div style="writing-mode: vertical-lr;padding-left: 2px;">)</div>
+            <div style="writing-mode: vertical-lr;padding-left: 2px;">电镀锌机组</div>
           </div>
           <div style="position: absolute; right: 0;">
             <img src="/src/assets/bgpng/3-3.png" alt="">
@@ -106,8 +113,8 @@ const infoCardStyle = computed(() => ({
   top: `${selectedBuilding.value?.y}px`,
 }));
 
-const aaaaaa = () => {
-  alert(1)
+const clickItem = (name: any) => {
+  emits('callBackFunction', name)
 }
 const initThree = () => {
   if (!canvasRef.value) return;
@@ -491,7 +498,7 @@ defineExpose({
   .pic_wrapper {
     width: 100%;
     height: 100%;
-    padding: 10px 10px 10px 60px;
+    padding: 10px 10px 10px 100px;
   }
 
   img {
