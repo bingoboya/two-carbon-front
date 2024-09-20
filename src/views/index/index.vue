@@ -3,18 +3,15 @@
     <!-- 第一级页面主体 -->
     <div ref="contentLeftComp" class="contetn_left">
       <div style="height: 20px;display: flex; gap: 4px;">
-        <!-- <span>工艺</span>/
-        <span>工序</span>/
-        <span>排放检测</span> -->
       </div>
       <ItemWrap class="contetn_left-top " titlebg='/src/assets/bgpng/头部2.png' title="绿证消费策略">
-        <!-- <LeftTop /> -->
+        <LeftTop />
       </ItemWrap>
       <ItemWrap class="contetn_left-center " titlebg='/src/assets/bgpng/头部2.png' title="碳排放量情况">
-        <!-- <LeftCenter /> -->
+        <LeftCenter />
       </ItemWrap>
       <ItemWrap class="contetn_left-bottom " titlebg='/src/assets/bgpng/头部2.png' title="能源结构占比">
-        <!-- <LeftBottom /> -->
+        <LeftBottom />
       </ItemWrap>
     </div>
     <div class="contetn_center">
@@ -54,13 +51,13 @@
         <CusTomSelect v-model="selectedValue" :width="'84px'" :options="options" placeholder="请选择" />
       </div>
       <ItemWrap class="contetn_left-bottom " titlebg='/src/assets/bgpng/头部2.png' title="工艺碳排占比">
-        <!-- <RightTop /> -->
+        <RightTop />
       </ItemWrap>
       <ItemWrap class="contetn_left-bottom " titlebg='/src/assets/bgpng/头部长2.png' title="生产产量与单位产品碳排放量情况">
-        <!-- <RightCenter /> -->
+        <RightCenter />
       </ItemWrap>
       <ItemWrap class="contetn_left-bottom " titlebg='/src/assets/bgpng/头部长2.png' title=" 实际碳排放量与预测值对比">
-        <!-- <RightBottom /> -->
+        <RightBottom />
       </ItemWrap>
     </div>
   </div>
