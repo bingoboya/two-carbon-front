@@ -36,7 +36,6 @@
               </div>
             </div>
           </div>
-          <!-- 方案二: 使用两个table，上边的table隐藏tbody,下边的table隐藏thead,下边的table使用 vue3-seamless-scroll 滚动 -->
           <div class="my_table">
             <div class="table_th">
               <div class="table_content_left">日期</div>
@@ -289,7 +288,7 @@ const TableData: any = reactive({
   display: flex;
   flex-direction: column;
   height: 100%;
-  flex: 3;
+  flex: 2;
 }
 
 .table_th {

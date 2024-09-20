@@ -5,7 +5,7 @@
     <canvas v-show="false" ref="canvasRef"></canvas>
     <div v-if="backgroundImageSrc" class="pic_wrap">
       <div class="process_overlay">
-        <div class="process_top" @click="clickItem('本浦冷轧2#重卷机组')">
+        <div class="process_top" :class="curBuildingName === '本浦冷轧2#重卷机组' ? 'process_top_hover' : ''"  @click="clickItem('本浦冷轧2#重卷机组')">
           <div style="position: absolute; left: 0;">
             <img src="/src/assets/bgpng/1.png" alt="">
           </div>
@@ -20,7 +20,7 @@
             <img src="/src/assets/bgpng/1-1.png" alt="">
           </div>
         </div>
-        <div class="process_center" @click="clickItem('本浦冷轧3#重卷机组')">
+        <div class="process_center" :class="curBuildingName === '本浦冷轧3#重卷机组' ? 'process_top_hover' : ''"  @click="clickItem('本浦冷轧3#重卷机组')">
           <div style="position: absolute; left: 0;">
             <img src="/src/assets/bgpng/2.png" alt="">
           </div>
@@ -35,7 +35,7 @@
             <img src="/src/assets/bgpng/2-2.png" alt="">
           </div>
         </div>
-        <div class="process_bottom" @click="clickItem('电镀锌机组')">
+        <div class="process_bottom" :class="curBuildingName === '电镀锌机组' ? 'process_top_hover' : ''"  @click="clickItem('电镀锌机组')">
           <div style="position: absolute; left: 0;">
             <img src="/src/assets/bgpng/3.png" alt="">
           </div>
@@ -94,6 +94,7 @@ const props = defineProps({
 })
 let labelRenderer: any;
 let appList: any = []
+const curBuildingName = ref('')
 
 const buildingRefs = ref<{ [key: string]: any }>({});
 const containerRef = ref<HTMLDivElement | null>(null);
@@ -210,6 +211,12 @@ const initThree = () => {
 
 // 调用特定建筑的 funabc 函数
 const callFunabcForBuilding = (buildingName: string, type: string) => {
+  console.log('call--FunabcForBuilding', buildingName, type)
+  if(type === 'enter') {
+    curBuildingName.value = buildingName
+  } else if (type === 'leave') {
+    curBuildingName.value = ''
+  }
   const buildingRef = buildingRefs.value[buildingName];
   if (buildingRef && typeof buildingRef.funabc === 'function') {
     buildingRef.funabc(buildingName, type);
@@ -382,6 +389,24 @@ defineExpose({
     pointer-events: none;
   }
 }
+.process_top_hover {
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.5),
+    0 0 20px rgba(0, 229, 255, 0.3),
+    0 0 30px rgba(0, 229, 255, 0.1);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center,
+        rgba(0, 229, 255, 0.2) 0%,
+        transparent 70%);
+    pointer-events: none;
+  }
+}
 
 .process_center {
   cursor: pointer;
@@ -408,6 +433,24 @@ defineExpose({
 }
 
 .process_center:hover {
+  box-shadow: 0 0 10px rgba(31, 173, 255, 0.5),
+    0 0 20px rgba(31, 173, 255, 0.3),
+    0 0 30px rgba(31, 173, 255, 0.1);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center,
+        rgba(31, 173, 255, 0.2) 0%,
+        transparent 70%);
+    pointer-events: none;
+  }
+}
+.process_center_hover {
   box-shadow: 0 0 10px rgba(31, 173, 255, 0.5),
     0 0 20px rgba(31, 173, 255, 0.3),
     0 0 30px rgba(31, 173, 255, 0.1);
@@ -452,6 +495,24 @@ defineExpose({
 }
 
 .process_bottom:hover {
+  box-shadow: 0 0 4px rgba(156, 143, 252, 0.5),
+    0 0 10px rgba(156, 143, 252, 0.3),
+    0 0 20px rgba(156, 143, 252, 0.1);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center,
+        rgba(156, 143, 252, 0.2) 0%,
+        transparent 70%);
+    pointer-events: none;
+  }
+}
+.process_bottom_hover {
   box-shadow: 0 0 4px rgba(156, 143, 252, 0.5),
     0 0 10px rgba(156, 143, 252, 0.3),
     0 0 20px rgba(156, 143, 252, 0.1);

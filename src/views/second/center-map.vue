@@ -25,7 +25,6 @@
         <div class="item_wrap" style="position: relative;">
             <div class="card_left" >
               <img style="width: 60px;" :src="'/src/assets/icon/耗电量icon.png'" alt="">
-
             </div>
             <div class="card_right">
               <div>总能耗</div>
@@ -47,7 +46,6 @@
         <div class="item_wrap" style="position: relative;">
             <div class="card_left" >
               <img style="width: 60px;" :src="'/src/assets/icon/耗电量icon.png'" alt="">
-
             </div>
             <div class="card_right">
               <div>耗电量</div>

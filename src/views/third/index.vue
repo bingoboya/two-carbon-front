@@ -23,11 +23,11 @@
           <VideoPlayer :elId="41" :videoSrc="'/src/assets/webm/d底部背景动效.webm'" />
         </div>
         <div class="bottom_item_wrapper">
-          <div  @mouseenter="enterBottomBtn('本浦冷轧2#')" @mouseleave="leaveBottomBtn('本浦冷轧2#')" @click="routerGo('本浦冷轧2#')" class="bottom_item" >
+          <div  @mouseenter="enterBottomBtn('本浦冷轧2#重卷机组')" @mouseleave="leaveBottomBtn('本浦冷轧2#重卷机组')" @click="routerGo('本浦冷轧2#重卷机组')" class="bottom_item" >
             <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/本浦冷轧2重卷机组按钮_default.png')` }"></div>
             <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/本浦冷轧2重卷机组按钮_press.png')` }"></div>
           </div>
-          <div  @mouseenter="enterBottomBtn('本浦冷轧3#')" @mouseleave="leaveBottomBtn('本浦冷轧3#')" @click="routerGo('本浦冷轧3#')" class="bottom_item" >
+          <div  @mouseenter="enterBottomBtn('本浦冷轧3#重卷机组')" @mouseleave="leaveBottomBtn('本浦冷轧3#重卷机组')" @click="routerGo('本浦冷轧3#重卷机组')" class="bottom_item" >
             <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/本浦冷轧3重卷机组按钮_default.png')` }"></div>
             <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/本浦冷轧3重卷机组按钮_press.png')` }"></div>
           </div>
