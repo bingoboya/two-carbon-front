@@ -2,12 +2,16 @@
   <div class="index_box">
     <!-- 第一级页面主体 -->
     <div ref="contentLeftComp" class="contetn_left">
-      <div style="height: 20px;display: flex; gap: 4px;"></div>
+      <div style="height: 20px;display: flex; gap: 4px;">
+        <!-- <span>工艺</span>/
+        <span>工序</span>/
+        <span>排放检测</span> -->
+      </div>
       <ItemWrap class="contetn_left-top " titlebg='/src/assets/bgpng/头部2.png' title="绿证消费策略">
         <LeftTop />
       </ItemWrap>
       <ItemWrap class="contetn_left-center " titlebg='/src/assets/bgpng/头部2.png' title="碳排放量情况">
-        <LeftCenter /> 
+        <!-- <LeftCenter /> -->
       </ItemWrap>
       <ItemWrap class="contetn_left-bottom " titlebg='/src/assets/bgpng/头部2.png' title="能源结构占比">
         <LeftBottom />
