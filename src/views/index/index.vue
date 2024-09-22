@@ -11,7 +11,7 @@
         <LeftTop />
       </ItemWrap>
       <ItemWrap class="contetn_left-center " titlebg='/src/assets/bgpng/头部2.png' title="碳排放量情况">
-        <!-- <LeftCenter /> -->
+        <LeftCenter />
       </ItemWrap>
       <ItemWrap class="contetn_left-bottom " titlebg='/src/assets/bgpng/头部2.png' title="能源结构占比">
         <LeftBottom />
