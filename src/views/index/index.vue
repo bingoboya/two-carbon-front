@@ -2,26 +2,21 @@
   <div class="index_box">
     <!-- 第一级页面主体 -->
     <div ref="contentLeftComp" class="contetn_left">
-      <div style="height: 20px;display: flex; gap: 4px;">
-        <!-- <span>工艺</span>/
-        <span>工序</span>/
-        <span>排放检测</span> -->
-      </div>
+      <div style="height: 20px;display: flex; gap: 4px;"></div>
       <ItemWrap class="contetn_left-top " titlebg='/src/assets/bgpng/头部2.png' title="绿证消费策略">
-        <!-- <LeftTop /> -->
+        <LeftTop />
       </ItemWrap>
       <ItemWrap class="contetn_left-center " titlebg='/src/assets/bgpng/头部2.png' title="碳排放量情况">
-        <!-- <LeftCenter /> -->
+        <LeftCenter /> 
       </ItemWrap>
       <ItemWrap class="contetn_left-bottom " titlebg='/src/assets/bgpng/头部2.png' title="能源结构占比">
-        <!-- <LeftBottom /> -->
+        <LeftBottom />
       </ItemWrap>
     </div>
     <div class="contetn_center">
       <div class="centermapComp" style="flex: 1;display: flex;" >
         <CenterMap  ref="centerMapRef" />
       </div>
-      <!-- <CenterMap  ref="centerMapRef" class="centermapComp"  /> -->
       <div v-if="!false" ref="centerBottomCompRef" class="centerBottomCompRef" 
         style="height:120px;background-color: rgb(0,0,0,0);
           position: absolute; width: 100%;bottom: 0;
@@ -54,13 +49,13 @@
         <CusTomSelect v-model="selectedValue" :width="'84px'" :options="options" placeholder="请选择" />
       </div>
       <ItemWrap class="contetn_left-bottom " titlebg='/src/assets/bgpng/头部2.png' title="工艺碳排占比">
-        <!-- <RightTop /> -->
+        <RightTop />
       </ItemWrap>
       <ItemWrap class="contetn_left-bottom " titlebg='/src/assets/bgpng/头部长2.png' title="生产产量与单位产品碳排放量情况">
-        <!-- <RightCenter /> -->
+        <RightCenter />
       </ItemWrap>
       <ItemWrap class="contetn_left-bottom " titlebg='/src/assets/bgpng/头部长2.png' title=" 实际碳排放量与预测值对比">
-        <!-- <RightBottom /> -->
+        <RightBottom />
       </ItemWrap>
     </div>
   </div>
@@ -81,7 +76,7 @@ import {
   LeftCenter,
   RightTop
 } from "./index";
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, nextTick } from 'vue';
 
 const router = useRouter()
 const routerGo = (name: any) => {
@@ -116,7 +111,8 @@ const animateDivs = () => {
  
   gsap.fromTo('.centermapComp', { opacity: 0 }, { opacity: 1, duration: 3 });
 };
-onMounted(() => {
+onMounted(async () => {
+  await nextTick()
   animateDivs();
 });
 const animateDivsReverce = (calback: any) => {
@@ -141,7 +137,7 @@ const animateDivsReverce = (calback: any) => {
    });
 };
 onBeforeRouteLeave((to, from, next) => {
-  console.log('index---', to, from)
+  // console.log('index---', to, from)
   animateDivsReverce(next)
 })
 const selectedValue = ref('option31');
@@ -166,8 +162,8 @@ const options = [
   align-items: flex-end;
   position: absolute;
   // top: 60%;
-  left: 50%;
-  transform: translate(-50%, -100%);
+  left: 0;
+  bottom: 0;
   .bottom_item{
     // width: 176px;
     // height: 54px;
