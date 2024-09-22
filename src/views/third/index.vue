@@ -39,6 +39,7 @@
       </div>
 
     </div>
+    
     <div ref="contentRightComp" class="contetn_right">
       <div style="height: 20px;display: flex; flex-direction: row; justify-content: space-between;align-items: center">
         <CusTomSelect 

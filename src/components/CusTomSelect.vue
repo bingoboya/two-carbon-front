@@ -1,5 +1,4 @@
 <template>
-  <!-- <div class="adaptive_select" :style="{ width: width }"> -->
   <div class="adaptive_select">
     <div class="select_header" @click="toggleDropdown">
       <span>{{ selectedOption ? selectedOption.label : placeholder }}</span>
@@ -136,7 +135,7 @@ watch(() => props.modelValue, (newValue) => {
   margin-top: 0.5em;
   padding: 0;
   list-style: none;
-  background-color: rgba(74, 125, 245, 0.749);
+  background-color: rgba(24, 25, 26, 0.749);
   /* background-color: rgba(0, 0, 0, 0.8); */
   border-radius: 0.3em;
   overflow: hidden;

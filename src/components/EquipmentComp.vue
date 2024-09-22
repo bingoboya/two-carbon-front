@@ -1,13 +1,12 @@
 <template>
   <div class="equipment_wrap">
-    <div style="flex:418; z-index: 2;">
+    <div style="flex:418; z-index: 2;display: flex;">
       <ItemWrap title="运行参数情况" titlebg='/src/assets/bgpng/头部2.png' >
         <div style="width: 100%; height: 100%; display: flex; flex-direction: column; gap: 6px;">
           <div class="params_wrapper">
             <div class="params_title" >当前参数</div>
             <div class="params_wrap">
               <div class="params_item">
-
                 <div class="temp_item">
                   <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
                     <div style="color: RGBA(95, 249, 255, 1); font-size: 22px; font-weight: 600;">150</div>
@@ -17,7 +16,6 @@
                 <div style="flex: 1; margin-top: 4px;">温度</div>
               </div>
               <div class="params_item">
-
                 <div class="temp_item">
                   <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
                     <div style="color: RGBA(95, 249, 255, 1); font-size: 22px; font-weight: 600;">15</div>
@@ -36,14 +34,14 @@
               </div>
             </div>
           </div>
-          <div class="my_table">
+          <div class="my_table" >
             <div class="table_th">
               <div class="table_content_left">日期</div>
               <div class="table_content_center">温度(°C)</div>
               <div class="table_content_right">加热时间(分钟)</div>
             </div>
             <vue3-seamless-scroll :list="TableData.data" direction="up" :hover="true" :limitScrollNum="14"
-              class="scroll seamless-warp2 seamless" :openWatch="true" :step="0.2" :wheel="true" :isWatch="true">
+              :openWatch="true" :step="0.2" :wheel="true" :isWatch="true" class="scroll" >
               <div class="item" v-for="(item, index) in TableData.data" :key="index">
                 <div class="scroll_item_left">{{ item.date }}</div>
                 <div class="scroll_item_center">{{ item.title }}</div>
@@ -67,7 +65,7 @@
           </div>
           <!-- 开启数据实时监控刷新dom  -->
           <vue3-seamless-scroll :list="TableData.data" direction="up" :hover="true" :limitScrollNum="7"
-            :openWatch="true" :step="0.2" :wheel="true" :isWatch="true" class="scroll seamless-warp2">
+            :openWatch="true" :step="0.2" :wheel="true" :isWatch="true" class="scroll">
             <div class="item" v-for="(item, index) in TableData.data" :key="index">
               <div class="scroll_item_left">{{ item.date }}</div>
               <div class="scroll_item_center">{{ item.title }}</div>
@@ -92,7 +90,6 @@
 import { Vue3SeamlessScroll } from "vue3-seamless-scroll";
 // import { BorderBox8 as DvBorderBox8, ScrollBoard } from '@kjgl77/datav-vue3'
 import ThreeDPngEffect from '@/components/ThreeDPngEffect.vue';
-
 import ItemWrap from "@/components/item-wrap";
 import EquipmentLeftTop from "@/components/EquipmentLeftTop.vue";
 import EquipmentRightBottom from "@/components/EquipmentRightBottom.vue";
@@ -198,9 +195,8 @@ const TableData: any = reactive({
   background-repeat: no-repeat;
 }
 .temp_item {
-  width: 100%;
-  // display: flex;
-  flex: 3;
+  width: 75px;
+  height: 64px;
   // align-items: center;
   justify-content: center;
   background-image: url('src/assets/bgpng/当前参数图标bg.png');
@@ -288,7 +284,6 @@ const TableData: any = reactive({
   display: flex;
   flex-direction: column;
   height: 100%;
-  flex: 2;
 }
 
 .table_th {
@@ -305,7 +300,6 @@ const TableData: any = reactive({
   //   margin: 100px auto;
   border: 2px solid RGBA(42, 182, 255, 1);
   border-top: none;
-  flex: 1;
   width: 100%;
   overflow: hidden;
 }
