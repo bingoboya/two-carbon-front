@@ -2,11 +2,7 @@
   <div class="index_box">
     <!-- 第一级页面主体 -->
     <div ref="contentLeftComp" class="contetn_left">
-      <div style="height: 20px;display: flex; gap: 4px;">
-        <!-- <span>工艺</span>/
-        <span>工序</span>/
-        <span>排放检测</span> -->
-      </div>
+      <div style="height: 20px;display: flex; gap: 4px;"></div>
       <ItemWrap class="contetn_left-top " titlebg='/src/assets/bgpng/头部2.png' title="绿证消费策略">
         <LeftTop />
       </ItemWrap>
@@ -21,7 +17,7 @@
       <div class="centermapComp" style="flex: 1;display: flex;" >
         <CenterMap  ref="centerMapRef" />
       </div>
-      <div v-if="!false" ref="centerBottomCompRef" class="centerBottomCompRef" 
+      <div ref="centerBottomCompRef" class="centerBottomCompRef" 
         style="height:120px;background-color: rgb(0,0,0,0);
           position: absolute; width: 100%;bottom: 0;
         ">
