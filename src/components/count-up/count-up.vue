@@ -124,6 +124,7 @@ const delay = (cb: () => unknown, seconds = 1) => {
     }
   }
   dalayRafId = requestAnimationFrame(count)
+  
 }
 
 const restart = () => {

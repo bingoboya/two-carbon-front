@@ -2,10 +2,9 @@
     <!-- TODO video组件设置id,设置ref时会出现页面静置一段时间后，video停止播放 -->
         <!-- ref="videoPlayer" -->
         <!-- :ref="`video-player-${elId}`" -->
-    <video 
-            :id="`video-player-${elId}`"
+    <video :id="`video-player-${elId}`"
             class="video-js" style="position: absolute; width: 100% !important;
-            height: 100% !important; background-color: #f0f8ff00 !important;" preload="auto" muted>
+            height: 100% !important; " preload="auto" muted>
         <source :src="videoSrc" type="video/webm" />
     </video>
 </template>
@@ -110,11 +109,11 @@ onUnmounted(() => {
 });
 
 </script>
-<style scoped lang="scss">
+<style lang="scss">
 .video-js {
   // width: 100% !important;
   // height: 100% !important;
-  // background-color: #f0f8ff00;
+  background-color: rgba(0, 0, 0, 0) !important;
   // position: absolute;
 }
 .vjs-loading-spinner { /* 设置加载圆圈 */

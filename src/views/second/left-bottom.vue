@@ -12,9 +12,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { installationPlan } from "@/api";
-import { graphic } from "echarts/core";
 import { ElMessage } from "element-plus";
-import { color } from "echarts";
 
 const option = ref({});
 const getData = () => {

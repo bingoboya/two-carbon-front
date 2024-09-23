@@ -48,6 +48,7 @@
                 <div class="scroll_item_right">{{ 10 }}</div>
               </div>
             </vue3-seamless-scroll>
+            <!-- <CustomeScroll /> -->
           </div>
         </div>
       </ItemWrap>
@@ -87,6 +88,7 @@
 </template>
 
 <script setup lang="ts">
+// import CustomeScroll from './CustomeScroll.vue'
 import { Vue3SeamlessScroll } from "vue3-seamless-scroll";
 // import { BorderBox8 as DvBorderBox8, ScrollBoard } from '@kjgl77/datav-vue3'
 import ThreeDPngEffect from '@/components/ThreeDPngEffect.vue';

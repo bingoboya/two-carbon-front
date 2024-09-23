@@ -14,7 +14,8 @@
     :autoScale="isScale"
   >
   <div class="content_wrapper">
-    <div class="content_wrap"  :style="{ backgroundImage: curPath === '/index'  ? `url(${bgSrc})` : `url(${bgSrc2})` }">
+    <div class="content_wrap"  :style="{ backgroundImage: curPath === '/index'  ? `` : `url(${bgSrc2})` }">
+    <!-- <div class="content_wrap"  :style="{ backgroundImage: curPath === '/index'  ? `url(${bgSrc})` : `url(${bgSrc2})` }"> -->
       <Headers />
       <RouterView />
     </div>

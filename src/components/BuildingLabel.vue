@@ -2,10 +2,10 @@
   <div class="container" :class="isHover ? 'container_style_large' : 'container_style_small'"
     :style="{ 'backgroundImage': `url(${bgPicSrc})`, width: buildWidth }" @mouseenter="showTooltip" @mouseleave="hideTooltip">
     <div class="overlay" :class="isHover ? 'hidden_overlay' : 'show_overlay'"></div> <!-- 半透明遮罩层 -->
-    <!-- <VideoPlayer :elId="`2-${name}`" :videoSrc="videoSrcPress" /> -->
     <div @click="handleClick" class="tooltip_container"
       style="height: 100%;display: flex; justify-content: center;align-items: center;">
-      <div v-if="isVisible" :style="tooltipStyle" class="tooltip">
+      <!-- <div v-if="isVisible" :style="tooltipStyle" class="tooltip"> -->
+      <div :style="tooltipStyle" class="tooltip">
         <div class="tooltip_content_wrap" >
           <div>碳排放量</div>
           <div>425845</div>
