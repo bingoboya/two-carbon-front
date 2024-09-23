@@ -14,8 +14,11 @@
               <div style="display: flex;">
                 <div>同比</div>
                 <div :style="{color: true ?  'red': 'green'}" style="display: flex; align-items: center;gap: 4px; padding-left: 8px;">
-                  <img style="height: 14px;" v-if="true" :src="arrow_top_icon" alt="">
+                  <img style="height: 14px;" v-if="!true" :src="arrow_top_icon" alt="">
                   <img style="height: 14px;" v-else :src="arrow_down_icon" alt="">
+
+                  <!-- <svg v-else class="icon" viewBox="0 0 1024 1024" version="1.1" p-id="3159" width="14" height="14"><path d="M6.71115421 489.90890885l662.73273745-1e-8L669.44389165 551.27305136 6.71115421 551.27305136l2e-8-61.36414251z" fill="#d81e06" p-id="3160"></path><path d="M665.71307852 306.28092891L1022.56779958 515.86227332l-356.85472106 215.24570478 0-424.82704919z" fill="#d81e06" p-id="3161"></path></svg> -->
+
                   <div><CountUp :endVal="1.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
                 </div>
                 <div style="color: gray">%</div>
@@ -73,7 +76,7 @@
       <InteractiveFactoryMap ref="InteractiveFactoryMapRef"
        :buildingArr="defaultBuildingArr"
         @callBackFunction="gogogo"
-        :backgroundImageSrc="'/src/assets/bgpng/二级中间流程图.png'" 
+        :backgroundImageSrc="'/src/assets/bgpng/二级流程图bg.png'" 
         />
   </div>
 </template>

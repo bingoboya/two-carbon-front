@@ -11,7 +11,9 @@ import {
   import { LabelLayout } from 'echarts/features';
   import {
     CustomChart,
-    PictorialBarChart,SankeyChart,
+    GaugeChart,
+    PictorialBarChart,
+    SankeyChart,
     BarChart,PieChart,MapChart,EffectScatterChart,LineChart 
   } from 'echarts/charts'
   import {
@@ -34,6 +36,7 @@ import {
     // CanvasRenderer,
     SVGRenderer,SankeyChart,
     MarkLineComponent,
+    GaugeChart,
     PictorialBarChart,
     BarChart,PieChart,MapChart,EffectScatterChart,LineChart,
     GridComponent,

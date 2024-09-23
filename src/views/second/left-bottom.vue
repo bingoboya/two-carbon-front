@@ -14,6 +14,7 @@ import { ref, onMounted } from "vue";
 import { installationPlan } from "@/api";
 import { graphic } from "echarts/core";
 import { ElMessage } from "element-plus";
+import { color } from "echarts";
 
 const option = ref({});
 const getData = () => {
@@ -41,6 +42,8 @@ const setOption = async (newData: any) => {
     series: {
       type: 'sankey',
       layout: 'none',
+      layoutIterations:0,
+      draggable: false,
       left: '1',
       right: '1',
       bottom: '1',
@@ -50,84 +53,194 @@ const setOption = async (newData: any) => {
       },
       data: [
         {
-          name: '电力'
-        },
-        {
-          name: '天然气'
-        },
-        {
-          name: '锌锭'
-        },
-        {
-          name: '清洁剂'
-        },
-        {
-          name: '钝化剂'
-        },
-        {
-          name: '板材'
-        },
-        {
-          name: '电镀锌板材',
-          label: {
-            position: 'left'
+          name: '电力',
+          itemStyle: {
+            color: '#49dddd'
           }
         },
         {
-          name: '废锌液',
-          label: {
-            position: 'left'
+          name: '热力',
+          itemStyle: {
+            color: '#49dddd'
           }
         },
         {
-          name: '废清洗剂',
-          label: {
-            position: 'left'
+          name: '高炉煤气',
+          itemStyle: {
+            color: '#d2cd3d'
           }
         },
         {
-          name: '废气',
+          name: '焦炉煤气',
+          itemStyle: {
+            color: '#d2cd3d'
+          }
+        },
+        {
+          name: '二级除盐水',
+          itemStyle: {
+            color: '#49dddd'
+          }
+        },
+        {
+          name: '其他',
+          itemStyle: {
+            color: '#99e8ff'
+          }
+        },
+        {
+          name: '冷硬钢带-本浦酸轧',
           label: {
             position: 'left'
+          },
+          itemStyle: {
+            color: "#3598eb"
+          }
+        },
+        {
+          name: '冷硬钢带-三冷酸轧',
+          label: {
+            position: 'left'
+          },
+          itemStyle: {
+            color: "#3598eb"
+          }
+        },
+        {
+          name: '冷轧钢带-三冷1#连退',
+          label: {
+            position: 'left'
+          },
+          itemStyle: {
+            color: "#33a2a3"
+          }
+        },
+        {
+          name: '冷轧钢带-三冷2#连退',
+          label: {
+            position: 'left'
+          },
+          itemStyle: {
+            color: "#33a2a3"
+          }
+        },
+        {
+          name: '冷轧钢带-本浦连退',
+          label: {
+            position: 'left'
+          },
+          itemStyle: {
+            color: "#33a2a3"
+          }
+        },
+        {
+          name: '冷轧钢带-本浦1#精整',
+          label: {
+            position: 'left'
+          },
+          itemStyle: {
+            color: "#db544a"
+          }
+        },
+        {
+          name: '冷轧钢带-本浦2#精整',
+          label: {
+            position: 'left'
+          },
+          itemStyle: {
+            color: "#db544a"
+          }
+        },
+        {
+          name: '电镀锌钢带-电镀锌车间',
+          label: {
+            position: 'left'
+          },
+          itemStyle: {
+            color: "purple"
           }
         }
       ],
       links: [
-      {
+        {
           source: '电力',
-          target: '废锌液',
-          value: 2
+          target: '冷硬钢带-三冷酸轧',
+          value: .5
         },
         {
-          source: '天然气',
-          target: '电镀锌板材',
-          value: 1
+          source: '电力',
+          target: '冷轧钢带-三冷2#连退',
+          value: .5
         },
         {
-          source: '清洁剂',
-          target: '废气',
-          value: 1
+          source: '热力',
+          target: '冷硬钢带-本浦酸轧',
+          value: .5
         },
         {
-          source: '锌锭',
-          target: '废清洗剂',
-          value: 1
+          source: '热力',
+          target: '冷轧钢带-三冷2#连退',
+          value: .5
+        },
+        {
+          source: '焦炉煤气',
+          target: '冷轧钢带-三冷2#连退',
+          value: .5
+        },
+        {
+          source: '其他',
+          target: '冷轧钢带-三冷1#连退',
+          value: .5
         },
         
         {
-          source: '钝化剂',
-          target: '废气',
-          value: 1
+          source: '二级除盐水',
+          target: '冷轧钢带-三冷2#连退',
+          value: .5
         },
         {
-          source: '板材',
-          target: '废清洗剂',
-          value: 1
+          source: '二级除盐水',
+          target: '冷硬钢带-三冷酸轧',
+          value: .5
+        },
+        {
+          source: '高炉煤气',
+          target: '冷轧钢带-三冷1#连退',
+          value: 0.5
+        },
+        {
+          source: '焦炉煤气',
+          target: '冷轧钢带-三冷2#连退',
+          value: 0.5
+        },
+        {
+          source: '高炉煤气',
+          target: '冷轧钢带-本浦连退',
+          value: 0.5
+        },
+        {
+          source: '电力',
+          target: '冷轧钢带-本浦1#精整',
+          value: 0.5
+        },
+        {
+          source: '电力',
+          target: '冷轧钢带-本浦2#精整',
+          value: 0.5
+        },
+        {
+          source: '电力',
+          target: '电镀锌钢带-电镀锌车间',
+          value: 0.5
         },
         
         
         
       ],
+      label: {
+        color: '#fff',
+        fontSize: 12
+      },
       lineStyle: {
         color: 'source',
         curveness: 0.5

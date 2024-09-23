@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@kjgl77/datav-vue3": "^1.7.3",
+    "@types/echarts": "^4.9.22",
     "@types/three": "^0.168.0",
     "@types/video.js": "^7.3.58",
     "axios": "^1.6.8",

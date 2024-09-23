@@ -9,6 +9,7 @@ import LeftBottom from "./left-bottom.vue";
 import CenterMap from "./center-map.vue";
 import CenterBottom from "./center-bottom.vue";
 import RightTop from "./right-top.vue";
+import NewRightTop from "./new-right_top.vue";
 import RightCenter from "./right-center.vue";
 import RightBottom from "./right-bottom.vue";
 
@@ -21,5 +22,6 @@ export {
     RightBottom,
     RightCenter,
     LeftCenter,
-    RightTop
+    RightTop,
+    NewRightTop
 }
