@@ -20,7 +20,7 @@
       style="transform: translate(0px, 0px);height:120px;
       background-color: rgb(0,0,0,0);">
         <div style="pointer-events: none; position: relative;width: 120%; height: 100%;left: 50%; transform: translateX(-50%);">
-          <video autoplay loop muted width="100%" style="position: absolute; width: 100% !important;">
+          <video v-if="showVideo" autoplay loop muted width="100%" style="position: absolute; width: 100% !important;">
             <source src="/src/assets/webm/d底部背景动效.webm" type="video/webm" />
           </video>
         </div>
@@ -85,8 +85,9 @@ import { LeftTop,
     RightBottom,
     RightTop
    } from "./index";
-import { ref, onMounted, nextTick } from "vue";
+import { ref, onMounted, nextTick, onUnmounted } from "vue";
 const selectedValue = ref('');
+const showVideo = ref(true)
 
 const cusmodalRef: any = ref<HTMLDivElement | null>(null); // 使用ref引用弹窗组件实例
 const handlePopupClick = async (popup: any) => {
@@ -128,8 +129,21 @@ const animateDivs = () => {
   
   gsap.fromTo('.centermapComp', { opacity: 0 }, { opacity: 1, duration: 3 });
 };
-onMounted(() => {
+const returnPlaying = async () => {
+  // console.log('returnPlaying----------');
+  if (document.hidden) {
+      showVideo.value = false
+    } else {
+      showVideo.value = true
+    }
+}
+onMounted(async () => {
+  await nextTick()
   animateDivs();
+  document.addEventListener('visibilitychange', returnPlaying);
+});
+onUnmounted(() => {
+  document.removeEventListener('visibilitychange', returnPlaying);
 });
 const animateDivsReverce = (calback: any) => {
   if (contentLeftComp.value) {

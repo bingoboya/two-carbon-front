@@ -4,52 +4,98 @@
     <!-- 这个canvas元素显示的话，点击canvas时，img元素会出现光标 -->
     <canvas v-show="false" ref="canvasRef"></canvas>
     <div v-if="backgroundImageSrc" class="pic_wrap">
+      <div style="position: absolute;top:0;font-size: 20px;line-height: 46px;color: #fff;">{{ '电镀锌(精整)' }}</div>
       <div class="process_overlay">
-        <div class="process_top" :class="curBuildingName === '本浦冷轧2#重卷机组' ? 'process_top_hover' : ''"  @click="clickItem('本浦冷轧2#重卷机组')">
-          <div style="position: absolute; left: 0;">
-            <img src="/src/assets/bgpng/1.png" alt="">
-          </div>
-          <div style="display: flex; flex-direction: row;align-items: center;height: 100%;">
-            <div style="display: flex; flex-direction: column;align-items: center;">
-              <div style="writing-mode: vertical-lr; letter-spacing: 2px; color: #fff;">本浦冷轧</div>
-              <div style="color: #fff;">2#</div>
+        <div style="flex: 100;display: flex; flex-direction: row;gap: 10px;">
+          <div class="process_top" :class="curBuildingName === '本浦冷轧2#重卷机组' ? 'process_top_hover' : ''"
+            @click="clickItem('本浦冷轧2#重卷机组')">
+            <div style="position: absolute; left: 0;">
+              <img src="/src/assets/bgpng/1.png" alt="">
             </div>
-            <div style="writing-mode: vertical-lr; letter-spacing: 2px; color: #fff;">重卷机组</div>
+            <div style="position: absolute; width: 94%;height: 100%;display: flex; flex-direction: column; justify-content: center; align-items: center;}">
+              <img style="width: 98%; height: 74%;" src="/src/assets/bgpng/机组1无阴影.png" alt="">
+            </div>
+            <div
+              style="position: absolute;top:6px; display: flex; flex-direction: column; align-items: center;width: 100%;">
+              本浦冷轧2#重卷机组
+            </div>
+            <div class="process_info_wrapper">
+              <div class="process_info" style="background-image: url('/src/assets/bgpng/本浦冷轧2重卷机组碳排放量bg.png');">
+                <div style="font-weight: 300;">碳排放量：</div>
+                <div style="font-size: 14px;">{{ 0.55 }}</div>
+                <div style="font-weight: 300;">&nbsp; 万吨</div>
+              </div>
+              <div class="process_info" style="background-image: url('/src/assets/bgpng/本浦冷轧2重卷机组碳排放量bg.png');">
+                <div style="font-weight: 300;">耗电量：</div>
+                <div style="font-size: 14px;">{{ 396.76 }}</div>
+                <div style="font-weight: 300;">&nbsp; 万千瓦时</div>
+              </div>
+            </div>
+            <div style="position: absolute; right: 0;">
+              <img src="/src/assets/bgpng/1-1.png" alt="">
+            </div>
           </div>
-          <div style="position: absolute; right: 0;">
-            <img src="/src/assets/bgpng/1-1.png" alt="">
+          <div class="process_center" :class="curBuildingName === '本浦冷轧3#重卷机组' ? 'process_top_hover' : ''"
+            @click="clickItem('本浦冷轧3#重卷机组')">
+            <div style="position: absolute; left: 0;">
+              <img src="/src/assets/bgpng/2.png" alt="">
+            </div>
+            <div style="position: absolute; width: 94%;height: 100%;display: flex; flex-direction: column; justify-content: center; align-items: center;}">
+              <img style="width: 98%; height: 74%;" src="/src/assets/bgpng/机组2无阴影.png" alt="">
+            </div>
+            <div
+              style="position: absolute;top:6px; display: flex; flex-direction: column;align-items: center;width: 100%;">
+              本浦冷轧3#重卷机组
+            </div>
+            <div class="process_info_wrapper">
+              <div class="process_info" style="background-image: url('/src/assets/bgpng/本浦冷轧3重卷机组碳排放量bg.png');">
+                <div style="font-weight: 300;">碳排放量：</div>
+                <div style="font-size: 14px;">{{ 0.69 }}</div>
+                <div style="font-weight: 300;">&nbsp; 万吨</div>
+              </div>
+              <div class="process_info" style="background-image: url('/src/assets/bgpng/本浦冷轧3重卷机组碳排放量bg.png');">
+                <div style="font-weight: 300;">耗电量：</div>
+                <div style="font-size: 14px;">{{ 495.96 }}</div>
+                <div style="font-weight: 300;">&nbsp; 万千瓦时</div>
+              </div>
+            </div>
+            <div style="position: absolute; right: 0;">
+              <img src="/src/assets/bgpng/2-2.png" alt="">
+            </div>
           </div>
         </div>
-        <div class="process_center" :class="curBuildingName === '本浦冷轧3#重卷机组' ? 'process_top_hover' : ''"  @click="clickItem('本浦冷轧3#重卷机组')">
-          <div style="position: absolute; left: 0;">
-            <img src="/src/assets/bgpng/2.png" alt="">
-          </div>
-          <div style="display: flex; flex-direction: row;align-items: center;height: 100%;">
-            <div style="display: flex; flex-direction: column;align-items: center;">
-              <div style="writing-mode: vertical-lr; letter-spacing: 2px; color: #fff;">本浦冷轧</div>
-              <div style="color: #fff;">3#</div>
-            </div>
-            <div style="writing-mode: vertical-lr; letter-spacing: 2px; color: #fff;">重卷机组</div>
-          </div>
-          <div style="position: absolute; right: 0;">
-            <img src="/src/assets/bgpng/2-2.png" alt="">
-          </div>
-        </div>
-        <div class="process_bottom" :class="curBuildingName === '电镀锌机组' ? 'process_top_hover' : ''"  @click="clickItem('电镀锌机组')">
+        <div class="process_bottom" :class="curBuildingName === '电镀锌机组' ? 'process_top_hover' : ''"
+          @click="clickItem('电镀锌机组')">
           <div style="position: absolute; left: 0;">
             <img src="/src/assets/bgpng/3.png" alt="">
           </div>
-          <div style="display: flex;flex-direction: column; align-items: center;color: #fff;">
-            <div style="writing-mode: vertical-lr;padding-left: 2px;">电镀锌机组</div>
+          <div style="position: absolute; width: 94%;height: 100%;display: flex; flex-direction: column; justify-content: center; align-items: center;}">
+              <img style="width: 98%; height: 74%;" src="/src/assets/bgpng/电镀锌无阴影.png" alt="">
+            </div>
+          <div
+            style="position: absolute;top:6px; display: flex;flex-direction: column; align-items: center;width: 100%;">
+            电镀锌机组
+          </div>
+          <div class="process_info_wrapper">
+            <div class="process_info" style="background-image: url('/src/assets/bgpng/电镀锌机组碳排放量bg.png');">
+              <div style="font-weight: 300;">碳排放量：</div>
+              <div style="font-size: 14px;">{{ 1.51 }}</div>
+              <div style="font-weight: 300;">&nbsp; 万吨</div>
+            </div>
+            <div class="process_info" style="background-image: url('/src/assets/bgpng/电镀锌机组碳排放量bg.png');">
+              <div style="font-weight: 300;">耗电量：</div>
+              <div style="font-size: 14px;">{{ 1091.11 }}</div>
+              <div style="font-weight: 300;">&nbsp; 万千瓦时</div>
+            </div>
           </div>
           <div style="position: absolute; right: 0;">
             <img src="/src/assets/bgpng/3-3.png" alt="">
           </div>
         </div>
       </div>
-      <div class="pic_wrapper">
+      <!-- <div class="pic_wrapper">
         <img :src="backgroundImageSrc" alt="">
-      </div>
+      </div> -->
     </div>
     <div v-if="selectedBuilding" class="info-card" :style="infoCardStyle">
       <h3>{{ selectedBuilding.name }}</h3>
@@ -212,7 +258,7 @@ const initThree = () => {
 // 调用特定建筑的 funabc 函数
 const callFunabcForBuilding = (buildingName: string, type: string) => {
   console.log('call--FunabcForBuilding', buildingName, type)
-  if(type === 'enter') {
+  if (type === 'enter') {
     curBuildingName.value = buildingName
   } else if (type === 'leave') {
     curBuildingName.value = ''
@@ -279,7 +325,7 @@ const updateSize = async () => {
   }
 };
 
-const initFunc = async ()=> {
+const initFunc = async () => {
   window.addEventListener('resize', updateSize);
   window.addEventListener('resize', () => {
     if (labelRenderer) {
@@ -347,6 +393,30 @@ defineExpose({
 })
 </script>
 <style lang="scss" scoped>
+.process_info_wrapper {
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 10px;
+  position: absolute;
+  bottom: 6px;
+  // right: 10px;
+  font-size: 12px;
+
+  .process_info {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    background-repeat: round;
+    padding: 0px 8px;
+  }
+}
+
 .process_top {
   cursor: pointer;
   position: relative;
@@ -389,6 +459,7 @@ defineExpose({
     pointer-events: none;
   }
 }
+
 .process_top_hover {
   box-shadow: 0 0 10px rgba(0, 229, 255, 0.5),
     0 0 20px rgba(0, 229, 255, 0.3),
@@ -450,6 +521,7 @@ defineExpose({
     pointer-events: none;
   }
 }
+
 .process_center_hover {
   box-shadow: 0 0 10px rgba(31, 173, 255, 0.5),
     0 0 20px rgba(31, 173, 255, 0.3),
@@ -512,6 +584,7 @@ defineExpose({
     pointer-events: none;
   }
 }
+
 .process_bottom_hover {
   box-shadow: 0 0 4px rgba(156, 143, 252, 0.5),
     0 0 10px rgba(156, 143, 252, 0.3),
@@ -532,7 +605,7 @@ defineExpose({
 }
 
 .process_overlay {
-  font-size: 22px;
+  font-size: 16px;
   z-index: 111;
   display: flex;
   gap: 12px;
@@ -541,11 +614,13 @@ defineExpose({
   width: 100%;
   height: 100%;
   position: absolute;
+  padding: 50px 20px 20px 20px;
 }
 
 .pic_wrap {
   z-index: 111;
-
+  background-image: url('/src/assets/bgpng/电镀锌工艺背景.png');
+  background-repeat: round;
   position: absolute;
   width: 100%;
   // height: 100%;
@@ -553,13 +628,14 @@ defineExpose({
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  height: calc(100% - 200px);
-  transform: translateY(28%);
+  height: calc(100% - 170px);
+  transform: translateY(24%);
 
   .pic_wrapper {
     width: 100%;
     height: 100%;
-    padding: 10px 10px 10px 100px;
+    // padding: 10px 10px 10px 100px;
+    padding: 68px 30px 30px 70px;
   }
 
   img {

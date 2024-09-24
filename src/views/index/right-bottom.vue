@@ -1,31 +1,38 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { alarmNum } from "@/api";
+// import { alarmNum } from "@/api";
 import { graphic } from "echarts/core";
-import { ElMessage } from "element-plus";
+// import { ElMessage } from "element-plus";
 
 const option = ref({});
 const getData = () => {
-  alarmNum()
-    .then((res) => {
-      if (res.success) {
-        res.data = {
-          dateList: ['1月', '2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
-          numList: [34, 35, 38, 33, 36, 32, 31, 32, null, null, null, null],
-          numList2: [ 32, 31, 33, 33, 32, 36, 35, 36, null, null, null, null ],
-          numList3: [ null, null, null, null, null, null, null, 36, 33, 35, 33, 35 ],
-        }
-        setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3);
-      } else {
-        ElMessage({
-          message: res.msg,
-          type: "warning",
-        });
-      }
-    })
-    .catch((err) => {
-      ElMessage.error(err);
-    });
+  const data = {
+    dateList: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+    numList: [34, 35, 38, 33, 36, 32, 31, 32, null, null, null, null],
+    numList2: [32, 31, 33, 33, 32, 36, 35, 36, null, null, null, null],
+    numList3: [null, null, null, null, null, null, null, 36, 33, 35, 33, 35],
+  }
+  setOption(data.dateList, data.numList, data.numList2, data.numList3);
+  // alarmNum()
+  //   .then((res) => {
+  //     if (res.success) {
+  //       res.data = {
+  //         dateList: ['1月', '2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+  //         numList: [34, 35, 38, 33, 36, 32, 31, 32, null, null, null, null],
+  //         numList2: [ 32, 31, 33, 33, 32, 36, 35, 36, null, null, null, null ],
+  //         numList3: [ null, null, null, null, null, null, null, 36, 33, 35, 33, 35 ],
+  //       }
+  //       setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3);
+  //     } else {
+  //       ElMessage({
+  //         message: res.msg,
+  //         type: "warning",
+  //       });
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     ElMessage.error(err);
+  //   });
 };
 const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[]) => {
   const findNullIndex = yData2.findIndex(item => item === null)
@@ -62,20 +69,20 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
             const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(255, 128, 36, 1);"></span>`
             item.marker = mark
             result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}万吨</br>` : '- </br>'}`;
-          }  else {
+          } else {
             result += item.marker + " " + item.seriesName + " :  - </br>";
           }
         });
         return result;
       },
-      
+
     },
     legend: {
       data: [
         {
           name: "实际碳排",
-          itemStyle:{ 
-            opacity:0,
+          itemStyle: {
+            opacity: 0,
           },
           textStyle: {
             color: "#fff",
@@ -83,8 +90,8 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         },
         {
           name: "测算碳排",
-          itemStyle:{ 
-            opacity:0,
+          itemStyle: {
+            opacity: 0,
           },
           textStyle: {
             color: "#fff",
@@ -92,8 +99,8 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         },
         {
           name: "预测碳排",
-          itemStyle:{ 
-            opacity:0,
+          itemStyle: {
+            opacity: 0,
           },
           textStyle: {
             color: "#fff",
@@ -102,7 +109,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       ],
       top: -4,
     },
-    
+
     xAxis: {
       type: "category",
       data: xData,
@@ -129,11 +136,17 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       {
         type: "value",
         name: '碳排放量(万吨)',
+        max: function (value: any) {
+          return value.max + 10;
+        },
+        min: function (value: any) {
+          return value.min - 10;
+        },
         position: 'left',
         nameTextStyle: {
           color: '#fff',
           // align: 'left'
-          padding: [0,0,0,30]
+          padding: [0, 0, 0, 30]
         },
         splitLine: {
           show: true,
@@ -155,7 +168,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         },
       }
     ],
-    
+
     series: [
       {
         data: yData,
@@ -231,7 +244,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
           // data: nullIndices.map((index: any) => ({
           //   xAxis: index
           // }))
-          data: [{xAxis: findNullIndex - 1}]
+          data: [{ xAxis: findNullIndex - 1 }]
         },
       },
       {
@@ -277,13 +290,8 @@ onMounted(() => {
 
 <template>
   <div style="width: 100%; height: 100%">
-    <v-chart
-      class="chart"
-      autoresize
-      style="width: 100%; height: 100%"
-      :option="option"
-      v-if="JSON.stringify(option) != '{}'"
-    />
+    <v-chart class="chart" autoresize style="width: 100%; height: 100%" :option="option"
+      v-if="JSON.stringify(option) != '{}'" />
   </div>
 </template>
 

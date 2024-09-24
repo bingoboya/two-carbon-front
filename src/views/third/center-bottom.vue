@@ -1,34 +1,40 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { alarmNum } from "@/api";
+// import { alarmNum } from "@/api";
 import { graphic } from "echarts/core";
-import { ElMessage } from "element-plus";
+// import { ElMessage } from "element-plus";
 
 const option = ref({});
 const getData = () => {
-  alarmNum()
-    .then((res) => {
-      console.log("右上--报警次数 ", res);
-      if (res.success) {
+  const data = {
+    dateList: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+    numList: [12, 32, 123, 53, 12, 33, 44, 11, 66, 34, 23, 15],
+    numList2: [32, 11, 13, 43, 22, 31, 51, 26, null, null, null, null],
+    numList3: [null, null, null, null, null, null, null, 26, 16, 5, 33, 45],
+  }
 
-        res.data = {
-          dateList: ['1月', '2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
-          numList: [ 12, 32, 123, 53, 12, 33, 44, 11, 66, 34, 23, 15 ],
-          numList2: [ 32, 11, 13, 43, 22, 31, 51, 26, null, null, null, null ],
-          numList3: [ null, null, null, null, null, null, null, 26, 16, 5, 33, 45 ],
-        }
+  setOption(data.dateList, data.numList, data.numList2, data.numList3);
+  // alarmNum()
+  //   .then((res) => {
+  //     if (res.success) {
+  //       res.data = {
+  //         dateList: ['1月', '2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+  //         numList: [ 12, 32, 123, 53, 12, 33, 44, 11, 66, 34, 23, 15 ],
+  //         numList2: [ 32, 11, 13, 43, 22, 31, 51, 26, null, null, null, null ],
+  //         numList3: [ null, null, null, null, null, null, null, 26, 16, 5, 33, 45 ],
+  //       }
 
-        setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3);
-      } else {
-        ElMessage({
-          message: res.msg,
-          type: "warning",
-        });
-      }
-    })
-    .catch((err) => {
-      ElMessage.error(err);
-    });
+  //       setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3);
+  //     } else {
+  //       ElMessage({
+  //         message: res.msg,
+  //         type: "warning",
+  //       });
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     ElMessage.error(err);
+  //   });
 };
 const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[]) => {
   const findNullIndex = yData2.findIndex(item => item === null)
@@ -43,7 +49,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       borderColor: "#1F63A3",
     },
 
-    
+
 
     tooltip: {
       trigger: "axis",
@@ -74,9 +80,9 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       textStyle: {
         color: "#fff",
       },
-    //   top: "0",
+      //   top: "0",
     },
-    
+
     xAxis: {
       type: "category",
       data: xData,
@@ -128,7 +134,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         },
       }
     ],
-    
+
     series: [
       {
         data: yData2,
@@ -169,7 +175,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
           // data: nullIndices.map((index: any) => ({
           //   xAxis: index
           // }))
-          data: [{xAxis: findNullIndex - 1}]
+          data: [{ xAxis: findNullIndex - 1 }]
         },
       },
       {
@@ -212,15 +218,11 @@ onMounted(() => {
 });
 </script>
 
-<template><div style="width: 100%; height: 100%">
-  <v-chart
-    class="chart"
-      autoresize
-    style="width: 100%; height: 100%"
-    :option="option"
-    v-if="JSON.stringify(option) != '{}'"
-  />
-</div>
+<template>
+  <div style="width: 100%; height: 100%">
+    <v-chart class="chart" autoresize style="width: 100%; height: 100%" :option="option"
+      v-if="JSON.stringify(option) != '{}'" />
+  </div>
 </template>
 
 <style scoped lang="scss"></style>

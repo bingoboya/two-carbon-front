@@ -234,7 +234,9 @@ const newOption = {
                             style: {
                                 fill: new graphic.LinearGradient(0, 0, 0, 1, [
                                     { offset: 0, color: "rgba(33, 162, 163, 1)" },
-                                    { offset: 1, color: "rgba(33, 162, 163, 1)" },
+                                    { offset: 1, color: "rgba(33, 162, 163, 0.4)" },
+                                    // { offset: 0, color: "#0d7d7e" },
+                                    // { offset: 1, color: "#0d7d7e" },
                                     // { offset: 0, color: "#956FD4" },
                                     // { offset: 1, color: "#3EACE5" },
                                 ]),
@@ -252,8 +254,10 @@ const newOption = {
                             },
                             style: {
                                 fill: new graphic.LinearGradient(0, 0, 0, 1, [
-                                    { offset: 0, color: "rgba(65, 221, 221, 1)" },
-                                    { offset: 1, color: "rgba(65, 221, 221, 1)" },
+                                    { offset: 0, color: "#34c7c8" },
+                                    { offset: 1, color: "#34c7c8" },
+                                    // { offset: 0, color: "rgba(65, 221, 221, 1)" },
+                                    // { offset: 1, color: "rgba(65, 221, 221, 1)" },
                                     // { offset: 0, color: "#956FD4" },
                                     // { offset: 1, color: "#3EACE5" },
                                 ]),
@@ -271,8 +275,10 @@ const newOption = {
                             },
                             style: {
                                 fill: new graphic.LinearGradient(0, 0, 0, 1, [
-                                    { offset: 0, color: "RGBA(179, 231, 210, 1)" },
-                                    { offset: 1, color: "RGBA(179, 231, 210, 1)" },
+                                    { offset: 0, color: "#a1feff" },
+                                    { offset: 1, color: "#a1feff" },
+                                    // { offset: 0, color: "RGBA(179, 231, 210, 1)" },
+                                    // { offset: 1, color: "RGBA(179, 231, 210, 1)" },
                                     // { offset: 0, color: "#956FD4" },
                                     // { offset: 1, color: "#3EACE5" },
                                 ]),
@@ -296,7 +302,6 @@ const newOption = {
             name: '单位产品碳排放量',
             type: 'line',
             yAxisIndex: 1,
-            // smooth: true,
             symbol: "none", //去除点
             // showAllSymbol: true,
             // symbolSize: 4,

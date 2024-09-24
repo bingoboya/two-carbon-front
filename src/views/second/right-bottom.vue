@@ -18,7 +18,7 @@ const getData = () => {
           numList3: [null, null, null, null,null,null, null, null, "20920.23", "22082.64", "22547.49", "26266.72" ], // 预测碳排
           numList4: [null, null, null, null, null, null, null, null, "17920.23", "19082.64", "19547.49", "23266.72" ],
         }
-                    
+
         setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3, res.data.numList4);
       } else {
         ElMessage({
@@ -43,7 +43,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       borderColor: "#1F63A3",
     },
 
-    
+
 
     tooltip: {
       trigger: "axis",
@@ -68,11 +68,11 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
             const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(188,196,48,1);"></span>`
             item.marker = mark
             result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}吨</br>` : '- </br>'}`;
-          }else if (item.seriesName == "预测下限") {
+          } else if (item.seriesName == "预测下限") {
             const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(229,126,47,1);"></span>`
             item.marker = mark
             result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}吨</br>` : '- </br>'}`;
-          }else {
+          } else {
             result += item.marker + " " + item.seriesName + " :  - </br>";
           }
         });
@@ -85,8 +85,8 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       data: [
         {
           name: "实际碳排",
-          itemStyle:{ 
-            opacity:0,
+          itemStyle: {
+            opacity: 0,
           },
           textStyle: {
             color: "#fff",
@@ -94,8 +94,8 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         },
         {
           name: "预测碳排",
-          itemStyle:{ 
-            opacity:0,
+          itemStyle: {
+            opacity: 0,
           },
           textStyle: {
             color: "#fff",
@@ -103,8 +103,8 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         },
         {
           name: "预测上限",
-          itemStyle:{ 
-            opacity:0,
+          itemStyle: {
+            opacity: 0,
           },
           textStyle: {
             color: "#fff",
@@ -112,8 +112,8 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         },
         {
           name: "预测下限",
-          itemStyle:{ 
-            opacity:0,
+          itemStyle: {
+            opacity: 0,
           },
           textStyle: {
             color: "#fff",
@@ -123,7 +123,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       top: -4,
     },
 
-    
+
     xAxis: {
       type: "category",
       data: xData,
@@ -254,15 +254,11 @@ onMounted(() => {
 });
 </script>
 
-<template><div style="width: 100%; height: 100%">
-  <v-chart
-    class="chart"
-      autoresize
-    style="width: 100%; height: 100%"
-    :option="option"
-    v-if="JSON.stringify(option) != '{}'"
-  />
-</div>
+<template>
+  <div style="width: 100%; height: 100%">
+    <v-chart class="chart" autoresize style="width: 100%; height: 100%" :option="option"
+      v-if="JSON.stringify(option) != '{}'" />
+  </div>
 </template>
 
 <style scoped lang="scss"></style>

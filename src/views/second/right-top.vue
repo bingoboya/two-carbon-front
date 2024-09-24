@@ -1,6 +1,6 @@
 <template>
   <div style="width: 410px; height: 240px; position: relative;">
-    <div ref="chartRef" style="width: 100%; height: 100%;"></div>
+    <div ref="chartRef" style="width: 100%; height: 120%;position: absolute;top: -40px;"></div>
     <div style="position: absolute;bottom:0;display: flex;width: 100%; gap: 40px; flex-direction: row; justify-content: center;">
       <div style="color: #6682ce;">直接碳排：30.23 %</div>
       <div style="color: #85ce66;">间接碳排：69.77 %</div>
@@ -271,7 +271,8 @@ const state = reactive({
           length: '24%',
           lineStyle: {
             width: 10,
-            color: '#002837'
+            color: '#1a3066'
+            // color: '#002837'
           }
         },
         axisTick: { show: false },

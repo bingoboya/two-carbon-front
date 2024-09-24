@@ -1,11 +1,24 @@
-<!--  InteractiveFactoryMap.vue -->
 <template>
   <div ref="containerRef" class="video-container">
     <!-- 这个canvas元素显示的话，点击canvas时，img元素会出现光标 -->
     <canvas v-show="false" ref="canvasRef"></canvas>
     <div v-if="backgroundImageSrc" class="pic_wrap">
+      <div style="position: absolute;top:0;font-size: 20px;line-height: 46px;color: #fff;">{{ '电镀锌工艺' }}</div>
       <div class="process_overlay">
-        <div class="process_top" :class="curBuildingName === '酸轧' ? 'process_top_hover' : ''"  @click="clickItem('酸轧')">
+
+        <div class="process_top" :class="curBuildingName === '酸轧' ? 'process_top_hover' : ''" @click="clickItem('酸轧')">
+          <div class="process_info_wrapper">
+            <div class="process_info" style="background-image: url('/src/assets/bgpng/酸轧碳排放量bg.png');">
+              <div style="font-weight: 300;">碳排放量：</div>
+              <div style="font-size: 14px;">{{ 11.76 }}</div>
+              <div style="font-weight: 300;">&nbsp; 万吨</div>
+            </div>
+            <div class="process_info" style="background-image: url('/src/assets/bgpng/酸轧碳排放量bg.png');">
+              <div style="font-weight: 300;">耗电量：</div>
+              <div style="font-size: 14px;">{{ 13226.36 }}</div>
+              <div style="font-weight: 300;">&nbsp; 万千瓦时</div>
+            </div>
+          </div>
           <div style="position: absolute; left: 0;">
             <img src="/src/assets/bgpng/1.png" alt="">
           </div>
@@ -14,7 +27,20 @@
             <img src="/src/assets/bgpng/1-1.png" alt="">
           </div>
         </div>
-        <div class="process_center" :class="curBuildingName === '连退' ? 'process_center_hover' : ''" @click="clickItem('连退')">
+        <div class="process_center" :class="curBuildingName === '连退' ? 'process_center_hover' : ''"
+          @click="clickItem('连退')">
+          <div class="process_info_wrapper">
+            <div class="process_info" style="background-image: url('/src/assets/bgpng/连退碳排放量bg.png');">
+              <div style="font-weight: 300;">碳排放量：</div>
+              <div style="font-size: 14px;">{{ 4.09 }}</div>
+              <div style="font-weight: 300;">&nbsp; 万吨</div>
+            </div>
+            <div class="process_info" style="background-image: url('/src/assets/bgpng/连退碳排放量bg.png');">
+              <div style="font-weight: 300;">耗电量：</div>
+              <div style="font-size: 14px;">{{ 672.49 }}</div>
+              <div style="font-weight: 300;">&nbsp; 万千瓦时</div>
+            </div>
+          </div>
           <div style="position: absolute; left: 0;">
             <img src="/src/assets/bgpng/2.png" alt="">
           </div>
@@ -23,9 +49,22 @@
             <img src="/src/assets/bgpng/2-2.png" alt="">
           </div>
         </div>
-        <div class="process_bottom" :class="curBuildingName === '电镀(精整)' ? 'process_bottom_hover' : ''" @click="clickItem('电镀(精整)')">
+        <div class="process_bottom" :class="curBuildingName === '电镀(精整)' ? 'process_bottom_hover' : ''"
+          @click="clickItem('电镀(精整)')">
+          <div class="process_info_wrapper">
+            <div class="process_info" style="background-image: url('/src/assets/bgpng/电镀(精整)碳排放量bg.png');">
+              <div style="font-weight: 300;">碳排放量：</div>
+              <div style="font-size: 14px;">{{ 2.76 }}</div>
+              <div style="font-weight: 300;">&nbsp; 万吨</div>
+            </div>
+            <div class="process_info" style="background-image: url('/src/assets/bgpng/电镀(精整)碳排放量bg.png');">
+              <div style="font-weight: 300;">耗电量：</div>
+              <div style="font-size: 14px;">{{ 1983.84 }}</div>
+              <div style="font-weight: 300;">&nbsp; 万千瓦时</div>
+            </div>
+          </div>
           <div style="position: absolute; left: 0;">
-            <img src="/src/assets/bgpng/3.png" alt="">
+            <img src="/src/assets/bgpng/青色左边.png" alt="">
           </div>
           <div style="display: flex;flex-direction: column; align-items: center;color: #fff;">
             <div>电</div>
@@ -36,7 +75,7 @@
             <div style="writing-mode: vertical-lr;padding-left: 2px;">)</div>
           </div>
           <div style="position: absolute; right: 0;">
-            <img src="/src/assets/bgpng/3-3.png" alt="">
+            <img src="/src/assets/bgpng/青色右边.png" alt="">
           </div>
         </div>
       </div>
@@ -44,10 +83,10 @@
         <img :src="backgroundImageSrc" alt="">
       </div>
     </div>
-    <div v-if="selectedBuilding" class="info-card" :style="infoCardStyle">
+    <!-- <div v-if="selectedBuilding" class="info-card" :style="infoCardStyle">
       <h3>{{ selectedBuilding.name }}</h3>
       <p>{{ selectedBuilding.info }}</p>
-    </div>
+    </div> -->
   </div>
 </template>
 <script setup lang="ts">
@@ -205,7 +244,7 @@ const initThree = () => {
 // 调用特定建筑的 funabc 函数
 const callFunabcForBuilding = (buildingName: string, type: string) => {
   console.log('call--FunabcForBuilding', buildingName, type)
-  if(type === 'enter') {
+  if (type === 'enter') {
     curBuildingName.value = buildingName
   } else if (type === 'leave') {
     curBuildingName.value = ''
@@ -271,14 +310,14 @@ const updateSize = async () => {
   }
 };
 
-const initFunc = async ()=> {
+const initFunc = async () => {
   window.addEventListener('resize', updateSize);
   window.addEventListener('resize', () => {
     if (labelRenderer) {
       labelRenderer.setSize(width.value, height.value);
     }
   });
-  await initThree();
+  // await initThree();
   if (canvasRef.value) {
     canvasRef.value.addEventListener('click', onCanvasClick);
   }
@@ -339,6 +378,27 @@ defineExpose({
 })
 </script>
 <style lang="scss" scoped>
+.process_info_wrapper {
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  font-size: 12px;
+
+  .process_info {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    background-repeat: round;
+    padding: 0px 8px;
+  }
+}
+
 .process_top {
   cursor: pointer;
   position: relative;
@@ -350,7 +410,7 @@ defineExpose({
   padding-left: 14px;
   // background: rgba(255, 192, 203, 0.445);
   // border: 1px solid RGBA(0, 229, 255, 1);
-  flex: 120;
+  flex: 140;
   border: 1px solid rgba(0, 229, 255, 1);
   // box-shadow: 0 0 10px rgba(0, 229, 255, 0.3),
   //             // 0 0 20px rgba(0, 229, 255, 0.3),
@@ -386,6 +446,7 @@ defineExpose({
     pointer-events: none;
   }
 }
+
 .process_top_hover {
   box-shadow: 0 0 10px rgba(0, 229, 255, 0.5),
     0 0 20px rgba(0, 229, 255, 0.3),
@@ -452,6 +513,7 @@ defineExpose({
     pointer-events: none;
   }
 }
+
 .process_center_hover {
   box-shadow: 0 0 10px rgba(31, 173, 255, 0.5),
     0 0 20px rgba(31, 173, 255, 0.3),
@@ -518,6 +580,7 @@ defineExpose({
     pointer-events: none;
   }
 }
+
 .process_bottom_hover {
   box-shadow: 0 0 4px rgba(125, 235, 190, 0.5),
     0 0 10px rgba(125, 235, 190, 0.3),
@@ -547,11 +610,13 @@ defineExpose({
   width: 100%;
   height: 100%;
   position: absolute;
+  padding: 50px 20px 20px 20px;
 }
 
 .pic_wrap {
   z-index: 111;
-
+  background-image: url('/src/assets/bgpng/电镀锌工艺背景.png');
+  background-repeat: round;
   position: absolute;
   width: 100%;
   // height: 100%;
@@ -559,13 +624,13 @@ defineExpose({
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  height: calc(100% - 340px);
-  transform: translateY(30%);
+  height: calc(100% - 284px);
+  transform: translateY(24%);
 
   .pic_wrapper {
     width: 100%;
     height: 100%;
-    padding: 10px 10px 10px 60px;
+    padding: 68px 30px 30px 70px;
   }
 
   img {

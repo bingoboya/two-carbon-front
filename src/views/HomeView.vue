@@ -1,5 +1,3 @@
-
-
 <template>
   <scale-screen
     :width="screenWidth"
@@ -13,8 +11,11 @@
     :wrapperStyle="wrapperStyle"
     :autoScale="isScale"
   >
-  <div class="content_wrapper">
-    <div class="content_wrap"  :style="{ backgroundImage: curPath === '/index'  ? `` : `url(${bgSrc2})` }">
+
+  <div class="content_wrapper"
+    :style="{ backgroundImage: curPath === '/index'  ? `url(${bgSrc2})` : `url(${bgSrc3})`  }"
+  >
+    <div ref="wrapperRef" class="content_wrap"  :style="{ backgroundImage: curPath === '/index'  ? `url(${bgSrc3})` : `url(${bgSrc2})` }">
     <!-- <div class="content_wrap"  :style="{ backgroundImage: curPath === '/index'  ? `url(${bgSrc})` : `url(${bgSrc2})` }"> -->
       <Headers />
       <RouterView />
@@ -30,9 +31,11 @@ import Headers from "./header.vue";
 import Setting from "./setting.vue";
 import { useSettingStore } from "@/stores/index";
 import { storeToRefs } from "pinia";
-import { ref, computed } from "vue";
+import { ref, computed, nextTick, onMounted, watch, onUnmounted } from "vue";
+import { gsap } from 'gsap';
 const router = useRouter()
-// console.log(11111, router.currentRoute.value.path)
+const wrapperRef = ref<HTMLDivElement | null>(null);
+const intervalId = ref<ReturnType<typeof setInterval> | null>(null);
 const curPath = computed(() => {
   return router.currentRoute.value.path
 })
@@ -41,16 +44,25 @@ const screenHeight = 1080
 const settingStore = useSettingStore();
 const { isScale } = storeToRefs(settingStore);
 const wrapperStyle = {};
-const bgSrc = ref('src/assets/bgpng/masklayer.png')
-const bgSrc2 = ref('src/assets/bgpng/整体底部bg.jpg')
+// const bgSrc = ref('src/assets/bgpng/masklayer.png')
+const bgSrc2 = '/src/assets/bgpng/整体bg.jpg'
+const bgSrc3 = '/src/assets/img/房子.jpg'
+
+watch(() => router.currentRoute.value.path, (newValue, oldValue) => {
+  if (newValue === '/second' && oldValue === '/index') {
+    // gsap.fromTo('.content_wrap', { opacity: 0 }, { opacity: 1, duration: 22 });
+  } 
+  if (newValue === '/index' && oldValue === '/second') {
+    // gsap.fromTo('.content_wrap', { opacity: 0 }, { opacity: 1, duration: 22 });
+  } 
+})
+
 </script>
 <style lang="scss" scoped>
 .content_wrapper {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  background-image: url("@/assets/img/房子.jpg");
-  // background-image: url("@/assets/img/wholebg.jpg");
   background-size: cover;
   background-position: center center;
 }
@@ -59,9 +71,6 @@ const bgSrc2 = ref('src/assets/bgpng/整体底部bg.jpg')
   height: 100%;
   padding: 0px 16px 16px 16px;
   box-sizing: border-box;
-  // background: url("src/assets/bgpng/masklayer.png");
-  // background: url("src/assets/bgpng/整体底部bg.jpg");
-
   background-size: cover;
   background-position: center center;
 }

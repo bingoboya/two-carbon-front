@@ -1,33 +1,38 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { alarmNum } from "@/api";
+// import { alarmNum } from "@/api";
 import { graphic } from "echarts/core";
-import { ElMessage } from "element-plus";
+// import { ElMessage } from "element-plus";
 
 const option = ref({});
 const getData = () => {
-  alarmNum()
-    .then((res) => {
-      if (res.success) {
-
-        res.data = {
+  const data = {
           dateList: ['1月', '2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
           numList: [  ],
           numList2: [ 257.55, 201.13,262.45,228.11,215.85,215.85,233.02,225.66, 225.66, null, null, null ],
           numList3: [ null, null, null, null, null, null, null, null, 220.76,233.02,237.93,277.17],
         }
-
-        setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3);
-      } else {
-        ElMessage({
-          message: res.msg,
-          type: "warning",
-        });
-      }
-    })
-    .catch((err) => {
-      ElMessage.error(err);
-    });
+        setOption(data.dateList, data.numList, data.numList2, data.numList3);
+  // alarmNum()
+  //   .then((res) => {
+  //     if (res.success) {
+  //       res.data = {
+  //         dateList: ['1月', '2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+  //         numList: [  ],
+  //         numList2: [ 257.55, 201.13,262.45,228.11,215.85,215.85,233.02,225.66, 225.66, null, null, null ],
+  //         numList3: [ null, null, null, null, null, null, null, null, 220.76,233.02,237.93,277.17],
+  //       }
+  //       setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3);
+  //     } else {
+  //       ElMessage({
+  //         message: res.msg,
+  //         type: "warning",
+  //       });
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     ElMessage.error(err);
+  //   });
 };
 const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[]) => {
   const findNullIndex = yData2.findIndex(item => item === null)

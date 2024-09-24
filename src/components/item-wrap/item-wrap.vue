@@ -49,7 +49,7 @@
         </svg>
       </div>
       <!-- 六个光标 长背景 -->
-      <div v-else-if="titlebg === '/src/assets/bgpng/二级标题头部长bg.png'" class="svg_wrapper_six_long" style="">
+      <div v-else-if="titlebg === '/src/assets/bgpng/二级标题头部长bg.png'" class="svg_wrapper_six_long" >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200">
           <!-- 第一个矩形 -->
           <rect fill="rgba(255,255,255,0.699)" stroke="rgba(255,255,255,0.699)" stroke-width="0" width="10" height="30"
@@ -120,7 +120,7 @@
         </svg>
       </div>
     </div>
-    <div style="flex:1; width: 100%;padding: 12px;overflow: hidden;">
+    <div style="flex:1; width: 100%;padding: 12px;">
       <slot></slot>
     </div>
   </BorderBox13>

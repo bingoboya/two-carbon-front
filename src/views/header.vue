@@ -1,6 +1,6 @@
 <template>
   <div ref="headerComp" class="title_wrap" style="position: relative;user-select: none;">
-    <video autoplay loop muted width="100%" style="position: absolute; width: 100% !important;">
+    <video v-if="showVideo"  autoplay  loop muted width="100%" style="position: absolute; width: 100% !important;">
       <source src="/src/assets/webm/t头部背景动效_无文字.webm" type="video/webm" />
     </video>
 
@@ -21,23 +21,34 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref, nextTick, onUnmounted } from "vue";
 import dayjs from 'dayjs';
 import type { DateDataType } from "./index.d"
 // import {useSettingStore} from "@/stores/index"
 import { gsap } from 'gsap';
 const headerComp = ref<HTMLDivElement | null>(null)
-
+const showVideo = ref(true)
 const animateDivs = () => {
   if (headerComp.value) {
     const height = headerComp.value.getBoundingClientRect().height; // x: -458
     gsap.from(headerComp.value, { y: -height, duration: 2 });
   }
 };
+const returnPlaying = async () => {
+  // console.log('returnPlaying----------');
+  if (document.hidden) {
+      showVideo.value = false
+    } else {
+      showVideo.value = true
+    }
+}
 onMounted(() => {
   animateDivs();
+  document.addEventListener('visibilitychange', returnPlaying);
 });
-
+onUnmounted(() => {
+  document.removeEventListener('visibilitychange', returnPlaying);
+});
 
 
 const dateData = reactive<DateDataType>({

@@ -22,24 +22,36 @@
           position: absolute; width: 100%;bottom: 0;
         ">
         <div style="position: relative;width: 120%; height: 100%;left: 50%; transform: translateX(-50%);">
-          <video autoplay loop muted width="100%" style="position: absolute; width: 100% !important;">
+          <video v-if="showVideo" autoplay loop muted width="100%" style="position: absolute; width: 100% !important;">
             <source src="/src/assets/webm/d底部背景动效.webm" type="video/webm" />
           </video>
         </div>
         <div class="bottom_item_wrapper">
           <div @mouseenter="enterBottomBtn('高炉')" @mouseleave="leaveBottomBtn('高炉')" @click="routerGo('高炉')" class="bottom_item" >
+            <!-- <video  v-if="showVideo" class="bingo_video" autoplay loop muted width="100%" style=" width: 100% !important;">
+              <source src="/src/assets/webm/g高炉按钮_press.webm" type="video/webm" />
+            </video> -->
             <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/高炉按钮_default.png')` }"></div>
             <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/高炉按钮_press.png')` }"></div>
           </div>
           <div @mouseenter="enterBottomBtn('炼钢')" @mouseleave="leaveBottomBtn('炼钢')" @click="routerGo('炼钢')" class="bottom_item" >
+            <!-- <video  v-if="showVideo" class="bingo_video" autoplay loop muted width="100%" style=" width: 100% !important;">
+              <source src="/src/assets/webm/g炼钢按钮_press.webm" type="video/webm" />
+            </video> -->
             <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/炼钢按钮_default.png')` }"></div>
             <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/炼钢按钮_press.png')` }"></div>
           </div>
           <div @mouseenter="enterBottomBtn('热轧')" @mouseleave="leaveBottomBtn('热轧')" @click="routerGo('热轧')" class="bottom_item" >
+            <!-- <video  v-if="showVideo" class="bingo_video" autoplay loop muted width="100%" style=" width: 100% !important;">
+              <source src="/src/assets/webm/g热轧按钮_press.webm" type="video/webm" />
+            </video> -->
             <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/热轧按钮_default.png')` }"></div>
             <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/热轧按钮_press.png')` }"></div>
           </div>
           <div @mouseenter="enterBottomBtn('电镀锌')" @mouseleave="leaveBottomBtn('电镀锌')" @click="routerGo('电镀锌')" class="bottom_item" >
+            <!-- <video  v-if="showVideo" class="bingo_video" autoplay loop muted width="100%" style=" width: 100% !important;">
+              <source src="/src/assets/webm/g电镀锌按钮_press.webm" type="video/webm" />
+            </video> -->
             <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/电镀锌按钮_default.png')` }"></div>
             <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/电镀锌按钮_press.png')` }"></div>
           </div>
@@ -77,7 +89,8 @@ import {
   LeftCenter,
   RightTop
 } from "./index";
-import { onMounted, ref, nextTick } from 'vue';
+import { onMounted, ref, nextTick, onUnmounted } from 'vue';
+const showVideo = ref(true)
 
 const router = useRouter()
 const routerGo = (name: any) => {
@@ -114,9 +127,21 @@ const animateDivs = () => {
  
   gsap.fromTo('.centermapComp', { opacity: 0 }, { opacity: 1, duration: 3 });
 };
+const returnPlaying = async () => {
+  // console.log('returnPlaying----------');
+  if (document.hidden) {
+      showVideo.value = false
+    } else {
+      showVideo.value = true
+    }
+}
 onMounted(async () => {
   await nextTick()
   animateDivs();
+  document.addEventListener('visibilitychange', returnPlaying);
+});
+onUnmounted(() => {
+  document.removeEventListener('visibilitychange', returnPlaying);
 });
 const animateDivsReverce = (calback: any) => {
   if (contentLeftComp.value) {
@@ -172,6 +197,12 @@ const options = [
     // height: 54px;
     cursor: pointer;
     &:hover{
+      .bingo_video {
+        transform: translateY(-10px);
+        transform: scale(1.1) translateY(-10px);
+      }
+
+
       .bottom_item_btn_default {
         // background-image: url('@/assets/bgpng/炼钢按钮_press.png');
         // transform: translateY(-10px);
@@ -210,6 +241,7 @@ const options = [
   display: flex;
   min-height: calc(100% - 64px);
   justify-content: space-between;
+  // background-image: url('/src/assets/bgpng/整体bg.jpg');
 }
 
 //左边 右边 结构一样

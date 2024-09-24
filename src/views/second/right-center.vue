@@ -1,15 +1,26 @@
+
+<template>
+  <div style="width: 100%; height: 100%;">
+    <v-chart
+      class="chart"
+      autoresize
+      style="width: 100%; height: 100%"
+      :option="option"
+      v-if="JSON.stringify(option) != '{}'"
+    />
+  </div>
+</template>
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, nextTick } from "vue";
 import { alarmNum } from "@/api";
 import { graphic } from "echarts/core";
 import { ElMessage } from "element-plus";
 
 const option = ref({});
-const getData = () => {
+const getData = async () => {
   alarmNum()
     .then((res) => {
       if (res.success) {
-
         res.data = {
           dateList: ['1月', '2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
           numList: [ 0, 32, 123, 53, 12, 33, 44, 11, 66, 34, 23, 15 ],
@@ -26,14 +37,13 @@ const getData = () => {
       }
     })
     .catch((err) => {
-      ElMessage.error(err);
+      console.error(err);
     });
 };
 const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[]) => {
 
   const findNullIndex = yData2.findIndex(item => item === null)
   option.value = {
-
     grid: {
       show: true,
       left: "0px",
@@ -43,8 +53,6 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       containLabel: true,
       borderColor: "#1F63A3",
     },
-
-    
 
     tooltip: {
       trigger: "axis",
@@ -236,16 +244,6 @@ onMounted(() => {
 });
 </script>
 
-<template>
-  <div style="width: 100%; height: 100%">
-    <v-chart
-      class="chart"
-      autoresize
-      style="width: 100%; height: 100%"
-      :option="option"
-      v-if="JSON.stringify(option) != '{}'"
-    />
-  </div>
-</template>
+
 
 <style scoped lang="scss"></style>

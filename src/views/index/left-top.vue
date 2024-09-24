@@ -1,32 +1,40 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { alarmNum } from "@/api";
+// import { alarmNum } from "@/api";
 import { graphic } from "echarts/core";
-import { ElMessage } from "element-plus";
+// import { ElMessage } from "element-plus";
 
 const option = ref({});
 const getData = () => {
-  alarmNum()
-    .then((res) => {
-      if (res.success) {
-        res.data = {
-          dateList: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-          numList: [22, 25, 23, 28, 30, 27, 26, 25, null, null, null, null],
-          numList2: [4132, 4211, 4313, 4143, 4222, 4231, 4151, 4326, null, null, null, null],
-          numList3: [null, null, null, null, null, null, null, 4226, 4116, 4215, 4333, 4145],
-        }
+  const data = {
+    dateList: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+    numList: [22, 25, 23, 28, 30, 27, 26, 25, null, null, null, null],
+    numList2: [4132, 4211, 4313, 4143, 4222, 4231, 4151, 4326, null, null, null, null],
+    numList3: [null, null, null, null, null, null, null, 4226, 4116, 4215, 4333, 4145],
+  }
 
-        setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3);
-      } else {
-        ElMessage({
-          message: res.msg,
-          type: "warning",
-        });
-      }
-    })
-    .catch((err) => {
-      ElMessage.error(err);
-    });
+  setOption(data.dateList, data.numList, data.numList2, data.numList3);
+  // alarmNum()
+  //   .then((res) => {
+  //     if (res.success) {
+  //       res.data = {
+  //         dateList: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+  //         numList: [22, 25, 23, 28, 30, 27, 26, 25, null, null, null, null],
+  //         numList2: [4132, 4211, 4313, 4143, 4222, 4231, 4151, 4326, null, null, null, null],
+  //         numList3: [null, null, null, null, null, null, null, 4226, 4116, 4215, 4333, 4145],
+  //       }
+
+  //       setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3);
+  //     } else {
+  //       ElMessage({
+  //         message: res.msg,
+  //         type: "warning",
+  //       });
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     ElMessage.error(err);
+  //   });
 };
 const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[]) => {
   // 找出 Y 值为 null 的数据点的索引
@@ -45,7 +53,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
     grid: {
       show: true,
       left: "0px",
-      right: "18px",
+      right: "0px",
       bottom: "0px",
       top: "50px",
       containLabel: true,
@@ -139,6 +147,12 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       {
         type: "value",
         name: '绿证价格(元)',
+        max: function (value: any) {
+            return value.max + 20;
+        },
+        // min: function (value: any) {
+        //     return value.min - 10;
+        // },
         position: 'left',
         nameTextStyle: {
           color: '#fff',
@@ -167,6 +181,12 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       {
         type: 'value',
         position: 'right',
+        max: function (value: any) {
+            return value.max + 2000;
+        },
+        // min: function (value: any) {
+        //     return value.min - 1000;
+        // },
         name: '电量(万千瓦时)',
         nameTextStyle: {
           color: '#fff',

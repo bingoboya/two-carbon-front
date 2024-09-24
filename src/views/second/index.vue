@@ -28,7 +28,7 @@
        "
        >
         <div style="position: relative;width: 120%; height: 100%;left: 50%; transform: translateX(-50%);">
-          <video autoplay loop muted width="100%" style="position: absolute; width: 100% !important;">
+          <video v-if="showVideo" autoplay loop muted width="100%" style="position: absolute; width: 100% !important;">
             <source src="/src/assets/webm/d底部背景动效.webm" type="video/webm" />
           </video>
         </div>
@@ -84,7 +84,9 @@ import { LeftTop,
     LeftCenter,
     RightTop,
   } from "./index";
-import { ref, onMounted } from "vue";
+import { ref, onMounted , nextTick, onUnmounted} from "vue";
+const showVideo = ref(true)
+
 const selectedValue = ref('');
 const router = useRouter()
 const routerGo = (name: any) => {
@@ -118,8 +120,27 @@ const animateDivs = () => {
   
   gsap.fromTo('.centermapComp', { opacity: 0 }, { opacity: 1, duration: 3 });
 };
-onMounted(() => {
+const returnPlaying = async () => {
+  // console.log('returnPlaying----------');
+  if (document.hidden) {
+      showVideo.value = false
+    } else {
+      showVideo.value = true
+    }
+}
+onMounted(async () => {
+  await nextTick()
   animateDivs();
+  document.addEventListener('visibilitychange', async () => {
+    if (document.hidden) {
+      showVideo.value = false
+    } else {
+      showVideo.value = true
+    }
+  });
+});
+onUnmounted(() => {
+  document.removeEventListener('visibilitychange', returnPlaying);
 });
 const animateDivsReverce = (calback: any) => {
   if (contentLeftComp.value) {

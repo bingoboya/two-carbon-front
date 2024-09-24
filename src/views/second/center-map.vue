@@ -74,7 +74,7 @@
       <InteractiveFactoryMap ref="InteractiveFactoryMapRef"
        :buildingArr="defaultBuildingArr"
         @callBackFunction="gogogo"
-        :backgroundImageSrc="'/src/assets/bgpng/二级流程图bg.png'" 
+        :backgroundImageSrc="'/src/assets/bgpng/流程图bg.png'" 
         />
   </div>
 </template>
@@ -84,7 +84,6 @@ import CountUp from "@/components/count-up";
 import arrow_down_icon from '@/assets/icon/arrow_down_icon.png'
 import arrow_top_icon from '@/assets/icon/arrow_top_icon.png'
 import InteractiveFactoryMap from './InteractiveFactoryMap/index';
-// import InteractiveFactoryMap from '@/components/InteractiveFactoryMap/index';
 import { useRouter } from 'vue-router'
 
 

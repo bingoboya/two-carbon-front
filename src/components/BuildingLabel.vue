@@ -1,7 +1,6 @@
 <template>
-  <div class="container" :class="isHover ? 'container_style_large' : 'container_style_small'"
-    :style="{ 'backgroundImage': `url(${bgPicSrc})`, width: buildWidth }" @mouseenter="showTooltip" @mouseleave="hideTooltip">
-    <div class="overlay" :class="isHover ? 'hidden_overlay' : 'show_overlay'"></div> <!-- 半透明遮罩层 -->
+  <div class="container" :class="isHover ? 'container_style_large' : 'container_style_small'" :style="{ 'backgroundImage': `url(${bgPicSrc})`, width: buildWidth }" @mouseenter="showTooltip" @mouseleave="hideTooltip">
+    <div class="overlay" :class="isHover ? 'hidden_overlay' : 'show_overlay'"></div>
     <div @click="handleClick" class="tooltip_container"
       style="height: 100%;display: flex; justify-content: center;align-items: center;">
       <div :style="tooltipStyle" class="tooltip">
@@ -25,12 +24,40 @@
         {{ name }}
       </div>
     </div>
-    <div class="arrow_wrapper" :style="{ '--animation-duration': `${animationDuration}s` }">
-      <!-- <div v-for="(_, index) in 3" :key="index" class="arrow_item" :style="{ backgroundImage: `url(${arrowPicSrc})` }"></div> -->
-      <!-- <div class="arrow_item_line" :style="{ backgroundImage: `url(${arrowItemLine})` }"></div> -->
-      <!-- <div class="arrow_item" :style="{ backgroundImage: `url(${arrowPicSrc})` }"></div> -->
+    <div v-if="false" class="arrow_wrapper" :style="{ '--animation-duration': `${animationDuration}s` }">
+      <div v-for="(_, index) in 3" :key="index" class="arrow_item" :style="{ backgroundImage: `url(${arrowPicSrc})` }"></div>
+      <div class="arrow_item_line" :style="{ backgroundImage: `url(${arrowItemLine})` }"></div>
+      <div class="arrow_item" :style="{ backgroundImage: `url(${arrowPicSrc})` }"></div>
     </div>
   </div>
+  <!-- <div class="container" @mouseenter="showTooltip" @mouseleave="hideTooltip">
+    <video autoplay loop muted width="100%" style="position: absolute; width: 100% !important;">
+      <source src="/src/assets/webm/电镀锌_default.webm" type="video/webm" />
+    </video>
+    <div @click="handleClick" class="tooltip_container"
+      style="height: 100%;display: flex; justify-content: center;align-items: center;">
+      <div :style="tooltipStyle" class="tooltip">
+        <div class="tooltip_content_wrap" >
+          <div>碳排放量</div>
+          <div>{{ tanpaiValue }}</div>
+          <div>万吨</div>
+        </div>
+        <div class="tooltip_content_wrap">
+          <div>能耗</div>
+          <div>{{nenghaoValue}}</div>
+          <div>万吨标准煤</div>
+        </div>
+        <div class="tooltip_content_wrap">
+          <div>耗电量</div>
+          <div>{{haodianValue}}</div>
+          <div>万千瓦时</div>
+        </div>
+      </div>
+      <div :style="labelStyle" class="label_style">
+        {{ name }}
+      </div>
+    </div>
+  </div> -->
 </template>
 <script setup lang="ts">
 import { computed, PropType, ref } from 'vue';
