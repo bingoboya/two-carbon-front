@@ -73,8 +73,8 @@ graphic.registerShape('CubeLeft', CubeLeft);
 graphic.registerShape('CubeRight', CubeRight);
 graphic.registerShape('CubeTop', CubeTop);
 
-const VALUE = [100, 200, 300, 300, 300, 200, 100, 220, 120, 80, 300, 100];
-const LineVALUE =  [-2, 2 , 12, 0, 1, 3 ,1, -1, -8, 2, 1, -3];
+const VALUE = [365, 352, 373, 369, 357, 375, 351, 364, null, null, null, null];
+const LineVALUE =  [0.1, 0.13 , .12, 0.15, .14, .13 ,.1, .12, null, null, null, null];
 
 const newOption = {
     tooltip: {
@@ -89,13 +89,13 @@ const newOption = {
         let result = params[0].name + "<br>";
         params.forEach(function (item: any) {
           if (item.seriesName == "生产产量") {
-            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:#956FD4;"></span>`
+            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(33, 162, 163, 1);"></span>`
             item.marker = mark
-            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}元</br>` : '- </br>'}`;
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}万吨</br>` : '- </br>'}`;
           } else if (item.seriesName == "单位产品碳排放量") {
             const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(255, 131, 21, 1);"></span>`
             item.marker = mark
-            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}千瓦时</br>` : '- </br>'}`;
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}</br>` : '- </br>'}`;
           } else {
             result += item.marker + " " + item.seriesName + " :  - </br>";
           }
@@ -125,7 +125,7 @@ const newOption = {
     },
     grid: {
       left: "0px",
-      right: "0px",
+      right: "10px",
       bottom: "0px",
       top: "50px",
       containLabel: true,
@@ -184,7 +184,7 @@ const newOption = {
         {
             type: 'value',
             position: 'right',
-            name: '单位产品碳排放量(%)',
+            name: '单位产品碳排放量',
             alignTicks: true,
             nameTextStyle: {
                 color: '#fff',
@@ -287,8 +287,8 @@ const newOption = {
             itemStyle: {
                 borderRadius: 5,
                 color: new graphic.LinearGradient(0, 0, 0, 1, [
-                    { offset: 0, color: "#956FD4" },
-                    { offset: 1, color: "#3EACE5" },
+                    { offset: 0, color: "rgba(33, 162, 163, 1)" },
+                    { offset: 1, color: "rgba(33, 162, 163, 1)" },
                 ]),
             }
         },

@@ -11,9 +11,9 @@ const getData = () => {
       if (res.success) {
         res.data = {
           dateList: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-          numList: [12, 32, 123, 53, 12, 33, 44, 11, 66, 34, 23, 15],
-          numList2: [32, 11, 13, 43, 22, 31, 51, 26, null, null, null, null],
-          numList3: [null, null, null, null, null, null, null, 26, 16, 5, 33, 45],
+          numList: [22, 25, 23, 28, 30, 27, 26, 25, null, null, null, null],
+          numList2: [4132, 4211, 4313, 4143, 4222, 4231, 4151, 4326, null, null, null, null],
+          numList3: [null, null, null, null, null, null, null, 4226, 4116, 4215, 4333, 4145],
         }
 
         setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3);
@@ -45,7 +45,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
     grid: {
       show: true,
       left: "0px",
-      right: "14px",
+      right: "18px",
       bottom: "0px",
       top: "50px",
       containLabel: true,
@@ -70,11 +70,11 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
           } else if (item.seriesName == "电量") {
             const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(255, 163, 33, 1);"></span>`
             item.marker = mark
-            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}千瓦时</br>` : '- </br>'}`;
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}万千瓦时</br>` : '- </br>'}`;
           } else if (item.seriesName == "电量预测") {
             const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(255, 105, 59, 1);"></span>`
             item.marker = mark
-            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}千瓦时</br>` : '- </br>'}`;
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}万千瓦时</br>` : '- </br>'}`;
           }  else {
             result += item.marker + " " + item.seriesName + " :  - </br>";
           }
@@ -167,7 +167,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       {
         type: 'value',
         position: 'right',
-        name: '电量(千瓦时)',
+        name: '电量(万千瓦时)',
         nameTextStyle: {
           color: '#fff',
           // align: 'right'

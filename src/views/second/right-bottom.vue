@@ -13,12 +13,12 @@ const getData = () => {
 
         res.data = {
           dateList: ['1月', '2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
-          numList: [ 12, 32, 23, 53, 12, 33, 44, 11, 66, 34, 23, 15 ],
-          numList2: [ 32, 11, 13, 43, 22, 31, 51, 26, null, null, null, null ],
-          numList3: [ 34, 22, 44, 11, 4, 6, 23, 46, 16, 5, 33, 45 ],
-          numList4: [ 14, 12, 14, 21, 34, 26, 13, 26, 36, 15, 13, 25 ],
+          numList2: [ "24407.01", "19060.89", "24872.06", "21617.73", "20455.44", "20455.44", "22082.64", "21385.34", "22385.34", null, null, null ], // 实际
+          numList: [ null, null, null, null, null, null, null, null, "23920.23", "23082.64", "23547.49", "23266.72" ],
+          numList3: [null, null, null, null,null,null, null, null, "20920.23", "22082.64", "22547.49", "26266.72" ], // 预测碳排
+          numList4: [null, null, null, null, null, null, null, null, "17920.23", "19082.64", "19547.49", "23266.72" ],
         }
-
+                    
         setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3, res.data.numList4);
       } else {
         ElMessage({
@@ -56,11 +56,11 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         // 添加单位
         let result = params[0].name + "<br>";
         params.forEach(function (item: any) {
-          if (item.seriesName == "实际能耗") {
+          if (item.seriesName == "实际碳排") {
             const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(31, 254, 255, 1);"></span>`
             item.marker = mark
             result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}吨</br>` : '- </br>'}`;
-          } else if (item.seriesName == "预测能耗") {
+          } else if (item.seriesName == "预测碳排") {
             const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(9,118,109,1);"></span>`
             item.marker = mark
             result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}吨</br>` : '- </br>'}`;
@@ -84,7 +84,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
     legend: {
       data: [
         {
-          name: "实际能耗",
+          name: "实际碳排",
           itemStyle:{ 
             opacity:0,
           },
@@ -93,7 +93,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
           },
         },
         {
-          name: "预测能耗",
+          name: "预测碳排",
           itemStyle:{ 
             opacity:0,
           },
@@ -149,11 +149,10 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
     yAxis: [
       {
         type: "value",
-        name: '能耗(吨)',
+        name: '碳排(吨)',
         position: 'left',
         nameTextStyle: {
           color: '#fff',
-          align: 'left'
         },
         splitLine: {
           show: true,
@@ -182,7 +181,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         yAxisIndex: 0,
         smooth: true,
         symbol: "none", //去除点
-        name: "实际能耗",
+        name: "实际碳排",
         lineStyle: {
           color: "rgba(31, 254, 255, 1)",
           width: 2
@@ -214,10 +213,10 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         yAxisIndex: 0,
         smooth: true,
         symbol: "none", //去除点
-        name: "预测能耗",
+        name: "预测碳排",
         lineStyle: {
           type: 'dotted',
-          color: "rgba(9,118,109,1)",
+          color: "#edbb43",
           width: 2
         },
       },

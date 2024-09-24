@@ -22,7 +22,9 @@
           position: absolute; width: 100%;bottom: 0;
         ">
         <div style="position: relative;width: 120%; height: 100%;left: 50%; transform: translateX(-50%);">
-          <VideoPlayer :elId="4" :videoSrc="'/src/assets/webm/d底部背景动效.webm'" />
+          <video autoplay loop muted width="100%" style="position: absolute; width: 100% !important;">
+            <source src="/src/assets/webm/d底部背景动效.webm" type="video/webm" />
+          </video>
         </div>
         <div class="bottom_item_wrapper">
           <div @mouseenter="enterBottomBtn('高炉')" @mouseleave="leaveBottomBtn('高炉')" @click="routerGo('高炉')" class="bottom_item" >
@@ -63,7 +65,6 @@
 
 <script setup lang="ts">
 import { onBeforeRouteLeave, useRouter } from 'vue-router'
-import VideoPlayer  from '@/components/VideoPlayer.vue';
 import ItemWrap from "@/components/item-wrap";
 import CusTomSelect from '@/components/CusTomSelect.vue'
 import { gsap } from 'gsap';
@@ -80,7 +81,9 @@ import { onMounted, ref, nextTick } from 'vue';
 
 const router = useRouter()
 const routerGo = (name: any) => {
-  router.push({ path: 'second', query: { typename: name }})
+  if (name === '电镀锌') {
+    router.push({ path: 'second', query: { typename: name }})
+  }
 }
 
 const centerMapRef: any = ref<HTMLDivElement | null>(null)

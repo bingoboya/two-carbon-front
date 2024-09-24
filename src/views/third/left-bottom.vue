@@ -12,9 +12,9 @@ const getData = () => {
 
         res.data = {
           dateList: ['1月', '2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
-          numList: [ 12, 32, 123, 53, 12, 33, 44, 11, 66, 34, 23, 15 ],
-          numList2: [ 32, 11, 13, 43, 22, 31, 51, 26, null, null, null, null ],
-          numList3: [ null, null, null, null, null, null, null, 26, 16, 5, 33, 45 ],
+          numList: [  ],
+          numList2: [ 259.89 ,202.96 ,264.84 ,230.18 ,217.81, 217.81, 235.14 ,227.72 , null, null, null, null ],
+          numList3: [ null, null, null, null, null, null, null, 227.72, 222.77 ,235.14, 240.1 ,279.7 ],
         }
 
         setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3);
@@ -59,11 +59,11 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
           if (item.seriesName == "实际电量") {
             const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(255, 168, 21, 1);"></span>`
             item.marker = mark
-            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}千瓦时</br>` : '- </br>'}`;
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}万千瓦时</br>` : '- </br>'}`;
           } else if (item.seriesName == "预测电量") {
             const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(255, 230, 0, 1);"></span>`
             item.marker = mark
-            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}千瓦时</br>` : '- </br>'}`;
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}万千瓦时</br>` : '- </br>'}`;
           } else {
             result += item.marker + " " + item.seriesName + " :  - </br>";
           }
@@ -120,7 +120,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
     yAxis: [
       {
         type: "value",
-        name: '电量(Kwh)',
+        name: '电量(万千瓦时)',
         position: 'left',
         nameTextStyle: {
           color: '#fff',

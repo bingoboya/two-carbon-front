@@ -8,20 +8,18 @@
             <div class="card_right">
               <div>总碳排放量</div>
               <div style="display: flex;gap: 10px;">
-                <div><CountUp style="color: yellow;" :endVal="99.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
-                <div style="color: gray">万吨</div>
+                <div><CountUp style="color: yellow;" :endVal="18.63" :duration="duration" :options="{decimalPlaces: 2}"/></div>
+                <div style="color: #e2e2e2">万吨</div>
               </div>
               <div style="display: flex;">
                 <div>同比</div>
-                <div :style="{color: true ?  'red': 'green'}" style="display: flex; align-items: center;gap: 4px; padding-left: 8px;">
+                <div :style="{color: !true ?  '#e86442' : '#68cfa6'}" style="display: flex; align-items: center;gap: 4px; padding-left: 8px;">
                   <img style="height: 14px;" v-if="!true" :src="arrow_top_icon" alt="">
                   <img style="height: 14px;" v-else :src="arrow_down_icon" alt="">
-
                   <!-- <svg v-else class="icon" viewBox="0 0 1024 1024" version="1.1" p-id="3159" width="14" height="14"><path d="M6.71115421 489.90890885l662.73273745-1e-8L669.44389165 551.27305136 6.71115421 551.27305136l2e-8-61.36414251z" fill="#d81e06" p-id="3160"></path><path d="M665.71307852 306.28092891L1022.56779958 515.86227332l-356.85472106 215.24570478 0-424.82704919z" fill="#d81e06" p-id="3161"></path></svg> -->
-
-                  <div><CountUp :endVal="1.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
+                  <div><CountUp :endVal="1.23" :duration="duration" :options="{decimalPlaces: 2}"/></div>
                 </div>
-                <div style="color: gray">%</div>
+                <div style="color: #e2e2e2">%</div>
               </div>
             </div>
         </div>
@@ -32,17 +30,17 @@
             <div class="card_right">
               <div>总能耗</div>
               <div style="display: flex;gap: 10px;">
-                <div><CountUp style="color: yellow;" :endVal="99.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
-                <div style="color: gray">万吨</div>
+                <div><CountUp style="color: yellow;" :endVal="4.78" :duration="duration" :options="{decimalPlaces: 2}"/></div>
+                <div style="color: #e2e2e2">万吨标准煤</div>
               </div>
               <div style="display: flex;">
                 <div>同比</div>
-                <div :style="{color: true ?  'red': 'green'}" style="display: flex; align-items: center;gap: 4px; padding-left: 8px;">
+                <div :style="{color: true ?  '#e86442' : '#68cfa6'}" style="display: flex; align-items: center;gap: 4px; padding-left: 8px;">
                   <img style="height: 14px;" v-if="true" :src="arrow_top_icon" alt="">
                   <img style="height: 14px;" v-else :src="arrow_down_icon" alt="">
-                  <div><CountUp :endVal="1.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
+                  <div><CountUp :endVal="0.72" :duration="duration" :options="{decimalPlaces: 2}"/></div>
                 </div>
-                <div style="color: gray">%</div>
+                <div style="color: #e2e2e2">%</div>
               </div>
             </div>
         </div>
@@ -53,17 +51,17 @@
             <div class="card_right">
               <div>耗电量</div>
               <div style="display: flex;gap: 10px;">
-                <div><CountUp style="color: yellow;" :endVal="99.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
-                <div style="color: gray">万吨</div>
+                <div><CountUp style="color: yellow;" :endVal="15882.69" :duration="duration" :options="{decimalPlaces: 2}"/></div>
+                <div style="color: #e2e2e2">万千瓦时</div>
               </div>
               <div style="display: flex;">
                 <div>同比</div>
-                <div :style="{color: true ?  'red': 'green'}" style="display: flex; align-items: center;gap: 4px; padding-left: 8px;">
+                <div :style="{color: true ?  '#e86442' : '#68cfa6'}" style="display: flex; align-items: center;gap: 4px; padding-left: 8px;">
                   <img style="height: 14px;" v-if="true" :src="arrow_top_icon" alt="">
                   <img style="height: 14px;" v-else :src="arrow_down_icon" alt="">
-                  <div><CountUp :endVal="1.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
+                  <div><CountUp :endVal="1.23" :duration="duration" :options="{decimalPlaces: 2}"/></div>
                 </div>
-                <div style="color: gray">%</div>
+                <div style="color: #e2e2e2">%</div>
               </div>
             </div>
         </div> 

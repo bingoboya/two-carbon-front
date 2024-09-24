@@ -9,14 +9,12 @@ const getData = () => {
   alarmNum()
     .then((res) => {
       if (res.success) {
-
         res.data = {
           dateList: ['1月', '2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
-          numList: [ 12, 32, 123, 53, 12, 33, 44, 11, 66, 34, 23, 15 ],
-          numList2: [ 32, 11, 13, 43, 22, 31, 51, 26, null, null, null, null ],
-          numList3: [ null, null, null, null, null, null, null, 26, 16, 5, 33, 45 ],
+          numList: [34, 35, 38, 33, 36, 32, 31, 32, null, null, null, null],
+          numList2: [ 32, 31, 33, 33, 32, 36, 35, 36, null, null, null, null ],
+          numList3: [ null, null, null, null, null, null, null, 36, 33, 35, 33, 35 ],
         }
-
         setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3);
       } else {
         ElMessage({
@@ -34,7 +32,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
   option.value = {
     grid: {
       show: true,
-      left: "0px",
+      left: "10px",
       right: "14px",
       bottom: "0px",
       top: "50px",
@@ -55,15 +53,15 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
           if (item.seriesName == "实际碳排") {
             const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(1, 245, 255, 1);"></span>`
             item.marker = mark
-            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}元</br>` : '- </br>'}`;
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}万吨</br>` : '- </br>'}`;
           } else if (item.seriesName == "测算碳排") {
             const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(255, 163, 33, 1);"></span>`
             item.marker = mark
-            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}千瓦时</br>` : '- </br>'}`;
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}万吨</br>` : '- </br>'}`;
           } else if (item.seriesName == "预测碳排") {
             const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(255, 128, 36, 1);"></span>`
             item.marker = mark
-            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}千瓦时</br>` : '- </br>'}`;
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}万吨</br>` : '- </br>'}`;
           }  else {
             result += item.marker + " " + item.seriesName + " :  - </br>";
           }

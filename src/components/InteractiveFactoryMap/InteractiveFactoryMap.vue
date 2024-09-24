@@ -121,6 +121,9 @@ const props = defineProps({
         const app = createApp(BuildingLabel, {
           // videoSrc: building.videoSrc,
           // videoSrcPress: building.videoSrcPress,
+          tanpaiValue: building.tanpaiValue,
+          nenghaoValue: building.nenghaoValue,
+          haodianValue: building.haodianValue,
           toolTipBg: building.toolTipBg,
           arrowItemLine: building.arrowItemLine,
           arrowPicSrc: building.arrowPicSrc,
@@ -130,8 +133,10 @@ const props = defineProps({
           positionX: building.x + building.width / 2,
           positionY: height.value - (building.y + building.height/2),
           onLabelClick: (name: string) => {
-            // console.log('标签被点击:', name);
-            emits('callBackFunction', name)
+            console.log('标签被点击:', name);
+            if (name === '电镀锌') {
+              emits('callBackFunction', name)
+            }
             // router.push({ path: 'second', query: { typename: building.name }})
             // 在这里添加你想要的标签点击处理逻辑
           }

@@ -35,7 +35,12 @@ const setOption = async (newData: any) => {
   option.value = {
     tooltip: {
       trigger: 'item',
-      triggerOn: 'mousemove'
+      triggerOn: 'mousemove',
+      backgroundColor: "rgba(0,0,0,.6)",
+      borderColor: "rgba(147, 235, 248, .8)",
+      textStyle: {
+        color: "#FFF",
+      },
     },
     series: {
       type: 'sankey',
@@ -87,7 +92,7 @@ const setOption = async (newData: any) => {
           }
         },
         {
-          name: '冷硬钢带-本浦酸轧',
+          name: '酸轧',
           label: {
             position: 'left'
           },
@@ -96,16 +101,7 @@ const setOption = async (newData: any) => {
           }
         },
         {
-          name: '冷硬钢带-三冷酸轧',
-          label: {
-            position: 'left'
-          },
-          itemStyle: {
-            color: "#3598eb"
-          }
-        },
-        {
-          name: '冷轧钢带-三冷1#连退',
+          name: '连退',
           label: {
             position: 'left'
           },
@@ -114,43 +110,7 @@ const setOption = async (newData: any) => {
           }
         },
         {
-          name: '冷轧钢带-三冷2#连退',
-          label: {
-            position: 'left'
-          },
-          itemStyle: {
-            color: "#33a2a3"
-          }
-        },
-        {
-          name: '冷轧钢带-本浦连退',
-          label: {
-            position: 'left'
-          },
-          itemStyle: {
-            color: "#33a2a3"
-          }
-        },
-        {
-          name: '冷轧钢带-本浦1#精整',
-          label: {
-            position: 'left'
-          },
-          itemStyle: {
-            color: "#db544a"
-          }
-        },
-        {
-          name: '冷轧钢带-本浦2#精整',
-          label: {
-            position: 'left'
-          },
-          itemStyle: {
-            color: "#db544a"
-          }
-        },
-        {
-          name: '电镀锌钢带-电镀锌车间',
+          name: '电镀锌(精整)',
           label: {
             position: 'left'
           },
@@ -162,73 +122,73 @@ const setOption = async (newData: any) => {
       links: [
         {
           source: '电力',
-          target: '冷硬钢带-三冷酸轧',
+          target: '酸轧',
           value: .5
         },
         {
           source: '电力',
-          target: '冷轧钢带-三冷2#连退',
+          target: '连退',
           value: .5
         },
         {
           source: '热力',
-          target: '冷硬钢带-本浦酸轧',
+          target: '酸轧',
           value: .5
         },
         {
           source: '热力',
-          target: '冷轧钢带-三冷2#连退',
+          target: '连退',
           value: .5
         },
         {
           source: '焦炉煤气',
-          target: '冷轧钢带-三冷2#连退',
+          target: '连退',
           value: .5
         },
         {
           source: '其他',
-          target: '冷轧钢带-三冷1#连退',
+          target: '连退',
           value: .5
         },
         
         {
           source: '二级除盐水',
-          target: '冷轧钢带-三冷2#连退',
+          target: '连退',
           value: .5
         },
         {
           source: '二级除盐水',
-          target: '冷硬钢带-三冷酸轧',
+          target: '酸轧',
           value: .5
         },
         {
           source: '高炉煤气',
-          target: '冷轧钢带-三冷1#连退',
+          target: '连退',
           value: 0.5
         },
         {
           source: '焦炉煤气',
-          target: '冷轧钢带-三冷2#连退',
+          target: '连退',
           value: 0.5
         },
         {
           source: '高炉煤气',
-          target: '冷轧钢带-本浦连退',
+          target: '连退',
           value: 0.5
         },
         {
           source: '电力',
-          target: '冷轧钢带-本浦1#精整',
+          target: '电镀锌(精整)',
           value: 0.5
         },
         {
           source: '电力',
-          target: '冷轧钢带-本浦2#精整',
+          target: '电镀锌(精整)',
           value: 0.5
         },
         {
           source: '电力',
-          target: '电镀锌钢带-电镀锌车间',
+          target: '电镀锌(精整)',
           value: 0.5
         },
         

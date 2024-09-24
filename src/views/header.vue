@@ -1,18 +1,18 @@
 <template>
   <div ref="headerComp" class="title_wrap" style="position: relative;user-select: none;">
-    <VideoPlayer :elId="1" :videoSrc="'/src/assets/webm/t头部背景动效_无文字.webm'" />
-    <!-- <VideoPlayer :elId="1" :videoSrc="'/src/assets/webm/headerbg.webm'" /> -->
+    <video autoplay loop muted width="100%" style="position: absolute; width: 100% !important;">
+      <source src="/src/assets/webm/t头部背景动效_无文字.webm" type="video/webm" />
+    </video>
+
     <div class="titleleft">
       <div>辽宁省本溪市</div>
       <div>晴</div>
-      <div>{{ 21 }}-{{ 25 }}°C</div>
+      <div>{{ 10 }}-{{ 16 }}°C</div>
     </div>
-    <div class="title_content">
+    <div class="title_content" >
       <div class="title">本钢典型工艺碳排放监测</div>
     </div>
     <div class="timers">
-      <!-- {{ dateData.dateYear }}  -->
-      <!-- {{ dateData.dateWeek }}  -->
       <span style="color: #58C2FF">{{ dateData.dateDay }}</span>
       <!-- <div class="setting_icon"   @click="setSettingShow(true)">
           <img src="@/assets/img/headers/setting.png" alt="设置">
@@ -23,7 +23,6 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue";
 import dayjs from 'dayjs';
-import VideoPlayer from '@/components/VideoPlayer.vue';
 import type { DateDataType } from "./index.d"
 // import {useSettingStore} from "@/stores/index"
 import { gsap } from 'gsap';

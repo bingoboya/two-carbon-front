@@ -13,7 +13,7 @@
               <div>
                 <CountUp style="color: yellow;" :endVal="99.23" :duration="duration" :options="{ decimalPlaces: 3 }" />
               </div>
-              <div style="color: gray">万吨</div>
+              <div style="color: #e2e2e2">万吨</div>
             </div>
             <div style="display: flex;">
               <div>同比</div>
@@ -25,7 +25,7 @@
                   <CountUp :endVal="1.23" :duration="duration" :options="{ decimalPlaces: 3 }" />
                 </div>
               </div>
-              <div style="color: gray">%</div>
+              <div style="color: #e2e2e2">%</div>
             </div>
           </div>
           <!-- </div> -->
@@ -42,7 +42,7 @@
               <div>
                 <CountUp style="color: yellow;" :endVal="99.23" :duration="duration" :options="{ decimalPlaces: 3 }" />
               </div>
-              <div style="color: gray">万吨</div>
+              <div style="color: #e2e2e2">万吨</div>
             </div>
             <div style="display: flex;">
               <div>同比</div>
@@ -54,7 +54,7 @@
                   <CountUp :endVal="1.23" :duration="duration" :options="{ decimalPlaces: 3 }" />
                 </div>
               </div>
-              <div style="color: gray">%</div>
+              <div style="color: #e2e2e2">%</div>
             </div>
           </div>
           <!-- </div> -->
@@ -70,7 +70,7 @@
               <div>
                 <CountUp style="color: yellow;" :endVal="99.23" :duration="duration" :options="{ decimalPlaces: 3 }" />
               </div>
-              <div style="color: gray">万吨</div>
+              <div style="color: #e2e2e2">万吨</div>
             </div>
             <div style="display: flex;">
               <div>同比</div>
@@ -82,7 +82,7 @@
                   <CountUp :endVal="1.23" :duration="duration" :options="{ decimalPlaces: 3 }" />
                 </div>
               </div>
-              <div style="color: gray">%</div>
+              <div style="color: #e2e2e2">%</div>
             </div>
           </div>
         </div>

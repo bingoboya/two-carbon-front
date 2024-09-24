@@ -184,7 +184,7 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
     },
     itemStyle: {
       opacity: 0.1,
-      color: "#E1E8EC",
+      color: "#4ee9fd",
     },
     parametricEquation: {
       u: {
@@ -218,8 +218,8 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
       show: false,
     },
     itemStyle: {
-      opacity: 0.1,
-      color: "#E1E8EC",
+      opacity: .1,
+      color: "#4ee9fd",
     },
     parametricEquation: {
       u: {
@@ -252,7 +252,7 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
     },
     itemStyle: {
       opacity: 0.1,
-      color: "#E1E8EC",
+      color: "#4ee9fd",
     },
     parametricEquation: {
       u: {
@@ -280,23 +280,19 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
       },
     },
   });
-
   // 准备待返回的配置项，把准备好的 legendData、series 传入。
   let option = {
     // animation: false,
     legend: {
       orient: 'horizontal',
-      // left: "50%",
       left: "center",
-      itemWidth: 14,
-      itemHeight: 14,
-      right: "0",
-      // bottom: "20",
+      itemWidth: 22,
+      // itemHeight: 14,
+      right: 0,
       bottom: 0,
-      padding: [0, 40],
-      // itemGap: 20,
+      padding: [0, 20],
+      itemGap: 10,
       align: 'auto',
-      // icon:'diamond',
       data: legendData,
       textStyle: {
         fontSize: 8,
@@ -304,34 +300,34 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
         rich: {
           name: {
             fontSize: 14,
-            color: "gray",
-            width: 40,
+            color: "#EAEAEC",
+            width: 50,
             verticalAlign: 'center',
             padding: [2, 0, 0, 0]//上，右，下，左
           },
           value: {
             fontSize: 14,
             align: 'right',
-            width: 22,
+            width: 36,
             verticalAlign: 'center',
             padding: [2, 0, 0, 0],
           },
           unit: {
             fontSize: 14,
-            // width: 36,
+            width: 20,
             align: 'right',
             color: "#fff",
             verticalAlign: 'center',
             padding: [2, 10, 0, 0],
           },
-          num: {
-            fontSize: 14,
-            width: 44,
-            align: 'right',
-            color: "#fff",
-            verticalAlign: 'center',
-            padding: [4, 10, 0, 0],
-          },
+          // num: {
+          //   fontSize: 14,
+          //   width: 44,
+          //   align: 'right',
+          //   color: "#fff",
+          //   verticalAlign: 'center',
+          //   padding: [4, 10, 0, 0],
+          // },
         },
       },
       formatter: (name: any) => {
@@ -350,6 +346,11 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
       },
     },
     tooltip: {
+      backgroundColor: "rgba(0,0,0,.6)",
+      borderColor: "rgba(147, 235, 248, .8)",
+      textStyle: {
+        color: "#FFF",
+      },
       formatter: (params: any) => {
         if (params.seriesName !== "mouseoutSeries") {
           return `${params.seriesName
@@ -369,7 +370,7 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
       width: "100%",
       show: false, // 显示网格背景
       // left: '0',
-      top: -52,
+      top: -10,
       boxHeight: 50,
       // boxWidth和boxDepth这两个属性值保持一致，才可以在调整饼图宽度的时候保持水平，不然就会歪歪扭扭
       boxWidth: 180,
@@ -465,86 +466,46 @@ const getData = () => {
   countUserNum().then((res) => {
     if (res.success) {
       state.data = [
-    {
-      value: 36,
-      name: '热轧',
-      unit: '%',
-      num: 2541,
-      itemStyle: {
-        color: "rgba(17, 95, 255, 1)",
-      },
-    },
-    {
-      value: 21,
-      name: '冷轧',
+      {
+      value: 46.59,
+      name: '高炉',
       unit: '%',
       num: 25,
       itemStyle: {
-        color: "rgba(9, 169, 243, 1)",
+        color: "rgba(17, 219, 231, 1)",
+
       },
     },
     {
-      value: 16,
+      value: 27.95,
       name: '炼钢',
       unit: '%',
       num: 22354,
       itemStyle: {
-        color: "rgba(17, 219, 231, 1)",
+        color: "#b54c46",
       },
     },
     {
-      value: 10,
-      name: '工艺',
+      value: 18.64,
+      name: '热轧',
+      unit: '%',
+      num: 2541,
+      itemStyle: {
+        color: "rgba(237, 187, 67, 1)",
+
+      },
+    },
+    
+    
+    {
+      value: 6.81,
+      name: '电镀锌',
       unit: '%',
       num: 254,
       itemStyle: {
         color: "rgba(0, 177, 151, 1)",
       },
     },
-    {
-      value: 10,
-      name: '工艺1',
-      unit: '%',
-      num: 254,
-      itemStyle: {
-        color: "rgba(199, 181, 0, 1)",
-      },
-    },
-    {
-      value: 9,
-      name: '工艺2',
-      unit: '%',
-      num: 254,
-      itemStyle: {
-        color: "rgba(231, 141, 0, 1)",
-      },
-    },
-    {
-      value: 4,
-      name: '其他',
-      unit: '%',
-      num: 254,
-      itemStyle: {
-        color: "rgba(197, 77, 29, 1)",
-      },
-    },
-    // {
-    //   value: 61,
-    //   name: '工艺4',
-    //   unit: '%',
-    //   num: 254,
-    //   // itemStyle: {
-    //     // color: "#1F9AA7",
-    //   // },
-    // }
-    // {
-    //   name: "代码安全",
-    //   value: 11,
-    // percent: 12,
-    //   itemStyle: {
-    //     color: "#F5B64C",
-    //   },
-    // },
       ]
       option.value = getPie3D(
         state.data,

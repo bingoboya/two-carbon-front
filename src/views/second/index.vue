@@ -12,10 +12,10 @@
       <ItemWrap class="contetn_left-top " title="碳排放量情况">
         <LeftTop />
       </ItemWrap>
-      <ItemWrap  class="contetn_left-center " title="电力-产量情况">
+      <ItemWrap  class="contetn_left-center " title="电量-产量情况">
         <LeftCenter />
       </ItemWrap>
-      <ItemWrap  class="contetn_left-bottom " title="工序碳排占比" >
+      <ItemWrap  class="contetn_left-bottom " title="工序能流分析" >
         <LeftBottom />
       </ItemWrap>
     </div>
@@ -28,7 +28,9 @@
        "
        >
         <div style="position: relative;width: 120%; height: 100%;left: 50%; transform: translateX(-50%);">
-          <VideoPlayer :elId="41" :videoSrc="'/src/assets/webm/d底部背景动效.webm'" />
+          <video autoplay loop muted width="100%" style="position: absolute; width: 100% !important;">
+            <source src="/src/assets/webm/d底部背景动效.webm" type="video/webm" />
+          </video>
         </div>
         <div class="bottom_item_wrapper">
           <div @mouseenter="enterBottomBtn('酸轧')" @mouseleave="leaveBottomBtn('酸轧')" @click="routerGo('酸轧')" class="bottom_item" >
@@ -53,14 +55,13 @@
           v-model="selectedValue"
           :width="'84px'"
           :options="options"
-          placeholder="请选择"
         />
         <div class="returnBtn" @click="router.go(-1)"></div>
       </div>
       <ItemWrap  class="contetn_left-bottom " title="碳排占比">
           <RightTop />
       </ItemWrap>
-      <ItemWrap  class="contetn_left-bottom " title="电量情况" >
+      <ItemWrap  class="contetn_left-bottom " title="电量预测分析" >
         <RightCenter />
       </ItemWrap>
       <ItemWrap  class="contetn_left-bottom " title="碳排预测分析 ">
@@ -73,7 +74,6 @@
 <script setup lang="ts">
 import { onBeforeRouteLeave, useRouter } from 'vue-router'
 import { gsap } from 'gsap';
-import VideoPlayer  from '@/components/VideoPlayer.vue';
 import ItemWrap from "@/components/item-wrap";
 import CusTomSelect from '@/components/CusTomSelect.vue'
 import { LeftTop,

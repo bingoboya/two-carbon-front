@@ -9,7 +9,7 @@
           <div style="position: absolute; left: 0;">
             <img src="/src/assets/bgpng/1.png" alt="">
           </div>
-          <div style="writing-mode: vertical-lr;letter-spacing: 16px;color: gray;">酸轧</div>
+          <div style="writing-mode: vertical-lr;letter-spacing: 16px;color: #fff;">酸轧</div>
           <div style="position: absolute; right: 0;">
             <img src="/src/assets/bgpng/1-1.png" alt="">
           </div>
@@ -18,7 +18,7 @@
           <div style="position: absolute; left: 0;">
             <img src="/src/assets/bgpng/2.png" alt="">
           </div>
-          <div style=" writing-mode: vertical-lr; letter-spacing: 16px; color: gray;">连退</div>
+          <div style=" writing-mode: vertical-lr; letter-spacing: 16px; color: #fff;">连退</div>
           <div style="position: absolute; right: 0;">
             <img src="/src/assets/bgpng/2-2.png" alt="">
           </div>
@@ -27,7 +27,7 @@
           <div style="position: absolute; left: 0;">
             <img src="/src/assets/bgpng/3.png" alt="">
           </div>
-          <div style="display: flex;flex-direction: column; align-items: center;color: gray;">
+          <div style="display: flex;flex-direction: column; align-items: center;color: #fff;">
             <div>电</div>
             <div>镀</div>
             <div style="writing-mode: vertical-lr;padding-left: 2px;">(</div>
@@ -107,7 +107,9 @@ const infoCardStyle = computed(() => ({
 }));
 
 const clickItem = (name: any) => {
-  emits('callBackFunction', name)
+  if (name === '电镀(精整)') {
+    emits('callBackFunction', name)
+  }
 }
 const initThree = () => {
   if (!canvasRef.value) return;

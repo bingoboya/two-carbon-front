@@ -1,87 +1,104 @@
 <template>
   <div class="centermap">
     <div class="interactivefactorymap_wrap">
-      <div class="center_wrapper" >
+      <div class="center_wrapper">
 
         <div class="item_wrap" style="position: relative;">
-            <div class="card_left"  >
-              <AnimatedLoader :iconSrc="'/src/assets/newicon/co2_icon.png'" />
-            </div>
-            <div class="card_right">
-              <div >总碳排放量</div>
-              <div style="display: flex;gap: 6px;">
-                <div><CountUp style="color: yellow;" :endVal="99.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
-                <div class="card_unit" >万吨</div>
+          <div class="card_left">
+            <AnimatedLoader :iconSrc="'/src/assets/newicon/co2_icon.png'" />
+          </div>
+          <div class="card_right">
+            <div>总碳排放量</div>
+            <div style="display: flex;gap: 6px;">
+              <div>
+                <CountUp style="color: yellow;" :endVal="273.53" :duration="duration" :options="{ decimalPlaces: 2 }" />
               </div>
-              <div style="display: flex;gap: 6px;">
-                <div >同比</div>
-                <div :style="{color: true ?  'red': 'green'}" style="display: flex; align-items: center;gap: 4px;">
-                  <img style="height: 14px;" v-if="true" :src="arrow_top_icon" alt="">
-                  <img style="height: 14px;" v-else :src="arrow_down_icon" alt="">
-                  <div><CountUp :endVal="1.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
+              <div class="card_unit">万吨</div>
+            </div>
+            <div style="display: flex;gap: 6px;">
+              <div>同比</div>
+              <div :style="{ color: !true ? '#e86442' : '#68cfa6' }" style="display: flex; align-items: center;gap: 4px;">
+                <img style="height: 14px;" v-if="!true" :src="arrow_top_icon" alt="">
+                <img style="height: 14px;" v-else :src="arrow_down_icon" alt="">
+                <div>
+                  <CountUp :endVal="0.82" :duration="duration" :options="{ decimalPlaces: 2 }" />
                 </div>
-                <div class="card_unit">%</div>
               </div>
+              <div class="card_unit">%</div>
             </div>
+          </div>
         </div>
         <div class="item_wrap" style="position: relative;">
-            <div class="card_left"  >
-              <AnimatedLoader :iconSrc="'/src/assets/newicon/总能耗icon.png'" />
-            </div>
-            <div class="card_right">
-              <div>耗电量</div>
-              <div style="display: flex;gap: 6px;">
-                <div><CountUp style="color: yellow;" :endVal="99.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
-                <div class="card_unit">千瓦时</div>
+          <div class="card_left">
+            <AnimatedLoader :iconSrc="'/src/assets/newicon/总能耗icon.png'" />
+          </div>
+          <div class="card_right">
+            <div>耗电量</div>
+            <div style="display: flex;gap: 6px;">
+              <div>
+                <CountUp style="color: yellow;" :endVal="36639.4" :duration="duration" :options="{ decimalPlaces: 0 }" />
               </div>
-              <div style="display: flex;gap: 6px;">
-                <div>同比</div>
-                <div :style="{color: true ?  'red': 'green'}" style="display: flex; align-items: center;gap: 4px; ">
-                  <img style="height: 14px;" v-if="true" :src="arrow_top_icon" alt="">
-                  <img style="height: 14px;" v-else :src="arrow_down_icon" alt="">
-                  <div><CountUp :endVal="1.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
+              <div class="card_unit">万千瓦时</div>
+            </div>
+            <div style="display: flex;gap: 6px;">
+              <div>同比</div>
+              <div :style="{ color: true ? '#e86442' : '#68cfa6' }" style="display: flex; align-items: center;gap: 4px; ">
+                <img style="height: 14px;" v-if="true" :src="arrow_top_icon" alt="">
+                <img style="height: 14px;" v-else :src="arrow_down_icon" alt="">
+                <div>
+                  <CountUp :endVal="3.67" :duration="duration" :options="{ decimalPlaces: 2 }" />
                 </div>
-                <div class="card_unit">%</div>
               </div>
+              <div class="card_unit">%</div>
             </div>
+          </div>
         </div>
         <div class="item_wrap" style="position: relative;">
-            <div class="card_left"  >
-              <AnimatedLoader :iconSrc="'/src/assets/newicon/电碳耦合度icon.png'" />
-            </div>
-            <div class="card_right">
-              <div>电碳耦合度</div>
-              <div style="display: flex;gap: 6px;">
-                <div><CountUp style="color: yellow;" :endVal="99.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
-                <div class="card_unit">%</div>
+          <div class="card_left">
+            <AnimatedLoader :iconSrc="'/src/assets/newicon/电碳耦合度icon.png'" />
+          </div>
+          <div class="card_right">
+            <div>电碳耦合度</div>
+            <div style="display: flex;gap: 6px;">
+              <div>
+                <CountUp style="color: yellow;" :endVal="88" :duration="duration" :options="{ decimalPlaces: 0 }" />
               </div>
-              <div style="display: flex;gap: 6px;">
-                <div>同比</div>
-                <div :style="{color: true ?  'red': 'green'}" style="display: flex; align-items: center;gap: 4px; ">
-                  <img style="height: 14px;" v-if="true" :src="arrow_top_icon" alt="">
-                  <img style="height: 14px;" v-else :src="arrow_down_icon" alt="">
-                  <div><CountUp :endVal="1.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
+              <div class="card_unit">%</div>
+            </div>
+            <div style="display: flex;gap: 6px;">
+              <div>同比</div>
+              <div :style="{ color: true ? '#e86442' : '#68cfa6' }" style="display: flex; align-items: center;gap: 4px; ">
+                <img style="height: 14px;" v-if="true" :src="arrow_top_icon" alt="">
+                <img style="height: 14px;" v-else :src="arrow_down_icon" alt="">
+                <div>
+                  <CountUp :endVal="1.31" :duration="duration" :options="{ decimalPlaces: 2 }" />
                 </div>
-                <div class="card_unit">%</div>
               </div>
+              <div class="card_unit">%</div>
             </div>
-        </div> 
+          </div>
+        </div>
         <div class="top_info_card" style="flex: 266;position: relative;">
-            <div style="padding: 0 0px;width: 76px;height: 76px;display: flex; flex-direction: row;justify-content: center; align-items: center;" >
-              <AnimatedLoader :iconSrc="'/src/assets/newicon/green_report_icon.png'" />
-            </div>
-            <div class="card_right" >
-              <div style="display: flex; gap: 8px;">
-                <div>当前绿证价格</div>
-                <div><CountUp style="color: yellow;" :endVal="99.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
-                <div class="card_unit">元</div>
+          <div
+            style="padding: 0 0px;width: 76px;height: 76px;display: flex; flex-direction: row;justify-content: center; align-items: center;">
+            <AnimatedLoader :iconSrc="'/src/assets/newicon/green_report_icon.png'" />
+          </div>
+          <div class="card_right">
+            <div style="display: flex; gap: 8px;">
+              <div>当前绿证价格</div>
+              <div>
+                <CountUp style="color: yellow;" :endVal="25" :duration="duration" :options="{ decimalPlaces: 0 }" />
               </div>
-              <div style="display: flex; gap: 8px;">
-                <div>近半年最低价</div>
-                <div><CountUp style="color: yellow;" :endVal="99.23" :duration="duration" :options="{decimalPlaces: 3}"/></div>
-                <div class="card_unit">元</div>
-              </div>
+              <div class="card_unit">元</div>
             </div>
+            <div style="display: flex; gap: 8px;">
+              <div>近半年最低价</div>
+              <div>
+                <CountUp style="color: yellow;" :endVal="22" :duration="duration" :options="{ decimalPlaces: 0 }" />
+              </div>
+              <div class="card_unit">元</div>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -90,7 +107,8 @@
              或者 
           <InteractiveFactoryMap :videoSrc="'/src/assets/webm/gaolubg.webm'" />
       -->
-      <InteractiveFactoryMap @callBackFunction="gogogo"  ref="InteractiveFactoryMapRef" :buildingArr="defaultBuildingArr" />
+      <InteractiveFactoryMap @callBackFunction="gogogo" ref="InteractiveFactoryMapRef"
+        :buildingArr="defaultBuildingArr" />
     </div>
   </div>
 </template>
@@ -107,44 +125,60 @@ const router = useRouter()
 const InteractiveFactoryMapRef: any = ref<HTMLDivElement | null>(null)
 const duration = ref(2);
 const gogogo = (buildingName: any) => {
-  router.push({ path: 'second', query: { typename: buildingName }})
+  router.push({ path: 'second', query: { typename: buildingName } })
 }
 const defaultBuildingArr = [
-      { id: 1, x: 150, y: 530, width: 50, height: 80, name: "电镀锌", info: "这是主要办公区域", alwaysVisible: !true, 
-        // videoSrc: '/src/assets/webm/dianduxin_default.webm',
-        // videoSrcPress: '/src/assets/webm/dianduxin_press.webm',
-        arrowPicSrc: '/src/assets/icon/dianduxinarrow.png',
-        bgPicSrc: '/src/assets/bgpng/电镀锌弹框_default.png',
-        toolTipBg: '/src/assets/bgpng/电镀锌框.png',
-        arrowItemLine: '/src/assets/icon/电镀锌弹框线.png',
-      },
-      { id: 3, x: 420, y: 550, width: 50, height: 80, name: "热轧", info: "主要生产区域", alwaysVisible: !true, 
-      // videoSrc: '/src/assets/webm/reza_default.webm',
-      // videoSrcPress: '/src/assets/webm/reza_press.webm',
-      arrowPicSrc: '/src/assets/icon/rezaarrow.png',
-      bgPicSrc: '/src/assets/bgpng/热轧弹框_default.png',
-      toolTipBg: '/src/assets/bgpng/热轧框.png',
-      arrowItemLine: '/src/assets/icon/热轧弹框线.png',
-      },
-      { id: 4, x: 610, y: 240, width: 50, height: 80, name: "高炉", info: "主要生产区域", alwaysVisible: !true, 
-      // videoSrc: '/src/assets/webm/gaolu_default.webm',
-      // videoSrcPress: '/src/assets/webm/gaolu_press.webm',
-      arrowPicSrc: '/src/assets/icon/gaoluarrow.png',
-      bgPicSrc: '/src/assets/bgpng/高炉弹框_default.png',
-      toolTipBg: '/src/assets/bgpng/高炉框.png',
-      arrowItemLine: '/src/assets/icon/高炉弹框线.png',
-      },
-      { id: 5, x: 780, y: 470, width: 50, height: 80, name: "炼钢", info: "主要生产区域", alwaysVisible: !true, 
-      // videoSrc: '/src/assets/webm/liangang_default.webm',
-      // videoSrcPress: '/src/assets/webm/liangang_press.webm',
-      arrowPicSrc: '/src/assets/icon/liangangarrow.png',
-      bgPicSrc: '/src/assets/bgpng/炼钢弹框_default.png',
-      toolTipBg: '/src/assets/bgpng/炼钢框.png',
-      arrowItemLine: '/src/assets/icon/炼钢弹框线.png',
-      },
+  {
+    id: 1, x: 110, y: 600, width: 50, height: 80, name: "电镀锌", info: "这是主要办公区域", alwaysVisible: !true,
+    // videoSrc: '',
+    // videoSrcPress: '',
+    arrowPicSrc: '/src/assets/icon/dianduxinarrow.png',
+    bgPicSrc: '/src/assets/bgpng/电镀锌弹框_default.png',
+    toolTipBg: '/src/assets/bgpng/电镀锌框.png',
+    arrowItemLine: '/src/assets/icon/电镀锌弹框线.png',
+    tanpaiValue: Number(26.62 * 0.7).toFixed(2),
+    nenghaoValue:  Number(6.83 * 0.7).toFixed(2),
+    haodianValue:  Number(22689.56 * 0.7).toFixed(2),
+  },
+  {
+    id: 3, x: 420, y: 610, width: 50, height: 80, name: "热轧", info: "主要生产区域", alwaysVisible: !true,
+    // videoSrc: '',
+    // videoSrcPress: '',
+    arrowPicSrc: '/src/assets/icon/rezaarrow.png',
+    bgPicSrc: '/src/assets/bgpng/热轧弹框_default.png',
+    toolTipBg: '/src/assets/bgpng/热轧框.png',
+    arrowItemLine: '/src/assets/icon/热轧弹框线.png',
+    tanpaiValue:  Number(72.826 * 0.7).toFixed(2),
+    nenghaoValue:  Number(8.49 * 0.7).toFixed(2),
+    haodianValue:  Number(14826.22 * 0.7).toFixed(2),
+  },
+  {
+    id: 4, x: 610, y: 280, width: 50, height: 80, name: "高炉", info: "主要生产区域", alwaysVisible: !true,
+    // videoSrc: '',
+    // videoSrcPress: '',
+    arrowPicSrc: '/src/assets/icon/gaoluarrow.png',
+    bgPicSrc: '/src/assets/bgpng/高炉弹框_default.png',
+    toolTipBg: '/src/assets/bgpng/高炉框.png',
+    arrowItemLine: '/src/assets/icon/高炉弹框线.png',
+    tanpaiValue:  Number(182.06 * 0.7).toFixed(2),
+    nenghaoValue:  Number(11.82 * 0.7).toFixed(2),
+    haodianValue:  Number(5930.48 * 0.7).toFixed(2),
+  },
+  {
+    id: 5, x: 800, y: 520, width: 50, height: 80, name: "炼钢", info: "主要生产区域", alwaysVisible: !true,
+    // videoSrc: '',
+    // videoSrcPress: '',
+    arrowPicSrc: '/src/assets/icon/liangangarrow.png',
+    bgPicSrc: '/src/assets/bgpng/炼钢弹框_default.png',
+    toolTipBg: '/src/assets/bgpng/炼钢框.png',
+    arrowItemLine: '/src/assets/icon/炼钢弹框线.png',
+    tanpaiValue: Number(109.23 * 0.7).toFixed(2),
+    nenghaoValue:  Number(9.55 * 0.7).toFixed(2),
+    haodianValue:  Number(8895.73 * 0.7).toFixed(2),
+  },
 ];
-const callBackFunc= (params: any, type: string) => {
-  console.log('InteractiveFactoryMapRef', params, type)
+const callBackFunc = (params: any, type: string) => {
+  // console.log('InteractiveFactoryMapRef', params, type)
   InteractiveFactoryMapRef.value?.callFunabcForBuilding(params, type)
 }
 
@@ -155,16 +189,32 @@ defineExpose({
 
 <style scoped lang="scss">
 .card_unit {
-  color: #ffffffb8; font-size: 14px; font-weight: 400;display: contents;
-  
+  color: #ffffffb8;
+  font-size: 14px;
+  font-weight: 400;
+  display: contents;
+
 }
+
 .card_left {
-  padding: 0 0px;width: 106px;height: 76px;display: flex; flex-direction: row;justify-content: center; align-items: center;
+  padding: 0 0px;
+  width: 106px;
+  height: 76px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
+
 .card_right {
-  flex: 1; height: 100%;display: flex; flex-direction: column; justify-content: center;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   color: #fff;
-} 
+}
+
 .center_wrapper {
   display: flex;
   z-index: 1;
@@ -178,6 +228,7 @@ defineExpose({
   top: 50px;
   left: 50%;
   transform: translateX(-50%);
+
   .item_wrap {
     flex: 226;
     display: flex;
@@ -188,6 +239,7 @@ defineExpose({
     background-size: contain;
     background-repeat: round;
   }
+
   .item {
     flex: 226;
     display: flex;
@@ -199,6 +251,7 @@ defineExpose({
     background-size: contain;
     background-repeat: round;
   }
+
   .top_info_card {
     display: flex;
     flex-direction: row;
@@ -210,11 +263,17 @@ defineExpose({
     background-repeat: round;
   }
 }
+
 .centermap {
-  position: relative;flex: 1;
-}
-.interactivefactorymap_wrap {
-  width: 100%; height: 100%; position: absolute; left: 50%;transform: translateX(-50%); 
+  position: relative;
+  flex: 1;
 }
 
+.interactivefactorymap_wrap {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
 </style>

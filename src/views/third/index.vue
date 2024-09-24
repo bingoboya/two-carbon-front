@@ -20,7 +20,9 @@
       style="transform: translate(0px, 0px);height:120px;
       background-color: rgb(0,0,0,0);">
         <div style="pointer-events: none; position: relative;width: 120%; height: 100%;left: 50%; transform: translateX(-50%);">
-          <VideoPlayer :elId="41" :videoSrc="'/src/assets/webm/d底部背景动效.webm'" />
+          <video autoplay loop muted width="100%" style="position: absolute; width: 100% !important;">
+            <source src="/src/assets/webm/d底部背景动效.webm" type="video/webm" />
+          </video>
         </div>
         <div class="bottom_item_wrapper">
           <div  @mouseenter="enterBottomBtn('本浦冷轧2#重卷机组')" @mouseleave="leaveBottomBtn('本浦冷轧2#重卷机组')" @click="routerGo('本浦冷轧2#重卷机组')" class="bottom_item" >
@@ -50,7 +52,7 @@
         />
         <div class="returnBtn" @click="router.go(-1)"></div>
       </div>
-      <ItemWrap  class="contetn_left-bottom " backgroundImg="src/assets/bgpng/底部长bg.png" title="能耗预测分析">
+      <ItemWrap  class="contetn_left-bottom " backgroundImg="src/assets/bgpng/底部长bg.png" title="设备机组碳排占比">
         <RightTop />
       </ItemWrap>
       <ItemWrap  class="contetn_left-bottom " backgroundImg="src/assets/bgpng/底部长bg.png" title="碳排预测分析" >
@@ -72,7 +74,6 @@
 
 <script setup lang="ts">
 import { onBeforeRouteLeave, useRouter } from 'vue-router'
-import VideoPlayer  from '@/components/VideoPlayer.vue';
 import { gsap } from 'gsap';
 import CusModal from "@/components/CusModal.vue";
 import EquipmentComp from "@/components/EquipmentComp.vue";

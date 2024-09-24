@@ -4,22 +4,21 @@
     <div class="overlay" :class="isHover ? 'hidden_overlay' : 'show_overlay'"></div> <!-- 半透明遮罩层 -->
     <div @click="handleClick" class="tooltip_container"
       style="height: 100%;display: flex; justify-content: center;align-items: center;">
-      <!-- <div v-if="isVisible" :style="tooltipStyle" class="tooltip"> -->
       <div :style="tooltipStyle" class="tooltip">
         <div class="tooltip_content_wrap" >
           <div>碳排放量</div>
-          <div>425845</div>
+          <div>{{ tanpaiValue }}</div>
           <div>万吨</div>
         </div>
         <div class="tooltip_content_wrap">
           <div>能耗</div>
-          <div>445</div>
-          <div>吨标准煤</div>
+          <div>{{nenghaoValue}}</div>
+          <div>万吨标准煤</div>
         </div>
         <div class="tooltip_content_wrap">
           <div>耗电量</div>
-          <div>4285</div>
-          <div>千瓦时</div>
+          <div>{{haodianValue}}</div>
+          <div>万千瓦时</div>
         </div>
       </div>
       <div :style="labelStyle" class="label_style">
@@ -28,7 +27,7 @@
     </div>
     <div class="arrow_wrapper" :style="{ '--animation-duration': `${animationDuration}s` }">
       <!-- <div v-for="(_, index) in 3" :key="index" class="arrow_item" :style="{ backgroundImage: `url(${arrowPicSrc})` }"></div> -->
-      <div class="arrow_item_line" :style="{ backgroundImage: `url(${arrowItemLine})` }"></div>
+      <!-- <div class="arrow_item_line" :style="{ backgroundImage: `url(${arrowItemLine})` }"></div> -->
       <!-- <div class="arrow_item" :style="{ backgroundImage: `url(${arrowPicSrc})` }"></div> -->
     </div>
   </div>
@@ -37,6 +36,18 @@
 import { computed, PropType, ref } from 'vue';
 
 const props = defineProps({
+  tanpaiValue: {
+    type: [String, Number],
+    default: '0'
+  },
+  nenghaoValue: {
+    type: [String, Number],
+    default: '0'
+  },
+  haodianValue: {
+    type: [String, Number],
+    default: '0'
+  },
   arrowItemLine: {
     type: String,
     default: 'src/assets/icon/电镀锌弹框线.png'
@@ -102,6 +113,10 @@ const tooltipStyle = computed(() => ({
 }));
 
 const animationDuration = computed(() => {
+
+
+
+
   switch (props.speed) {
     case 'slow':
       return 4.5;
@@ -131,24 +146,9 @@ const showTooltip = () => {
 const hideTooltip = () => {
   isHover.value = false
   isVisible.value = false;
-  // changeVideoSrc(player, props.videoSrcPress)
 };
 // 动态切换视频
-// const changeVideoSrc=(target: any, src: any) => {
-//   // 切换视频可以，但是切换速度慢，不适用当前场景
-//   const data = {
-//     src: src,
-//     type: 'video/webm',
-//   };
-//   if (videoRef.value) {
-//     target.pause();
-//     target.src(data);
-//     target.load(data);
-//     // 动态切换poster
-//     // target.posterImage.setSrc('xxx.jpg');
-//     target.play();
-//   }
-// }
+
 
 /**
  * @params 调用当前建筑物的name属性
@@ -266,7 +266,7 @@ defineExpose({
 
 .container_style_small {
   animation: float 3s ease-in-out infinite;
-  opacity: 0.8;
+  opacity: 1;
 }
 
 .hidden_overlay {
@@ -324,9 +324,7 @@ defineExpose({
 
 .tooltip {
   position: absolute;
-  // background-image: url('src/assets/bgpng/电镀锌框.png');
   background-repeat: round;
-  // border: 1px solid #fff;
   color: white;
   padding: 10px 20px;
   border-radius: 4px;

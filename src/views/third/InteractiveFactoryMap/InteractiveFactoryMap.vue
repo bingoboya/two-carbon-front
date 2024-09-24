@@ -11,10 +11,10 @@
           </div>
           <div style="display: flex; flex-direction: row;align-items: center;height: 100%;">
             <div style="display: flex; flex-direction: column;align-items: center;">
-              <div style="writing-mode: vertical-lr; letter-spacing: 2px; color: gray;">本浦冷轧</div>
-              <div style="color: gray;">2#</div>
+              <div style="writing-mode: vertical-lr; letter-spacing: 2px; color: #fff;">本浦冷轧</div>
+              <div style="color: #fff;">2#</div>
             </div>
-            <div style="writing-mode: vertical-lr; letter-spacing: 2px; color: gray;">重卷机组</div>
+            <div style="writing-mode: vertical-lr; letter-spacing: 2px; color: #fff;">重卷机组</div>
           </div>
           <div style="position: absolute; right: 0;">
             <img src="/src/assets/bgpng/1-1.png" alt="">
@@ -26,10 +26,10 @@
           </div>
           <div style="display: flex; flex-direction: row;align-items: center;height: 100%;">
             <div style="display: flex; flex-direction: column;align-items: center;">
-              <div style="writing-mode: vertical-lr; letter-spacing: 2px; color: gray;">本浦冷轧</div>
-              <div style="color: gray;">3#</div>
+              <div style="writing-mode: vertical-lr; letter-spacing: 2px; color: #fff;">本浦冷轧</div>
+              <div style="color: #fff;">3#</div>
             </div>
-            <div style="writing-mode: vertical-lr; letter-spacing: 2px; color: gray;">重卷机组</div>
+            <div style="writing-mode: vertical-lr; letter-spacing: 2px; color: #fff;">重卷机组</div>
           </div>
           <div style="position: absolute; right: 0;">
             <img src="/src/assets/bgpng/2-2.png" alt="">
@@ -39,7 +39,7 @@
           <div style="position: absolute; left: 0;">
             <img src="/src/assets/bgpng/3.png" alt="">
           </div>
-          <div style="display: flex;flex-direction: column; align-items: center;color: gray;">
+          <div style="display: flex;flex-direction: column; align-items: center;color: #fff;">
             <div style="writing-mode: vertical-lr;padding-left: 2px;">电镀锌机组</div>
           </div>
           <div style="position: absolute; right: 0;">

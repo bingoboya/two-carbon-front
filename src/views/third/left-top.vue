@@ -63,8 +63,10 @@ graphic.registerShape('CubeLeft', CubeLeft);
 graphic.registerShape('CubeRight', CubeRight);
 graphic.registerShape('CubeTop', CubeTop);
 
-const VALUE = [100, 200, 300, 300, 300, 200, 100, 220, 120, 80, 300, 100];
-const LineVALUE = [-2, 2, 12, 0, 1, 3, 1, -1, -8, 2, 1, -3];
+const VALUE = [3623.25,2829.57,3692.25,3209.1,3036.61,3036.61,3278.19,3174.67,null,null,null,null];
+
+
+const LineVALUE = [-1.23, 0.22, 1.32, -0.4, 1, 1.2, -0.12, -1, null,null, null, null];
 
 const newOption = {
   tooltip: {

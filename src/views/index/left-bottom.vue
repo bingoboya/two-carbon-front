@@ -329,7 +329,7 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
     },
     itemStyle: {
       opacity: 0.1,
-      color: "#E1E8EC",
+      color: "#4ee9fd",
     },
     parametricEquation: {
       u: {
@@ -363,8 +363,8 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
       show: false,
     },
     itemStyle: {
-      opacity: 0.1,
-      color: "#E1E8EC",
+      opacity: .1,
+      color: "#4ee9fd",
     },
     parametricEquation: {
       u: {
@@ -397,7 +397,7 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
     },
     itemStyle: {
       opacity: 0.1,
-      color: "#E1E8EC",
+      color: "#4ee9fd",
     },
     parametricEquation: {
       u: {
@@ -433,15 +433,13 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
       orient: 'horizontal',
       // left: "50%",
       left: "center",
-      itemWidth: 14,
-      itemHeight: 14,
-      right: "0",
-      // bottom: "20",
-      bottom: "2",
-      padding: [4, 60],
-      itemGap: 20,
+      itemWidth: 22,
+      // itemHeight: 14,
+      right: 0,
+      bottom: 0,
+      padding: [0, 20],
+      itemGap: 10,
       align: 'auto',
-      // icon:'diamond',
       data: legendData,
       textStyle: {
         fontSize: 8,
@@ -449,34 +447,34 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
         rich: {
           name: {
             fontSize: 14,
-            color: "gray",
-            width: 40,
+            color: "#EAEAEC",
+            width: 48,
             verticalAlign: 'center',
             padding: [2, 0, 0, 0]//上，右，下，左
           },
           value: {
             fontSize: 14,
             align: 'right',
-            width: 22,
+            width: 36,
             verticalAlign: 'center',
             padding: [2, 0, 0, 0],
           },
           unit: {
             fontSize: 14,
-            // width: 36,
+            width: 16,
             align: 'right',
             color: "#fff",
             verticalAlign: 'center',
             padding: [2, 10, 0, 0],
           },
-          num: {
-            fontSize: 14,
-            width: 44,
-            align: 'right',
-            color: "#fff",
-            verticalAlign: 'center',
-            padding: [4, 10, 0, 0],
-          },
+          // num: {
+          //   fontSize: 14,
+          //   width: 44,
+          //   align: 'right',
+          //   color: "#fff",
+          //   verticalAlign: 'center',
+          //   padding: [4, 10, 0, 0],
+          // },
         },
       },
       formatter: (name: any) => {
@@ -495,11 +493,14 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
       },
     },
     tooltip: {
+      backgroundColor: "rgba(0,0,0,.6)",
+      borderColor: "rgba(147, 235, 248, .8)",
+      textStyle: {
+        color: "#FFF",
+      },
       formatter: (params: any) => {
         if (params.seriesName !== "mouseoutSeries") {
-          return `${
-            params.seriesName
-          }<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${
+          return `${ params.seriesName }<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${
             params.color
           };"></span>${option.series[params.seriesIndex].pieData.value}`;
         }
@@ -534,17 +535,17 @@ const getData = () => {
     if (res.success) {
       state.data = [
         {
-          value: 36,
-          name: '天然气',
+          value: 41,
+          name: '电力',
           unit: '%',
           num: 2541,
           itemStyle: {
-              color: "rgba(71, 171, 231, 1)",
+              color: "rgba(231, 141, 0, 1)",
             },
         },
         {
-          value: 16,
-          name: '电力',
+          value: 24,
+          name: '热力',
           unit: '%',
           num: 25,
           itemStyle: {
@@ -552,8 +553,8 @@ const getData = () => {
             },
         },
         {
-          value: 20,
-          name: '石油',
+          value: 11,
+          name: '高炉煤气',
           unit: '%',
           num: 22354,
           itemStyle: {
@@ -561,22 +562,32 @@ const getData = () => {
             },
         },
         {
-          value: 10,
-          name: '其他',
+          value: 22,
+          name: '焦炉煤气',
           unit: '%',
           num: 254,
           itemStyle: {
               color: "rgba(73, 135, 231, 1)",
             },
+        },
+        {
+          value: 1,
+          name: '二级除盐水',
+          unit: '%',
+          num: 254,
+          itemStyle: {
+            color: "rgba(17, 219, 231, 1)",
+            },
+        },
+        {
+          value: 1,
+          name: '其它',
+          unit: '%',
+          num: 254,
+          itemStyle: {
+            color: "rgba(197, 77, 29, 1)",
+            },
         }
-          // {
-          //   name: "代码安全",
-          //   value: 11,
-          // percent: 12,
-          //   itemStyle: {
-          //     color: "#F5B64C",
-          //   },
-          // },
       ]
       option.value = getPie3D(
         state.data,
@@ -593,4 +604,6 @@ getData();
 
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+
+</style>

@@ -49,7 +49,8 @@ const bgSrc2 = ref('src/assets/bgpng/整体底部bg.jpg')
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  background-image: url("@/assets/img/wholebg.jpg");
+  background-image: url("@/assets/img/房子.jpg");
+  // background-image: url("@/assets/img/wholebg.jpg");
   background-size: cover;
   background-position: center center;
 }

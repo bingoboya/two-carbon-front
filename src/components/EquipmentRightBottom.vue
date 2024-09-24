@@ -8,18 +8,16 @@ const option = ref({});
 const getData = () => {
   alarmNum()
     .then((res) => {
-      console.log("右上--报警次数 ", res);
       if (res.success) {
 
         res.data = {
           dateList: ['1月', '2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
-          numList: [ 12, 32, 23, 53, 12, 33, 44, 11, 66, 34, 23, 15 ],
-          numList2: [ 32, 11, 13, 43, 22, 31, 51, 26, null, null, null, null ],
-          numList3: [ 34, 22, 44, 11, 4, 6, 23, 46, 16, 5, 33, 45 ],
-          numList4: [ 14, 12, 14, 21, 34, 26, 13, 26, 36, 15, 13, 25 ],
+          numList: [  ],
+          numList2: [ 257.55, 201.13,262.45,228.11,215.85,215.85,233.02,225.66, 225.66, null, null, null ],
+          numList3: [ null, null, null, null, null, null, null, null, 220.76,233.02,237.93,277.17],
         }
 
-        setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3, res.data.numList4);
+        setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3);
       } else {
         ElMessage({
           message: res.msg,
@@ -31,8 +29,10 @@ const getData = () => {
       ElMessage.error(err);
     });
 };
-const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[], yData4: any[]) => {
+const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[]) => {
+  const findNullIndex = yData2.findIndex(item => item === null)
   option.value = {
+
     grid: {
       show: true,
       left: "0px",
@@ -56,35 +56,25 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         // 添加单位
         let result = params[0].name + "<br>";
         params.forEach(function (item: any) {
-          if (item.seriesName == "实际能耗") {
-            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(255,136,30,1);"></span>`
+          if (item.seriesName == "实际电量") {
+            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(255, 168, 21, 1);"></span>`
             item.marker = mark
-            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}吨</br>` : '- </br>'}`;
-          } else if (item.seriesName == "预测能耗") {
-            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(253,253,30, 1);"></span>`
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}万千瓦时</br>` : '- </br>'}`;
+          } else if (item.seriesName == "预测电量") {
+            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(255, 230, 0, 1);"></span>`
             item.marker = mark
-            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}吨</br>` : '- </br>'}`;
-          } else if (item.seriesName == "预测上限") {
-            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(13,255,198, 1);"></span>`
-            item.marker = mark
-            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}吨</br>` : '- </br>'}`;
-          }else if (item.seriesName == "预测下限") {
-            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(31,254,255, 1);"></span>`
-            item.marker = mark
-            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}吨</br>` : '- </br>'}`;
-          }else {
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}万千瓦时</br>` : '- </br>'}`;
+          } else {
             result += item.marker + " " + item.seriesName + " :  - </br>";
           }
         });
         return result;
       }
     },
-
-
     legend: {
       data: [
         {
-          name: "实际能耗",
+          name: "实际电量",
           itemStyle:{ 
             opacity:0,
           },
@@ -93,25 +83,7 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
           },
         },
         {
-          name: "预测能耗",
-          itemStyle:{ 
-            opacity:0,
-          },
-          textStyle: {
-            color: "#fff",
-          },
-        },
-        {
-          name: "预测上限",
-          itemStyle:{ 
-            opacity:0,
-          },
-          textStyle: {
-            color: "#fff",
-          },
-        },
-        {
-          name: "预测下限",
+          name: "预测电量",
           itemStyle:{ 
             opacity:0,
           },
@@ -148,11 +120,12 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
     yAxis: [
       {
         type: "value",
-        name: '能耗(吨)',
+        name: '电量(万千瓦时)',
         position: 'left',
         nameTextStyle: {
           color: '#fff',
-          align: 'left'
+          // align: 'left'
+          padding: [0,0,0,30]
         },
         splitLine: {
           show: true,
@@ -169,11 +142,11 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         axisLabel: {
           show: true,
           color: "#fff",
-          // color: "#7EB7FD",
           fontWeight: "500",
         },
       }
     ],
+    
     series: [
       {
         data: yData2,
@@ -181,9 +154,10 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         yAxisIndex: 0,
         smooth: true,
         symbol: "none", //去除点
-        name: "实际能耗",
+        name: "实际电量",
         lineStyle: {
-          color: "rgba(255,136,30,1)",
+          color: "rgba(255, 168, 21, 1)",
+          width: 2
         },
         areaStyle: {
           //右，下，左，上
@@ -195,15 +169,28 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
             [
               {
                 offset: 0,
-                color: "rgba(252,144,16,.7)",
+                color: "rgba(255, 168, 21, .7)",
               },
               {
                 offset: 1,
-                color: "rgba(9,202,243,.0)",
+                color: "rgba(255, 168, 21, 0)",
               },
             ],
             false
           ),
+        },
+        markLine: {
+          symbol: ['none', 'none'],
+          slient: true,
+          lineStyle: {
+            color: 'rgba(112, 158, 227, 1)',
+            width: 2
+          },
+          label: { show: false },
+          // data: nullIndices.map((index: any) => ({
+          //   xAxis: index
+          // }))
+          data: [{xAxis: findNullIndex - 1}]
         },
       },
       {
@@ -212,34 +199,31 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
         yAxisIndex: 0,
         smooth: true,
         symbol: "none", //去除点
-        name: "预测能耗",
+        name: "预测电量",
         lineStyle: {
-          color: "rgba(253,253,30, 1)",
-          type: 'dotted'
+          type: 'dotted',
+          color: "rgba(255, 230, 0, 1)",
+          width: 2
         },
-      },
-      {
-        data: yData,
-        type: "line",
-        yAxisIndex: 0,
-        smooth: true,
-        symbol: "none", //去除点
-        name: "预测上限",
-        lineStyle: {
-          color: "rgba(13,255,198, 1)",
-          type: 'dotted'
-        },
-      },
-      {
-        data: yData4,
-        type: "line",
-        yAxisIndex: 0,
-        smooth: true,
-        symbol: "none", //去除点
-        name: "预测下限",
-        lineStyle: {
-          color: "rgba(31,254,255, 1)",
-          type: 'dotted'
+        areaStyle: {
+          //右，下，左，上
+          color: new graphic.LinearGradient(
+            0,
+            0,
+            0,
+            1,
+            [
+              {
+                offset: 0,
+                color: "rgba(255, 230, 0, 1)",
+              },
+              {
+                offset: 1,
+                color: "rgba(9,202,243,0)",
+              },
+            ],
+            false
+          ),
         },
       },
     ],
@@ -250,15 +234,16 @@ onMounted(() => {
 });
 </script>
 
-<template><div style="width: 100%; height: 100%">
-  <v-chart
-    class="chart"
+<template>
+  <div style="width: 100%; height: 100%">
+    <v-chart
+      class="chart"
       autoresize
-    style="width: 100%; height: 100%"
-    :option="option"
-    v-if="JSON.stringify(option) != '{}'"
-  />
-</div>
+      style="width: 100%; height: 100%"
+      :option="option"
+      v-if="JSON.stringify(option) != '{}'"
+    />
+  </div>
 </template>
 
 <style scoped lang="scss"></style>

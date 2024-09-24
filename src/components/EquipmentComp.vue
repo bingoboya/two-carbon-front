@@ -9,20 +9,19 @@
               <div class="params_item">
                 <div class="temp_item">
                   <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
-                    <div style="color: RGBA(95, 249, 255, 1); font-size: 22px; font-weight: 600;">150</div>
+                    <div style="color: RGBA(95, 249, 255, 1); font-size: 22px; font-weight: 600;">70</div>
                     <div>°C</div>
                   </div>
                 </div>
-                <div style="flex: 1; margin-top: 4px;">温度</div>
+                <div style="flex: 1; margin-top: 4px;">酸液温度</div>
               </div>
               <div class="params_item">
                 <div class="temp_item">
                   <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
-                    <div style="color: RGBA(95, 249, 255, 1); font-size: 22px; font-weight: 600;">15</div>
-                    <div>分钟</div>
+                    <div style="color: RGBA(95, 249, 255, 1); font-size: 22px; font-weight: 600;">2.5</div>
                   </div>
                 </div>
-                <div style="flex: 1; margin-top: 4px;">加热时间</div>
+                <div style="flex: 1; margin-top: 4px;">PH值</div>
               </div>
               <div style="display: flex;flex: 1;align-items: center;" class="params_item ">
                 <div class="temp_item" style="color: RGBA(95, 249, 255, 1); font-size: 22px; font-weight: 600;">
@@ -37,15 +36,15 @@
           <div class="my_table" >
             <div class="table_th">
               <div class="table_content_left">日期</div>
-              <div class="table_content_center">温度(°C)</div>
-              <div class="table_content_right">加热时间(分钟)</div>
+              <div class="table_content_center">酸液温度(°C)</div>
+              <div class="table_content_right">PH值</div>
             </div>
             <vue3-seamless-scroll :list="TableData.data" direction="up" :hover="true" :limitScrollNum="14"
               :openWatch="true" :step="0.2" :wheel="true" :isWatch="true" class="scroll" >
               <div class="item" v-for="(item, index) in TableData.data" :key="index">
                 <div class="scroll_item_left">{{ item.date }}</div>
                 <div class="scroll_item_center">{{ item.title }}</div>
-                <div class="scroll_item_right">{{ 10 }}</div>
+                <div class="scroll_item_right">{{ item.PHValue }}</div>
               </div>
             </vue3-seamless-scroll>
             <!-- <CustomeScroll /> -->
@@ -65,12 +64,12 @@
             <div class="table_content_right">故障说明</div>
           </div>
           <!-- 开启数据实时监控刷新dom  -->
-          <vue3-seamless-scroll :list="TableData.data" direction="up" :hover="true" :limitScrollNum="7"
+          <vue3-seamless-scroll :list="TableData.maintainData" direction="up" :hover="true" :limitScrollNum="7"
             :openWatch="true" :step="0.2" :wheel="true" :isWatch="true" class="scroll">
-            <div class="item" v-for="(item, index) in TableData.data" :key="index">
+            <div class="item" v-for="(item, index) in TableData.maintainData" :key="index">
               <div class="scroll_item_left">{{ item.date }}</div>
               <div class="scroll_item_center">{{ item.title }}</div>
-              <div class="scroll_item_right">{{ 10 }}</div>
+              <div class="scroll_item_right">{{ item.description }}</div>
             </div>
           </vue3-seamless-scroll>
         </div>
@@ -101,85 +100,142 @@ const TableData: any = reactive({
   data: [
     {
       num: (Math.random()).toFixed(3),
-      title: "第1条",
+      title: "50",
       date: '202401',
+      PHValue: 2.5
     },
     {
       num: (Math.random()).toFixed(3),
-      title: "第2条",
+      title: "50",
       date: '202402',
+      PHValue: 2.5
     },
     {
       num: (Math.random()).toFixed(3),
-      title: "第3条",
+      title: "55",
       date: '202403',
+      PHValue: 2.5
     },
     {
       num: (Math.random()).toFixed(3),
-      title: "第4条",
+      title: "55",
       date: '202404',
+      PHValue: 2.5
     },
     {
       num: (Math.random()).toFixed(3),
-      title: "第5条",
+      title: "60",
       date: '202405',
+      PHValue: 2.5
     },
     {
       num: (Math.random()).toFixed(3),
-      title: "第6条",
+      title: "60",
       date: '202406',
+      PHValue: 2.5
     },
     {
       num: (Math.random()).toFixed(3),
-      title: "第7条",
+      title: "65",
       date: '202407',
+      PHValue: 2.5
     },
     {
       num: (Math.random()).toFixed(3),
-      title: "第8条",
+      title: "65",
       date: '202408',
+      PHValue: 2.5
     },
     {
       num: (Math.random()).toFixed(3),
-      title: "第9条",
-      date: '202409',
+      title: "50",
+      date: '202401',
+      PHValue: 2.5
     },
     {
       num: (Math.random()).toFixed(3),
-      title: "第10条",
+      title: "50",
+      date: '202402',
+      PHValue: 2.5
+    },
+    {
+      num: (Math.random()).toFixed(3),
+      title: "55",
+      date: '202403',
+      PHValue: 2.5
+    },
+    {
+      num: (Math.random()).toFixed(3),
+      title: "55",
+      date: '202404',
+      PHValue: 2.5
+    },
+    {
+      num: (Math.random()).toFixed(3),
+      title: "60",
+      date: '202405',
+      PHValue: 2.5
+    },
+    {
+      num: (Math.random()).toFixed(3),
+      title: "60",
       date: '202406',
+      PHValue: 2.5
     },
     {
       num: (Math.random()).toFixed(3),
-      title: "第11条",
+      title: "65",
       date: '202407',
+      PHValue: 2.5
     },
     {
       num: (Math.random()).toFixed(3),
-      title: "第12条",
+      title: "65",
       date: '202408',
+      PHValue: 2.5
+    },
+  ],
+  maintainData: [
+    {
+      title: "检查酸液浓度",
+      date: '202401',
+      description: '0%'
     },
     {
-      num: (Math.random()).toFixed(3),
-      title: "第13条",
-      date: '202409',
+      title: "更换酸液",
+      date: '202402',
+      description: '0%'
     },
     {
-      num: (Math.random()).toFixed(3),
-      title: "第14条",
-      date: '202409',
+      title: "检查酸液浓度",
+      date: '202403',
+      description: '1次轻微故障(1小时修复)'
     },
     {
-      num: (Math.random()).toFixed(3),
-      title: "第15条",
-      date: '202409',
+      title: "清理处理槽",
+      date: '202404',
+      description: '0%'
     },
     {
-      num: (Math.random()).toFixed(3),
-      title: "第16条",
-      date: '202409',
+      title: "检查酸液浓度",
+      date: '202405',
+      description: '1次轻微故障(1小时修复)'
     },
-
+    {
+      title: "更换酸液",
+      date: '202406',
+      description: '0%'
+    },
+    {
+      title: "检查处理设备",
+      date: '202407',
+      description: '0%'
+    },
+    {
+      title: "清理处理槽",
+      date: '202408',
+      description: '0%'
+    },
   ]
 }
 
