@@ -3,7 +3,7 @@
       <div class="center_wrapper" >
         <div class="item_wrap" style="position: relative;">
             <div class="card_left" >
-              <img style="width: 60px;" :src="'/src/assets/icon/总碳排放量icon.png'" alt="">
+              <img style="width: 60px;" :src="wholecoicon" alt="">
             </div>
             <div class="card_right">
               <div>总碳排放量</div>
@@ -25,7 +25,7 @@
         </div>
         <div class="item_wrap" style="position: relative;">
             <div class="card_left" >
-              <img style="width: 60px;" :src="'/src/assets/icon/耗电量icon.png'" alt="">
+              <img style="width: 60px;" :src="haodianicon" alt="">
             </div>
             <div class="card_right">
               <div>总能耗</div>
@@ -46,7 +46,7 @@
         </div>
         <div class="item_wrap" style="position: relative;">
             <div class="card_left" >
-              <img style="width: 60px;" :src="'/src/assets/icon/耗电量icon.png'" alt="">
+              <img style="width: 60px;" :src="haodianicon" alt="">
             </div>
             <div class="card_right">
               <div>耗电量</div>
@@ -74,7 +74,7 @@
       <InteractiveFactoryMap ref="InteractiveFactoryMapRef"
        :buildingArr="defaultBuildingArr"
         @callBackFunction="gogogo"
-        :backgroundImageSrc="'/src/assets/bgpng/流程图bg.png'" 
+        :backgroundImageSrc="flowBg" 
         />
   </div>
 </template>
@@ -85,7 +85,9 @@ import arrow_down_icon from '@/assets/icon/arrow_down_icon.png'
 import arrow_top_icon from '@/assets/icon/arrow_top_icon.png'
 import InteractiveFactoryMap from './InteractiveFactoryMap/index';
 import { useRouter } from 'vue-router'
-
+import flowBg from '@/assets/bgpng/流程图bg.png'
+import wholecoicon from '@/assets/icon/总碳排放量icon.png'
+import haodianicon from '@/assets/icon/耗电量icon.png'
 
 const router = useRouter()
 const gogogo = (buildingName: any) => {

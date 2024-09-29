@@ -18,27 +18,27 @@ import { ElMessage } from "element-plus";
 
 const option = ref({});
 const getData = async () => {
-  alarmNum()
-    .then((res) => {
-      if (res.success) {
-        res.data = {
-          dateList: ['1月', '2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
-          numList: [ 0, 32, 123, 53, 12, 33, 44, 11, 66, 34, 23, 15 ],
-          numList2: [ "2080.7", "1624.93", "2120.33", "1842.89", "1743.83", "1743.83", "1882.54", "1823.09", null, null, null, null ],
-          numList3: [ null, null, null, null, null, null, null, "1783.46", "1882.54", "1922.17", "2239.25" ],
-        }
+  const data = {
+    dateList: ['1月', '2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+    numList: [ 0, 32, 123, 53, 12, 33, 44, 11, 66, 34, 23, 15 ],
+    numList2: [ "2080.7", "1624.93", "2120.33", "1842.89", "1743.83", "1743.83", "1882.54", "1823.09", null, null, null, null ],
+    numList3: [ null, null, null, null, null, null, null, "1783.46", "1882.54", "1922.17", "2239.25" ],
+  }
 
-        setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3);
-      } else {
-        ElMessage({
-          message: res.msg,
-          type: "warning",
-        });
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+  setOption(data.dateList, data.numList, data.numList2, data.numList3);
+  // alarmNum()
+  //   .then((res) => {
+  //     if (res.success) {
+  //     } else {
+  //       ElMessage({
+  //         message: res.msg,
+  //         type: "warning",
+  //       });
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     console.error(err);
+  //   });
 };
 const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[]) => {
 

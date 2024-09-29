@@ -1,21 +1,15 @@
-
-
 <template>
   <div class="index_box" >
     <!-- 第二级页面主体 -->
     <div ref="contentLeftComp" class="contetn_left">
-      <div style="height: 20px;display: flex; gap: 4px;">
-        <!-- <span>工艺</span>/
-        <span>工序</span>/
-        <span>排放检测</span> -->
-      </div>
-      <ItemWrap class="contetn_left-top " title="碳排放量情况">
+      <div style="height: 20px;display: flex; gap: 4px;"></div>
+      <ItemWrap :backgroundImg="底部长bg"class="contetn_left-top " titlebg="headImg" :titleImg="headImg" title="碳排放量情况">
         <LeftTop />
       </ItemWrap>
-      <ItemWrap  class="contetn_left-center " title="电量-产量情况">
+      <ItemWrap :backgroundImg="底部长bg" class="contetn_left-center " titlebg="headImg" :titleImg="headImg" title="电量-产量情况">
         <LeftCenter />
       </ItemWrap>
-      <ItemWrap  class="contetn_left-bottom " title="工序能流分析" >
+      <ItemWrap :backgroundImg="底部长bg" class="contetn_left-bottom " titlebg="headImg" :titleImg="headImg" title="工序能流分析" >
         <LeftBottom />
       </ItemWrap>
     </div>
@@ -34,20 +28,19 @@
         </div>
         <div class="bottom_item_wrapper">
           <div @mouseenter="enterBottomBtn('酸轧')" @mouseleave="leaveBottomBtn('酸轧')" @click="routerGo('酸轧')" class="bottom_item" >
-            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('/src/assets/bgpng/酸轧按钮_default.png')` }"></div>
-            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('/src/assets/bgpng/酸轧按钮_press.png')` }"></div>
+            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url(${酸轧按钮_default})` }"></div>
+            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url(${酸轧按钮_press})` }"></div>
           </div>
           <div @mouseenter="enterBottomBtn('连退')" @mouseleave="leaveBottomBtn('连退')" @click="routerGo('连退')" class="bottom_item" >
-            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('/src/assets/bgpng/连退按钮_default.png')` }"></div>
-            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('/src/assets/bgpng/连退按钮_press.png')` }"></div>
+            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url(${连退按钮_default})` }"></div>
+            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url(${连退按钮_press})` }"></div>
           </div>
           <div @mouseenter="enterBottomBtn('电镀(精整)')" @mouseleave="leaveBottomBtn('电镀(精整)')" @click="routerGo('电镀(精整)')" class="bottom_item" >
-            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('/src/assets/bgpng/电镀精整按钮_default.png')` }"></div>
-            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('/src/assets/bgpng/电镀精整按钮_press.png')` }"></div>
+            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url(${电镀精整按钮_default})` }"></div>
+            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url(${电镀精整按钮_press})` }"></div>
           </div>
         </div>
       </div>
-
     </div>
     <div  ref="contentRightComp" class="contetn_right">
       <div style="height: 20px;display: flex; flex-direction: row; justify-content: space-between;align-items: center">
@@ -58,20 +51,30 @@
         />
         <div class="returnBtn" @click="router.go(-1)"></div>
       </div>
-      <ItemWrap  class="contetn_left-bottom " title="碳排占比">
+      <ItemWrap :backgroundImg="底部长bg" class="contetn_left-bottom " titlebg="headImg" :titleImg="headImg" title="碳排占比">
           <RightTop />
       </ItemWrap>
-      <ItemWrap  class="contetn_left-bottom " title="电量预测分析" >
+      <ItemWrap :backgroundImg="底部长bg" class="contetn_left-bottom " titlebg="headImg" :titleImg="headImg" title="电量预测分析" >
         <RightCenter />
       </ItemWrap>
-      <ItemWrap  class="contetn_left-bottom " title="碳排预测分析 ">
+      <ItemWrap :backgroundImg="底部长bg" class="contetn_left-bottom " titlebg="headImg" :titleImg="headImg" title="碳排预测分析 ">
         <RightBottom />
       </ItemWrap>
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
+import 底部长bg from "@/assets/bgpng/底部长bg.png";
+
+import 酸轧按钮_default from '@/assets/bgpng/酸轧按钮_default.png'
+import 酸轧按钮_press from '@/assets/bgpng/酸轧按钮_press.png'
+import 连退按钮_default from '@/assets/bgpng/连退按钮_default.png'
+import 连退按钮_press from '@/assets/bgpng/连退按钮_press.png'
+import 电镀精整按钮_default from '@/assets/bgpng/电镀精整按钮_default.png'
+import 电镀精整按钮_press from '@/assets/bgpng/电镀精整按钮_press.png'
+import headImg from '@/assets/bgpng/头部2.png'
+import headLongImg from '@/assets/bgpng/头部长2.png'
+import titleHeadBg from '@/assets/bgpng/二级标题头部长bg.png'
 import { onBeforeRouteLeave, useRouter } from 'vue-router'
 import { gsap } from 'gsap';
 import ItemWrap from "@/components/item-wrap";
@@ -183,10 +186,10 @@ const options = [
   width: 66px;
   height: 28px;
   cursor: pointer;
-  background-image: url('/src/assets/bgpng/返回btn_default.png');
+  background-image: url('/src/assets/bgpng/return_btn_default.png');
   background-repeat: round;
   &:hover {
-    background-image: url('/src/assets/bgpng/返回btn_press.png');
+    background-image: url('/src/assets/bgpng/return_btn_press.png');
   }
 }
 .bottom_item_wrapper {
@@ -207,8 +210,6 @@ const options = [
     cursor: pointer;
     &:hover{
       .bottom_item_btn_default {
-        // background-image: url('@/assets/bgpng/炼钢按钮_press.png');
-        // transform: translateY(-10px);
         display: none;
       }
       .bottom_item_btn_press {
@@ -221,7 +222,6 @@ const options = [
       display: block;
       width: 176px;
       height: 54px;
-      // background-image: url('@/assets/bgpng/炼钢按钮_default.png');
       background-size: contain;
       background-repeat: no-repeat;
     }
@@ -229,7 +229,6 @@ const options = [
       display: none;
       width: 176px;
       height: 54px;
-      // background-image: url('@/assets/bgpng/炼钢按钮_default.png');
       background-size: contain;
       background-repeat: no-repeat;
     }

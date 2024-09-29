@@ -16,7 +16,6 @@
     :style="{ backgroundImage: curPath === '/index'  ? `url(${bgSrc2})` : `url(${bgSrc3})`  }"
   >
     <div ref="wrapperRef" class="content_wrap"  :style="{ backgroundImage: curPath === '/index'  ? `url(${bgSrc3})` : `url(${bgSrc2})` }">
-    <!-- <div class="content_wrap"  :style="{ backgroundImage: curPath === '/index'  ? `url(${bgSrc})` : `url(${bgSrc2})` }"> -->
       <Headers />
       <RouterView />
     </div>
@@ -25,6 +24,7 @@
   <Setting />
 </template>
 <script setup lang="ts">
+import { alarmNum } from "@/api";
 import { RouterView , useRouter} from "vue-router";
 import ScaleScreen from "@/components/scale-screen";
 import Headers from "./header.vue";
@@ -32,7 +32,9 @@ import Setting from "./setting.vue";
 import { useSettingStore } from "@/stores/index";
 import { storeToRefs } from "pinia";
 import { ref, computed, nextTick, onMounted, watch, onUnmounted } from "vue";
-import { gsap } from 'gsap';
+// import { gsap } from 'gsap';
+import bgSrc2 from '@/assets/bgpng/整体bg.jpg'
+import bgSrc3 from '@/assets/img/房子.jpg'
 const router = useRouter()
 const wrapperRef = ref<HTMLDivElement | null>(null);
 const intervalId = ref<ReturnType<typeof setInterval> | null>(null);
@@ -44,9 +46,6 @@ const screenHeight = 1080
 const settingStore = useSettingStore();
 const { isScale } = storeToRefs(settingStore);
 const wrapperStyle = {};
-// const bgSrc = ref('src/assets/bgpng/masklayer.png')
-const bgSrc2 = '/src/assets/bgpng/整体bg.jpg'
-const bgSrc3 = '/src/assets/img/房子.jpg'
 
 watch(() => router.currentRoute.value.path, (newValue, oldValue) => {
   if (newValue === '/second' && oldValue === '/index') {
@@ -55,6 +54,22 @@ watch(() => router.currentRoute.value.path, (newValue, oldValue) => {
   if (newValue === '/index' && oldValue === '/second') {
     // gsap.fromTo('.content_wrap', { opacity: 0 }, { opacity: 1, duration: 22 });
   } 
+})
+
+const getData = async () => {
+  console.log('getData');
+  const res = await alarmNum()
+  if (res) {
+    if (res.success) {
+        console.log(res);
+      } else {
+        console.log(res);
+      }
+  }
+};
+
+onMounted(async() => {
+  await getData();
 })
 
 </script>

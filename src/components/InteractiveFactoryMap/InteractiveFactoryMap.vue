@@ -26,7 +26,7 @@ interface Building {
   info: string;
   alwaysVisible?: boolean;
   videoSrc?: String,
-  arrowPicSrc?: String,
+  // arrowPicSrc?: String,
   videoSrcPress?: String
   bgPicSrc?: String
 }
@@ -121,12 +121,12 @@ const props = defineProps({
         const app = createApp(BuildingLabel, {
           // videoSrc: building.videoSrc,
           // videoSrcPress: building.videoSrcPress,
+          // arrowPicSrc: building.arrowPicSrc,
           tanpaiValue: building.tanpaiValue,
           nenghaoValue: building.nenghaoValue,
           haodianValue: building.haodianValue,
           toolTipBg: building.toolTipBg,
-          arrowItemLine: building.arrowItemLine,
-          arrowPicSrc: building.arrowPicSrc,
+          // arrowItemLine: building.arrowItemLine,
           bgPicSrc: building.bgPicSrc,
           name: building.name,
           info: building.info,

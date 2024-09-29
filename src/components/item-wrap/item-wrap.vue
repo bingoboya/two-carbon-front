@@ -1,9 +1,9 @@
 <template>
-  <BorderBox13 :backgroundImg="backgroundImg">
-    <div class="item_title" :style="{ backgroundImage: `url(${titlebg})` }" v-if="title !== ''">
+  <BorderBox13 :backgroundImg="backgroundImg === '' ? item_wrap_bg1 : backgroundImg">
+    <div class="item_title" :style="{ backgroundImage: `url(${titleImg})` }" v-if="title !== ''">
       {{ title }}
       <!-- 六个光标 -->
-      <div v-if="titlebg === '/src/assets/bgpng/头部2.png'" class="svg_wrapper_six" style="">
+      <div v-if="titlebg === 'headImg'" class="svg_wrapper_six">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200">
           <!-- 第一个矩形 -->
           <rect fill="rgba(255,255,255,0.699)" stroke="rgba(255,255,255,0.699)" stroke-width="0" width="10" height="30"
@@ -49,7 +49,8 @@
         </svg>
       </div>
       <!-- 六个光标 长背景 -->
-      <div v-else-if="titlebg === '/src/assets/bgpng/二级标题头部长bg.png'" class="svg_wrapper_six_long" >
+      <div v-else-if="titlebg === 'titleHeadBg'" class="svg_wrapper_six_long" >
+      <!-- <div v-else-if="titlebg === '/src/assets/bgpng/二级标题头部长bg.png'" class="svg_wrapper_six_long" > -->
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200">
           <!-- 第一个矩形 -->
           <rect fill="rgba(255,255,255,0.699)" stroke="rgba(255,255,255,0.699)" stroke-width="0" width="10" height="30"
@@ -95,7 +96,7 @@
         </svg>
       </div>
       <!-- 三个光标 -->
-      <div v-else class="svg_wrapper_three" style="">
+      <div v-else-if="titlebg === 'headLongImg'" class="svg_wrapper_three">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200">
           <!-- 第一个矩形 -->
           <rect fill="rgba(255,255,255,0.699)" stroke="rgba(255,255,255,0.699)" stroke-width="0" width="10" height="30"
@@ -120,22 +121,26 @@
         </svg>
       </div>
     </div>
-    <div style="flex:1; width: 100%;padding: 12px;">
+    <div style="flex:1; width: 100%;padding: 12px;overflow: hidden;">
       <slot></slot>
     </div>
   </BorderBox13>
 </template>
 <script setup lang="ts">
+import item_wrap_bg1 from '@/assets/icon/item_wrap_bg1.png'
 import BorderBox13 from "@/components/datav/border-box-13";
-
 const props = defineProps({
   backgroundImg: {
     type: String,
-    default: "src/assets/icon/item_wrap_bg1.png",
+    default: "",
   },
   title: {
     type: [Number, String],
     default: '1'
+  },
+  titleImg: {
+    type: String,
+    default: ''
   },
   titlebg: {
     type: String,

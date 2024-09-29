@@ -13,7 +13,7 @@ import type { PropType } from "vue";
 const props = defineProps({
   backgroundImg: {
     type: String,
-    default: "src/assets/icon/item_wrap_bg1.png",
+    default: "/src/assets/icon/item_wrap_bg1.png",
   },
   color: {
     type: Array as unknown as PropType<[string, string]>,
@@ -38,15 +38,9 @@ const mergedColor = computed<[string, string]>(() => {
 
 <style scoped lang="scss">
 .dv-border-box {
-  // background-image: url('src/assets/icon/item_wrap_bg1.png');
-  background-image: url('src/assets/bgpng/底部长bg.png');
-  // background-image: url('@/assets/icon/item_wrap_bg.png');
+  background-image: url('/src/assets/bgpng/底部长bg.png');
   background-repeat: round;
   background-size: cover;
-  // position: relative;
-  // box-sizing: border-box;
-  // width: 100%;
-  // height: 100%;
   flex:1;
 }
 .dv-border-svg-container {

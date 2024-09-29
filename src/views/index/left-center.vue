@@ -13,7 +13,7 @@
 </template>
 <script setup lang="ts">
 import { ref, reactive, onMounted, nextTick } from "vue";
-import { installationPlan } from "@/api";
+// import { installationPlan } from "@/api";
 import { graphic } from "echarts/core";
 import { ElMessage } from "element-plus";
 
@@ -339,20 +339,20 @@ const newOption = {
 // 
 
 const getData = () => {
-  installationPlan()
-    .then((res) => {
-      if (res.success) {
-        setOption(res.data);
-      } else {
-        ElMessage({
-          message: res.msg,
-          type: "warning",
-        });
-      }
-    })
-    .catch((err) => {
-      ElMessage.error(err);
-    });
+  setOption({});
+  // installationPlan()
+  //   .then((res) => {
+  //     if (res.success) {
+  //     } else {
+  //       ElMessage({
+  //         message: res.msg,
+  //         type: "warning",
+  //       });
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     ElMessage.error(err);
+  //   });
 };
 const setOption = async (newData: any) => {
   option.value = newOption

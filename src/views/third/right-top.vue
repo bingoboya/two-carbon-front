@@ -463,50 +463,50 @@ const mouseoverFun = (params: any) => {
 
 
 const getData = () => {
-  countUserNum().then((res) => {
-    if (res.success) {
-      state.data = [
-        {
-          value: 20,
-          name: '本浦冷轧2#重卷机组',
-          unit: '%',
-          num: 25,
-          itemStyle: {
-            color: "rgba(237, 187, 67, 1)",
+  state.data = [
+    {
+      value: 20,
+      name: '本浦冷轧2#重卷机组',
+      unit: '%',
+      num: 25,
+      itemStyle: {
+        color: "rgba(237, 187, 67, 1)",
 
 
-          },
-        },
-        {
-          value: 25,
-          name: '本浦冷轧3#重卷机组',
-          unit: '%',
-          num: 22354,
-          itemStyle: {
-            color: "#b54c46",
-          },
-        },
-        {
-          value: 55,
-          name: '电镀锌机组',
-          unit: '%',
-          num: 2541,
-          itemStyle: {
-            color: "rgba(17, 219, 231, 1)",
+      },
+    },
+    {
+      value: 25,
+      name: '本浦冷轧3#重卷机组',
+      unit: '%',
+      num: 22354,
+      itemStyle: {
+        color: "#b54c46",
+      },
+    },
+    {
+      value: 55,
+      name: '电镀锌机组',
+      unit: '%',
+      num: 2541,
+      itemStyle: {
+        color: "rgba(17, 219, 231, 1)",
 
-          },
-        },
-      ]
-      option.value = getPie3D(
-        state.data,
-        0.8
-      );
-    } else {
-      console.log(res.msg)
-    }
-  }).catch(err => {
-    console.log(err)
-  });
+      },
+    },
+  ]
+  option.value = getPie3D(
+    state.data,
+    0.8
+  );
+  // countUserNum().then((res) => {
+  //   if (res.success) {
+  //   } else {
+  //     console.log(res.msg)
+  //   }
+  // }).catch(err => {
+  //   console.log(err)
+  // });
 };
 getData();
 

@@ -5,7 +5,7 @@
 
         <div class="item_wrap" style="position: relative;">
           <div class="card_left">
-            <AnimatedLoader :iconSrc="'/src/assets/newicon/co2_icon.png'" />
+            <AnimatedLoader :iconSrc="co2_icon" />
           </div>
           <div class="card_right">
             <div>总碳排放量</div>
@@ -30,7 +30,7 @@
         </div>
         <div class="item_wrap" style="position: relative;">
           <div class="card_left">
-            <AnimatedLoader :iconSrc="'/src/assets/newicon/总能耗icon.png'" />
+            <AnimatedLoader :iconSrc="nenghao_icon" />
           </div>
           <div class="card_right">
             <div>耗电量</div>
@@ -55,7 +55,7 @@
         </div>
         <div class="item_wrap" style="position: relative;">
           <div class="card_left">
-            <AnimatedLoader :iconSrc="'/src/assets/newicon/电碳耦合度icon.png'" />
+            <AnimatedLoader :iconSrc="ouhedu_icon" />
           </div>
           <div class="card_right">
             <div>电碳耦合度</div>
@@ -81,7 +81,7 @@
         <div class="top_info_card" style="flex: 266;position: relative;">
           <div
             style="padding: 0 0px;width: 76px;height: 76px;display: flex; flex-direction: row;justify-content: center; align-items: center;">
-            <AnimatedLoader :iconSrc="'/src/assets/newicon/green_report_icon.png'" />
+            <AnimatedLoader :iconSrc="green_report_icon" />
           </div>
           <div class="card_right">
             <div style="display: flex; gap: 8px;">
@@ -119,6 +119,21 @@ import arrow_down_icon from '@/assets/icon/arrow_down_icon.png'
 import arrow_top_icon from '@/assets/icon/arrow_top_icon.png'
 import InteractiveFactoryMap from '@/components/InteractiveFactoryMap/index';
 import AnimatedLoader from '@/components/AnimatedLoader.vue';
+import dianduxinImg from '@/assets/bgpng/电镀锌框.png'
+import rezaImg from '@/assets/bgpng/热轧框.png'
+import gaoluImg from '@/assets/bgpng/高炉框.png'
+import liangangImg from '@/assets/bgpng/炼钢框.png'
+
+import dianduxinImgdefault from '@/assets/bgpng/电镀锌弹框_default.png'
+import rezaImgdefault from '@/assets/bgpng/热轧弹框_default.png'
+import gaoluImgdefault from '@/assets/bgpng/高炉弹框_default.png'
+import liangangImgdefault from '@/assets/bgpng/炼钢弹框_default.png'
+
+import co2_icon from '@/assets/newicon/co2_icon.png'
+import nenghao_icon from '@/assets/newicon/总能耗icon.png'
+import ouhedu_icon from '@/assets/newicon/电碳耦合度icon.png'
+import green_report_icon from '@/assets/newicon/green_report_icon.png'
+
 import { useRouter } from 'vue-router'
 const router = useRouter()
 
@@ -132,10 +147,10 @@ const defaultBuildingArr = [
     id: 1, x: 110, y: 600, width: 50, height: 80, name: "电镀锌", info: "这是主要办公区域", alwaysVisible: !true,
     // videoSrc: '',
     // videoSrcPress: '',
-    arrowPicSrc: '/src/assets/icon/dianduxinarrow.png',
-    bgPicSrc: '/src/assets/bgpng/电镀锌弹框_default.png',
-    toolTipBg: '/src/assets/bgpng/电镀锌框.png',
-    arrowItemLine: '/src/assets/icon/电镀锌弹框线.png',
+    // arrowPicSrc: '@/assets/icon/dianduxinarrow.png',
+    // arrowItemLine: '@/assets/icon/电镀锌弹框线.png',
+    bgPicSrc: dianduxinImgdefault,
+    toolTipBg: dianduxinImg,
     tanpaiValue: Number(26.62 * 0.7).toFixed(2),
     nenghaoValue:  Number(6.83 * 0.7).toFixed(2),
     haodianValue:  Number(22689.56 * 0.7).toFixed(2),
@@ -144,10 +159,10 @@ const defaultBuildingArr = [
     id: 3, x: 420, y: 610, width: 50, height: 80, name: "热轧", info: "主要生产区域", alwaysVisible: !true,
     // videoSrc: '',
     // videoSrcPress: '',
-    arrowPicSrc: '/src/assets/icon/rezaarrow.png',
-    bgPicSrc: '/src/assets/bgpng/热轧弹框_default.png',
-    toolTipBg: '/src/assets/bgpng/热轧框.png',
-    arrowItemLine: '/src/assets/icon/热轧弹框线.png',
+    // arrowPicSrc: '@/assets/icon/rezaarrow.png',
+    // arrowItemLine: '@/assets/icon/热轧弹框线.png',
+    bgPicSrc: rezaImgdefault,
+    toolTipBg: rezaImg,
     tanpaiValue:  Number(72.826 * 0.7).toFixed(2),
     nenghaoValue:  Number(8.49 * 0.7).toFixed(2),
     haodianValue:  Number(14826.22 * 0.7).toFixed(2),
@@ -156,10 +171,10 @@ const defaultBuildingArr = [
     id: 4, x: 610, y: 280, width: 50, height: 80, name: "高炉", info: "主要生产区域", alwaysVisible: !true,
     // videoSrc: '',
     // videoSrcPress: '',
-    arrowPicSrc: '/src/assets/icon/gaoluarrow.png',
-    bgPicSrc: '/src/assets/bgpng/高炉弹框_default.png',
-    toolTipBg: '/src/assets/bgpng/高炉框.png',
-    arrowItemLine: '/src/assets/icon/高炉弹框线.png',
+    // arrowPicSrc: '@/assets/icon/gaoluarrow.png',
+    // arrowItemLine: '@/assets/icon/高炉弹框线.png',
+    bgPicSrc: gaoluImgdefault,
+    toolTipBg:gaoluImg,
     tanpaiValue:  Number(182.06 * 0.7).toFixed(2),
     nenghaoValue:  Number(11.82 * 0.7).toFixed(2),
     haodianValue:  Number(5930.48 * 0.7).toFixed(2),
@@ -168,10 +183,10 @@ const defaultBuildingArr = [
     id: 5, x: 800, y: 520, width: 50, height: 80, name: "炼钢", info: "主要生产区域", alwaysVisible: !true,
     // videoSrc: '',
     // videoSrcPress: '',
-    arrowPicSrc: '/src/assets/icon/liangangarrow.png',
-    bgPicSrc: '/src/assets/bgpng/炼钢弹框_default.png',
-    toolTipBg: '/src/assets/bgpng/炼钢框.png',
-    arrowItemLine: '/src/assets/icon/炼钢弹框线.png',
+    // arrowPicSrc: '@/assets/icon/liangangarrow.png',
+    // arrowItemLine: '@/assets/icon/炼钢弹框线.png',
+    bgPicSrc: liangangImgdefault,
+    toolTipBg: liangangImg,
     tanpaiValue: Number(109.23 * 0.7).toFixed(2),
     nenghaoValue:  Number(9.55 * 0.7).toFixed(2),
     haodianValue:  Number(8895.73 * 0.7).toFixed(2),
@@ -233,18 +248,6 @@ defineExpose({
     flex: 226;
     display: flex;
     flex-direction: row;
-    align-items: center;
-    height: 100px;
-    background-image: url('@/assets/bgpng/顶部前三个卡片bg.png');
-    background-size: contain;
-    background-repeat: round;
-  }
-
-  .item {
-    flex: 226;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
     align-items: center;
     height: 100px;
     background-image: url('@/assets/bgpng/顶部前三个卡片bg.png');

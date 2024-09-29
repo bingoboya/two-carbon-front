@@ -102,10 +102,6 @@ watch(() => props.modelValue, (newValue) => {
   font-weight: 600;
   font-family: PingFang-SC, PingFang-SC;
   text-shadow: 0px 0px 8px #01142C;
-  background: radial-gradient(0deg, #FFFFFF 0%, #699FCD 0%);
-  /* border: 1px solid rgba(255, 255, 255, 0.2); */
-  /* border-radius: 4px; */
-  /* background-color: rgba(0, 0, 0, 0.5); */
   cursor: pointer;
   transition: all 0.3s ease;
 }

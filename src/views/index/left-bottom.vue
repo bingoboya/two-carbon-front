@@ -71,7 +71,7 @@
 </template>
 <script setup lang="ts">
 import { ref, reactive} from "vue";
-import { countUserNum } from "@/api";
+// import { countUserNum } from "@/api";
 
 // 监听鼠标事件，实现饼图选中效果（单选），近似实现高亮（放大）效果。
 let selectedIndex = '';
@@ -531,74 +531,74 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
 
 
 const getData = () => {
-  countUserNum().then((res) => {
-    if (res.success) {
-      state.data = [
-        {
-          value: 41,
-          name: '电力',
-          unit: '%',
-          num: 2541,
-          itemStyle: {
-              color: "rgba(231, 141, 0, 1)",
-            },
+  state.data = [
+    {
+      value: 41,
+      name: '电力',
+      unit: '%',
+      num: 2541,
+      itemStyle: {
+          color: "rgba(231, 141, 0, 1)",
         },
-        {
-          value: 24,
-          name: '热力',
-          unit: '%',
-          num: 25,
-          itemStyle: {
-              color: "rgba(237, 187, 67, 1)",
-            },
+    },
+    {
+      value: 24,
+      name: '热力',
+      unit: '%',
+      num: 25,
+      itemStyle: {
+          color: "rgba(237, 187, 67, 1)",
         },
-        {
-          value: 11,
-          name: '高炉煤气',
-          unit: '%',
-          num: 22354,
-          itemStyle: {
-              color: "rgba(91, 205, 153, 1)",
-            },
+    },
+    {
+      value: 11,
+      name: '高炉煤气',
+      unit: '%',
+      num: 22354,
+      itemStyle: {
+          color: "rgba(91, 205, 153, 1)",
         },
-        {
-          value: 22,
-          name: '焦炉煤气',
-          unit: '%',
-          num: 254,
-          itemStyle: {
-              color: "rgba(73, 135, 231, 1)",
-            },
+    },
+    {
+      value: 22,
+      name: '焦炉煤气',
+      unit: '%',
+      num: 254,
+      itemStyle: {
+          color: "rgba(73, 135, 231, 1)",
         },
-        {
-          value: 1,
-          name: '二级除盐水',
-          unit: '%',
-          num: 254,
-          itemStyle: {
-            color: "rgba(17, 219, 231, 1)",
-            },
+    },
+    {
+      value: 1,
+      name: '二级除盐水',
+      unit: '%',
+      num: 254,
+      itemStyle: {
+        color: "rgba(17, 219, 231, 1)",
         },
-        {
-          value: 1,
-          name: '其它',
-          unit: '%',
-          num: 254,
-          itemStyle: {
-            color: "rgba(197, 77, 29, 1)",
-            },
-        }
-      ]
-      option.value = getPie3D(
-        state.data,
-            0.8
-      );
-    }else{
-      console.log(res.msg)
+    },
+    {
+      value: 1,
+      name: '其它',
+      unit: '%',
+      num: 254,
+      itemStyle: {
+        color: "rgba(197, 77, 29, 1)",
+        },
     }
-  }).catch(err=>{
-    console.log(err)
-  });
+  ]
+  option.value = getPie3D(
+    state.data,
+        0.8
+  );
+  // countUserNum().then((res) => {
+  //   if (res.success) {
+  //   }else{
+  //     console.log(res.msg)
+  //   }
+  // }).catch(err=>{
+  //   console.log(err)
+  // });
 };
 getData();
 

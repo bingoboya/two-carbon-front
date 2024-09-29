@@ -1,7 +1,7 @@
 <template>
   <div class="equipment_wrap">
     <div style="flex:418; z-index: 2;display: flex;">
-      <ItemWrap title="运行参数情况" titlebg='/src/assets/bgpng/头部2.png' >
+      <ItemWrap title="运行参数情况" :backgroundImg="底部长bg"  titlebg="headImg" :titleImg="headImg" >
         <div style="width: 100%; height: 100%; display: flex; flex-direction: column; gap: 6px;">
           <div class="params_wrapper">
             <div class="params_title" >当前参数</div>
@@ -54,9 +54,9 @@
     </div>
     <div style="flex:546; display: flex; flex-direction: column;">
       <div class="model_wrapper">
-        <ThreeDPngEffect :image-src="'/src/assets/bgpng/department1.png'" :max-tilt-angle="30" />
+        <ThreeDPngEffect :image-src="department1" :max-tilt-angle="30" />
       </div>
-      <ItemWrap titlebg='/src/assets/bgpng/二级标题头部长bg.png' style="height: 315px;" title="维护记录">
+      <ItemWrap titlebg="titleHeadBg" :backgroundImg="底部长bg" :titleImg="titleHeadBg" style="height: 315px;" title="维护记录">
         <div class="my_table">
           <div class="table_th">
             <div class="table_content_left">日期</div>
@@ -76,10 +76,10 @@
       </ItemWrap>
     </div>
     <div style="flex:418;display: flex; flex-direction: column;gap: 20px; z-index: 2;">
-      <ItemWrap title="碳排放情况">
-        <EquipmentLeftTop />
+      <ItemWrap titlebg="headImg" :backgroundImg="底部长bg" :titleImg="headImg" title="碳排放情况">
+        <EquipmentRightTop />
       </ItemWrap>
-      <ItemWrap title="电量情况">
+      <ItemWrap titlebg="headImg" :backgroundImg="底部长bg" :titleImg="headImg" title="电量情况">
         <EquipmentRightBottom />
       </ItemWrap>
     </div>
@@ -87,12 +87,17 @@
 </template>
 
 <script setup lang="ts">
+import 底部长bg from "@/assets/bgpng/底部长bg.png";
+import department1 from '@/assets/bgpng/department1.png'
+import headImg from '@/assets/bgpng/头部2.png'
+import headLongImg from '@/assets/bgpng/头部长2.png'
+import titleHeadBg from '@/assets/bgpng/二级标题头部长bg.png'
 // import CustomeScroll from './CustomeScroll.vue'
 import { Vue3SeamlessScroll } from "vue3-seamless-scroll";
 // import { BorderBox8 as DvBorderBox8, ScrollBoard } from '@kjgl77/datav-vue3'
 import ThreeDPngEffect from '@/components/ThreeDPngEffect.vue';
 import ItemWrap from "@/components/item-wrap";
-import EquipmentLeftTop from "@/components/EquipmentLeftTop.vue";
+import EquipmentRightTop from "@/components/EquipmentLeftTop.vue";
 import EquipmentRightBottom from "@/components/EquipmentRightBottom.vue";
 import { onMounted, reactive, ref } from "vue";
 
@@ -244,12 +249,12 @@ const TableData: any = reactive({
 <style scoped lang="scss">
 .model_wrapper {
   width: 100%; height: 100%;
-  background-image: url('src/assets/bgpng/机组两边点缀bg.png');
+  background-image: url('/src/assets/bgpng/机组两边点缀bg.png');
   background-repeat: round;
 }
 .params_title {
   text-indent: 10px;
-  background-image: url('src/assets/bgpng/当前参数文字bg.png');
+  background-image: url('/src/assets/bgpng/当前参数文字bg.png');
   background-repeat: no-repeat;
 }
 .temp_item {
@@ -257,7 +262,7 @@ const TableData: any = reactive({
   height: 64px;
   // align-items: center;
   justify-content: center;
-  background-image: url('src/assets/bgpng/当前参数图标bg.png');
+  background-image: url('/src/assets/bgpng/当前参数图标bg.png');
   background-repeat: no-repeat;
   background-position-x: center;
   background-position-y: bottom;
@@ -265,7 +270,7 @@ const TableData: any = reactive({
 
 .params_wrapper {
   padding: 10px;
-  background-image: url('src/assets/bgpng/当前参数bg.png');
+  background-image: url('/src/assets/bgpng/当前参数bg.png');
   background-repeat: round;
   flex: 1;
   display: flex;

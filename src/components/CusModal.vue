@@ -135,7 +135,7 @@ defineExpose({
   flex: 1; display: flex; justify-content: center; align-items: center;
   font-size: 22px;
   font-weight: 600;
-  background: url("src/assets/bgpng/弹框头部两边箭头.png");
+  background: url("/src/assets/bgpng/弹框头部两边箭头.png");
   background-repeat: no-repeat;
   background-position-x: center;
   background-position-y: center;
@@ -147,14 +147,14 @@ defineExpose({
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background: url("src/assets/bgpng/弹框头部bg.png");
+  background: url("/src/assets/bgpng/弹框头部bg.png");
   background-repeat: round;
 }
 
 .close_btn {
   width: 24px;
   height: 24px;
-  background: url("src/assets/bgpng/关闭icon.png");
+  background: url("/src/assets/bgpng/关闭icon.png");
   background-repeat: round;
   cursor: pointer;
 
@@ -195,7 +195,7 @@ defineExpose({
   display: flex;
   flex-direction: column;
   /* border: 4px solid #4890f8a1; */
-  background: url("src/assets/bgpng/弹框bg.png");
+  background: url("/src/assets/bgpng/弹框bg.png");
   /* background: url("@/assets/img/bg.jpg"); */
   background-repeat: round;
   /* border-radius: 8px; */
@@ -242,7 +242,7 @@ defineExpose({
 //   height: 100%;
 //   padding: 0px 16px 16px 16px;
 //   box-sizing: border-box;
-//   background: url("src/assets/bgpng/masklayer.png");
+//   background: url("/src/assets/bgpng/masklayer.png");
 //   background-size: cover;
 //   background-position: center center;
 // }

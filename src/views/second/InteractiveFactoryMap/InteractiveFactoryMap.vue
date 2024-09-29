@@ -8,12 +8,12 @@
 
         <div class="process_top" :class="curBuildingName === '酸轧' ? 'process_top_hover' : ''" @click="clickItem('酸轧')">
           <div class="process_info_wrapper">
-            <div class="process_info" style="background-image: url('/src/assets/bgpng/酸轧碳排放量bg.png');">
+            <div class="process_info" :style="{backgroundImage: `url(${aa})`}">
               <div style="font-weight: 300;">碳排放量：</div>
               <div style="font-size: 14px;">{{ 11.76 }}</div>
               <div style="font-weight: 300;">&nbsp; 万吨</div>
             </div>
-            <div class="process_info" style="background-image: url('/src/assets/bgpng/酸轧碳排放量bg.png');">
+            <div class="process_info" :style="{backgroundImage: `url(${aa})`}">
               <div style="font-weight: 300;">耗电量：</div>
               <div style="font-size: 14px;">{{ 13226.36 }}</div>
               <div style="font-weight: 300;">&nbsp; 万千瓦时</div>
@@ -30,12 +30,12 @@
         <div class="process_center" :class="curBuildingName === '连退' ? 'process_center_hover' : ''"
           @click="clickItem('连退')">
           <div class="process_info_wrapper">
-            <div class="process_info" style="background-image: url('/src/assets/bgpng/连退碳排放量bg.png');">
+            <div class="process_info" :style="{backgroundImage: `url(${bb})`}">
               <div style="font-weight: 300;">碳排放量：</div>
               <div style="font-size: 14px;">{{ 4.09 }}</div>
               <div style="font-weight: 300;">&nbsp; 万吨</div>
             </div>
-            <div class="process_info" style="background-image: url('/src/assets/bgpng/连退碳排放量bg.png');">
+            <div class="process_info" :style="{backgroundImage: `url(${bb})`}">
               <div style="font-weight: 300;">耗电量：</div>
               <div style="font-size: 14px;">{{ 672.49 }}</div>
               <div style="font-weight: 300;">&nbsp; 万千瓦时</div>
@@ -52,12 +52,12 @@
         <div class="process_bottom" :class="curBuildingName === '电镀(精整)' ? 'process_bottom_hover' : ''"
           @click="clickItem('电镀(精整)')">
           <div class="process_info_wrapper">
-            <div class="process_info" style="background-image: url('/src/assets/bgpng/电镀(精整)碳排放量bg.png');">
+            <div class="process_info" :style="{backgroundImage: `url(${cc})`}" >
               <div style="font-weight: 300;">碳排放量：</div>
               <div style="font-size: 14px;">{{ 2.76 }}</div>
               <div style="font-weight: 300;">&nbsp; 万吨</div>
             </div>
-            <div class="process_info" style="background-image: url('/src/assets/bgpng/电镀(精整)碳排放量bg.png');">
+            <div class="process_info" :style="{backgroundImage: `url(${cc})`}">
               <div style="font-weight: 300;">耗电量：</div>
               <div style="font-size: 14px;">{{ 1983.84 }}</div>
               <div style="font-weight: 300;">&nbsp; 万千瓦时</div>
@@ -90,6 +90,9 @@
   </div>
 </template>
 <script setup lang="ts">
+import aa from '@/assets/bgpng/酸轧碳排放量bg.png'
+import bb from '@/assets/bgpng/连退碳排放量bg.png'
+import cc from '@/assets/bgpng/电镀碳排放量bg.png'
 import { createApp } from 'vue'
 import { onMounted, ref, computed, watch, onUnmounted, nextTick } from 'vue';
 import * as THREE from 'three';

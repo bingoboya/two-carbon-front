@@ -3,7 +3,7 @@
   <div ref="containerRef" class="video-container">
     <!-- 这个canvas元素显示的话，点击canvas时，img元素会出现光标 -->
     <canvas v-show="false" ref="canvasRef"></canvas>
-    <div v-if="backgroundImageSrc" class="pic_wrap">
+    <div class="pic_wrap">
       <div style="position: absolute;top:0;font-size: 20px;line-height: 46px;color: #fff;">{{ '电镀锌(精整)' }}</div>
       <div class="process_overlay">
         <div style="flex: 100;display: flex; flex-direction: row;gap: 10px;">
@@ -20,12 +20,12 @@
               本浦冷轧2#重卷机组
             </div>
             <div class="process_info_wrapper">
-              <div class="process_info" style="background-image: url('/src/assets/bgpng/本浦冷轧2重卷机组碳排放量bg.png');">
+              <div class="process_info" :style="{backgroundImage: `url(${aa})`}">
                 <div style="font-weight: 300;">碳排放量：</div>
                 <div style="font-size: 14px;">{{ 0.55 }}</div>
                 <div style="font-weight: 300;">&nbsp; 万吨</div>
               </div>
-              <div class="process_info" style="background-image: url('/src/assets/bgpng/本浦冷轧2重卷机组碳排放量bg.png');">
+              <div class="process_info" :style="{backgroundImage: `url(${aa})`}">
                 <div style="font-weight: 300;">耗电量：</div>
                 <div style="font-size: 14px;">{{ 396.76 }}</div>
                 <div style="font-weight: 300;">&nbsp; 万千瓦时</div>
@@ -48,12 +48,12 @@
               本浦冷轧3#重卷机组
             </div>
             <div class="process_info_wrapper">
-              <div class="process_info" style="background-image: url('/src/assets/bgpng/本浦冷轧3重卷机组碳排放量bg.png');">
+              <div class="process_info" :style="{backgroundImage: `url(${bb})`}">
                 <div style="font-weight: 300;">碳排放量：</div>
                 <div style="font-size: 14px;">{{ 0.69 }}</div>
                 <div style="font-weight: 300;">&nbsp; 万吨</div>
               </div>
-              <div class="process_info" style="background-image: url('/src/assets/bgpng/本浦冷轧3重卷机组碳排放量bg.png');">
+              <div class="process_info" :style="{backgroundImage: `url(${bb})`}">
                 <div style="font-weight: 300;">耗电量：</div>
                 <div style="font-size: 14px;">{{ 495.96 }}</div>
                 <div style="font-weight: 300;">&nbsp; 万千瓦时</div>
@@ -77,12 +77,12 @@
             电镀锌机组
           </div>
           <div class="process_info_wrapper">
-            <div class="process_info" style="background-image: url('/src/assets/bgpng/电镀锌机组碳排放量bg.png');">
+            <div class="process_info" :style="{backgroundImage: `url(${cc})`}">
               <div style="font-weight: 300;">碳排放量：</div>
               <div style="font-size: 14px;">{{ 1.51 }}</div>
               <div style="font-weight: 300;">&nbsp; 万吨</div>
             </div>
-            <div class="process_info" style="background-image: url('/src/assets/bgpng/电镀锌机组碳排放量bg.png');">
+            <div class="process_info" :style="{backgroundImage: `url(${cc})`}">
               <div style="font-weight: 300;">耗电量：</div>
               <div style="font-size: 14px;">{{ 1091.11 }}</div>
               <div style="font-weight: 300;">&nbsp; 万千瓦时</div>
@@ -104,6 +104,9 @@
   </div>
 </template>
 <script setup lang="ts">
+import aa from '@/assets/bgpng/本浦冷轧2重卷机组碳排放量bg.png'
+import bb from '@/assets/bgpng/本浦冷轧3重卷机组碳排放量bg.png'
+import cc from '@/assets/bgpng/电镀锌机组碳排放量bg.png'
 import { createApp } from 'vue'
 import { onMounted, ref, computed, watch, onUnmounted, nextTick } from 'vue';
 import * as THREE from 'three';

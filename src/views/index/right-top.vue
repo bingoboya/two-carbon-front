@@ -6,7 +6,7 @@
 </template>
 <script setup lang="ts">
 import { ref, reactive} from "vue";
-import { countUserNum } from "@/api";
+// import { countUserNum } from "@/api";
 // 监听鼠标事件，实现饼图选中效果（单选），近似实现高亮（放大）效果。
 let selectedIndex = '';
 let hoveredIndex = '';
@@ -463,60 +463,60 @@ const mouseoverFun = (params: any) => {
 
 
 const getData = () => {
-  countUserNum().then((res) => {
-    if (res.success) {
-      state.data = [
-      {
-      value: 46.59,
-      name: '高炉',
-      unit: '%',
-      num: 25,
-      itemStyle: {
-        color: "rgba(17, 219, 231, 1)",
+  state.data = [
+  {
+  value: 46.59,
+  name: '高炉',
+  unit: '%',
+  num: 25,
+  itemStyle: {
+    color: "rgba(17, 219, 231, 1)",
 
-      },
-    },
-    {
-      value: 27.95,
-      name: '炼钢',
-      unit: '%',
-      num: 22354,
-      itemStyle: {
-        color: "#b54c46",
-      },
-    },
-    {
-      value: 18.64,
-      name: '热轧',
-      unit: '%',
-      num: 2541,
-      itemStyle: {
-        color: "rgba(237, 187, 67, 1)",
+  },
+},
+{
+  value: 27.95,
+  name: '炼钢',
+  unit: '%',
+  num: 22354,
+  itemStyle: {
+    color: "#b54c46",
+  },
+},
+{
+  value: 18.64,
+  name: '热轧',
+  unit: '%',
+  num: 2541,
+  itemStyle: {
+    color: "rgba(237, 187, 67, 1)",
 
-      },
-    },
-    
-    
-    {
-      value: 6.81,
-      name: '电镀锌',
-      unit: '%',
-      num: 254,
-      itemStyle: {
-        color: "rgba(0, 177, 151, 1)",
-      },
-    },
-      ]
-      option.value = getPie3D(
-        state.data,
-            0.8
-      );
-    } else {
-      console.log(res.msg)
-    }
-  }).catch(err => {
-    console.log(err)
-  });
+  },
+},
+
+
+{
+  value: 6.81,
+  name: '电镀锌',
+  unit: '%',
+  num: 254,
+  itemStyle: {
+    color: "rgba(0, 177, 151, 1)",
+  },
+},
+  ]
+  option.value = getPie3D(
+    state.data,
+        0.8
+  );
+  // countUserNum().then((res) => {
+  //   if (res.success) {
+  //   } else {
+  //     console.log(res.msg)
+  //   }
+  // }).catch(err => {
+  //   console.log(err)
+  // });
 };
 getData();
 

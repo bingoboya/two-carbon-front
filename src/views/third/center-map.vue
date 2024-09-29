@@ -94,9 +94,8 @@
       -->
       <InteractiveFactoryMap @callBackFunction="gogogo" ref="InteractiveFactoryMapRef"
         :buildingArr="defaultBuildingArr" 
-        :backgroundImageSrc="'src/assets/bgpng/三级流程图.png'" 
         />
-        <!-- :backgroundImageSrc="'src/assets/bgpng/三级中间流程图.png'"  -->
+        <!-- :backgroundImageSrc="'/src/assets/bgpng/三级流程图.png'"  -->
     </div>
 </template>
 <script setup lang="ts">

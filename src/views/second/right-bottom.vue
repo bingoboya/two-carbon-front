@@ -6,30 +6,29 @@ import { ElMessage } from "element-plus";
 
 const option = ref({});
 const getData = () => {
-  alarmNum()
-    .then((res) => {
-      console.log("右上--报警次数 ", res);
-      if (res.success) {
+  const data = {
+    dateList: ['1月', '2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+    numList2: [ "24407.01", "19060.89", "24872.06", "21617.73", "20455.44", "20455.44", "22082.64", "21385.34", "22385.34", null, null, null ], // 实际
+    numList: [ null, null, null, null, null, null, null, null, "23920.23", "23082.64", "23547.49", "23266.72" ],
+    numList3: [null, null, null, null,null,null, null, null, "20920.23", "22082.64", "22547.49", "26266.72" ], // 预测碳排
+    numList4: [null, null, null, null, null, null, null, null, "17920.23", "19082.64", "19547.49", "23266.72" ],
+  }
 
-        res.data = {
-          dateList: ['1月', '2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
-          numList2: [ "24407.01", "19060.89", "24872.06", "21617.73", "20455.44", "20455.44", "22082.64", "21385.34", "22385.34", null, null, null ], // 实际
-          numList: [ null, null, null, null, null, null, null, null, "23920.23", "23082.64", "23547.49", "23266.72" ],
-          numList3: [null, null, null, null,null,null, null, null, "20920.23", "22082.64", "22547.49", "26266.72" ], // 预测碳排
-          numList4: [null, null, null, null, null, null, null, null, "17920.23", "19082.64", "19547.49", "23266.72" ],
-        }
-
-        setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3, res.data.numList4);
-      } else {
-        ElMessage({
-          message: res.msg,
-          type: "warning",
-        });
-      }
-    })
-    .catch((err) => {
-      ElMessage.error(err);
-    });
+  setOption(data.dateList, data.numList, data.numList2, data.numList3, data.numList4);
+  // alarmNum()
+  //   .then((res) => {
+  //     console.log("右上--报警次数 ", res);
+  //     if (res.success) {
+  //     } else {
+  //       ElMessage({
+  //         message: res.msg,
+  //         type: "warning",
+  //       });
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     ElMessage.error(err);
+  //   });
 };
 const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[], yData4: any[]) => {
   option.value = {

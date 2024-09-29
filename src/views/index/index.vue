@@ -3,13 +3,13 @@
     <!-- 第一级页面主体 -->
     <div ref="contentLeftComp" class="contetn_left">
       <div style="height: 20px;display: flex; gap: 4px;"></div>
-      <ItemWrap class="contetn_left-top " titlebg='/src/assets/bgpng/头部2.png' title="绿证消费策略">
+      <ItemWrap class="contetn_left-top " titlebg="headImg" :titleImg="headImg" title="绿证消费策略">
         <LeftTop />
       </ItemWrap>
-      <ItemWrap class="contetn_left-center " titlebg='/src/assets/bgpng/头部2.png' title="碳排放量情况">
+      <ItemWrap class="contetn_left-center " titlebg="headImg" :titleImg="headImg" title="碳排放量情况">
         <LeftCenter />
       </ItemWrap>
-      <ItemWrap class="contetn_left-bottom " titlebg='/src/assets/bgpng/头部2.png' title="能源结构占比">
+      <ItemWrap class="contetn_left-bottom " titlebg="headImg" :titleImg="headImg" title="能源结构占比">
         <LeftBottom />
       </ItemWrap>
     </div>
@@ -31,29 +31,29 @@
             <!-- <video  v-if="showVideo" class="bingo_video" autoplay loop muted width="100%" style=" width: 100% !important;">
               <source src="/src/assets/webm/g高炉按钮_press.webm" type="video/webm" />
             </video> -->
-            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/高炉按钮_default.png')` }"></div>
-            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/高炉按钮_press.png')` }"></div>
+            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url(${高炉按钮_default})` }"></div>
+            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url(${高炉按钮_press})` }"></div>
           </div>
           <div @mouseenter="enterBottomBtn('炼钢')" @mouseleave="leaveBottomBtn('炼钢')" @click="routerGo('炼钢')" class="bottom_item" >
             <!-- <video  v-if="showVideo" class="bingo_video" autoplay loop muted width="100%" style=" width: 100% !important;">
               <source src="/src/assets/webm/g炼钢按钮_press.webm" type="video/webm" />
             </video> -->
-            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/炼钢按钮_default.png')` }"></div>
-            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/炼钢按钮_press.png')` }"></div>
+            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url(${炼钢按钮_default})` }"></div>
+            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url(${炼钢按钮_press})` }"></div>
           </div>
           <div @mouseenter="enterBottomBtn('热轧')" @mouseleave="leaveBottomBtn('热轧')" @click="routerGo('热轧')" class="bottom_item" >
             <!-- <video  v-if="showVideo" class="bingo_video" autoplay loop muted width="100%" style=" width: 100% !important;">
               <source src="/src/assets/webm/g热轧按钮_press.webm" type="video/webm" />
             </video> -->
-            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/热轧按钮_default.png')` }"></div>
-            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/热轧按钮_press.png')` }"></div>
+            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url(${热轧按钮_default})` }"></div>
+            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url(${热轧按钮_press})` }"></div>
           </div>
           <div @mouseenter="enterBottomBtn('电镀锌')" @mouseleave="leaveBottomBtn('电镀锌')" @click="routerGo('电镀锌')" class="bottom_item" >
             <!-- <video  v-if="showVideo" class="bingo_video" autoplay loop muted width="100%" style=" width: 100% !important;">
               <source src="/src/assets/webm/g电镀锌按钮_press.webm" type="video/webm" />
             </video> -->
-            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url('src/assets/bgpng/电镀锌按钮_default.png')` }"></div>
-            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url('src/assets/bgpng/电镀锌按钮_press.png')` }"></div>
+            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url(${电镀锌按钮_default})` }"></div>
+            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url(${电镀锌按钮_press})` }"></div>
           </div>
         </div>
       </div>
@@ -62,13 +62,13 @@
       <div style="height: 20px;">
         <CusTomSelect v-model="selectedValue" :width="'84px'" :options="options" placeholder="请选择" />
       </div>
-      <ItemWrap class="contetn_left-bottom " titlebg='/src/assets/bgpng/头部2.png' title="工艺碳排占比">
+      <ItemWrap class="contetn_left-bottom " titlebg="headImg" :titleImg="headImg" title="工艺碳排占比">
         <RightTop />
       </ItemWrap>
-      <ItemWrap class="contetn_left-bottom " titlebg='/src/assets/bgpng/头部长2.png' title="生产产量与单位产品碳排放量情况">
+      <ItemWrap class="contetn_left-bottom " titlebg="headLongImg" :titleImg="headLongImg" title="生产产量与单位产品碳排放量情况">
         <RightCenter />
       </ItemWrap>
-      <ItemWrap class="contetn_left-bottom " titlebg='/src/assets/bgpng/头部长2.png' title=" 实际碳排放量与预测值对比">
+      <ItemWrap class="contetn_left-bottom " titlebg="headLongImg" :titleImg="headLongImg" title=" 实际碳排放量与预测值对比">
         <RightBottom />
       </ItemWrap>
     </div>
@@ -76,6 +76,17 @@
 </template>
 
 <script setup lang="ts">
+import headImg from '@/assets/bgpng/头部2.png'
+import headLongImg from '@/assets/bgpng/头部长2.png'
+import titleHeadBg from '@/assets/bgpng/二级标题头部长bg.png'
+import 高炉按钮_default from '@/assets/bgpng/高炉按钮_default.png'
+import 高炉按钮_press from '@/assets/bgpng/高炉按钮_press.png'
+import 炼钢按钮_default from '@/assets/bgpng/炼钢按钮_default.png'
+import 炼钢按钮_press from '@/assets/bgpng/炼钢按钮_press.png'
+import 热轧按钮_default from '@/assets/bgpng/热轧按钮_default.png'
+import 热轧按钮_press from '@/assets/bgpng/热轧按钮_press.png'
+import 电镀锌按钮_default from '@/assets/bgpng/电镀锌按钮_default.png'
+import 电镀锌按钮_press from '@/assets/bgpng/电镀锌按钮_press.png'
 import { onBeforeRouteLeave, useRouter } from 'vue-router'
 import ItemWrap from "@/components/item-wrap";
 import CusTomSelect from '@/components/CusTomSelect.vue'
