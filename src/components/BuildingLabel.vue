@@ -20,8 +20,6 @@
         align-items: center;
       "
     >
-      <!-- <div :style="{ backgroundImage: `url(${'src/assets/bgpng/电镀锌框.png'})` }" class="tooltip" > -->
-      <!-- <div :style="{ backgroundImage: `url(${gapluImg})` }" class="tooltip" > -->
         <div :style="tooltipStyle" class="tooltip">
         <div class="tooltip_content_wrap">
           <div>碳排放量</div>
@@ -66,7 +64,7 @@
   </div>
   <!-- <div class="container" @mouseenter="showTooltip" @mouseleave="hideTooltip">
     <video autoplay loop muted width="100%" style="position: absolute; width: 100% !important;">
-      <source src="/src/assets/webm/电镀锌_default.webm" type="video/webm" />
+      <source src="/src/assets/webm/dianduxin_default.webm" type="video/webm" />
     </video>
     <div @click="handleClick" class="tooltip_container"
       style="height: 100%;display: flex; justify-content: center;align-items: center;">

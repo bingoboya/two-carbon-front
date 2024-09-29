@@ -102,11 +102,6 @@
         </div>
 
       </div>
-      <!-- ./mapdemo.webm 是public文件夹中的文件路径
-          <InteractiveFactoryMap :videoSrc="'./mapdemo.webm'"/>
-             或者 
-          <InteractiveFactoryMap :videoSrc="'/src/assets/webm/gaolubg.webm'" />
-      -->
       <InteractiveFactoryMap @callBackFunction="gogogo" ref="InteractiveFactoryMapRef"
         :buildingArr="defaultBuildingArr" />
     </div>
@@ -119,20 +114,20 @@ import arrow_down_icon from '@/assets/icon/arrow_down_icon.png'
 import arrow_top_icon from '@/assets/icon/arrow_top_icon.png'
 import InteractiveFactoryMap from '@/components/InteractiveFactoryMap/index';
 import AnimatedLoader from '@/components/AnimatedLoader.vue';
-import dianduxinImg from '@/assets/bgpng/电镀锌框.png'
-import rezaImg from '@/assets/bgpng/热轧框.png'
-import gaoluImg from '@/assets/bgpng/高炉框.png'
-import liangangImg from '@/assets/bgpng/炼钢框.png'
+import dianduxinImg from '@/assets/bgpng/dianduxin_border.png'
+import rezaImg from '@/assets/bgpng/reza_border.png'
+import gaoluImg from '@/assets/bgpng/gaolu_border.png'
+import liangangImg from '@/assets/bgpng/liangang_border.png'
 
 import dianduxinImgdefault from '@/assets/bgpng/电镀锌弹框_default.png'
 import rezaImgdefault from '@/assets/bgpng/热轧弹框_default.png'
 import gaoluImgdefault from '@/assets/bgpng/高炉弹框_default.png'
 import liangangImgdefault from '@/assets/bgpng/炼钢弹框_default.png'
 
-import co2_icon from '@/assets/newicon/co2_icon.png'
-import nenghao_icon from '@/assets/newicon/总能耗icon.png'
-import ouhedu_icon from '@/assets/newicon/电碳耦合度icon.png'
-import green_report_icon from '@/assets/newicon/green_report_icon.png'
+import co2_icon from '@/assets/icon/co2_icon1.png'
+import nenghao_icon from '@/assets/icon/zongnenghao_icon.png'
+import ouhedu_icon from '@/assets/icon/diantanouhe_icon.png'
+import green_report_icon from '@/assets/icon/green_report_icon.png'
 
 import { useRouter } from 'vue-router'
 const router = useRouter()

@@ -23,7 +23,7 @@
        >
         <div style="position: relative;width: 120%; height: 100%;left: 50%; transform: translateX(-50%);">
           <video v-if="showVideo" autoplay loop muted width="100%" style="position: absolute; width: 100% !important;">
-            <source src="/src/assets/webm/d底部背景动效.webm" type="video/webm" />
+            <source src="/src/assets/webm/bottombgwebm.webm" type="video/webm" />
           </video>
         </div>
         <div class="bottom_item_wrapper">

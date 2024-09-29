@@ -23,35 +23,26 @@
         ">
         <div style="position: relative;width: 120%; height: 100%;left: 50%; transform: translateX(-50%);">
           <video v-if="showVideo" autoplay loop muted width="100%" style="position: absolute; width: 100% !important;">
-            <source src="/src/assets/webm/d底部背景动效.webm" type="video/webm" />
+            <source src="/src/assets/webm/bottombgwebm.webm" type="video/webm" />
           </video>
         </div>
         <div class="bottom_item_wrapper">
           <div @mouseenter="enterBottomBtn('高炉')" @mouseleave="leaveBottomBtn('高炉')" @click="routerGo('高炉')" class="bottom_item" >
             <!-- <video  v-if="showVideo" class="bingo_video" autoplay loop muted width="100%" style=" width: 100% !important;">
-              <source src="/src/assets/webm/g高炉按钮_press.webm" type="video/webm" />
+              <source src="/src/assets/webm/gaolubtn_press.webm" type="video/webm" />
             </video> -->
             <div class="bottom_item_btn_default" :style="{ backgroundImage: `url(${高炉按钮_default})` }"></div>
             <div class="bottom_item_btn_press" :style="{ backgroundImage: `url(${高炉按钮_press})` }"></div>
           </div>
           <div @mouseenter="enterBottomBtn('炼钢')" @mouseleave="leaveBottomBtn('炼钢')" @click="routerGo('炼钢')" class="bottom_item" >
-            <!-- <video  v-if="showVideo" class="bingo_video" autoplay loop muted width="100%" style=" width: 100% !important;">
-              <source src="/src/assets/webm/g炼钢按钮_press.webm" type="video/webm" />
-            </video> -->
             <div class="bottom_item_btn_default" :style="{ backgroundImage: `url(${炼钢按钮_default})` }"></div>
             <div class="bottom_item_btn_press" :style="{ backgroundImage: `url(${炼钢按钮_press})` }"></div>
           </div>
           <div @mouseenter="enterBottomBtn('热轧')" @mouseleave="leaveBottomBtn('热轧')" @click="routerGo('热轧')" class="bottom_item" >
-            <!-- <video  v-if="showVideo" class="bingo_video" autoplay loop muted width="100%" style=" width: 100% !important;">
-              <source src="/src/assets/webm/g热轧按钮_press.webm" type="video/webm" />
-            </video> -->
             <div class="bottom_item_btn_default" :style="{ backgroundImage: `url(${热轧按钮_default})` }"></div>
             <div class="bottom_item_btn_press" :style="{ backgroundImage: `url(${热轧按钮_press})` }"></div>
           </div>
           <div @mouseenter="enterBottomBtn('电镀锌')" @mouseleave="leaveBottomBtn('电镀锌')" @click="routerGo('电镀锌')" class="bottom_item" >
-            <!-- <video  v-if="showVideo" class="bingo_video" autoplay loop muted width="100%" style=" width: 100% !important;">
-              <source src="/src/assets/webm/g电镀锌按钮_press.webm" type="video/webm" />
-            </video> -->
             <div class="bottom_item_btn_default" :style="{ backgroundImage: `url(${电镀锌按钮_default})` }"></div>
             <div class="bottom_item_btn_press" :style="{ backgroundImage: `url(${电镀锌按钮_press})` }"></div>
           </div>
@@ -78,7 +69,6 @@
 <script setup lang="ts">
 import headImg from '@/assets/bgpng/头部2.png'
 import headLongImg from '@/assets/bgpng/头部长2.png'
-import titleHeadBg from '@/assets/bgpng/二级标题头部长bg.png'
 import 高炉按钮_default from '@/assets/bgpng/高炉按钮_default.png'
 import 高炉按钮_press from '@/assets/bgpng/高炉按钮_press.png'
 import 炼钢按钮_default from '@/assets/bgpng/炼钢按钮_default.png'
@@ -252,7 +242,6 @@ const options = [
   display: flex;
   min-height: calc(100% - 64px);
   justify-content: space-between;
-  // background-image: url('/src/assets/bgpng/整体bg.jpg');
 }
 
 //左边 右边 结构一样

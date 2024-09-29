@@ -4,7 +4,7 @@
         <div class="item_wrap" style="position: relative;">
           <!-- <div style="position: absolute; display: flex; flex-direction: row;justify-content: center; align-items: center;"> -->
           <div class="card_left">
-            <img style="width: 60px;" :src="'/src/assets/icon/总碳排放量icon.png'" alt="">
+            <img style="width: 60px;" :src="'/src/assets/icon/co2_icon.png'" alt="">
 
           </div>
           <div class="card_right">
@@ -33,7 +33,7 @@
         <div class="item_wrap" style="position: relative;">
           <!-- <div style="position: absolute; display: flex; flex-direction: row;justify-content: center; align-items: center;"> -->
           <div class="card_left">
-            <img style="width: 60px;" :src="'/src/assets/icon/耗电量icon.png'" alt="">
+            <img style="width: 60px;" :src="'/src/assets/icon/总能耗icon.png'" alt="">
 
           </div>
           <div class="card_right">
@@ -87,15 +87,10 @@
           </div>
         </div>
       </div>
-      <!-- ./mapdemo.webm 是public文件夹中的文件路径
-          <InteractiveFactoryMap :videoSrc="'./mapdemo.webm'"/>
-             或者 
-          <InteractiveFactoryMap :videoSrc="'/src/assets/webm/gaolubg.webm'" />
-      -->
+     
       <InteractiveFactoryMap @callBackFunction="gogogo" ref="InteractiveFactoryMapRef"
         :buildingArr="defaultBuildingArr" 
         />
-        <!-- :backgroundImageSrc="'/src/assets/bgpng/三级流程图.png'"  -->
     </div>
 </template>
 <script setup lang="ts">
@@ -117,22 +112,16 @@ const gogogo = (buildingName: any) => {
 const defaultBuildingArr = [
   {
     id: 1, x: 130, y: 450, width: 260, height: 100, name: "本浦冷轧2#重卷机组", info: "这是主要办公区域", alwaysVisible: !true,
-    // videoSrc: '/src/assets/webm/dianduxin_default.webm',
-    // videoSrcPress: '/src/assets/webm/dianduxin_press.webm',
     arrowPicSrc: '/src/assets/icon/dianduxinarrow.png',
     bgPicSrc: '/src/assets/bgpng/电镀锌弹框_default.png',
   },
   {
     id: 2, x: 420, y: 450, width: 150, height: 80, name: "本浦冷轧3#重卷机组", info: "主要生产区域", alwaysVisible: !true,
-    // videoSrc: '/src/assets/webm/lengza_default.webm',
-    // videoSrcPress: '/src/assets/webm/lengza_press.webm',
     arrowPicSrc: '/src/assets/icon/lengzaarrow.png',
     bgPicSrc: '/src/assets/bgpng/冷轧弹框_default.png',
   },
   {
     id: 3, x: 780, y: 450, width: 120, height: 120, name: "电镀锌机组", info: "主要生产区域", alwaysVisible: !true,
-    // videoSrc: '/src/assets/webm/reza_default.webm',
-    // videoSrcPress: '/src/assets/webm/reza_press.webm',
     arrowPicSrc: '/src/assets/icon/rezaarrow.png',
     bgPicSrc: '/src/assets/bgpng/热轧弹框_default.png',
   },

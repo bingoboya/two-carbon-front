@@ -54,7 +54,6 @@
   <div v-if="!mountedOnBody && visible" class="modal_wrapper" @click.self="closeModal">
     <div @click.self="closeModal" class="overlay"></div>
     <div class="modal_container">
-      <!-- <div class="modal_header" > -->
         <div class="modal_header" >
           <div class="modal_title_wrap" >
             {{ title }}
@@ -72,7 +71,6 @@
             </div>
           </div>
         </div>
-      <!-- </div> -->
       <div class="modal_body">
         <slot name="content"></slot>
       </div>
@@ -154,7 +152,7 @@ defineExpose({
 .close_btn {
   width: 24px;
   height: 24px;
-  background: url("/src/assets/bgpng/关闭icon.png");
+  background: url("/src/assets/bgpng/close_icon.png");
   background-repeat: round;
   cursor: pointer;
 
@@ -194,12 +192,8 @@ defineExpose({
 .modal_container {
   display: flex;
   flex-direction: column;
-  /* border: 4px solid #4890f8a1; */
   background: url("/src/assets/bgpng/弹框bg.png");
-  /* background: url("@/assets/img/bg.jpg"); */
   background-repeat: round;
-  /* border-radius: 8px; */
-  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33); */
   width: 80%;
   height: 80%;
   position: relative;
@@ -242,7 +236,6 @@ defineExpose({
 //   height: 100%;
 //   padding: 0px 16px 16px 16px;
 //   box-sizing: border-box;
-//   background: url("/src/assets/bgpng/masklayer.png");
 //   background-size: cover;
 //   background-position: center center;
 // }

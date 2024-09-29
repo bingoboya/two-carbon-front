@@ -86,7 +86,7 @@ watch(() => props.modelValue, (newValue) => {
   /* background: #2973cf; */
   width: 120px;
   height: 36px;
-  background-image: url('@/assets/newicon/年份切换bg.png');
+  background-image: url('@/assets/icon/changeyearbg.png');
   background-repeat: round;
 }
 

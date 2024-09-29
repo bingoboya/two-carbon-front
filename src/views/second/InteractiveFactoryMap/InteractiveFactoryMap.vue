@@ -3,84 +3,180 @@
     <!-- 这个canvas元素显示的话，点击canvas时，img元素会出现光标 -->
     <canvas v-show="false" ref="canvasRef"></canvas>
     <div v-if="backgroundImageSrc" class="pic_wrap">
-      <div style="position: absolute;top:0;font-size: 20px;line-height: 46px;color: #fff;">{{ '电镀锌工艺' }}</div>
+      <div
+        style="
+          position: absolute;
+          top: 0;
+          font-size: 20px;
+          line-height: 46px;
+          color: #fff;
+        "
+      >
+        {{ "电镀锌工艺" }}
+      </div>
       <div class="process_overlay">
-
-        <div class="process_top" :class="curBuildingName === '酸轧' ? 'process_top_hover' : ''" @click="clickItem('酸轧')">
+        <div
+          class="process_top"
+          :class="curBuildingName === '酸轧' ? 'process_top_hover' : ''"
+          @click="clickItem('酸轧')"
+        >
           <div class="process_info_wrapper">
-            <div class="process_info" :style="{backgroundImage: `url(${aa})`}">
-              <div style="font-weight: 300;">碳排放量：</div>
-              <div style="font-size: 14px;">{{ 11.76 }}</div>
-              <div style="font-weight: 300;">&nbsp; 万吨</div>
+            <div
+              class="process_info"
+              style="
+                background: linear-gradient(
+                  to right,
+                  rgba(116, 189, 195, 0.9),
+                  transparent
+                );
+                border-radius: 4px;
+              "
+            >
+              <div style="font-weight: 300">碳排放量：</div>
+              <div style="font-size: 14px">{{ 11.76 }}</div>
+              <div style="font-weight: 300">&nbsp; 万吨</div>
             </div>
-            <div class="process_info" :style="{backgroundImage: `url(${aa})`}">
-              <div style="font-weight: 300;">耗电量：</div>
-              <div style="font-size: 14px;">{{ 13226.36 }}</div>
-              <div style="font-weight: 300;">&nbsp; 万千瓦时</div>
+            <div
+              class="process_info"
+              style="
+                background: linear-gradient(
+                  to right,
+                  rgba(116, 189, 195, 0.9),
+                  transparent
+                );
+                border-radius: 4px;
+              "
+            >
+              <div style="font-weight: 300">耗电量：</div>
+              <div style="font-size: 14px">{{ 13226.36 }}</div>
+              <div style="font-weight: 300">&nbsp; 万千瓦时</div>
             </div>
           </div>
-          <div style="position: absolute; left: 0;">
-            <img src="/src/assets/bgpng/1.png" alt="">
+          <div style="position: absolute; left: 0">
+            <img src="/src/assets/bgpng/1.png" alt="" />
           </div>
-          <div style="writing-mode: vertical-lr;letter-spacing: 16px;color: #fff;">酸轧</div>
-          <div style="position: absolute; right: 0;">
-            <img src="/src/assets/bgpng/1-1.png" alt="">
+          <div
+            style="writing-mode: vertical-lr; letter-spacing: 16px; color: #fff"
+          >
+            酸轧
+          </div>
+          <div style="position: absolute; right: 0">
+            <img src="/src/assets/bgpng/1-1.png" alt="" />
           </div>
         </div>
-        <div class="process_center" :class="curBuildingName === '连退' ? 'process_center_hover' : ''"
-          @click="clickItem('连退')">
+        <div
+          class="process_center"
+          :class="curBuildingName === '连退' ? 'process_center_hover' : ''"
+          @click="clickItem('连退')"
+        >
           <div class="process_info_wrapper">
-            <div class="process_info" :style="{backgroundImage: `url(${bb})`}">
-              <div style="font-weight: 300;">碳排放量：</div>
-              <div style="font-size: 14px;">{{ 4.09 }}</div>
-              <div style="font-weight: 300;">&nbsp; 万吨</div>
+            <div
+              class="process_info"
+              style="
+                background: linear-gradient(
+                  to right,
+                  rgba(75, 176, 217, 0.9),
+                  transparent
+                );
+                border-radius: 4px;
+              "
+            >
+              <div style="font-weight: 300">碳排放量：</div>
+              <div style="font-size: 14px">{{ 4.09 }}</div>
+              <div style="font-weight: 300">&nbsp; 万吨</div>
             </div>
-            <div class="process_info" :style="{backgroundImage: `url(${bb})`}">
-              <div style="font-weight: 300;">耗电量：</div>
-              <div style="font-size: 14px;">{{ 672.49 }}</div>
-              <div style="font-weight: 300;">&nbsp; 万千瓦时</div>
+            <div
+              class="process_info"
+              style="
+                background: linear-gradient(
+                  to right,
+                  rgba(75, 176, 217, 0.9),
+                  transparent
+                );
+                border-radius: 4px;
+              "
+            >
+              <div style="font-weight: 300">耗电量：</div>
+              <div style="font-size: 14px">{{ 672.49 }}</div>
+              <div style="font-weight: 300">&nbsp; 万千瓦时</div>
             </div>
           </div>
-          <div style="position: absolute; left: 0;">
-            <img src="/src/assets/bgpng/2.png" alt="">
+          <div style="position: absolute; left: 0">
+            <img src="/src/assets/bgpng/2.png" alt="" />
           </div>
-          <div style=" writing-mode: vertical-lr; letter-spacing: 16px; color: #fff;">连退</div>
-          <div style="position: absolute; right: 0;">
-            <img src="/src/assets/bgpng/2-2.png" alt="">
+          <div
+            style="writing-mode: vertical-lr; letter-spacing: 16px; color: #fff"
+          >
+            连退
+          </div>
+          <div style="position: absolute; right: 0">
+            <img src="/src/assets/bgpng/2-2.png" alt="" />
           </div>
         </div>
-        <div class="process_bottom" :class="curBuildingName === '电镀(精整)' ? 'process_bottom_hover' : ''"
-          @click="clickItem('电镀(精整)')">
+        <div
+          class="process_bottom"
+          :class="
+            curBuildingName === '电镀(精整)' ? 'process_bottom_hover' : ''
+          "
+          @click="clickItem('电镀(精整)')"
+        >
           <div class="process_info_wrapper">
-            <div class="process_info" :style="{backgroundImage: `url(${cc})`}" >
-              <div style="font-weight: 300;">碳排放量：</div>
-              <div style="font-size: 14px;">{{ 2.76 }}</div>
-              <div style="font-weight: 300;">&nbsp; 万吨</div>
+            <div
+              class="process_info"
+              style="
+                background: linear-gradient(
+                  to right,
+                  rgba(122, 172, 150, 0.9),
+                  transparent
+                );
+                border-radius: 4px;
+              "
+            >
+              <div style="font-weight: 300">碳排放量：</div>
+              <div style="font-size: 14px">{{ 2.76 }}</div>
+              <div style="font-weight: 300">&nbsp; 万吨</div>
             </div>
-            <div class="process_info" :style="{backgroundImage: `url(${cc})`}">
-              <div style="font-weight: 300;">耗电量：</div>
-              <div style="font-size: 14px;">{{ 1983.84 }}</div>
-              <div style="font-weight: 300;">&nbsp; 万千瓦时</div>
+            <div
+              class="process_info"
+              style="
+                background: linear-gradient(
+                  to right,
+                  rgba(122, 172, 150, 0.9),
+                  transparent
+                );
+                border-radius: 4px;
+              "
+            >
+              <div style="font-weight: 300">耗电量：</div>
+              <div style="font-size: 14px">{{ 1983.84 }}</div>
+              <div style="font-weight: 300">&nbsp; 万千瓦时</div>
             </div>
           </div>
-          <div style="position: absolute; left: 0;">
-            <img src="/src/assets/bgpng/青色左边.png" alt="">
+          <div style="position: absolute; left: 0">
+            <img src="/src/assets/bgpng/青色左边.png" alt="" />
           </div>
-          <div style="display: flex;flex-direction: column; align-items: center;color: #fff;">
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              color: #fff;
+            "
+          >
             <div>电</div>
             <div>镀</div>
-            <div style="writing-mode: vertical-lr;padding-left: 2px;">(</div>
+            <div style="writing-mode: vertical-lr; padding-left: 2px">(</div>
             <div>精</div>
             <div>整</div>
-            <div style="writing-mode: vertical-lr;padding-left: 2px;">)</div>
+            <div style="writing-mode: vertical-lr; padding-left: 2px">)</div>
           </div>
-          <div style="position: absolute; right: 0;">
-            <img src="/src/assets/bgpng/青色右边.png" alt="">
+          <div style="position: absolute; right: 0">
+            <img src="/src/assets/bgpng/青色右边.png" alt="" />
           </div>
         </div>
       </div>
       <div class="pic_wrapper">
-        <img :src="backgroundImageSrc" alt="">
+        <img :src="backgroundImageSrc" alt="" />
       </div>
     </div>
     <!-- <div v-if="selectedBuilding" class="info-card" :style="infoCardStyle">
@@ -90,14 +186,14 @@
   </div>
 </template>
 <script setup lang="ts">
-import aa from '@/assets/bgpng/酸轧碳排放量bg.png'
-import bb from '@/assets/bgpng/连退碳排放量bg.png'
-import cc from '@/assets/bgpng/电镀碳排放量bg.png'
-import { createApp } from 'vue'
-import { onMounted, ref, computed, watch, onUnmounted, nextTick } from 'vue';
-import * as THREE from 'three';
-import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
-import BuildingLabel from '@/components/BuildingLabel.vue';
+import { createApp } from "vue";
+import { onMounted, ref, computed, watch, onUnmounted, nextTick } from "vue";
+import * as THREE from "three";
+import {
+  CSS2DRenderer,
+  CSS2DObject,
+} from "three/examples/jsm/renderers/CSS2DRenderer.js";
+import BuildingLabel from "@/components/BuildingLabel.vue";
 interface Building {
   id: number;
   x: number;
@@ -107,36 +203,36 @@ interface Building {
   name: string;
   info: string;
   alwaysVisible?: boolean;
-  videoSrc?: String,
-  arrowPicSrc?: String,
-  videoSrcPress?: String
-  bgPicSrc?: String
+  videoSrc?: String;
+  arrowPicSrc?: String;
+  videoSrcPress?: String;
+  bgPicSrc?: String;
 }
-const emits = defineEmits(['callBackFunction'])
+const emits = defineEmits(["callBackFunction"]);
 
 const props = defineProps({
   backgroundImageSrc: {
     type: String,
-    default: ''
+    default: "",
   },
   videoSrc: {
     type: String,
   },
   buildingArr: {
     type: Array,
-    default: []
-  }
-})
+    default: [],
+  },
+});
 let labelRenderer: any;
-let appList: any = []
-const curBuildingName = ref('')
+let appList: any = [];
+const curBuildingName = ref("");
 const buildingRefs = ref<{ [key: string]: any }>({});
 const containerRef = ref<HTMLDivElement | null>(null);
 const canvasRef = ref<HTMLCanvasElement | null>(null);
 const width = ref(0);
 const height = ref(0);
 const selectedBuilding = ref<Building | null>(null);
-const buildings: any[] = props.buildingArr
+const buildings: any[] = props.buildingArr;
 let scene: THREE.Scene;
 let camera: THREE.OrthographicCamera;
 let renderer: THREE.WebGLRenderer;
@@ -149,22 +245,29 @@ const infoCardStyle = computed(() => ({
 }));
 
 const clickItem = (name: any) => {
-  if (name === '电镀(精整)') {
-    emits('callBackFunction', name)
+  if (name === "电镀(精整)") {
+    emits("callBackFunction", name);
   }
-}
+};
 const initThree = () => {
   if (!canvasRef.value) return;
   // 创建一个新的 Three.js 场景。场景是所有 3D 对象和灯光的容器。
   scene = new THREE.Scene();
 
-  console.log('width.value', width.value, height.value)
+  console.log("width.value", width.value, height.value);
   // 创建一个正交相机。参数分别是左、右、上、下边界，以及近平面和远平面。这里相机视口与 canvas 尺寸匹配。
-  camera = new THREE.OrthographicCamera(0, width.value, 0, height.value, 0.1, 1000);
-  // 创建一个正交相机。参数分别是左、右、上、下边界，以及近平面和远平面。这里相机视口与 canvas 尺寸匹配。 
+  camera = new THREE.OrthographicCamera(
+    0,
+    width.value,
+    0,
+    height.value,
+    0.1,
+    1000
+  );
+  // 创建一个正交相机。参数分别是左、右、上、下边界，以及近平面和远平面。这里相机视口与 canvas 尺寸匹配。
   renderer = new THREE.WebGLRenderer({
     canvas: canvasRef.value,
-    alpha: true
+    alpha: true,
   });
   // 设置渲染器的尺寸，匹配 canvas 的大小
   renderer.setSize(width.value, height.value);
@@ -172,25 +275,28 @@ const initThree = () => {
   // 方法二 初始化 CSS2DRenderer
   labelRenderer = new CSS2DRenderer();
   labelRenderer.setSize(width.value, height.value);
-  labelRenderer.domElement.style.position = 'absolute';
-  labelRenderer.domElement.style.top = '0px';
+  labelRenderer.domElement.style.position = "absolute";
+  labelRenderer.domElement.style.top = "0px";
   canvasRef.value.parentElement?.appendChild(labelRenderer.domElement);
 
-
   // 遍历预定义的 buildings 数组，为每个建筑创建一个 3D 对象。
-  buildings.forEach(building => {
+  buildings.forEach((building) => {
     // 为每个建筑创建一个平面几何体。尺寸由建筑的宽度和高度决定。
     const geometry = new THREE.PlaneGeometry(building.width, building.height);
     // 创建材质。颜色设为红色（0xff0000），启用透明度。如果 building.alwaysVisible 为 true，则设置半透明（opacity: 0.5），否则完全透明（opacity: 0）。
     const material = new THREE.MeshBasicMaterial({
-      color: 'blue', // 0xff0000 红色
+      color: "blue", // 0xff0000 红色
       transparent: true,
-      opacity: building.alwaysVisible ? 0.5 : 0
+      opacity: building.alwaysVisible ? 0.5 : 0,
     });
     // 使用几何体和材质创建网格（Mesh）。这是 Three.js 中表示 3D 对象的基本单位。
     const mesh = new THREE.Mesh(geometry, material);
     // 设置网格的位置。x 坐标是建筑左边界加上半个宽度（居中）。y 坐标需要注意：因为 Three.js 的坐标系 y 轴向上，而屏幕坐标系 y 轴向下，所以用 canvas 高度减去建筑的 y 坐标。z 坐标设为 0，因为是 2D 平面。
-    mesh.position.set(building.x + building.width / 2, height.value - (building.y + building.height / 2), 0);
+    mesh.position.set(
+      building.x + building.width / 2,
+      height.value - (building.y + building.height / 2),
+      0
+    );
     // 将建筑信息存储在网格的 userData 属性中。这允许我们在后续的交互中获取建筑信息。
     mesh.userData = building;
     // 将创建的网格添加到场景中。
@@ -208,20 +314,18 @@ const initThree = () => {
       positionY: height.value - (building.y + building.height / 2),
       onLabelClick: (name: string) => {
         // console.log('标签被点击:', name);
-        emits('callBackFunction', name)
+        emits("callBackFunction", name);
         // router.push({ path: 'second', query: { typename: building.name }})
         // 在这里添加你想要的标签点击处理逻辑
-      }
+      },
     });
-    appList.push(app)
+    appList.push(app);
     // 创建一个 div 元素作为 Vue 组件的挂载点
-    const container = document.createElement('div');
+    const container = document.createElement("div");
     app.mount(container);
-
 
     // 将组件实例存储在buildingRefs中
     buildingRefs.value[building.name] = app._instance?.exposed;
-
 
     // 使用这个容器创建 CSS2DObject
     const textLabel = new CSS2DObject(container);
@@ -237,8 +341,8 @@ const initThree = () => {
   raycaster = new THREE.Raycaster();
   mouse = new THREE.Vector2();
   // 添加 canvas 点击事件监听器
-  canvasRef.value.style.zIndex = '1';
-  canvasRef.value.addEventListener('click', onCanvasClick);
+  canvasRef.value.style.zIndex = "1";
+  canvasRef.value.addEventListener("click", onCanvasClick);
 
   // 启动动画循环，持续渲染场景。
   animate();
@@ -246,14 +350,14 @@ const initThree = () => {
 
 // 调用特定建筑的 funabc 函数
 const callFunabcForBuilding = (buildingName: string, type: string) => {
-  console.log('call--FunabcForBuilding', buildingName, type)
-  if (type === 'enter') {
-    curBuildingName.value = buildingName
-  } else if (type === 'leave') {
-    curBuildingName.value = ''
+  console.log("call--FunabcForBuilding", buildingName, type);
+  if (type === "enter") {
+    curBuildingName.value = buildingName;
+  } else if (type === "leave") {
+    curBuildingName.value = "";
   }
   const buildingRef = buildingRefs.value[buildingName];
-  if (buildingRef && typeof buildingRef.funabc === 'function') {
+  if (buildingRef && typeof buildingRef.funabc === "function") {
     buildingRef.funabc(buildingName, type);
   } else {
     console.error(`未找到建筑${buildingName}的funabc函数`);
@@ -263,7 +367,7 @@ const callFunabcForBuilding = (buildingName: string, type: string) => {
 // 定义 canvas 点击事件处理函数
 const onCanvasClick = (event: MouseEvent) => {
   if (!canvasRef.value) return;
-  console.log('onCanvasClick')
+  console.log("onCanvasClick");
   // 计算鼠标在 canvas 中的位置， 这行获取canvas元素的边界矩形，包含其位置和尺寸信息。
   const rect = canvasRef.value?.getBoundingClientRect();
 
@@ -277,7 +381,11 @@ const onCanvasClick = (event: MouseEvent) => {
   if (intersects.length > 0) {
     // 获取第一个相交的物体
     const clickedObject = intersects[0].object;
-    console.log('Clicked on mesh:', clickedObject.userData.name, intersects.length);
+    console.log(
+      "Clicked on mesh:",
+      clickedObject.userData.name,
+      intersects.length
+    );
     // 在这里添加你想要的 mesh 点击处理逻辑
     // const building = intersects[0].object.userData as Building;
     // selectedBuilding.value = building;
@@ -288,7 +396,7 @@ const onCanvasClick = (event: MouseEvent) => {
     //   router.push({ path: 'second', query: { typename: building.name }})
     // }
   } else {
-    console.log('intersects.length2', intersects.length)
+    console.log("intersects.length2", intersects.length);
     selectedBuilding.value = null;
     scene.children.forEach((child) => {
       if (child instanceof THREE.Mesh && !child.userData.alwaysVisible) {
@@ -305,7 +413,6 @@ const animate = () => {
   labelRenderer.render(scene, camera);
 };
 
-
 const updateSize = async () => {
   if (containerRef.value) {
     width.value = containerRef.value.clientWidth;
@@ -314,39 +421,38 @@ const updateSize = async () => {
 };
 
 const initFunc = async () => {
-  window.addEventListener('resize', updateSize);
-  window.addEventListener('resize', () => {
+  window.addEventListener("resize", updateSize);
+  window.addEventListener("resize", () => {
     if (labelRenderer) {
       labelRenderer.setSize(width.value, height.value);
     }
   });
   // await initThree();
   if (canvasRef.value) {
-    canvasRef.value.addEventListener('click', onCanvasClick);
+    canvasRef.value.addEventListener("click", onCanvasClick);
   }
   setTimeout(() => {
     // 确保所有组件都已挂载
     //TODO callFunabcForBuilding('电镀锌', 'enter');
     // 要触发一下resize,重新获取 containerRef容器的宽高，重新设置three的宽高，撑满containerRef容器
-    let myEvent = new Event('resize'); window.dispatchEvent(myEvent);
+    let myEvent = new Event("resize");
+    window.dispatchEvent(myEvent);
   }, 0);
-}
+};
 
 onMounted(async () => {
-  await nextTick()
+  await nextTick();
   // await initFunc()
 });
 
 onUnmounted(() => {
-
-
   // TODO 需要销毁创建的 BuildingLabel
   appList.forEach((app: any) => {
-    app.unmount()
-  })
-  window.removeEventListener('resize', updateSize);
+    app.unmount();
+  });
+  window.removeEventListener("resize", updateSize);
   if (canvasRef.value) {
-    canvasRef.value.removeEventListener('click', onCanvasClick);
+    canvasRef.value.removeEventListener("click", onCanvasClick);
   }
 
   if (backgroundImage.value) {
@@ -355,7 +461,6 @@ onUnmounted(() => {
 });
 
 watch([width, height], () => {
-
   if (renderer && camera) {
     renderer.setSize(width.value, height.value);
     camera.right = width.value;
@@ -374,11 +479,11 @@ watch([width, height], () => {
       }
     });
   }
-  animate()
+  animate();
 });
 defineExpose({
-  callFunabcForBuilding
-})
+  callFunabcForBuilding,
+});
 </script>
 <style lang="scss" scoped>
 .process_info_wrapper {
@@ -418,53 +523,58 @@ defineExpose({
   // box-shadow: 0 0 10px rgba(0, 229, 255, 0.3),
   //             // 0 0 20px rgba(0, 229, 255, 0.3),
   //             0 0 30px rgba(0, 229, 255, 0.1);
-  background:
-    linear-gradient(to bottom,
+  background: linear-gradient(
+      to bottom,
       rgba(0, 229, 255, 0.2) 0%,
       transparent 20px,
       transparent calc(100% - 20px),
-      rgba(0, 229, 255, 0.2) 100%),
-    radial-gradient(circle at center,
+      rgba(0, 229, 255, 0.2) 100%
+    ),
+    radial-gradient(
+      circle at center,
       transparent 0%,
       transparent 80%,
-      rgba(0, 229, 255, 0.2) 100%);
+      rgba(0, 229, 255, 0.2) 100%
+    );
   overflow: hidden;
 }
 
 .process_top:hover {
-  box-shadow: 0 0 10px rgba(0, 229, 255, 0.5),
-    0 0 20px rgba(0, 229, 255, 0.3),
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.5), 0 0 20px rgba(0, 229, 255, 0.3),
     0 0 30px rgba(0, 229, 255, 0.1);
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at center,
-        rgba(0, 229, 255, 0.2) 0%,
-        transparent 70%);
+    background: radial-gradient(
+      circle at center,
+      rgba(0, 229, 255, 0.2) 0%,
+      transparent 70%
+    );
     pointer-events: none;
   }
 }
 
 .process_top_hover {
-  box-shadow: 0 0 10px rgba(0, 229, 255, 0.5),
-    0 0 20px rgba(0, 229, 255, 0.3),
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.5), 0 0 20px rgba(0, 229, 255, 0.3),
     0 0 30px rgba(0, 229, 255, 0.1);
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at center,
-        rgba(0, 229, 255, 0.2) 0%,
-        transparent 70%);
+    background: radial-gradient(
+      circle at center,
+      rgba(0, 229, 255, 0.2) 0%,
+      transparent 70%
+    );
     pointer-events: none;
   }
 }
@@ -485,53 +595,58 @@ defineExpose({
   // box-shadow: 0 0 10px rgba(31, 173, 255, 0.5),
   //             0 0 20px rgba(31, 173, 255, 0.3),
   //             0 0 30px rgba(31, 173, 255, 0.1);
-  background:
-    linear-gradient(to bottom,
+  background: linear-gradient(
+      to bottom,
       rgba(31, 173, 255, 0.2) 0%,
       transparent 20px,
       transparent calc(100% - 20px),
-      rgba(31, 173, 255, 0.2) 100%),
-    radial-gradient(circle at center,
+      rgba(31, 173, 255, 0.2) 100%
+    ),
+    radial-gradient(
+      circle at center,
       transparent 0%,
       transparent 80%,
-      rgba(31, 173, 255, 0.2) 100%);
+      rgba(31, 173, 255, 0.2) 100%
+    );
   overflow: hidden;
 }
 
 .process_center:hover {
-  box-shadow: 0 0 10px rgba(31, 173, 255, 0.5),
-    0 0 20px rgba(31, 173, 255, 0.3),
+  box-shadow: 0 0 10px rgba(31, 173, 255, 0.5), 0 0 20px rgba(31, 173, 255, 0.3),
     0 0 30px rgba(31, 173, 255, 0.1);
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at center,
-        rgba(31, 173, 255, 0.2) 0%,
-        transparent 70%);
+    background: radial-gradient(
+      circle at center,
+      rgba(31, 173, 255, 0.2) 0%,
+      transparent 70%
+    );
     pointer-events: none;
   }
 }
 
 .process_center_hover {
-  box-shadow: 0 0 10px rgba(31, 173, 255, 0.5),
-    0 0 20px rgba(31, 173, 255, 0.3),
+  box-shadow: 0 0 10px rgba(31, 173, 255, 0.5), 0 0 20px rgba(31, 173, 255, 0.3),
     0 0 30px rgba(31, 173, 255, 0.1);
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at center,
-        rgba(31, 173, 255, 0.2) 0%,
-        transparent 70%);
+    background: radial-gradient(
+      circle at center,
+      rgba(31, 173, 255, 0.2) 0%,
+      transparent 70%
+    );
     pointer-events: none;
   }
 }
@@ -550,55 +665,59 @@ defineExpose({
   // box-shadow: 0 0 4px rgba(125, 235, 190, 0.3),
   //             // 0 0 10px rgba(125, 235, 190, 0.3),
   //             0 0 20px rgba(125, 235, 190, 0.1);
-  background:
-    linear-gradient(to bottom,
+  background: linear-gradient(
+      to bottom,
       rgba(125, 235, 190, 0.2) 0%,
       transparent 20px,
       transparent calc(100% - 20px),
-      rgba(125, 235, 190, 0.2) 100%),
-    radial-gradient(circle at center,
+      rgba(125, 235, 190, 0.2) 100%
+    ),
+    radial-gradient(
+      circle at center,
       transparent 0%,
       transparent 80%,
-      rgba(125, 235, 190, 0.2) 100%);
+      rgba(125, 235, 190, 0.2) 100%
+    );
   position: relative;
   overflow: hidden;
 }
 
-
 .process_bottom:hover {
   box-shadow: 0 0 4px rgba(125, 235, 190, 0.5),
-    0 0 10px rgba(125, 235, 190, 0.3),
-    0 0 20px rgba(125, 235, 190, 0.1);
+    0 0 10px rgba(125, 235, 190, 0.3), 0 0 20px rgba(125, 235, 190, 0.1);
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at center,
-        rgba(125, 235, 190, 0.2) 0%,
-        transparent 70%);
+    background: radial-gradient(
+      circle at center,
+      rgba(125, 235, 190, 0.2) 0%,
+      transparent 70%
+    );
     pointer-events: none;
   }
 }
 
 .process_bottom_hover {
   box-shadow: 0 0 4px rgba(125, 235, 190, 0.5),
-    0 0 10px rgba(125, 235, 190, 0.3),
-    0 0 20px rgba(125, 235, 190, 0.1);
+    0 0 10px rgba(125, 235, 190, 0.3), 0 0 20px rgba(125, 235, 190, 0.1);
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at center,
-        rgba(125, 235, 190, 0.2) 0%,
-        transparent 70%);
+    background: radial-gradient(
+      circle at center,
+      rgba(125, 235, 190, 0.2) 0%,
+      transparent 70%
+    );
     pointer-events: none;
   }
 }
@@ -618,7 +737,7 @@ defineExpose({
 
 .pic_wrap {
   z-index: 111;
-  background-image: url('/src/assets/bgpng/电镀锌工艺背景.png');
+  background-image: url("/src/assets/bgpng/电镀锌工艺背景.png");
   background-repeat: round;
   position: absolute;
   width: 100%;

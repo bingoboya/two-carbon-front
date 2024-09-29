@@ -21,7 +21,7 @@ interface Props {
 const props = defineProps({
   iconSrc: {
     type: String,
-    default: '/src/assets/webm/co2_icon.png'
+    default: ''
   },
 });
 

@@ -3,7 +3,7 @@
       <div class="center_wrapper" >
         <div class="item_wrap" style="position: relative;">
             <div class="card_left" >
-              <img style="width: 60px;" :src="wholecoicon" alt="">
+              <img style="width: 60px;" :src="wholeco2icon" alt="">
             </div>
             <div class="card_right">
               <div>总碳排放量</div>
@@ -25,7 +25,7 @@
         </div>
         <div class="item_wrap" style="position: relative;">
             <div class="card_left" >
-              <img style="width: 60px;" :src="haodianicon" alt="">
+              <img style="width: 60px;" :src="zongnenghaoicon" alt="">
             </div>
             <div class="card_right">
               <div>总能耗</div>
@@ -66,11 +66,6 @@
             </div>
         </div> 
       </div>
-      <!-- ./mapdemo.webm 是public文件夹中的文件路径
-          <InteractiveFactoryMap :videoSrc="'./mapdemo.webm'"/>
-             或者 
-          <InteractiveFactoryMap :videoSrc="'/src/assets/webm/gaolubg.webm'" />
-      -->
       <InteractiveFactoryMap ref="InteractiveFactoryMapRef"
        :buildingArr="defaultBuildingArr"
         @callBackFunction="gogogo"
@@ -85,8 +80,9 @@ import arrow_down_icon from '@/assets/icon/arrow_down_icon.png'
 import arrow_top_icon from '@/assets/icon/arrow_top_icon.png'
 import InteractiveFactoryMap from './InteractiveFactoryMap/index';
 import { useRouter } from 'vue-router'
-import flowBg from '@/assets/bgpng/流程图bg.png'
-import wholecoicon from '@/assets/icon/总碳排放量icon.png'
+import flowBg from '@/assets/bgpng/flowBg.png'
+import wholeco2icon from '@/assets/icon/co2_icon.png'
+import zongnenghaoicon from '@/assets/icon/总能耗icon.png'
 import haodianicon from '@/assets/icon/耗电量icon.png'
 
 const router = useRouter()
@@ -97,20 +93,14 @@ const duration = ref(2);
 const InteractiveFactoryMapRef: any = ref<HTMLDivElement | null>(null)
 const defaultBuildingArr =  [
   { id: 1, x: 70, y: 210, width: 100, height: 100, name: "酸轧", info: "这是主要办公区域", alwaysVisible: !true, 
-    // videoSrc: '/src/assets/webm/dianduxin_default.webm',
-    // videoSrcPress: '/src/assets/webm/dianduxin_press.webm',
     arrowPicSrc: '/src/assets/icon/dianduxinarrow.png',
     bgPicSrc: '/src/assets/bgpng/电镀锌弹框_default.png',
     },
   { id: 2, x: 50, y: 450, width: 150, height: 80, name: "连退", info: "主要生产区域", alwaysVisible: !true, 
-    // videoSrc: '/src/assets/webm/lengza_default.webm',
-    // videoSrcPress: '/src/assets/webm/lengza_press.webm',
     arrowPicSrc: '/src/assets/icon/lengzaarrow.png',
     bgPicSrc: '/src/assets/bgpng/冷轧弹框_default.png',
     },
     { id: 3, x: 70, y: 730, width: 120, height: 120, name: "电镀(精整)", info: "主要生产区域", alwaysVisible: !true, 
-    // videoSrc: '/src/assets/webm/reza_default.webm',
-    // videoSrcPress: '/src/assets/webm/reza_press.webm',
     arrowPicSrc: '/src/assets/icon/rezaarrow.png',
     bgPicSrc: '/src/assets/bgpng/热轧弹框_default.png',
     },

@@ -1,7 +1,7 @@
 <template>
   <div ref="headerComp" class="title_wrap" style="position: relative;user-select: none;">
     <video v-if="showVideo"  autoplay  loop muted width="100%" style="position: absolute; width: 100% !important;">
-      <source src="/src/assets/webm/t头部背景动效_无文字.webm" type="video/webm" />
+      <source src="/src/assets/webm/headerbgwebm.webm" type="video/webm" />
     </video>
 
     <div class="titleleft">
@@ -15,7 +15,7 @@
     <div class="timers">
       <span style="color: #58C2FF">{{ dateData.dateDay }}</span>
       <!-- <div class="setting_icon"   @click="setSettingShow(true)">
-          <img src="@/assets/img/headers/setting.png" alt="设置">
+          <img src="@/assets/img/setting.png" alt="设置">
       </div> -->
     </div>
   </div>
