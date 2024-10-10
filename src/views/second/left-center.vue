@@ -1,25 +1,52 @@
 <template>
   <div style="width: 100%; height: 100%">
-    <v-chart class="chart" autoresize style="width: 100%; height: 100%" :option="option"
-      v-if="JSON.stringify(option) != '{}'" />
+    <EchartsUI ref="EchartContainerRef" />
   </div>
 </template>
 <script setup lang="ts">
-import { ref,  onMounted, } from "vue";
+import { ref, onMounted } from "vue";
 import { installationPlan } from "@/api";
 import { graphic } from "echarts/core";
-import { ElMessage } from "element-plus";
-
+import { EchartsUI, useEcharts } from "@/utils/echarts";
+const EchartContainerRef = ref(); //组件实例
+const { renderEcharts } = useEcharts(EchartContainerRef);
 const option: any = ref({});
 
-const VALUE = [2080.7, 1624.93, 2120.33, 1842.89, 1743.83, 1743.83, 1882.54, 1823.09, null, null, null, null];
-const LineVALUE = [27.75, 21.67, 28.28, 24.58, 23.26, 23.26, 25.11, 24.32, null, null, null, null];
+const VALUE = [
+  2080.7,
+  1624.93,
+  2120.33,
+  1842.89,
+  1743.83,
+  1743.83,
+  1882.54,
+  1823.09,
+  null,
+  null,
+  null,
+  null,
+];
+const LineVALUE = [
+  27.75,
+  21.67,
+  28.28,
+  24.58,
+  23.26,
+  23.26,
+  25.11,
+  24.32,
+  null,
+  null,
+  null,
+  null,
+];
 
 const newOption = {
   tooltip: {
     trigger: "axis",
-    axisPointer: { // 坐标轴指示器，坐标轴触发有效
-      type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+    axisPointer: {
+      // 坐标轴指示器，坐标轴触发有效
+      type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
     },
     backgroundColor: "rgba(0,0,0,.6)",
     borderColor: "rgba(147, 235, 248, .8)",
@@ -32,11 +59,18 @@ const newOption = {
       params.forEach(function (item: any) {
         if (item.value) {
           if (item.seriesName == "产量") {
-            const marker = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:orange;"></span>`
-            result += marker + " " + item.seriesName + " : " + item.value + "万吨</br>";
+            const marker = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:orange;"></span>`;
+            result +=
+              marker + " " + item.seriesName + " : " + item.value + "万吨</br>";
           } else if (item.seriesName == "电量") {
-            const marker = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:#029ED9;"></span>`
-            result += marker + " " + item.seriesName + " : " + item.value + "万千瓦时</br>";
+            const marker = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:#029ED9;"></span>`;
+            result +=
+              marker +
+              " " +
+              item.seriesName +
+              " : " +
+              item.value +
+              "万千瓦时</br>";
           }
         } else {
           result += item.marker + " " + item.seriesName + " :  - </br>";
@@ -74,11 +108,24 @@ const newOption = {
     containLabel: true,
   },
   xAxis: {
-    type: 'category',
-    data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+    type: "category",
+    data: [
+      "1月",
+      "2月",
+      "3月",
+      "4月",
+      "5月",
+      "6月",
+      "7月",
+      "8月",
+      "9月",
+      "10月",
+      "11月",
+      "12月",
+    ],
     axisTick: {
       show: true,
-      alignWithLabel: true
+      alignWithLabel: true,
     },
     // axisLine: {
     //     show: true,
@@ -94,16 +141,16 @@ const newOption = {
     axisLabel: {
       color: "#7EB7FD",
       // fontWeight: "500",
-      interval: 0 // 设置成 0 强制显示所有标签
+      interval: 0, // 设置成 0 强制显示所有标签
     },
   },
   yAxis: [
     {
-      type: 'value',
-      name: '电量(万千瓦时)',
-      position: 'left',
+      type: "value",
+      name: "电量(万千瓦时)",
+      position: "left",
       nameTextStyle: {
-        color: '#fff',
+        color: "#fff",
       },
       splitLine: {
         show: true,
@@ -127,12 +174,12 @@ const newOption = {
       // boundaryGap: ['20%', '20%'],
     },
     {
-      type: 'value',
-      position: 'right',
-      name: '产量(万吨)',
+      type: "value",
+      position: "right",
+      name: "产量(万吨)",
       alignTicks: true,
       nameTextStyle: {
-        color: '#fff',
+        color: "#fff",
         // align: 'left'
       },
       splitLine: {
@@ -154,7 +201,7 @@ const newOption = {
         fontWeight: "500",
       },
       // boundaryGap: ['20%', '20%'],
-    }
+    },
   ],
   series: [
     {
@@ -167,29 +214,30 @@ const newOption = {
       itemStyle: {
         //barBorderRadius: 5,
         //渐变色
-        color: new graphic.LinearGradient(0, 0, 0, 1, [{
-          offset: 0,
-          color: "#01EAED"
-        },
-        {
-          offset: 0.5,
-          color: "#02C4DD"
-        },
-        {
-          offset: 1,
-          color: "#029ED9"
-        }
-        ])
+        color: new graphic.LinearGradient(0, 0, 0, 1, [
+          {
+            offset: 0,
+            color: "#01EAED",
+          },
+          {
+            offset: 0.5,
+            color: "#02C4DD",
+          },
+          {
+            offset: 1,
+            color: "#029ED9",
+          },
+        ]),
       },
       data: VALUE,
     },
     {
-      name: '产量',
-      type: 'line',
+      name: "产量",
+      type: "line",
       yAxisIndex: 1,
       smooth: true,
       showAllSymbol: true,
-      symbol: 'circle',
+      symbol: "circle",
       symbolSize: 0,
       // itemStyle: {
       //     color: '#fff',
@@ -200,56 +248,48 @@ const newOption = {
       // },
       lineStyle: {
         width: 1,
-        color: 'orange',
-        shadowColor: 'orange',
+        color: "orange",
+        shadowColor: "orange",
         shadowBlur: 10,
       },
       data: LineVALUE,
-      areaStyle: { //区域填充样式
+      areaStyle: {
+        //区域填充样式
         //线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
-        color: new graphic.LinearGradient(0, 0, 0, 1, [{
-          offset: 0,
-          color: "rgba(25,163,223,.3)"
-        },
-        {
-          offset: 1,
-          color: "rgba(25,163,223, 0)"
-        }
-        ], false),
-        shadowColor: 'rgba(25,163,223, 0.5)', //阴影颜色
-        shadowBlur: 20 //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
+        color: new graphic.LinearGradient(
+          0,
+          0,
+          0,
+          1,
+          [
+            {
+              offset: 0,
+              color: "rgba(25,163,223,.3)",
+            },
+            {
+              offset: 1,
+              color: "rgba(25,163,223, 0)",
+            },
+          ],
+          false
+        ),
+        shadowColor: "rgba(25,163,223, 0.5)", //阴影颜色
+        shadowBlur: 20, //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
       },
-    }
+    },
   ],
-}
+};
 
-
-
-// 
+//
 
 const getData = () => {
   setOption({});
-  // installationPlan()
-  //   .then((res) => {
-  //     if (res.success) {
-  //     } else {
-  //       ElMessage({
-  //         message: res.msg,
-  //         type: "warning",
-  //       });
-  //     }
-  //   })
-  //   .catch((err) => {
-  //     ElMessage.error(err);
-  //   });
 };
 const setOption = async (newData: any) => {
-  option.value = newOption
+  option.value = newOption;
+  /** 初始化图表 */
+  renderEcharts(toRaw(option.value));
 };
-
-
-
-
 
 onMounted(() => {
   getData();

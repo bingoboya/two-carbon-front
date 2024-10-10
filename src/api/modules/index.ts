@@ -9,9 +9,45 @@ const indexUrl = {
   rightTop: "/api/bigscreen/alarmNum", //报警次数
   rightBottom: "/bigscreen/rightBottom", //右下
   rightCenter: "/bigscreen/ranking", // 报警排名
+
+
+  // 本钢模块接口
+  // 第一页
+  bengangfirstpage: "/api/bigscreen/bengang/firstpage",
+  // 第二页
+  bengangsecondpage: "/api/bigscreen/bengang/secondpage",
+  // 第三页
+  bengangthirdpage: "/api/bigscreen/bengang/thirdpage",
+  // 第四页
+  bengangfourthpage: "/api/bigscreen/bengang/fourthpage",
 };
 
-export default indexUrl;
+// export default indexUrl;
+
+/**第一页 */
+export const bengangfirstpage = (url?: string, param: any = {}) => {
+  const url1 = url || indexUrl.bengangfirstpage;
+  return GET(url1, param);
+};
+/**第二页 */
+export const bengangsecondpage = (url?: string, param: any = {}) => {
+  const url1 = url || indexUrl.bengangsecondpage;
+  return GET(url1, param);
+};
+/**第三页 */
+export const bengangthirdpage = (url?: string, param: any = {}) => {
+  const url1 = url || indexUrl.bengangthirdpage;
+  return GET(url1, param);
+};
+/**第四页 */
+export const bengangfourthpage = (url?: string, param: any = {}) => {
+  const url1 = url || indexUrl.bengangfourthpage;
+  return GET(url1, param);
+};
+
+
+
+
 
 
 /**右上--报警次数 */

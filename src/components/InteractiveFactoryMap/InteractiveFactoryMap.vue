@@ -1,6 +1,6 @@
 <!--  InteractiveFactoryMap.vue -->
 <template>
-  <div ref="containerRef" class="video-container">
+  <div ref="containerRef" class="video-container" >
     <canvas ref="canvasRef"></canvas>
     <div v-if="selectedBuilding" class="info-card" :style="infoCardStyle">
       <h3>{{ selectedBuilding.name }}</h3>
@@ -13,7 +13,6 @@
 import { createApp } from 'vue'
 import { onMounted, ref, computed, watch, onUnmounted, nextTick } from 'vue';
 import * as THREE from 'three';
-
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 import BuildingLabel from '@/components/BuildingLabel.vue';
 interface Building {

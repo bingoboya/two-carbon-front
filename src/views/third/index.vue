@@ -70,59 +70,45 @@
           <div
             @mouseenter="enterBottomBtn('本浦冷轧2#重卷机组')"
             @mouseleave="leaveBottomBtn('本浦冷轧2#重卷机组')"
-            @click="routerGo('本浦冷轧2#重卷机组')"
+            @click="openModalComp('本浦冷轧2#重卷机组', '机组1无阴影')"
             class="bottom_item"
           >
-            <div
-              class="bottom_item_btn_default"
-              :style="{
-                backgroundImage: `url(${本浦冷轧2重卷机组按钮_default})`,
-              }"
-            ></div>
-            <div
-              class="bottom_item_btn_press"
-              :style="{
-                backgroundImage: `url(${本浦冷轧2重卷机组按钮_press})`,
-              }"
-            ></div>
+            <div class="bottom_item_btn_default">
+              <img :src="getImageUrl('本浦冷轧2重卷机组按钮_default')" alt="">
+            </div>
+            <div class="bottom_item_btn_press">
+              <img :src="getImageUrl('本浦冷轧2重卷机组按钮_press')" alt="">
+            </div>
           </div>
           <div
             @mouseenter="enterBottomBtn('本浦冷轧3#重卷机组')"
             @mouseleave="leaveBottomBtn('本浦冷轧3#重卷机组')"
-            @click="routerGo('本浦冷轧3#重卷机组')"
+            @click="openModalComp('本浦冷轧3#重卷机组', '机组2无阴影')"
             class="bottom_item"
           >
             <div
               class="bottom_item_btn_default"
-              :style="{
-                backgroundImage: `url(${本浦冷轧3重卷机组按钮_default})`,
-              }"
-            ></div>
+             
+            ><img :src="getImageUrl('本浦冷轧3重卷机组按钮_default')" alt=""></div>
             <div
               class="bottom_item_btn_press"
-              :style="{
-                backgroundImage: `url(${本浦冷轧3重卷机组按钮_default})`,
-              }"
-            ></div>
+              
+            ><img :src="getImageUrl('本浦冷轧3重卷机组按钮_press')" alt=""></div>
           </div>
           <div
             @mouseenter="enterBottomBtn('电镀锌机组')"
             @mouseleave="leaveBottomBtn('电镀锌机组')"
-            @click="routerGo('电镀锌机组')"
+            @click="openModalComp('电镀锌机组', '电镀锌无阴影')"
             class="bottom_item"
           >
             <div
               class="bottom_item_btn_default"
-              :style="{
-                backgroundImage: `url(${电镀锌机组_default})`,
-              }"
-            ></div>
+              
+            ><img :src="getImageUrl('电镀锌机组_default')" alt=""></div>
             <div
               class="bottom_item_btn_press"
-              :style="{
-                backgroundImage: `url(${电镀锌机组_press})`,
-              }"
-            ></div>
+              
+            ><img :src="getImageUrl('电镀锌机组_press')" alt=""></div>
           </div>
         </div>
       </div>
@@ -153,7 +139,9 @@
         :backgroundImg="底部长bg"
         title="设备机组碳排占比"
       >
-        <RightTop />
+        <!-- <RightTop /> -->
+         <!-- TODO -->
+        <RightTopcopy />
       </ItemWrap>
       <ItemWrap
         class="contetn_left-bottom"
@@ -169,43 +157,54 @@
 
   <CusModal ref="cusmodalRef" :mountedOnBody="false">
     <template #content>
-      <EquipmentComp />
+      <EquipmentComp :departmentImgName="departmentImg" />
     </template>
   </CusModal>
 </template>
 
 <script setup lang="ts">
+import { bengangthirdpage } from "@/api";
 import 底部长bg from "@/assets/bgpng/底部长bg.png";
-import 本浦冷轧2重卷机组按钮_default from "@/assets/bgpng/本浦冷轧2重卷机组按钮_default.png";
-import 本浦冷轧2重卷机组按钮_press from "@/assets/bgpng/本浦冷轧2重卷机组按钮_press.png";
-import 本浦冷轧3重卷机组按钮_default from "@/assets/bgpng/本浦冷轧3重卷机组按钮_default.png";
-import 本浦冷轧3重卷机组按钮_press from "@/assets/bgpng/本浦冷轧3重卷机组按钮_press.png";
-import 电镀锌机组_default from "@/assets/bgpng/电镀锌机组_default.png";
-import 电镀锌机组_press from "@/assets/bgpng/电镀锌机组_press.png";
 import headImg from "@/assets/bgpng/头部2.png";
-import headLongImg from "@/assets/bgpng/头部长2.png";
-import titleHeadBg from "@/assets/bgpng/二级标题头部长bg.png";
 import { onBeforeRouteLeave, useRouter } from "vue-router";
 import { gsap } from "gsap";
 import CusModal from "@/components/CusModal.vue";
 import EquipmentComp from "@/components/EquipmentComp.vue";
 import ItemWrap from "@/components/item-wrap";
 import CusTomSelect from "@/components/CusTomSelect.vue";
+import RightTopcopy from "./right-top copy.vue";
 import { LeftTop, LeftBottom, CenterMap, RightBottom, RightTop } from "./index";
-import { ref, onMounted, nextTick, onUnmounted } from "vue";
+const router = useRouter();
 const selectedValue = ref("");
 const showVideo = ref(true);
-
+const departmentImg = ref("");
 const cusmodalRef: any = ref<HTMLDivElement | null>(null); // 使用ref引用弹窗组件实例
-const handlePopupClick = async (popup: any) => {
+const getImageUrl = (name: any = '本浦冷轧2重卷机组按钮_default') => {
+  // 注意URL里面不能是纯变量，那样就会报错了 详细的报错 你可以去试试看 https://cn.vitejs.dev/guide/assets.html#new-url-url-import-meta-url
+  const a = new URL(`/src/assets/bgpng/${name}.png`, import.meta.url).href
+  return a
+}
+const getData = async () => {
+  console.log("getData-bengangfirstpage");
+  const res = await bengangthirdpage();
+  if (res) {
+    if (res.success) {
+      console.log(res);
+    } else {
+      console.log(res);
+    }
+  }
+};
+const handlePopupClick = async (title: any, departmentImgName: string) => {
   // 处理弹窗点击事件
+  // console.log("title", title, departmentImgName);
+  departmentImg.value = departmentImgName;
   await nextTick();
-  cusmodalRef.value.openModal(popup);
+  cusmodalRef.value.openModal(title);
 };
 
-const router = useRouter();
-const routerGo = (name: any) => {
-  handlePopupClick(name);
+const openModalComp = (name: any, departmentImgName: string) => {
+  handlePopupClick(name, departmentImgName);
 };
 
 const enterBottomBtn = (name: any) => {
@@ -245,6 +244,7 @@ const returnPlaying = async () => {
   }
 };
 onMounted(async () => {
+  await getData();
   await nextTick();
   animateDivs();
   document.addEventListener("visibilitychange", returnPlaying);
@@ -333,7 +333,6 @@ const options = [
       display: block;
       width: 290px;
       height: 54px;
-      // background-image: url('@/assets/bgpng/炼钢按钮_default.png');
       background-size: contain;
       background-repeat: no-repeat;
     }
@@ -341,7 +340,6 @@ const options = [
       display: none;
       width: 290px;
       height: 54px;
-      // background-image: url('@/assets/bgpng/炼钢按钮_default.png');
       background-size: contain;
       background-repeat: no-repeat;
     }

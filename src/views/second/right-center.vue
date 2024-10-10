@@ -1,21 +1,18 @@
 
 <template>
   <div style="width: 100%; height: 100%;">
-    <v-chart
-      class="chart"
-      autoresize
-      style="width: 100%; height: 100%"
-      :option="option"
-      v-if="JSON.stringify(option) != '{}'"
-    />
+    <EchartsUI ref="EchartContainerRef" />
+
   </div>
 </template>
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from "vue";
-import { alarmNum } from "@/api";
+// import { alarmNum } from "@/api";
 import { graphic } from "echarts/core";
-import { ElMessage } from "element-plus";
 
+import { EchartsUI, useEcharts } from "@/utils/echarts";
+const EchartContainerRef = ref(); //组件实例
+const { renderEcharts } = useEcharts(EchartContainerRef);
 const option = ref({});
 const getData = async () => {
   const data = {
@@ -30,10 +27,6 @@ const getData = async () => {
   //   .then((res) => {
   //     if (res.success) {
   //     } else {
-  //       ElMessage({
-  //         message: res.msg,
-  //         type: "warning",
-  //       });
   //     }
   //   })
   //   .catch((err) => {
@@ -238,6 +231,8 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       },
     ],
   };
+  /** 初始化图表 */
+  renderEcharts(toRaw(option.value));
 };
 onMounted(() => {
   getData();

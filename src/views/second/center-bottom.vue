@@ -11,26 +11,20 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { installationPlan } from "@/api";
-import { graphic } from "echarts/core";
-import { ElMessage } from "element-plus";
+// import { installationPlan } from "@/api";
 
 const option = ref({});
 const getData = () => {
-  installationPlan()
-    .then((res) => {
-      if (res.success) {
-        setOption(res.data);
-      } else {
-        ElMessage({
-          message: res.msg,
-          type: "warning",
-        });
-      }
-    })
-    .catch((err) => {
-      ElMessage.error(err);
-    });
+  // installationPlan()
+  //   .then((res) => {
+  //     if (res.success) {
+  //       setOption(res.data);
+  //     } else {
+        
+  //     }
+  //   })
+  //   .catch((err) => {
+  //   });
 };
 const setOption = async (newData: any) => {
   option.value = {

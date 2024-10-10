@@ -9,7 +9,7 @@
       <ItemWrap :backgroundImg="底部长bg" class="contetn_left-center " titlebg="headImg" :titleImg="headImg" title="电量-产量情况">
         <LeftCenter />
       </ItemWrap>
-      <ItemWrap :backgroundImg="底部长bg" class="contetn_left-bottom " titlebg="headImg" :titleImg="headImg" title="工序能流分析" >
+      <ItemWrap :backgroundImg="底部长bg"  titlebg="headImg" :titleImg="headImg" title="工序能流分析" >
         <LeftBottom />
       </ItemWrap>
     </div>
@@ -28,16 +28,28 @@
         </div>
         <div class="bottom_item_wrapper">
           <div @mouseenter="enterBottomBtn('酸轧')" @mouseleave="leaveBottomBtn('酸轧')" @click="routerGo('酸轧')" class="bottom_item" >
-            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url(${酸轧按钮_default})` }"></div>
-            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url(${酸轧按钮_press})` }"></div>
+            <div class="bottom_item_btn_default" >
+              <img :src="getImageUrl('酸轧按钮_default')" alt="">
+            </div>
+            <div class="bottom_item_btn_press" >
+              <img :src="getImageUrl('酸轧按钮_press')" alt="">
+            </div>
           </div>
           <div @mouseenter="enterBottomBtn('连退')" @mouseleave="leaveBottomBtn('连退')" @click="routerGo('连退')" class="bottom_item" >
-            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url(${连退按钮_default})` }"></div>
-            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url(${连退按钮_press})` }"></div>
+            <div class="bottom_item_btn_default" >
+              <img :src="getImageUrl('连退按钮_default')" alt="">
+            </div>
+            <div class="bottom_item_btn_press" >
+              <img :src="getImageUrl('连退按钮_press')" alt="">
+            </div>
           </div>
           <div @mouseenter="enterBottomBtn('电镀(精整)')" @mouseleave="leaveBottomBtn('电镀(精整)')" @click="routerGo('电镀(精整)')" class="bottom_item" >
-            <div class="bottom_item_btn_default" :style="{ backgroundImage: `url(${电镀精整按钮_default})` }"></div>
-            <div class="bottom_item_btn_press" :style="{ backgroundImage: `url(${电镀精整按钮_press})` }"></div>
+            <div class="bottom_item_btn_default" >
+              <img :src="getImageUrl('电镀精整按钮_default')" alt="">
+            </div>
+            <div class="bottom_item_btn_press" >
+              <img :src="getImageUrl('电镀精整按钮_press')" alt="">
+            </div>
           </div>
         </div>
       </div>
@@ -51,30 +63,22 @@
         />
         <div class="returnBtn" @click="router.go(-1)"></div>
       </div>
-      <ItemWrap :backgroundImg="底部长bg" class="contetn_left-bottom " titlebg="headImg" :titleImg="headImg" title="碳排占比">
+      <ItemWrap :backgroundImg="底部长bg"  titlebg="headImg" :titleImg="headImg" title="碳排占比">
           <RightTop />
       </ItemWrap>
-      <ItemWrap :backgroundImg="底部长bg" class="contetn_left-bottom " titlebg="headImg" :titleImg="headImg" title="电量预测分析" >
+      <ItemWrap :backgroundImg="底部长bg"  titlebg="headImg" :titleImg="headImg" title="电量预测分析" >
         <RightCenter />
       </ItemWrap>
-      <ItemWrap :backgroundImg="底部长bg" class="contetn_left-bottom " titlebg="headImg" :titleImg="headImg" title="碳排预测分析 ">
+      <ItemWrap :backgroundImg="底部长bg"  titlebg="headImg" :titleImg="headImg" title="碳排预测分析 ">
         <RightBottom />
       </ItemWrap>
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import { bengangsecondpage } from "@/api";
 import 底部长bg from "@/assets/bgpng/底部长bg.png";
-
-import 酸轧按钮_default from '@/assets/bgpng/酸轧按钮_default.png'
-import 酸轧按钮_press from '@/assets/bgpng/酸轧按钮_press.png'
-import 连退按钮_default from '@/assets/bgpng/连退按钮_default.png'
-import 连退按钮_press from '@/assets/bgpng/连退按钮_press.png'
-import 电镀精整按钮_default from '@/assets/bgpng/电镀精整按钮_default.png'
-import 电镀精整按钮_press from '@/assets/bgpng/电镀精整按钮_press.png'
 import headImg from '@/assets/bgpng/头部2.png'
-import headLongImg from '@/assets/bgpng/头部长2.png'
-import titleHeadBg from '@/assets/bgpng/二级标题头部长bg.png'
 import { onBeforeRouteLeave, useRouter } from 'vue-router'
 import { gsap } from 'gsap';
 import ItemWrap from "@/components/item-wrap";
@@ -87,7 +91,6 @@ import { LeftTop,
     LeftCenter,
     RightTop,
   } from "./index";
-import { ref, onMounted , nextTick, onUnmounted} from "vue";
 const showVideo = ref(true)
 
 const selectedValue = ref('');
@@ -95,6 +98,22 @@ const router = useRouter()
 const routerGo = (name: any) => {
   router.push({ path: 'third', query: { typename: name }})
 }
+const getImageUrl = (name: any = '本浦冷轧2重卷机组按钮_default') => {
+  // 注意URL里面不能是纯变量，那样就会报错了 详细的报错 你可以去试试看 https://cn.vitejs.dev/guide/assets.html#new-url-url-import-meta-url
+  const a = new URL(`/src/assets/bgpng/${name}.png`, import.meta.url).href
+  return a
+}
+const getData = async () => {
+  console.log("getData-bengangfirstpage");
+  const res = await bengangsecondpage();
+  if (res) {
+    if (res.success) {
+      console.log(res);
+    } else {
+      console.log(res);
+    }
+  }
+};
 const centerMapRef: any = ref<HTMLDivElement | null>(null)
 const contentLeftComp = ref<HTMLDivElement | null>(null)
 const contentRightComp = ref<HTMLDivElement | null>(null)
@@ -132,6 +151,7 @@ const returnPlaying = async () => {
     }
 }
 onMounted(async () => {
+  await getData();
   await nextTick()
   animateDivs();
   document.addEventListener('visibilitychange', async () => {

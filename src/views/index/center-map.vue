@@ -1,6 +1,6 @@
 <template>
-  <div class="centermap">
-    <div class="interactivefactorymap_wrap">
+  <div class="centermap" >
+    <div class="interactivefactorymap_wrap" >
       <div class="center_wrapper">
 
         <div class="item_wrap" style="position: relative;">

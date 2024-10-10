@@ -1,47 +1,120 @@
 <template>
   <div class="equipment_wrap">
-    <div style="flex:418; z-index: 2;display: flex;">
-      <ItemWrap title="运行参数情况" :backgroundImg="底部长bg"  titlebg="headImg" :titleImg="headImg" >
-        <div style="width: 100%; height: 100%; display: flex; flex-direction: column; gap: 6px;">
+    <div style="flex: 418; z-index: 2; display: flex">
+      <ItemWrap
+        title="运行参数情况"
+        :backgroundImg="底部长bg"
+        titlebg="headImg"
+        :titleImg="headImg"
+      >
+        <div
+          style="
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+          "
+        >
           <div class="params_wrapper">
-            <div class="params_title" >当前参数</div>
+            <div class="params_title">当前参数</div>
             <div class="params_wrap">
               <div class="params_item">
                 <div class="temp_item">
-                  <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
-                    <div style="color: RGBA(95, 249, 255, 1); font-size: 22px; font-weight: 600;">70</div>
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: row;
+                      justify-content: center;
+                      align-items: center;
+                    "
+                  >
+                    <div
+                      style="
+                        color: RGBA(95, 249, 255, 1);
+                        font-size: 22px;
+                        font-weight: 600;
+                      "
+                    >
+                      70
+                    </div>
                     <div>°C</div>
                   </div>
                 </div>
-                <div style="flex: 1; margin-top: 4px;">酸液温度</div>
+                <div style="flex: 1; margin-top: 4px">运行时长</div>
               </div>
               <div class="params_item">
                 <div class="temp_item">
-                  <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
-                    <div style="color: RGBA(95, 249, 255, 1); font-size: 22px; font-weight: 600;">2.5</div>
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: row;
+                      justify-content: center;
+                      align-items: center;
+                    "
+                  >
+                    <div
+                      style="
+                        color: RGBA(95, 249, 255, 1);
+                        font-size: 22px;
+                        font-weight: 600;
+                      "
+                    >
+                      2.5
+                    </div>
                   </div>
                 </div>
-                <div style="flex: 1; margin-top: 4px;">PH值</div>
+                <div style="flex: 1; margin-top: 4px">额定功率</div>
               </div>
-              <div style="display: flex;flex: 1;align-items: center;" class="params_item ">
-                <div class="temp_item" style="color: RGBA(95, 249, 255, 1); font-size: 22px; font-weight: 600;">
-                  <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+              <div
+                style="display: flex; flex: 1; align-items: center"
+                class="params_item"
+              >
+                <div
+                  class="temp_item"
+                  style="
+                    color: RGBA(95, 249, 255, 1);
+                    font-size: 22px;
+                    font-weight: 600;
+                  "
+                >
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: row;
+                      justify-content: center;
+                      align-items: center;
+                    "
+                  >
                     良好
                   </div>
                 </div>
-                <div style="flex: 1; margin-top: 4px;">状态</div>
+                <div style="flex: 1; margin-top: 4px">状态</div>
               </div>
             </div>
           </div>
-          <div class="my_table" >
+          <div class="my_table">
             <div class="table_th">
               <div class="table_content_left">日期</div>
-              <div class="table_content_center">酸液温度(°C)</div>
-              <div class="table_content_right">PH值</div>
+              <div class="table_content_center">运行时长(h)</div>
+              <div class="table_content_right">额定功率(kw)</div>
             </div>
-            <vue3-seamless-scroll :list="TableData.data" direction="up" :hover="true" :limitScrollNum="14"
-              :openWatch="true" :step="0.2" :wheel="true" :isWatch="true" class="scroll" >
-              <div class="item" v-for="(item, index) in TableData.data" :key="index">
+            <vue3-seamless-scroll
+              :list="TableData.data"
+              direction="up"
+              :hover="true"
+              :limitScrollNum="14"
+              :openWatch="true"
+              :step="0.2"
+              :wheel="true"
+              :isWatch="true"
+              class="scroll"
+            >
+              <div
+                class="item"
+                v-for="(item, index) in TableData.data"
+                :key="index"
+              >
                 <div class="scroll_item_left">{{ item.date }}</div>
                 <div class="scroll_item_center">{{ item.title }}</div>
                 <div class="scroll_item_right">{{ item.PHValue }}</div>
@@ -52,11 +125,17 @@
         </div>
       </ItemWrap>
     </div>
-    <div style="flex:546; display: flex; flex-direction: column;">
+    <div style="flex: 546; display: flex; flex-direction: column">
       <div class="model_wrapper">
-        <ThreeDPngEffect :image-src="department1" :max-tilt-angle="30" />
+        <ThreeDPngEffect :image-src="getImageUrl()" :max-tilt-angle="30" />
       </div>
-      <ItemWrap titlebg="titleHeadBg" :backgroundImg="底部长bg" :titleImg="titleHeadBg" style="height: 315px;" title="维护记录">
+      <ItemWrap
+        titlebg="titleHeadBg"
+        :backgroundImg="底部长bg"
+        :titleImg="titleHeadBg"
+        style="height: 315px"
+        title="维护记录"
+      >
         <div class="my_table">
           <div class="table_th">
             <div class="table_content_left">日期</div>
@@ -64,9 +143,22 @@
             <div class="table_content_right">故障说明</div>
           </div>
           <!-- 开启数据实时监控刷新dom  -->
-          <vue3-seamless-scroll :list="TableData.maintainData" direction="up" :hover="true" :limitScrollNum="7"
-            :openWatch="true" :step="0.2" :wheel="true" :isWatch="true" class="scroll">
-            <div class="item" v-for="(item, index) in TableData.maintainData" :key="index">
+          <vue3-seamless-scroll
+            :list="TableData.maintainData"
+            direction="up"
+            :hover="true"
+            :limitScrollNum="7"
+            :openWatch="true"
+            :step="0.2"
+            :wheel="true"
+            :isWatch="true"
+            class="scroll"
+          >
+            <div
+              class="item"
+              v-for="(item, index) in TableData.maintainData"
+              :key="index"
+            >
               <div class="scroll_item_left">{{ item.date }}</div>
               <div class="scroll_item_center">{{ item.title }}</div>
               <div class="scroll_item_right">{{ item.description }}</div>
@@ -75,11 +167,29 @@
         </div>
       </ItemWrap>
     </div>
-    <div style="flex:418;display: flex; flex-direction: column;gap: 20px; z-index: 2;">
-      <ItemWrap titlebg="headImg" :backgroundImg="底部长bg" :titleImg="headImg" title="碳排放情况">
+    <div
+      style="
+        flex: 418;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        z-index: 2;
+      "
+    >
+      <ItemWrap
+        titlebg="headImg"
+        :backgroundImg="底部长bg"
+        :titleImg="headImg"
+        title="碳排放情况"
+      >
         <EquipmentRightTop />
       </ItemWrap>
-      <ItemWrap titlebg="headImg" :backgroundImg="底部长bg" :titleImg="headImg" title="电量情况">
+      <ItemWrap
+        titlebg="headImg"
+        :backgroundImg="底部长bg"
+        :titleImg="headImg"
+        title="电量情况"
+      >
         <EquipmentRightBottom />
       </ItemWrap>
     </div>
@@ -87,174 +197,201 @@
 </template>
 
 <script setup lang="ts">
+import { bengangfourthpage } from "@/api";
 import 底部长bg from "@/assets/bgpng/底部长bg.png";
-import department1 from '@/assets/bgpng/department1.png'
-import headImg from '@/assets/bgpng/头部2.png'
-import headLongImg from '@/assets/bgpng/头部长2.png'
-import titleHeadBg from '@/assets/bgpng/二级标题头部长bg.png'
+import headImg from "/src/assets/bgpng/头部2.png";
+import titleHeadBg from "/src/assets/bgpng/二级标题头部长bg.png";
 // import CustomeScroll from './CustomeScroll.vue'
 import { Vue3SeamlessScroll } from "vue3-seamless-scroll";
 // import { BorderBox8 as DvBorderBox8, ScrollBoard } from '@kjgl77/datav-vue3'
-import ThreeDPngEffect from '@/components/ThreeDPngEffect.vue';
+import ThreeDPngEffect from "@/components/ThreeDPngEffect.vue";
 import ItemWrap from "@/components/item-wrap";
 import EquipmentRightTop from "@/components/EquipmentLeftTop.vue";
 import EquipmentRightBottom from "@/components/EquipmentRightBottom.vue";
-import { onMounted, reactive, ref } from "vue";
 
+const props = defineProps({
+  departmentImgName: {
+    type: String,
+    default: "电镀锌无阴影",
+  },
+});
+const getData = async () => {
+  console.log("getData-bengangfirstpage");
+  const res = await bengangfourthpage();
+  if (res) {
+    if (res.success) {
+      console.log(res);
+    } else {
+      console.log(res);
+    }
+  }
+};
+onMounted(async () => {
+  await getData();
+});
+const getImageUrl = (name: any = props.departmentImgName) => {
+  // name = '电镀锌无阴影'
+  // name = '机组2无阴影'
+  // 注意URL里面不能是纯变量，那样就会报错了 详细的报错 你可以去试试看 https://cn.vitejs.dev/guide/assets.html#new-url-url-import-meta-url
+  const a = new URL(`/src/assets/bgpng/${name}.png`, import.meta.url).href;
+  console.log(name);
+  console.log(a);
+  return a;
+};
 const TableData: any = reactive({
   data: [
     {
-      num: (Math.random()).toFixed(3),
+      num: Math.random().toFixed(3),
       title: "50",
-      date: '202401',
-      PHValue: 2.5
+      date: "202401",
+      PHValue: 2.5,
     },
     {
-      num: (Math.random()).toFixed(3),
+      num: Math.random().toFixed(3),
       title: "50",
-      date: '202402',
-      PHValue: 2.5
+      date: "202402",
+      PHValue: 2.5,
     },
     {
-      num: (Math.random()).toFixed(3),
+      num: Math.random().toFixed(3),
       title: "55",
-      date: '202403',
-      PHValue: 2.5
+      date: "202403",
+      PHValue: 2.5,
     },
     {
-      num: (Math.random()).toFixed(3),
+      num: Math.random().toFixed(3),
       title: "55",
-      date: '202404',
-      PHValue: 2.5
+      date: "202404",
+      PHValue: 2.5,
     },
     {
-      num: (Math.random()).toFixed(3),
+      num: Math.random().toFixed(3),
       title: "60",
-      date: '202405',
-      PHValue: 2.5
+      date: "202405",
+      PHValue: 2.5,
     },
     {
-      num: (Math.random()).toFixed(3),
+      num: Math.random().toFixed(3),
       title: "60",
-      date: '202406',
-      PHValue: 2.5
+      date: "202406",
+      PHValue: 2.5,
     },
     {
-      num: (Math.random()).toFixed(3),
+      num: Math.random().toFixed(3),
       title: "65",
-      date: '202407',
-      PHValue: 2.5
+      date: "202407",
+      PHValue: 2.5,
     },
     {
-      num: (Math.random()).toFixed(3),
+      num: Math.random().toFixed(3),
       title: "65",
-      date: '202408',
-      PHValue: 2.5
+      date: "202408",
+      PHValue: 2.5,
     },
     {
-      num: (Math.random()).toFixed(3),
+      num: Math.random().toFixed(3),
       title: "50",
-      date: '202401',
-      PHValue: 2.5
+      date: "202401",
+      PHValue: 2.5,
     },
     {
-      num: (Math.random()).toFixed(3),
+      num: Math.random().toFixed(3),
       title: "50",
-      date: '202402',
-      PHValue: 2.5
+      date: "202402",
+      PHValue: 2.5,
     },
     {
-      num: (Math.random()).toFixed(3),
+      num: Math.random().toFixed(3),
       title: "55",
-      date: '202403',
-      PHValue: 2.5
+      date: "202403",
+      PHValue: 2.5,
     },
     {
-      num: (Math.random()).toFixed(3),
+      num: Math.random().toFixed(3),
       title: "55",
-      date: '202404',
-      PHValue: 2.5
+      date: "202404",
+      PHValue: 2.5,
     },
     {
-      num: (Math.random()).toFixed(3),
+      num: Math.random().toFixed(3),
       title: "60",
-      date: '202405',
-      PHValue: 2.5
+      date: "202405",
+      PHValue: 2.5,
     },
     {
-      num: (Math.random()).toFixed(3),
+      num: Math.random().toFixed(3),
       title: "60",
-      date: '202406',
-      PHValue: 2.5
+      date: "202406",
+      PHValue: 2.5,
     },
     {
-      num: (Math.random()).toFixed(3),
+      num: Math.random().toFixed(3),
       title: "65",
-      date: '202407',
-      PHValue: 2.5
+      date: "202407",
+      PHValue: 2.5,
     },
     {
-      num: (Math.random()).toFixed(3),
+      num: Math.random().toFixed(3),
       title: "65",
-      date: '202408',
-      PHValue: 2.5
+      date: "202408",
+      PHValue: 2.5,
     },
   ],
   maintainData: [
     {
       title: "检查酸液浓度",
-      date: '202401',
-      description: '0%'
+      date: "202401",
+      description: "0%",
     },
     {
       title: "更换酸液",
-      date: '202402',
-      description: '0%'
+      date: "202402",
+      description: "0%",
     },
     {
       title: "检查酸液浓度",
-      date: '202403',
-      description: '1次轻微故障(1小时修复)'
+      date: "202403",
+      description: "1次轻微故障(1小时修复)",
     },
     {
       title: "清理处理槽",
-      date: '202404',
-      description: '0%'
+      date: "202404",
+      description: "0%",
     },
     {
       title: "检查酸液浓度",
-      date: '202405',
-      description: '1次轻微故障(1小时修复)'
+      date: "202405",
+      description: "1次轻微故障(1小时修复)",
     },
     {
       title: "更换酸液",
-      date: '202406',
-      description: '0%'
+      date: "202406",
+      description: "0%",
     },
     {
       title: "检查处理设备",
-      date: '202407',
-      description: '0%'
+      date: "202407",
+      description: "0%",
     },
     {
       title: "清理处理槽",
-      date: '202408',
-      description: '0%'
+      date: "202408",
+      description: "0%",
     },
-  ]
-}
-
-);
+  ],
+});
 </script>
 <style scoped lang="scss">
 .model_wrapper {
-  width: 100%; height: 100%;
-  background-image: url('/src/assets/bgpng/机组两边点缀bg.png');
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-image: url("/src/assets/bgpng/机组两边点缀bg.png");
   background-repeat: round;
 }
 .params_title {
   text-indent: 10px;
-  background-image: url('/src/assets/bgpng/当前参数文字bg.png');
+  background-image: url("/src/assets/bgpng/当前参数文字bg.png");
   background-repeat: no-repeat;
 }
 .temp_item {
@@ -262,7 +399,7 @@ const TableData: any = reactive({
   height: 64px;
   // align-items: center;
   justify-content: center;
-  background-image: url('/src/assets/bgpng/当前参数图标bg.png');
+  background-image: url("/src/assets/bgpng/当前参数图标bg.png");
   background-repeat: no-repeat;
   background-position-x: center;
   background-position-y: bottom;
@@ -270,7 +407,7 @@ const TableData: any = reactive({
 
 .params_wrapper {
   padding: 10px;
-  background-image: url('/src/assets/bgpng/当前参数bg.png');
+  background-image: url("/src/assets/bgpng/当前参数bg.png");
   background-repeat: round;
   flex: 1;
   display: flex;
@@ -367,11 +504,11 @@ const TableData: any = reactive({
   overflow: hidden;
 }
 
-.scroll>div>div>div:nth-child(2n) {
+.scroll > div > div > div:nth-child(2n) {
   background-color: rgba(6, 50, 122, 0.336);
 }
 
-.scroll>div>div>div:nth-child(2n + 1) {
+.scroll > div > div > div:nth-child(2n + 1) {
   background-color: rgba(7, 62, 140, 0.644);
 }
 
@@ -390,32 +527,5 @@ const TableData: any = reactive({
   height: 100%;
   // background: #5154565c;
   gap: 20px;
-}
-
-//左边 右边 结构一样
-.contetn_left,
-.contetn_right {
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  // justify-content: space-around;
-  gap: 10px;
-  position: relative;
-  width: 140px;
-  box-sizing: border-box;
-  flex-shrink: 0;
-}
-
-.contetn_center {
-  flex: 1;
-  margin: 0 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-
-  .contetn_center-bottom {
-    // height: 315px;
-    flex: 1;
-  }
 }
 </style>

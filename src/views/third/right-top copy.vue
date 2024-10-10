@@ -1,25 +1,12 @@
 <template>
   <div style="width: 100%; height: 100%">
-    <!-- <v-chart class="chart" @mouseover="mouseoverFun" autoresize style="width: 100%; height: 100%" :option="option"
-      v-if="JSON.stringify(option) != '{}'" /> -->
-      <!-- <div  style="width: 100%; height: 100%"> -->
-
-        <div  ref="EchartContainerRef"  style="width: 100%; height: 100%"></div>
-      <!-- </div> -->
+    <v-chart class="chart" @mouseover="mouseoverFun" autoresize style="width: 100%; height: 100%" :option="option"
+      v-if="JSON.stringify(option) != '{}'" />
   </div>
 </template>
 <script setup lang="ts">
 import { ref, reactive } from "vue";
-// import { countUserNum } from "@/api";
-import {
-  useTimeoutFn,
-} from '@vueuse/core';
-// import { EchartsUI, useEcharts } from "@/utils/echarts";
-import echarts from '@/utils/echarts/echarts';
-
-const EchartContainerRef = ref(); //组件实例
-// const { renderEcharts } = useEcharts(EchartContainerRef);
-let chartInstance: any = null
+import { countUserNum } from "@/api";
 // 监听鼠标事件，实现饼图选中效果（单选），近似实现高亮（放大）效果。
 let selectedIndex = '';
 let hoveredIndex = '';
@@ -27,52 +14,6 @@ const option:any = ref({});
 const state: any = reactive({
   data: []
 });
-
-const initCharts = (t?: any) => {
-    const el = EchartContainerRef?.value;
-    if (!el) {
-      return;
-    }
-    chartInstance = echarts.init(el, t ? 'dark' : null, {
-      renderer: 'canvas',
-    });
-
-    return chartInstance;
-  };
-
-const renderEcharts = (options: any, clear = true) => {
-  // console.log('options1', options.series[0].data)
-  const cacheOptions = {
-    backgroundColor: 'transparent', 
-    animation: false,
-    ...options
-  };
-  return new Promise((resolve) => {
-    nextTick(() => {
-      useTimeoutFn(() => {
-        if (!chartInstance) {
-          const instance = initCharts();
-          if (!instance) return;
-        }
-        clear && chartInstance?.clear();
-        // chartInstance?.setOption(getOptions.value);
-        chartInstance?.setOption(cacheOptions);
-        // 添加 mouseover 事件监听
-        chartInstance.on('mouseover', (params: any) => {
-        // chartInstance.on('mouseover', { seriesIndex: 0 }, (params: any) => {
-          // console.log('Mouseover event:', params);
-          mouseoverFun(params);
-          // 这里可以处理 mouseover 事件，params 包含了被悬停部分的数据
-          // 例如：
-          // console.log('Name:', params.name);
-          // console.log('Value:', params.value);
-        });
-        // console.log('options3', options.series[0].data, getOptions.value.series[0].data)
-        resolve(null);
-      }, 30);
-    });
-  });
-};
 // TODO
 // 生成扇形的曲面参数方程，用于 series-surface.parametricEquation
 function getParametricEquation(
@@ -442,7 +383,7 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
 }
 
 const mouseoverFun = (params: any) => {
-  console.log('mouseoverFun', params, option.value)
+  console.log('11111', params)
   // 准备重新渲染扇形所需的参数
   let isSelected;
   let isHovered;
@@ -452,13 +393,9 @@ const mouseoverFun = (params: any) => {
 
   // 如果触发 mouseover 的扇形当前已高亮，则不做操作
   if (hoveredIndex === params.seriesIndex) {
-    console.log('hoveredIndex1', hoveredIndex);
-    
     return;
     // 否则进行高亮及必要的取消高亮操作
   } else {
-    console.log('hoveredIndex2', hoveredIndex);
-
     // 如果当前有高亮的扇形，取消其高亮状态（对 option 更新）
     if (hoveredIndex !== "") {
       // 从 option.series 中读取重新渲染扇形所需的参数，将是否高亮设置为 false。
@@ -511,7 +448,6 @@ const mouseoverFun = (params: any) => {
 
     // 使用更新后的 option，渲染图表
     // myChart.setOption(option);
-    renderEcharts(option.value);
   }
 }
 
@@ -563,7 +499,6 @@ const getData = () => {
     state.data,
     0.8
   );
-  renderEcharts(option.value);
   // countUserNum().then((res) => {
   //   if (res.success) {
   //   } else {
@@ -573,11 +508,7 @@ const getData = () => {
   //   console.log(err)
   // });
 };
-onMounted(async() => {
-  await nextTick();
-  getData();
-})
-// getData();
+getData();
 
 </script>
 

@@ -1,19 +1,9 @@
 <template>
-  <div ref="containerRef" class="video-container">
+  <div ref="containerRef" class="video_container">
     <!-- 这个canvas元素显示的话，点击canvas时，img元素会出现光标 -->
     <canvas v-show="false" ref="canvasRef"></canvas>
     <div v-if="backgroundImageSrc" class="pic_wrap">
-      <div
-        style="
-          position: absolute;
-          top: 0;
-          font-size: 20px;
-          line-height: 46px;
-          color: #fff;
-        "
-      >
-        {{ "电镀锌工艺" }}
-      </div>
+      <div class="center_title">{{ "电镀锌工艺" }}</div>
       <div class="process_overlay">
         <div
           class="process_top"
@@ -21,32 +11,12 @@
           @click="clickItem('酸轧')"
         >
           <div class="process_info_wrapper">
-            <div
-              class="process_info"
-              style="
-                background: linear-gradient(
-                  to right,
-                  rgba(116, 189, 195, 0.9),
-                  transparent
-                );
-                border-radius: 4px;
-              "
-            >
+            <div class="process_info card_info_label1">
               <div style="font-weight: 300">碳排放量：</div>
               <div style="font-size: 14px">{{ 11.76 }}</div>
               <div style="font-weight: 300">&nbsp; 万吨</div>
             </div>
-            <div
-              class="process_info"
-              style="
-                background: linear-gradient(
-                  to right,
-                  rgba(116, 189, 195, 0.9),
-                  transparent
-                );
-                border-radius: 4px;
-              "
-            >
+            <div class="process_info card_info_label1">
               <div style="font-weight: 300">耗电量：</div>
               <div style="font-size: 14px">{{ 13226.36 }}</div>
               <div style="font-weight: 300">&nbsp; 万千瓦时</div>
@@ -70,32 +40,12 @@
           @click="clickItem('连退')"
         >
           <div class="process_info_wrapper">
-            <div
-              class="process_info"
-              style="
-                background: linear-gradient(
-                  to right,
-                  rgba(75, 176, 217, 0.9),
-                  transparent
-                );
-                border-radius: 4px;
-              "
-            >
+            <div class="process_info card_info_label2">
               <div style="font-weight: 300">碳排放量：</div>
               <div style="font-size: 14px">{{ 4.09 }}</div>
               <div style="font-weight: 300">&nbsp; 万吨</div>
             </div>
-            <div
-              class="process_info"
-              style="
-                background: linear-gradient(
-                  to right,
-                  rgba(75, 176, 217, 0.9),
-                  transparent
-                );
-                border-radius: 4px;
-              "
-            >
+            <div class="process_info card_info_label2">
               <div style="font-weight: 300">耗电量：</div>
               <div style="font-size: 14px">{{ 672.49 }}</div>
               <div style="font-weight: 300">&nbsp; 万千瓦时</div>
@@ -121,32 +71,12 @@
           @click="clickItem('电镀(精整)')"
         >
           <div class="process_info_wrapper">
-            <div
-              class="process_info"
-              style="
-                background: linear-gradient(
-                  to right,
-                  rgba(122, 172, 150, 0.9),
-                  transparent
-                );
-                border-radius: 4px;
-              "
-            >
+            <div class="process_info card_info_label3">
               <div style="font-weight: 300">碳排放量：</div>
               <div style="font-size: 14px">{{ 2.76 }}</div>
               <div style="font-weight: 300">&nbsp; 万吨</div>
             </div>
-            <div
-              class="process_info"
-              style="
-                background: linear-gradient(
-                  to right,
-                  rgba(122, 172, 150, 0.9),
-                  transparent
-                );
-                border-radius: 4px;
-              "
-            >
+            <div class="process_info card_info_label3">
               <div style="font-weight: 300">耗电量：</div>
               <div style="font-size: 14px">{{ 1983.84 }}</div>
               <div style="font-weight: 300">&nbsp; 万千瓦时</div>
@@ -175,8 +105,15 @@
           </div>
         </div>
       </div>
-      <div class="pic_wrapper">
+      <!-- <div class="pic_wrapper">
         <img :src="backgroundImageSrc" alt="" />
+      </div> -->
+      <div class="pic_wrapper">
+        <div style="position: relative;width: 120%; height: 100%;left: 50%; transform: translateX(-50%);">
+          <video v-if="showVideo" autoplay loop muted width="100%" style="position: absolute; width: 100% !important;">
+            <source src="/src/assets/webm/processall.webm" type="video/webm" />
+          </video>
+        </div>
       </div>
     </div>
     <!-- <div v-if="selectedBuilding" class="info-card" :style="infoCardStyle">
@@ -223,6 +160,8 @@ const props = defineProps({
     default: [],
   },
 });
+const showVideo = ref(true)
+
 let labelRenderer: any;
 let appList: any = [];
 const curBuildingName = ref("");
@@ -439,10 +378,24 @@ const initFunc = async () => {
     window.dispatchEvent(myEvent);
   }, 0);
 };
-
+const returnPlaying = async () => {
+  // console.log('returnPlaying----------');
+  if (document.hidden) {
+      showVideo.value = false
+    } else {
+      showVideo.value = true
+    }
+}
 onMounted(async () => {
   await nextTick();
   // await initFunc()
+  document.addEventListener('visibilitychange', async () => {
+    if (document.hidden) {
+      showVideo.value = false
+    } else {
+      showVideo.value = true
+    }
+  });
 });
 
 onUnmounted(() => {
@@ -458,6 +411,7 @@ onUnmounted(() => {
   if (backgroundImage.value) {
     backgroundImage.value.onload = null;
   }
+  document.removeEventListener('visibilitychange', returnPlaying);
 });
 
 watch([width, height], () => {
@@ -486,6 +440,22 @@ defineExpose({
 });
 </script>
 <style lang="scss" scoped>
+.card_info_label1 {
+  background: linear-gradient(to right, rgba(116, 189, 195, 0.9), transparent);
+}
+.card_info_label2 {
+  background: linear-gradient(to right, rgba(75, 176, 217, 0.9), transparent);
+}
+.card_info_label3 {
+  background: linear-gradient(to right, rgba(122, 172, 150, 0.9), transparent);
+}
+.center_title {
+  position: absolute;
+  top: 0;
+  font-size: 20px;
+  line-height: 46px;
+  color: #fff;
+}
 .process_info_wrapper {
   color: #fff;
   display: flex;
@@ -501,7 +471,7 @@ defineExpose({
     flex-direction: row;
     justify-content: center;
     align-items: center;
-
+    border-radius: 4px;
     background-repeat: round;
     padding: 0px 8px;
   }
@@ -761,7 +731,7 @@ defineExpose({
   }
 }
 
-.video-container {
+.video_container {
   position: relative;
   width: 100%;
   height: 100%;

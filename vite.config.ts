@@ -1,30 +1,69 @@
 import type { UserConfig, ConfigEnv } from "vite";
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-import { resolve } from "path";
-// import { fileURLToPath, URL } from "node:url";
+// import { resolve } from "path";
+import { fileURLToPath, URL } from "node:url";
 import VueDevTools from "vite-plugin-vue-devtools";
+import vueJsx from '@vitejs/plugin-vue-jsx'
+import viteImagemin from 'vite-plugin-imagemin'
+import { visualizer } from "rollup-plugin-visualizer"; // 分析包
 // 配置压缩
 import viteCompression from "vite-plugin-compression";
 import AutoImport from "unplugin-auto-import/vite";
-import Components from "unplugin-vue-components/vite";
-import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
+// import Components from "unplugin-vue-components/vite";
+// import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 //https://github.com/element-plus/unplugin-element-plus/blob/HEAD/README.zh-CN.md
-import ElementPlus from 'unplugin-element-plus/vite'
+// import ElementPlus from 'unplugin-element-plus/vite'
 export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   // const env = loadEnv(mode, process.cwd(), '')
   console.log(command, mode);
   return {
     plugins: [
       vue(),
+      vueJsx({
+        // options are passed on to @vue/babel-plugin-jsx
+      }),
       AutoImport({
-        resolvers: [ElementPlusResolver()],
+        // resolvers: [ElementPlusResolver()],
+        imports: ['vue', 'vue-router', 'vuex', '@vueuse/head'],
+        // 可以选择auto-import.d.ts生成的位置，使用ts建议设置为'src/auto-import.d.ts'
+        dts: 'src/auto-import.d.ts'
       }),
-      Components({
-        resolvers: [ElementPlusResolver()],
-      }),
-      ElementPlus({
-        // useSource: true
+      // Components({
+      //   // resolvers: [ElementPlusResolver()],
+      // }),
+      // ElementPlus({
+      //   // useSource: true
+      // }),
+      viteImagemin({
+        verbose:	true,	// 是否在控制台输出压缩结果
+        // filter: , //	-	指定哪些资源不压缩
+        disable:	true,	//是否禁用 压缩完背景图太糊了，效果确实牛逼
+        gifsicle: {
+          optimizationLevel: 7,
+          interlaced: false,
+        },
+        optipng: {
+          optimizationLevel: 7,
+        },
+        mozjpeg: {
+          quality: 20,
+        },
+        pngquant: {
+          quality: [0.8, 0.9],
+          speed: 4,
+        },
+        svgo: {
+          plugins: [
+            {
+              name: 'removeViewBox',
+            },
+            {
+              name: 'removeEmptyAttrs',
+              active: false,
+            },
+          ],
+        },
       }),
       viteCompression({
         verbose: true, // 是否在控制台输出压缩结果
@@ -42,27 +81,36 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         ext: ".br", // 输出文件的扩展名
         deleteOriginFile: false,
       }),
+      visualizer({
+        open: true,
+        gzipSize: true,
+        brotliSize: true,
+        emitFile: true,
+        filename: "stats.html",
+      }),
+
       VueDevTools(),
     ],
     publicDir: "public",
     base: "./",
-    server: { //主要是加上这段代码
-      host: '127.0.0.1',
+    server: {
+      //主要是加上这段代码
+      host: "127.0.0.1",
       port: 8112,
       proxy: {
-        '/api': {
+        "/api": {
           // http://127.0.0.1:4523/m1/5226149-4892951-default/api/user?id=2
-          target: 'http://127.0.0.1:4523/m1/5226149-4892951-default/',	//实际请求地址
+          // target: "http://127.0.0.1:4523/m1/5226149-4892951-default/", //实际请求地址
+          target: "http://127.0.0.1:9000/", //实际请求地址
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, '')
+          rewrite: (path) => path.replace(/^\/api/, "api/"),
         },
-      }
+      },
     },
     resolve: {
       alias: {
-        "@": resolve(__dirname, "./src"),
-        components: resolve(__dirname, "./src/components"),
-        api: resolve(__dirname, "./src/api"),
+        // "@": resolve(__dirname, "./src"),
+        "@": fileURLToPath(new URL("./src", import.meta.url)),
       },
     },
     css: {
@@ -76,6 +124,57 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     },
     build: {
       outDir: "dist",
+      minify: "terser", //是否禁用最小化混淆，esbuild打包速度最快，terser打包体积最小。
+      terserOptions: {
+        compress: {
+          // 生产环境时移除console
+          drop_console: !true,
+          drop_debugger: true,
+        },
+        format: {
+          comments: true, // 删除所有注释
+        },
+      },
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            // 文件路径 id
+            console.log("文件路径 id", id);
+
+            const chunkArray = [
+              "dayjs",
+              "@element-plus",
+              "vue",
+              "vue-router",
+              "echarts",
+              "echarts-gl",
+              "vue-echarts",
+              "three",
+              "gsap",
+              "pinia",
+              "lodash",
+            ];
+
+            if (
+              chunkArray.find((chunk) => id.includes(`node_modules/${chunk}/`))
+            ) {
+              return id
+                .toString()
+                .split("node_modules/")[1]
+                .split("/")[0]
+                .toString();
+            }
+          },
+          chunkFileNames: (chunkInfo) => {
+            const facadeModuleId = chunkInfo.facadeModuleId
+              ? chunkInfo.facadeModuleId.split("/")
+              : [];
+            const fileName =
+              facadeModuleId[facadeModuleId.length - 2] || "[name]";
+            return `js/${fileName}/[name].[hash].js`;
+          },
+        },
+      },
     },
   };
 });

@@ -1,18 +1,12 @@
-
-<template>
-  <div style="width: 100%; height: 100%">
-    <EchartsUI ref="EchartContainerRef" />
-  </div>
-</template>
 <script setup lang="ts">
+import EchartContainer from "@/utils/echarts/echartContainer.vue";
+import { EchartsUI, useEcharts } from "@/utils/echarts";
 import { ref, onMounted, nextTick, toRaw } from "vue";
 // import { alarmNum } from "@/api";
 import { graphic } from "echarts/core";
-import { EchartsUI, useEcharts } from "@/utils/echarts";
 const EchartContainerRef = ref(); //组件实例
 const { renderEcharts } = useEcharts(EchartContainerRef);
 const option = ref({});
-
 const getData = () => {
   const data = {
     dateList: [
@@ -375,7 +369,7 @@ const setOption = async (
     ],
   };
   /** 初始化图表 */
-  renderEcharts(toRaw(option.value));
+  EchartContainerRef.value.initData(toRaw(option.value));
 };
 onMounted(async () => {
   await nextTick();
@@ -431,5 +425,10 @@ onMounted(async () => {
 });
 </script>
 
+<template>
+  <div style="width: 100%; height: 100%">
+    <EchartContainer ref="EchartContainerRef" />
+  </div>
+</template>
 
 <style scoped lang="scss"></style>

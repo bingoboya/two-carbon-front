@@ -1,9 +1,17 @@
+<template>
+  <div style="width: 100%; height: 100%">
+    <EchartsUI ref="EchartContainerRef" />
+
+  </div>
+</template>
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { graphic } from "echarts/core";
 // import { alarmNum } from "@/api";
-// import { ElMessage } from "element-plus";
 
+import { EchartsUI, useEcharts } from "@/utils/echarts";
+const EchartContainerRef = ref(); //组件实例
+const { renderEcharts } = useEcharts(EchartContainerRef);
 const option = ref({});
 const getData = () => {
   const data = {
@@ -28,14 +36,9 @@ const getData = () => {
 
   //       setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3, res.data.numList4);
   //     } else {
-  //       ElMessage({
-  //         message: res.msg,
-  //         type: "warning",
-  //       });
   //     }
   //   })
   //   .catch((err) => {
-  //     ElMessage.error(err);
   //   });
 };
 const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[], yData4: any[]) => {
@@ -251,17 +254,14 @@ const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[
       },
     ],
   };
+  /** 初始化图表 */
+  renderEcharts(toRaw(option.value));
 };
 onMounted(() => {
   getData();
 });
 </script>
 
-<template>
-  <div style="width: 100%; height: 100%">
-    <v-chart class="chart" autoresize style="width: 100%; height: 100%" :option="option"
-      v-if="JSON.stringify(option) != '{}'" />
-  </div>
-</template>
+
 
 <style scoped lang="scss"></style>

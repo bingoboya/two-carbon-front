@@ -1,3 +1,8 @@
+<template>
+  <div ref="containerRef" class="png-3d-effect-container">
+    <canvas ref="canvasRef" class="png-3d-effect-canvas"></canvas>
+  </div>
+</template>
 <script setup lang="ts">
 /**
  * 1. 使用 requestAnimationFrame 进行连续绘制：
@@ -16,7 +21,7 @@
 
   这个优化版本应该能提供更流畅的 3D 效果，尤其是在处理鼠标快速移动或在低性能设备上时。同时，它保持了之前版本的所有功能，包括自适应大小、可配置的最大倾斜角度等。
 */
-import { ref, onMounted, onUnmounted, watch } from 'vue';
+import { ref, onMounted, onUnmounted, watch } from "vue";
 
 interface Props {
   imageSrc: string;
@@ -24,7 +29,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  maxTiltAngle: 30
+  maxTiltAngle: 30,
 });
 
 const containerRef = ref<HTMLDivElement | null>(null);
@@ -36,11 +41,17 @@ let tiltY = 0;
 
 const draw = () => {
   if (!canvasRef.value || !imgElement) return;
-  const ctx = canvasRef.value.getContext('2d');
+  const ctx = canvasRef.value.getContext("2d");
   if (!ctx) return;
 
   ctx.clearRect(0, 0, canvasRef.value.width, canvasRef.value.height);
-  ctx.drawImage(imgElement, 0, 0, canvasRef.value.width, canvasRef.value.height);
+  ctx.drawImage(
+    imgElement,
+    0,
+    0,
+    canvasRef.value.width,
+    canvasRef.value.height
+  );
 
   canvasRef.value.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
 
@@ -54,8 +65,8 @@ const handleMouseMove = (e: MouseEvent) => {
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
 
-  tiltX = ((y / rect.height) - 0.5) * props.maxTiltAngle;
-  tiltY = ((x / rect.width) - 0.5) * -props.maxTiltAngle;
+  tiltX = (y / rect.height - 0.5) * props.maxTiltAngle;
+  tiltY = (x / rect.width - 0.5) * -props.maxTiltAngle;
 };
 
 const handleMouseLeave = () => {
@@ -65,7 +76,7 @@ const handleMouseLeave = () => {
 
 const resizeCanvas = () => {
   if (!containerRef.value || !canvasRef.value) return;
-  
+
   const { width, height } = containerRef.value.getBoundingClientRect();
   canvasRef.value.width = width;
   canvasRef.value.height = height;
@@ -81,39 +92,40 @@ onMounted(() => {
     rafId = requestAnimationFrame(draw);
   };
 
-  window.addEventListener('resize', resizeCanvas);
-  containerRef.value.addEventListener('mousemove', handleMouseMove);
-  containerRef.value.addEventListener('mouseleave', handleMouseLeave);
+  window.addEventListener("resize", resizeCanvas);
+  containerRef.value.addEventListener("mousemove", handleMouseMove);
+  containerRef.value.addEventListener("mouseleave", handleMouseLeave);
 });
 
 onUnmounted(() => {
-  window.removeEventListener('resize', resizeCanvas);
+  window.removeEventListener("resize", resizeCanvas);
   if (containerRef.value) {
-    containerRef.value.removeEventListener('mousemove', handleMouseMove);
-    containerRef.value.removeEventListener('mouseleave', handleMouseLeave);
+    containerRef.value.removeEventListener("mousemove", handleMouseMove);
+    containerRef.value.removeEventListener("mouseleave", handleMouseLeave);
   }
   if (rafId !== null) {
     cancelAnimationFrame(rafId);
   }
 });
 
-watch(() => props.imageSrc, (newSrc) => {
-  if (imgElement) {
-    imgElement.src = newSrc;
+watch(
+  () => props.imageSrc,
+  (newSrc) => {
+    if (imgElement) {
+      imgElement.src = newSrc;
+    }
   }
-});
+);
 </script>
-
-<template>
-  <div ref="containerRef" class="png-3d-effect-container">
-    <canvas ref="canvasRef" class="png-3d-effect-canvas"></canvas>
-  </div>
-</template>
 
 <style scoped>
 .png-3d-effect-container {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 80%;
+  height: 80%;
   perspective: 1000px;
 }
 

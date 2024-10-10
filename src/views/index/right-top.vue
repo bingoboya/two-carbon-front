@@ -1,11 +1,16 @@
 <template>
   <div style="width: 100%; height: 100%">
-    <v-chart class="chart"  @mouseover="mouseoverFun"
-    autoresize style="width: 100%; height: 100%" :option="option" v-if="JSON.stringify(option) != '{}'" />
-  </div>
+    <EchartsUI ref="EchartContainerRef" />
+    
+    </div>
 </template>
 <script setup lang="ts">
+import { EchartsUI, useEcharts } from "@/utils/echarts";
+
 import { ref, reactive} from "vue";
+
+const EchartContainerRef = ref(); //组件实例
+const { renderEcharts } = useEcharts(EchartContainerRef);
 // import { countUserNum } from "@/api";
 // 监听鼠标事件，实现饼图选中效果（单选），近似实现高亮（放大）效果。
 let selectedIndex = '';
@@ -509,16 +514,12 @@ const getData = () => {
     state.data,
         0.8
   );
-  // countUserNum().then((res) => {
-  //   if (res.success) {
-  //   } else {
-  //     console.log(res.msg)
-  //   }
-  // }).catch(err => {
-  //   console.log(err)
-  // });
+   /** 初始化图表 */
+   renderEcharts(toRaw(option.value));
 };
-getData();
+onMounted( () => {
+  getData();
+});
 
 </script>
 

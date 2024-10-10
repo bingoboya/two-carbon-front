@@ -22,7 +22,8 @@
 </template>
 <script setup lang="ts">
 import { onMounted, reactive, ref, nextTick, onUnmounted } from "vue";
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
+import { day, format } from '@/utils/dayjs-like';
 import type { DateDataType } from "./index.d"
 // import {useSettingStore} from "@/stores/index"
 import { gsap } from 'gsap';
@@ -62,8 +63,11 @@ const dateData = reactive<DateDataType>({
 const weekday = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"]
 const timeFn = () => {
   dateData.timing = setInterval(() => {
-    dateData.dateDay = dayjs().format("YYYY-MM-DD hh : mm : ss");
-    dateData.dateWeek = weekday[dayjs().day()];
+    dateData.dateDay = format("YYYY-MM-DD hh : mm : ss");
+    dateData.dateWeek = weekday[day()];
+    
+    // dateData.dateDay = dayjs().format("YYYY-MM-DD hh : mm : ss");
+    // dateData.dateWeek = weekday[dayjs().day()];
   }, 1000);
 };
 timeFn()

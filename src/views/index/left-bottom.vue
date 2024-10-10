@@ -57,22 +57,17 @@
 -->
 <template>
   <div style="width: 100%; height: 100%">
-    <!-- @click="clickFun"
-    @globalout="globaloutFunc" -->
-    <v-chart
-      class="chart"
-      @mouseover="mouseoverFun"
-      autoresize
-      style="width: 100%; height: 100%"
-      :option="option"
-      v-if="JSON.stringify(option) != '{}'"
-    />
+    <EchartsUI ref="EchartContainerRef" />
   </div>
 </template>
 <script setup lang="ts">
+import { EchartsUI, useEcharts } from "@/utils/echarts";
+
 import { ref, reactive} from "vue";
 // import { countUserNum } from "@/api";
 
+const EchartContainerRef = ref(); //组件实例
+const { renderEcharts } = useEcharts(EchartContainerRef);
 // 监听鼠标事件，实现饼图选中效果（单选），近似实现高亮（放大）效果。
 let selectedIndex = '';
 let hoveredIndex = '';
@@ -591,17 +586,12 @@ const getData = () => {
     state.data,
         0.8
   );
-  // countUserNum().then((res) => {
-  //   if (res.success) {
-  //   }else{
-  //     console.log(res.msg)
-  //   }
-  // }).catch(err=>{
-  //   console.log(err)
-  // });
+  /** 初始化图表 */
+  renderEcharts(toRaw(option.value));
 };
-getData();
-
+onMounted( () => {
+  getData();
+});
 </script>
 
 <style scoped lang="scss">

@@ -21,23 +21,20 @@
     </div>
   </div>
   </scale-screen>
-  <Setting />
+  <!-- <Setting /> -->
 </template>
 <script setup lang="ts">
-import { alarmNum } from "@/api";
 import { RouterView , useRouter} from "vue-router";
 import ScaleScreen from "@/components/scale-screen";
 import Headers from "./header.vue";
-import Setting from "./setting.vue";
+// import Setting from "./setting.vue";
 import { useSettingStore } from "@/stores/index";
 import { storeToRefs } from "pinia";
-import { ref, computed, nextTick, onMounted, watch, onUnmounted } from "vue";
 // import { gsap } from 'gsap';
 import bgSrc2 from '@/assets/bgpng/整体bg.jpg'
 import bgSrc3 from '@/assets/img/房子.jpg'
 const router = useRouter()
 const wrapperRef = ref<HTMLDivElement | null>(null);
-const intervalId = ref<ReturnType<typeof setInterval> | null>(null);
 const curPath = computed(() => {
   return router.currentRoute.value.path
 })
@@ -56,20 +53,11 @@ watch(() => router.currentRoute.value.path, (newValue, oldValue) => {
   } 
 })
 
-const getData = async () => {
-  console.log('getData');
-  const res = await alarmNum()
-  if (res) {
-    if (res.success) {
-        console.log(res);
-      } else {
-        console.log(res);
-      }
-  }
-};
+
+
 
 onMounted(async() => {
-  await getData();
+  
 })
 
 </script>

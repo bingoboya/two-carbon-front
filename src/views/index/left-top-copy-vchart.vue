@@ -1,89 +1,36 @@
-
-<template>
-  <div style="width: 100%; height: 100%">
-    <EchartsUI ref="EchartContainerRef" />
-  </div>
-</template>
 <script setup lang="ts">
-import { ref, onMounted, nextTick, toRaw } from "vue";
+import { ref, onMounted } from "vue";
 // import { alarmNum } from "@/api";
 import { graphic } from "echarts/core";
-import { EchartsUI, useEcharts } from "@/utils/echarts";
-const EchartContainerRef = ref(); //组件实例
-const { renderEcharts } = useEcharts(EchartContainerRef);
-const option = ref({});
 
+const option = ref({});
 const getData = () => {
   const data = {
-    dateList: [
-      "1月",
-      "2月",
-      "3月",
-      "4月",
-      "5月",
-      "6月",
-      "7月",
-      "8月",
-      "9月",
-      "10月",
-      "11月",
-      "12月",
-    ],
-    yData: [22, 25, 23, 28, 30, 27, 26, 25, null, null, null, null],
-    yData2: [
-      4132,
-      4211,
-      4313,
-      4143,
-      4222,
-      4231,
-      4151,
-      4326,
-      null,
-      null,
-      null,
-      null,
-    ],
-    yData3: [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      4226,
-      4116,
-      4215,
-      4333,
-      4145,
-    ],
-  };
-  setOption(data.dateList, data.yData, data.yData2, data.yData3);
+    dateList: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+    numList: [22, 25, 23, 28, 30, 27, 26, 25, null, null, null, null],
+    numList2: [4132, 4211, 4313, 4143, 4222, 4231, 4151, 4326, null, null, null, null],
+    numList3: [null, null, null, null, null, null, null, 4226, 4116, 4215, 4333, 4145],
+  }
+
+  setOption(data.dateList, data.numList, data.numList2, data.numList3);
   // alarmNum()
   //   .then((res) => {
   //     if (res.success) {
   //       res.data = {
   //         dateList: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-  //         yData: [22, 25, 23, 28, 30, 27, 26, 25, null, null, null, null],
-  //         yData2: [4132, 4211, 4313, 4143, 4222, 4231, 4151, 4326, null, null, null, null],
-  //         yData3: [null, null, null, null, null, null, null, 4226, 4116, 4215, 4333, 4145],
+  //         numList: [22, 25, 23, 28, 30, 27, 26, 25, null, null, null, null],
+  //         numList2: [4132, 4211, 4313, 4143, 4222, 4231, 4151, 4326, null, null, null, null],
+  //         numList3: [null, null, null, null, null, null, null, 4226, 4116, 4215, 4333, 4145],
   //       }
 
-  //       setOption(res.data.dateList, res.data.yData, res.data.yData2, res.data.yData3);
+  //       setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3);
   //     } else {
   //     }
   //   })
   //   .catch((err) => {
   //   });
 };
-
-const setOption = async (
-  xData: any[],
-  yData: any[],
-  yData2: any[],
-  yData3: any[]
-) => {
+const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[]) => {
   // 找出 Y 值为 null 的数据点的索引
   // const nullIndices = yData2.reduce((acc, val, index) => {
   //   if (val === null) {
@@ -95,7 +42,7 @@ const setOption = async (
   //           xAxis: index
   //         }))
   // console.log(nullIndices, 2222, ddd);
-  const findNullIndex = yData2.findIndex((item) => item === null);
+  const findNullIndex = yData2.findIndex(item => item === null)
   option.value = {
     grid: {
       show: true,
@@ -106,6 +53,7 @@ const setOption = async (
       containLabel: true,
       borderColor: "#1F63A3",
     },
+
     tooltip: {
       trigger: "axis",
       backgroundColor: "rgba(0,0,0,.6)",
@@ -118,24 +66,18 @@ const setOption = async (
         let result = params[0].name + "<br>";
         params.forEach(function (item: any) {
           if (item.seriesName == "绿证价格") {
-            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(25, 181, 255, 1);"></span>`;
-            item.marker = mark;
-            result += `${item.marker} ${item.seriesName} : ${
-              item.value ? `${item.value}元</br>` : "- </br>"
-            }`;
+            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(25, 181, 255, 1);"></span>`
+            item.marker = mark
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}元</br>` : '- </br>'}`;
           } else if (item.seriesName == "电量") {
-            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(255, 163, 33, 1);"></span>`;
-            item.marker = mark;
-            result += `${item.marker} ${item.seriesName} : ${
-              item.value ? `${item.value}万千瓦时</br>` : "- </br>"
-            }`;
+            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(255, 163, 33, 1);"></span>`
+            item.marker = mark
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}万千瓦时</br>` : '- </br>'}`;
           } else if (item.seriesName == "电量预测") {
-            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(255, 105, 59, 1);"></span>`;
-            item.marker = mark;
-            result += `${item.marker} ${item.seriesName} : ${
-              item.value ? `${item.value}万千瓦时</br>` : "- </br>"
-            }`;
-          } else {
+            const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(255, 105, 59, 1);"></span>`
+            item.marker = mark
+            result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}万千瓦时</br>` : '- </br>'}`;
+          }  else {
             result += item.marker + " " + item.seriesName + " :  - </br>";
           }
         });
@@ -192,23 +134,23 @@ const setOption = async (
       axisLabel: {
         color: "#7EB7FD",
         // fontWeight: "500",
-        interval: 0, // 设置成 0 强制显示所有标签
+        interval: 0 // 设置成 0 强制显示所有标签
       },
     },
     yAxis: [
       {
         type: "value",
-        name: "绿证价格(元)",
+        name: '绿证价格(元)',
         max: function (value: any) {
-          return value.max + 20;
+            return value.max + 20;
         },
         // min: function (value: any) {
         //     return value.min - 10;
         // },
-        position: "left",
+        position: 'left',
         nameTextStyle: {
-          color: "#fff",
-          padding: [0, 0, 0, 30],
+          color: '#fff',
+          padding: [0, 0, 0, 30]
           // align: 'left'
         },
         splitLine: {
@@ -231,17 +173,17 @@ const setOption = async (
       },
 
       {
-        type: "value",
-        position: "right",
+        type: 'value',
+        position: 'right',
         max: function (value: any) {
-          return value.max + 2000;
+            return value.max + 2000;
         },
         // min: function (value: any) {
         //     return value.min - 1000;
         // },
-        name: "电量(万千瓦时)",
+        name: '电量(万千瓦时)',
         nameTextStyle: {
-          color: "#fff",
+          color: '#fff',
           // align: 'right'
         },
         alignTicks: true,
@@ -262,8 +204,9 @@ const setOption = async (
           color: "#fff",
           fontWeight: "500",
         },
-      },
+      }
     ],
+
     series: [
       {
         data: yData,
@@ -274,15 +217,11 @@ const setOption = async (
         name: "绿证价格",
         lineStyle: {
           color: "rgba(25, 181, 255, 1)",
-          width: 2,
+          width: 2
         },
         areaStyle: {
           //右，下，左，上
-          color: new graphic.LinearGradient(
-            0,
-            0,
-            0,
-            1,
+          color: new graphic.LinearGradient(0, 0, 0, 1,
             [
               {
                 offset: 0,
@@ -291,11 +230,9 @@ const setOption = async (
               {
                 offset: 1,
                 color: "rgba(25, 181, 255,.0)",
-              },
-            ],
-            false
+              },], false
           ),
-        },
+        }
       },
       {
         data: yData2,
@@ -329,14 +266,14 @@ const setOption = async (
           ),
         },
         markLine: {
-          symbol: ["none", "none"],
+          symbol: ['none', 'none'],
           slient: true,
           lineStyle: {
-            color: "rgba(112, 158, 227, 1)",
-            width: 2,
+            color: 'rgba(112, 158, 227, 1)',
+            width: 2
           },
           label: { show: false },
-          data: [{ xAxis: findNullIndex - 1 }],
+          data: [{ xAxis: findNullIndex - 1 }]
         },
       },
       {
@@ -348,8 +285,8 @@ const setOption = async (
         name: "电量预测",
         color: "rgba(255, 105, 59, 1)",
         lineStyle: {
-          type: "dotted",
-          width: 2,
+          type: 'dotted',
+          width: 2
         },
         areaStyle: {
           //右，下，左，上
@@ -374,62 +311,17 @@ const setOption = async (
       },
     ],
   };
-  /** 初始化图表 */
-  renderEcharts(toRaw(option.value));
 };
-onMounted(async () => {
-  await nextTick();
+onMounted(() => {
   getData();
-  setTimeout(() => {
-    const data = {
-      dateList: [
-        "1月",
-        "2月",
-        "3月",
-        "4月",
-        "5月",
-        "6月",
-        "7月",
-        "8月",
-        "9月",
-        "10月",
-        "11月",
-        "12月",
-      ],
-      yData: [122, 215, 213, 281, 130, 127, 26, 25, null, null, null, null],
-      yData2: [
-        4132,
-        4211,
-        4313,
-        4143,
-        4222,
-        4231,
-        4151,
-        4326,
-        null,
-        null,
-        null,
-        null,
-      ],
-      yData3: [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        4226,
-        4116,
-        4215,
-        4333,
-        4145,
-      ],
-    };
-    setOption(data.dateList, data.yData, data.yData2, data.yData3);
-  }, 3000);
 });
 </script>
 
+<template>
+  <div style="width: 100%; height: 100%">
+    <v-chart class="chart" autoresize style="width: 100%; height: 100%" :option="option"
+      v-if="JSON.stringify(option) != '{}'" />
+  </div>
+</template>
 
 <style scoped lang="scss"></style>

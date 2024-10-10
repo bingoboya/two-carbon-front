@@ -2,21 +2,16 @@
 
 <template>
   <div style="width: 100%; height: 100%">
-    <v-chart
-      class="chart"
-      style="width: 100%; height: 100%"
-      autoresize
-      :option="option"
-      v-if="JSON.stringify(option) != '{}'"
-    />
+    <EchartsUI ref="EchartContainerRef" />
   </div>
 </template>
 <script setup lang="ts">
+import { EchartsUI, useEcharts } from "@/utils/echarts";
 import { ref, reactive, onMounted, nextTick } from "vue";
 // import { installationPlan } from "@/api";
 import { graphic } from "echarts/core";
-import { ElMessage } from "element-plus";
-
+const EchartContainerRef = ref(); //组件实例
+const { renderEcharts } = useEcharts(EchartContainerRef);
 const option: any = ref({});
 
 // 
@@ -76,7 +71,14 @@ graphic.registerShape('CubeTop', CubeTop);
 const VALUE = [34, 35, 38, 33, 36, 32, 31, 32, null, null, null, null];
 const LineVALUE =  [.2, 0.5 , 0.1, 0.6, 0.7, 0.3 ,.1, .4, null,null, null,null];
 
-const newOption = {
+
+
+
+
+// 
+
+const getData = () => {
+  const data = {
     // tooltip: {
     //     trigger: 'axis',
     //     axisPointer: {
@@ -333,30 +335,14 @@ const newOption = {
         }
     ],
 }
-
-
-
-// 
-
-const getData = () => {
-  setOption({});
-  // installationPlan()
-  //   .then((res) => {
-  //     if (res.success) {
-  //     } else {
-  //       ElMessage({
-  //         message: res.msg,
-  //         type: "warning",
-  //       });
-  //     }
-  //   })
-  //   .catch((err) => {
-  //     ElMessage.error(err);
-  //   });
+  setOption(data);
+  
 };
 const setOption = async (newData: any) => {
-  option.value = newOption
- };
+  option.value = newData;
+  /** 初始化图表 */
+  renderEcharts(toRaw(option.value));
+};
 
 
 
