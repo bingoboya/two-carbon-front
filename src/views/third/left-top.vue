@@ -1,18 +1,20 @@
 <template>
-  <div style="width: 100%; height: 100%" >
+  <div style="width: 100%; height: 100%">
     <EchartsUI ref="EchartContainerRef" />
-
   </div>
 </template>
 <script setup lang="ts">
-import { ref, reactive, onMounted, nextTick } from "vue";
-// import { installationPlan } from "@/api";
 import { graphic } from "echarts/core";
-
 import { EchartsUI, useEcharts } from "@/utils/echarts";
 const EchartContainerRef = ref(); //组件实例
-const { renderEcharts } = useEcharts(EchartContainerRef);
-const option: any = ref({});
+const { renderEcharts, getchartInstance } = useEcharts(EchartContainerRef);
+const curInstance: any = ref(null);
+const props = defineProps({
+  dataList: {
+    type: Object,
+    default: () => {},
+  },
+});
 const offsetX = 6;
 const offsetY = 3;
 // 绘制左侧面
@@ -29,7 +31,12 @@ const CubeLeft = graphic.extendShape({
     const c1 = [shape.x - offsetX, shape.y - offsetY];
     const c2 = [xAxisPoint[0] - offsetX, xAxisPoint[1] - offsetY];
     const c3 = [xAxisPoint[0], xAxisPoint[1]];
-    ctx.moveTo(c0[0], c0[1]).lineTo(c1[0], c1[1]).lineTo(c2[0], c2[1]).lineTo(c3[0], c3[1]).closePath();
+    ctx
+      .moveTo(c0[0], c0[1])
+      .lineTo(c1[0], c1[1])
+      .lineTo(c2[0], c2[1])
+      .lineTo(c3[0], c3[1])
+      .closePath();
   },
 });
 // 绘制右侧面
@@ -44,7 +51,12 @@ const CubeRight = graphic.extendShape({
     const c2 = [xAxisPoint[0], xAxisPoint[1]];
     const c3 = [xAxisPoint[0] + offsetX, xAxisPoint[1] - offsetY];
     const c4 = [shape.x + offsetX, shape.y - offsetY];
-    ctx.moveTo(c1[0], c1[1]).lineTo(c2[0], c2[1]).lineTo(c3[0], c3[1]).lineTo(c4[0], c4[1]).closePath();
+    ctx
+      .moveTo(c1[0], c1[1])
+      .lineTo(c2[0], c2[1])
+      .lineTo(c3[0], c3[1])
+      .lineTo(c4[0], c4[1])
+      .closePath();
   },
 });
 // 绘制顶面
@@ -58,18 +70,18 @@ const CubeTop = graphic.extendShape({
     const c2 = [shape.x + offsetX, shape.y - offsetY]; //右点
     const c3 = [shape.x, shape.y - offsetX];
     const c4 = [shape.x - offsetX, shape.y - offsetY];
-    ctx.moveTo(c1[0], c1[1]).lineTo(c2[0], c2[1]).lineTo(c3[0], c3[1]).lineTo(c4[0], c4[1]).closePath();
+    ctx
+      .moveTo(c1[0], c1[1])
+      .lineTo(c2[0], c2[1])
+      .lineTo(c3[0], c3[1])
+      .lineTo(c4[0], c4[1])
+      .closePath();
   },
 });
 // 注册三个面图形
-graphic.registerShape('CubeLeft', CubeLeft);
-graphic.registerShape('CubeRight', CubeRight);
-graphic.registerShape('CubeTop', CubeTop);
-
-const VALUE = [3623.25,2829.57,3692.25,3209.1,3036.61,3036.61,3278.19,3174.67,null,null,null,null];
-
-
-const LineVALUE = [-1.23, 0.22, 1.32, -0.4, 1, 1.2, -0.12, -1, null,null, null, null];
+graphic.registerShape("CubeLeft", CubeLeft);
+graphic.registerShape("CubeRight", CubeRight);
+graphic.registerShape("CubeTop", CubeTop);
 
 const newOption = {
   tooltip: {
@@ -85,9 +97,21 @@ const newOption = {
       params.forEach(function (item: any) {
         if (item.value) {
           if (item.seriesName == "同比") {
-            result += item.marker + " " + item.seriesName + " : " + item.value + "%</br>";
+            result +=
+              item.marker +
+              " " +
+              item.seriesName +
+              " : " +
+              item.value +
+              "%</br>";
           } else {
-            result += item.marker + " " + item.seriesName + " : " + item.value + "吨</br>";
+            result +=
+              item.marker +
+              " " +
+              item.seriesName +
+              " : " +
+              item.value +
+              "吨</br>";
           }
         } else {
           result += item.marker + " " + item.seriesName + " :  - </br>";
@@ -125,8 +149,21 @@ const newOption = {
     borderColor: "#1F63A3",
   },
   xAxis: {
-    type: 'category',
-    data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+    type: "category",
+    data: [
+      "1月",
+      "2月",
+      "3月",
+      "4月",
+      "5月",
+      "6月",
+      "7月",
+      "8月",
+      "9月",
+      "10月",
+      "11月",
+      "12月",
+    ],
     boundaryGap: !false, // 不留白，从原点开始
     splitLine: {
       show: true,
@@ -143,18 +180,18 @@ const newOption = {
     axisLabel: {
       color: "#7EB7FD",
       // fontWeight: "500",
-        interval: 0 // 设置成 0 强制显示所有标签
+      interval: 0, // 设置成 0 强制显示所有标签
     },
   },
   yAxis: [
     {
-      type: 'value',
-      name: '碳排放量(吨)',
-      position: 'left',
+      type: "value",
+      name: "碳排放量(吨)",
+      position: "left",
       nameTextStyle: {
-        color: '#fff',
+        color: "#fff",
         // align: 'left'
-        padding: [0, 0, 0, 40]
+        padding: [0, 0, 0, 40],
       },
       splitLine: {
         show: true,
@@ -166,21 +203,21 @@ const newOption = {
         show: true,
         lineStyle: {
           // width: 2,
-          color: 'rgba(31,99,163, 1)',
+          color: "rgba(31,99,163, 1)",
         },
       },
       axisLabel: {
         show: true,
         color: "#fff",
         fontWeight: "500",
-      }
+      },
     },
     {
-      type: 'value',
-      position: 'right',
-      name: '同比(%)',
+      type: "value",
+      position: "right",
+      name: "同比(%)",
       nameTextStyle: {
-        color: '#fff',
+        color: "#fff",
         // align: 'right'
       },
       alignTicks: true,
@@ -201,20 +238,20 @@ const newOption = {
         color: "#fff",
         fontWeight: "500",
       },
-    }
+    },
   ],
   series: [
     {
-      type: 'custom',
-      name: '碳排放量',
+      type: "custom",
+      name: "碳排放量",
       yAxisIndex: 0,
       renderItem: (params: any, api: any) => {
         const location = api.coord([api.value(0), api.value(1)]);
         return {
-          type: 'group',
+          type: "group",
           children: [
             {
-              type: 'CubeLeft',
+              type: "CubeLeft",
               shape: {
                 api,
                 xValue: api.value(0),
@@ -233,7 +270,7 @@ const newOption = {
               },
             },
             {
-              type: 'CubeRight',
+              type: "CubeRight",
               shape: {
                 api,
                 xValue: api.value(0),
@@ -262,7 +299,7 @@ const newOption = {
               },
             },
             {
-              type: 'CubeTop',
+              type: "CubeTop",
               shape: {
                 api,
                 xValue: api.value(0),
@@ -275,13 +312,13 @@ const newOption = {
                 fill: new graphic.LinearGradient(0, 0, 0, 1, [
                   { offset: 0, color: "rgba(172, 232, 255, 1)" },
                   { offset: 1, color: "rgba(172, 232, 255, 1)" },
-                ])
+                ]),
               },
             },
           ],
         };
       },
-      data: VALUE,
+      data: [],
       // 碳排放量legend背景样式设置
       itemStyle: {
         borderRadius: 5,
@@ -289,12 +326,12 @@ const newOption = {
           { offset: 0, color: "rgba(53, 243, 255, 1)" },
           { offset: 1, color: "rgba(38, 107, 223, 1)" },
         ]),
-      }
+      },
     },
     {
-      name: '同比',
-      data: LineVALUE,
-      type: 'line',
+      name: "同比",
+      data: [],
+      type: "line",
       yAxisIndex: 1,
       smooth: true,
       symbol: "none",
@@ -315,45 +352,216 @@ const newOption = {
         // shadowColor: '#FFA321',
         // shadowBlur: 20,
       },
-      areaStyle: { //区域填充样式
+      areaStyle: {
+        //区域填充样式
         //右，下，左，上
         //线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
-        color: new graphic.LinearGradient(0, 0, 0, 1, [{
-          offset: 0,
-          color: "rgba(255, 163, 33, .6)"
-        },
-        {
-          offset: 1,
-          color: "rgba(255, 163, 33, 0)"
-        }
-        ], false),
+        color: new graphic.LinearGradient(
+          0,
+          0,
+          0,
+          1,
+          [
+            {
+              offset: 0,
+              color: "rgba(255, 163, 33, .6)",
+            },
+            {
+              offset: 1,
+              color: "rgba(255, 163, 33, 0)",
+            },
+          ],
+          false
+        ),
         // shadowColor: 'rgba(252,144,16,.3)', //阴影颜色
         // shadowBlur: 20 //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
       },
-    }
+    },
   ],
-}
-
-
-
-// 
-
-const getData = () => {
-  setOption({});
-};
-const setOption = async (newData: any) => {
-  option.value = newOption
-   /** 初始化图表 */
-   renderEcharts(toRaw(option.value));
 };
 
-
-
-
-
+watch(
+  () => toRaw(props.dataList),
+  async (newValue) => {
+    await nextTick();
+    console.log("props.dataList", newValue);
+    const { yList } = newValue;
+    const lineOneValue = yList.find(
+      (item: any) => item.dataName === "碳排放量"
+    )?.dataList;
+    const lineTwoValue = yList.find(
+      (item: any) => item.dataName === "同比"
+    )?.dataList;
+    if (curInstance.value === null) {
+      curInstance.value = getchartInstance();
+      /** 接口数据更新，判断是否有图表实例 ？没有->初始化图表 */
+      const series = [
+        {
+          type: "custom",
+          name: "碳排放量",
+          yAxisIndex: 0,
+          renderItem: (params: any, api: any) => {
+            const location = api.coord([api.value(0), api.value(1)]);
+            return {
+              type: "group",
+              children: [
+                {
+                  type: "CubeLeft",
+                  shape: {
+                    api,
+                    xValue: api.value(0),
+                    yValue: api.value(1),
+                    x: location[0],
+                    y: location[1],
+                    xAxisPoint: api.coord([api.value(0), 0]),
+                  },
+                  style: {
+                    fill: new graphic.LinearGradient(0, 0, 0, 1, [
+                      { offset: 0, color: "rgba(53, 243, 255, 1)" },
+                      { offset: 1, color: "rgba(38, 107, 223, 1)" },
+                      // { offset: 0, color: "#956FD4" },
+                      // { offset: 1, color: "#3EACE5" },
+                    ]),
+                  },
+                },
+                {
+                  type: "CubeRight",
+                  shape: {
+                    api,
+                    xValue: api.value(0),
+                    yValue: api.value(1),
+                    x: location[0],
+                    y: location[1],
+                    xAxisPoint: api.coord([api.value(0), 0]),
+                  },
+                  style: {
+                    fill: new graphic.LinearGradient(0, 0, 0, 1, [
+                      { offset: 0, color: "rgba(12, 147, 176, 1)" },
+                      { offset: 1, color: "rgba(14, 74, 174, 1)" },
+                      // { offset: 0, color: "#956FD4" },
+                      // { offset: 1, color: "#3EACE5" },
+                    ]),
+                    // fill: new graphic.LinearGradient(0, 0, 0, 1, [
+                    //     {
+                    //         offset: 0,
+                    //         color: '#28A2CE',
+                    //     },
+                    //     {
+                    //         offset: 1,
+                    //         color: '#1A57B7',
+                    //     },
+                    // ]),
+                  },
+                },
+                {
+                  type: "CubeTop",
+                  shape: {
+                    api,
+                    xValue: api.value(0),
+                    yValue: api.value(1),
+                    x: location[0],
+                    y: location[1],
+                    xAxisPoint: api.coord([api.value(0), 0]),
+                  },
+                  style: {
+                    fill: new graphic.LinearGradient(0, 0, 0, 1, [
+                      { offset: 0, color: "rgba(172, 232, 255, 1)" },
+                      { offset: 1, color: "rgba(172, 232, 255, 1)" },
+                    ]),
+                  },
+                },
+              ],
+            };
+          },
+          data: lineOneValue,
+          // 碳排放量legend背景样式设置
+          itemStyle: {
+            borderRadius: 5,
+            color: new graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: "rgba(53, 243, 255, 1)" },
+              { offset: 1, color: "rgba(38, 107, 223, 1)" },
+            ]),
+          },
+        },
+        {
+          name: "同比",
+          data: lineTwoValue,
+          type: "line",
+          yAxisIndex: 1,
+          smooth: true,
+          symbol: "none",
+          color: "rgba(255, 163, 33, 1)",
+          // showAllSymbol: !true,
+          // symbol: 'circle',
+          // symbolSize: 4,
+          // itemStyle: {
+          //     color: '#fff',
+          //     shadowColor: '#FFA321',
+          //     shadowBlur: 20,
+          //     borderColor: '#FFA321',
+          //     borderWidth: 5,
+          // },
+          lineStyle: {
+            // width: 2,
+            // color: '#FFA321',
+            // shadowColor: '#FFA321',
+            // shadowBlur: 20,
+          },
+          areaStyle: {
+            //区域填充样式
+            //右，下，左，上
+            //线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
+            color: new graphic.LinearGradient(
+              0,
+              0,
+              0,
+              1,
+              [
+                {
+                  offset: 0,
+                  color: "rgba(255, 163, 33, .6)",
+                },
+                {
+                  offset: 1,
+                  color: "rgba(255, 163, 33, 0)",
+                },
+              ],
+              false
+            ),
+            // shadowColor: 'rgba(252,144,16,.3)', //阴影颜色
+            // shadowBlur: 20 //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
+          },
+        },
+      ];
+      renderEcharts({
+        ...newOption,
+        series,
+      });
+    } else {
+      /** 接口数据更新，判断是否有图标实例 ？有->直接更新图表数据 */
+      renderEcharts(
+        {
+          series: [
+            {
+              // 根据名字对应到相应的系列
+              name: "碳排放量",
+              data: lineOneValue,
+            },
+            {
+              // 根据名字对应到相应的系列
+              name: "同比",
+              data: lineTwoValue,
+            },
+          ],
+        },
+        false
+      );
+    }
+  }
+);
 onMounted(() => {
-  getData();
+  /** 初始化图表, 如果接口返回慢，先不填写具体数值，只是初始化一个图标框架 */
+  renderEcharts(newOption);
 });
 </script>
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

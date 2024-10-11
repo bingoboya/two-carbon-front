@@ -10,9 +10,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-// import { installationPlan } from "@/api";
-
 const option = ref({});
 const getData = () => {
   // installationPlan()

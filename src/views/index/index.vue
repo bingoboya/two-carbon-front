@@ -180,7 +180,7 @@ const getData = async () => {
     }
   }
 };
-
+getData()
 
 
 const router = useRouter();
@@ -227,7 +227,6 @@ const returnPlaying = async () => {
   }
 };
 onMounted(async () => {
-  await getData();
   await nextTick();
   animateDivs();
   document.addEventListener("visibilitychange", returnPlaying);

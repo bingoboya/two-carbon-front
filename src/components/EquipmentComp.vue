@@ -226,9 +226,8 @@ const getData = async () => {
     }
   }
 };
-onMounted(async () => {
-  await getData();
-});
+getData();
+
 const getImageUrl = (name: any = props.departmentImgName) => {
   // name = '电镀锌无阴影'
   // name = '机组2无阴影'

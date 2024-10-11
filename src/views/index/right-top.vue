@@ -10,12 +10,18 @@ import { EchartsUI, useEcharts } from "@/utils/echarts";
 import { ref, reactive} from "vue";
 
 const EchartContainerRef = ref(); //组件实例
-const { renderEcharts } = useEcharts(EchartContainerRef);
-// import { countUserNum } from "@/api";
+const { renderEcharts, getchartInstance } = useEcharts(EchartContainerRef);
+const props = defineProps({
+  dataList: {
+    type: Object,
+    default: () => {},
+  },
+});
+const curInstance: any = ref(null);
 // 监听鼠标事件，实现饼图选中效果（单选），近似实现高亮（放大）效果。
 let selectedIndex = '';
 let hoveredIndex = '';
-const option = ref({});
+const option: any = ref({});
 const state: any = reactive({
   data: []
 });

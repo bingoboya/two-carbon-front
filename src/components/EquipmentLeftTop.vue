@@ -5,14 +5,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, reactive, onMounted, nextTick } from "vue";
-// import { installationPlan } from "@/api";
 import { graphic } from "echarts/core";
-
 import { EchartsUI, useEcharts } from "@/utils/echarts";
 const EchartContainerRef = ref(); //组件实例
-const { renderEcharts } = useEcharts(EchartContainerRef);
+const { renderEcharts, getchartInstance } = useEcharts(EchartContainerRef);
 const option: any = ref({});
+const curInstance: any = ref(null);
 const offsetX = 6;
 const offsetY = 3;
 // 绘制左侧面

@@ -1,18 +1,23 @@
 <template>
   <div style="width: 100%; height: 100%">
-    <v-chart class="chart" @mouseover="mouseoverFun" autoresize style="width: 100%; height: 100%" :option="option"
-      v-if="JSON.stringify(option) != '{}'" />
+    <v-chart
+      class="chart"
+      @mouseover="mouseoverFun"
+      autoresize
+      style="width: 100%; height: 100%"
+      :option="option"
+      v-if="JSON.stringify(option) != '{}'"
+    />
   </div>
 </template>
 <script setup lang="ts">
 import { ref, reactive } from "vue";
-import { countUserNum } from "@/api";
 // 监听鼠标事件，实现饼图选中效果（单选），近似实现高亮（放大）效果。
-let selectedIndex = '';
-let hoveredIndex = '';
-const option:any = ref({});
+let selectedIndex = "";
+let hoveredIndex = "";
+const option: any = ref({});
 const state: any = reactive({
-  data: []
+  data: [],
 });
 // TODO
 // 生成扇形的曲面参数方程，用于 series-surface.parametricEquation
@@ -63,14 +68,12 @@ function getParametricEquation(
     x: function (u: any, v: any) {
       if (u < startRadian) {
         return (
-          offsetX +
-          Math.cos(startRadian) * (1 + Math.cos(v) * k) * hoverRate
+          offsetX + Math.cos(startRadian) * (1 + Math.cos(v) * k) * hoverRate
         );
       }
       if (u > endRadian) {
         return (
-          offsetX +
-          Math.cos(endRadian) * (1 + Math.cos(v) * k) * hoverRate
+          offsetX + Math.cos(endRadian) * (1 + Math.cos(v) * k) * hoverRate
         );
       }
       return offsetX + Math.cos(u) * (1 + Math.cos(v) * k) * hoverRate;
@@ -79,14 +82,12 @@ function getParametricEquation(
     y: function (u: any, v: any) {
       if (u < startRadian) {
         return (
-          offsetY +
-          Math.sin(startRadian) * (1 + Math.cos(v) * k) * hoverRate
+          offsetY + Math.sin(startRadian) * (1 + Math.cos(v) * k) * hoverRate
         );
       }
       if (u > endRadian) {
         return (
-          offsetY +
-          Math.sin(endRadian) * (1 + Math.cos(v) * k) * hoverRate
+          offsetY + Math.sin(endRadian) * (1 + Math.cos(v) * k) * hoverRate
         );
       }
       return offsetY + Math.sin(u) * (1 + Math.cos(v) * k) * hoverRate;
@@ -122,9 +123,7 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
 
     let seriesItem: any = {
       name:
-        typeof pieData[i].name === "undefined"
-          ? `series${i}`
-          : pieData[i].name,
+        typeof pieData[i].name === "undefined" ? `series${i}` : pieData[i].name,
       type: "surface",
       parametric: true,
       wireframe: {
@@ -218,7 +217,7 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
       show: false,
     },
     itemStyle: {
-      opacity: .1,
+      opacity: 0.1,
       color: "#4ee9fd",
     },
     parametricEquation: {
@@ -266,14 +265,10 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
         step: Math.PI / 20,
       },
       x: function (u: any, v: any) {
-        return (
-          ((Math.sin(v) * Math.sin(u) + Math.sin(u)) / Math.PI) * 2.2
-        );
+        return ((Math.sin(v) * Math.sin(u) + Math.sin(u)) / Math.PI) * 2.2;
       },
       y: function (u: any, v: any) {
-        return (
-          ((Math.sin(v) * Math.cos(u) + Math.cos(u)) / Math.PI) * 2.2
-        );
+        return ((Math.sin(v) * Math.cos(u) + Math.cos(u)) / Math.PI) * 2.2;
       },
       z: function (u: any, v: any) {
         return Math.cos(v) > 0 ? -7 : -7;
@@ -284,7 +279,7 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
   let option = {
     // animation: false,
     legend: {
-      orient: 'horizontal',
+      orient: "horizontal",
       left: "center",
       itemWidth: 22,
       // itemHeight: 14,
@@ -292,7 +287,7 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
       bottom: 0,
       padding: [0, 10],
       itemGap: 10,
-      align: 'auto',
+      align: "auto",
       data: legendData,
       textStyle: {
         fontSize: 8,
@@ -302,22 +297,22 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
             fontSize: 14,
             color: "#EAEAEC",
             width: 150,
-            verticalAlign: 'center',
-            padding: [2, 0, 0, 0]//上，右，下，左
+            verticalAlign: "center",
+            padding: [2, 0, 0, 0], //上，右，下，左
           },
           value: {
             fontSize: 14,
-            align: 'right',
+            align: "right",
             width: 40,
-            verticalAlign: 'center',
+            verticalAlign: "center",
             padding: [2, 0, 0, 0],
           },
           unit: {
             fontSize: 14,
             width: 20,
-            align: 'right',
+            align: "right",
             color: "#fff",
-            verticalAlign: 'center',
+            verticalAlign: "center",
             padding: [2, 10, 0, 0],
           },
           // num: {
@@ -331,7 +326,7 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
         },
       },
       formatter: (name: any) => {
-        let tarValue, tarUnit, tarNum
+        let tarValue, tarUnit, tarNum;
         for (let i = 0; i < state.data.length; i++) {
           if (state.data[i].name == name) {
             tarValue = state.data[i].value;
@@ -340,8 +335,8 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
           }
         }
         const v = tarValue;
-        const unit = tarUnit
-        return [`{name|${name}} {value|${v}}{unit|${unit}} `].join('');
+        const unit = tarUnit;
+        return [`{name|${name}} {value|${v}}{unit|${unit}} `].join("");
         // return [`{name|${name}} {value|${v}}{unit|${unit}} {num|${tarNum}}`].join('');
       },
     },
@@ -353,9 +348,11 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
       },
       formatter: (params: any) => {
         if (params.seriesName !== "mouseoutSeries") {
-          return `${params.seriesName
-            }<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${params.color
-            };"></span>${option.series[params.seriesIndex].pieData.value}`;
+          return `${
+            params.seriesName
+          }<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${
+            params.color
+          };"></span>${option.series[params.seriesIndex].pieData.value}`;
         }
       },
     },
@@ -365,7 +362,7 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
     grid3D: {
       viewControl: {
         autoRotate: true,
-        projection: 'orthographic',
+        projection: "orthographic",
       },
       width: "100%",
       show: false, // 显示网格背景
@@ -375,7 +372,6 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
       // boxWidth和boxDepth这两个属性值保持一致，才可以在调整饼图宽度的时候保持水平，不然就会歪歪扭扭
       boxWidth: 150,
       boxDepth: 150,
-
     },
     series: series,
   };
@@ -383,7 +379,7 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
 }
 
 const mouseoverFun = (params: any) => {
-  console.log('11111', params)
+  console.log("11111", params);
   // 准备重新渲染扇形所需的参数
   let isSelected;
   let isHovered;
@@ -449,36 +445,33 @@ const mouseoverFun = (params: any) => {
     // 使用更新后的 option，渲染图表
     // myChart.setOption(option);
   }
-}
+};
 
 // // 监听点击事件，实现选中效果（单选）
 // const clickFun = (params: any) => {
 
-// } 
+// }
 
 // const globaloutFunc = (params: any) => {
 //   // 鼠标划出echarts的区域时响应
 //   console.log('globaloutFunc', params)
 // }
 
-
 const getData = () => {
   state.data = [
     {
       value: 20,
-      name: '本浦冷轧2#重卷机组',
-      unit: '%',
+      name: "本浦冷轧2#重卷机组",
+      unit: "%",
       num: 25,
       itemStyle: {
         color: "rgba(237, 187, 67, 1)",
-
-
       },
     },
     {
       value: 25,
-      name: '本浦冷轧3#重卷机组',
-      unit: '%',
+      name: "本浦冷轧3#重卷机组",
+      unit: "%",
       num: 22354,
       itemStyle: {
         color: "#b54c46",
@@ -486,30 +479,17 @@ const getData = () => {
     },
     {
       value: 55,
-      name: '电镀锌机组',
-      unit: '%',
+      name: "电镀锌机组",
+      unit: "%",
       num: 2541,
       itemStyle: {
         color: "rgba(17, 219, 231, 1)",
-
       },
     },
-  ]
-  option.value = getPie3D(
-    state.data,
-    0.8
-  );
-  // countUserNum().then((res) => {
-  //   if (res.success) {
-  //   } else {
-  //     console.log(res.msg)
-  //   }
-  // }).catch(err => {
-  //   console.log(err)
-  // });
+  ];
+  option.value = getPie3D(state.data, 0.8);
 };
 getData();
-
 </script>
 
 <style scoped lang="scss"></style>

@@ -714,8 +714,8 @@ defineExpose({
   }
 
   img {
-    width: 100%;
-    height: 100%;
+    width: 94%;
+    height: 72%;
   }
 }
 

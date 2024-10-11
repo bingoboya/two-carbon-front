@@ -5,8 +5,9 @@ import { graphic } from "echarts/core";
 
 import { EchartsUI, useEcharts } from "@/utils/echarts";
 const EchartContainerRef = ref(); //组件实例
-const { renderEcharts } = useEcharts(EchartContainerRef);
+const { renderEcharts, getchartInstance } = useEcharts(EchartContainerRef);
 const option = ref({});
+const curInstance: any = ref(null);
 const getData = () => {
   const data = {
           dateList: ['1月', '2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],

@@ -9,7 +9,12 @@
 </template>
 <script setup lang="ts">
 import * as echarts from 'echarts/core';
-import { onMounted, reactive, ref, nextTick, onUnmounted } from 'vue';
+const props = defineProps({
+  dataList: {
+    type: Object,
+    default: () => {},
+  },
+});
 // 基于准备好的dom，初始化echarts实例
 let animationId: any;
 const chartRef: any = ref(null)

@@ -10,9 +10,15 @@ import { ref, onMounted, nextTick, toRaw } from "vue";
 import { graphic } from "echarts/core";
 import { EchartsUI, useEcharts } from "@/utils/echarts";
 const EchartContainerRef = ref(); //组件实例
-const { renderEcharts } = useEcharts(EchartContainerRef);
+const { renderEcharts, getchartInstance } = useEcharts(EchartContainerRef);
 const option = ref({});
-
+const curInstance: any = ref(null);
+const props = defineProps({
+  dataList: {
+    type: Object,
+    default: () => {},
+  },
+});
 const getData = () => {
   const data = {
     dateList: [

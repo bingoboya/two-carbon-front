@@ -7,13 +7,17 @@
 </template>
 <script setup lang="ts">
 import { EchartsUI, useEcharts } from "@/utils/echarts";
-import { ref, reactive, onMounted, nextTick } from "vue";
-// import { installationPlan } from "@/api";
 import { graphic } from "echarts/core";
 const EchartContainerRef = ref(); //组件实例
-const { renderEcharts } = useEcharts(EchartContainerRef);
+const { renderEcharts, getchartInstance } = useEcharts(EchartContainerRef);
 const option: any = ref({});
-
+const curInstance: any = ref(null);
+const props = defineProps({
+  dataList: {
+    type: Object,
+    default: () => {},
+  },
+});
 // 
 const offsetX = 6;
 const offsetY = 3;

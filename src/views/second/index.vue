@@ -4,13 +4,13 @@
     <div ref="contentLeftComp" class="contetn_left">
       <div style="height: 20px;display: flex; gap: 4px;"></div>
       <ItemWrap :backgroundImg="底部长bg"class="contetn_left-top " titlebg="headImg" :titleImg="headImg" title="碳排放量情况">
-        <LeftTop />
+        <LeftTop :dataList="state.carbonEmissions" />
       </ItemWrap>
       <ItemWrap :backgroundImg="底部长bg" class="contetn_left-center " titlebg="headImg" :titleImg="headImg" title="电量-产量情况">
-        <LeftCenter />
+        <LeftCenter  :dataList="state.powerProduction" />
       </ItemWrap>
       <ItemWrap :backgroundImg="底部长bg"  titlebg="headImg" :titleImg="headImg" title="工序能流分析" >
-        <LeftBottom />
+        <LeftBottom  :dataList="state.energyFlowAnalysis" />
       </ItemWrap>
     </div>
     <div class="contetn_center">
@@ -64,13 +64,13 @@
         <div class="returnBtn" @click="router.go(-1)"></div>
       </div>
       <ItemWrap :backgroundImg="底部长bg"  titlebg="headImg" :titleImg="headImg" title="碳排占比">
-          <RightTop />
+          <RightTop  :dataList="state.carbonEmissionsProportion" />
       </ItemWrap>
       <ItemWrap :backgroundImg="底部长bg"  titlebg="headImg" :titleImg="headImg" title="电量预测分析" >
-        <RightCenter />
+        <RightCenter :dataList="state.powerQuantity"  />
       </ItemWrap>
       <ItemWrap :backgroundImg="底部长bg"  titlebg="headImg" :titleImg="headImg" title="碳排预测分析 ">
-        <RightBottom />
+        <RightBottom  :dataList="state.carbonEmissionsForecasting" />
       </ItemWrap>
     </div>
   </div>
@@ -92,9 +92,37 @@ import { LeftTop,
     RightTop,
   } from "./index";
 const showVideo = ref(true)
-
+const state = reactive({
+  "carbonEmissions": {}, // "碳排放量情况",
+  "powerProduction": {}, // "电量产量情况",
+  "energyFlowAnalysis": {}, // "工序能流分析",
+  "carbonEmissionsProportion": {}, // "碳排占比",
+  "powerQuantity": {}, // "电量预测分析",
+  "carbonEmissionsForecasting": {}, // "碳排放预测分析",
+})
 const selectedValue = ref('');
+const timer: any = ref(null);
 const router = useRouter()
+const getData = async () => {
+  console.log("getData-bengangfirstpage");
+  const res = await bengangsecondpage();
+  if (res.code === 0) {
+    console.log(res);
+    const { carbonEmissions, powerProduction, energyFlowAnalysis, carbonEmissionsProportion, powerQuantity, carbonEmissionsForecasting } = res.data
+    state.carbonEmissions = carbonEmissions
+    state.powerProduction = powerProduction;
+    state.energyFlowAnalysis = energyFlowAnalysis;
+    state.carbonEmissionsProportion = carbonEmissionsProportion;
+    state.powerQuantity = powerQuantity;
+    state.carbonEmissionsForecasting = carbonEmissionsForecasting;
+  } else {
+    console.log(res.msg);
+  }
+};
+getData();
+// timer.value = setInterval(() => {
+//   getData();
+// }, 2000);
 const routerGo = (name: any) => {
   router.push({ path: 'third', query: { typename: name }})
 }
@@ -103,17 +131,6 @@ const getImageUrl = (name: any = '本浦冷轧2重卷机组按钮_default') => {
   const a = new URL(`/src/assets/bgpng/${name}.png`, import.meta.url).href
   return a
 }
-const getData = async () => {
-  console.log("getData-bengangfirstpage");
-  const res = await bengangsecondpage();
-  if (res) {
-    if (res.success) {
-      console.log(res);
-    } else {
-      console.log(res);
-    }
-  }
-};
 const centerMapRef: any = ref<HTMLDivElement | null>(null)
 const contentLeftComp = ref<HTMLDivElement | null>(null)
 const contentRightComp = ref<HTMLDivElement | null>(null)
@@ -151,8 +168,8 @@ const returnPlaying = async () => {
     }
 }
 onMounted(async () => {
-  await getData();
   await nextTick()
+  clearInterval(timer.value);
   animateDivs();
   document.addEventListener('visibilitychange', async () => {
     if (document.hidden) {
@@ -164,6 +181,7 @@ onMounted(async () => {
 });
 onUnmounted(() => {
   document.removeEventListener('visibilitychange', returnPlaying);
+  clearInterval(timer.value);
 });
 const animateDivsReverce = (calback: any) => {
   if (contentLeftComp.value) {

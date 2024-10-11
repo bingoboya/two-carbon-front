@@ -5,15 +5,18 @@
 </template>
 <script setup lang="ts">
 import { EchartsUI, useEcharts } from "@/utils/echarts";
-
-import { ref, reactive, onMounted, nextTick } from "vue";
-// import { installationPlan } from "@/api";
 import { graphic } from "echarts/core";
-const EchartContainerRef = ref(); //组件实例
-const { renderEcharts } = useEcharts(EchartContainerRef);
-const option: any = ref({});
+const props = defineProps({
+  dataList: {
+    type: Object,
+    default: () => {},
+  },
+});
 
-//
+const EchartContainerRef = ref(); //组件实例
+const { renderEcharts, getchartInstance } = useEcharts(EchartContainerRef);
+const curInstance: any = ref(null);
+
 const offsetX = 6;
 const offsetY = 3;
 // 绘制左侧面
@@ -82,42 +85,7 @@ graphic.registerShape("CubeLeft", CubeLeft);
 graphic.registerShape("CubeRight", CubeRight);
 graphic.registerShape("CubeTop", CubeTop);
 
-const VALUE = [
-  24407.01,
-  19060.89,
-  24872.06,
-  21617.73,
-  20455.44,
-  20455.44,
-  22082.64,
-  21385.34,
-  null,
-  null,
-  null,
-  null,
-];
-const LineVALUE = [
-  1.8,
-  -1,
-  1.2,
-  0.3,
-  0.3,
-  -0.2,
-  0.1,
-  0.22,
-  null,
-  null,
-  null,
-  null,
-];
-
 const newOption = {
-  // tooltip: {
-  //     trigger: 'axis',
-  //     axisPointer: {
-  //         type: 'cross'
-  //     },
-  // },
   tooltip: {
     trigger: "axis",
     backgroundColor: "rgba(0,0,0,.6)",
@@ -333,7 +301,8 @@ const newOption = {
           ],
         };
       },
-      data: VALUE,
+      data: [],
+      // data: VALUE,
       // 碳排放量legend背景样式设置
       itemStyle: {
         borderRadius: 5,
@@ -364,7 +333,8 @@ const newOption = {
         shadowColor: "rgba(255, 131, 21, 1)",
         shadowBlur: 20,
       },
-      data: LineVALUE,
+      data: [],
+      // data: LineVALUE,
       // areaStyle: { //区域填充样式
       //     color: new graphic.LinearGradient(0, 0, 0, 1, [{
       //             offset: 0,
@@ -403,17 +373,170 @@ const newOption = {
   ],
 };
 
-const getData = () => {
-  setOption({});
-};
-const setOption = async (newData: any) => {
-  option.value = newOption;
-  /** 初始化图表 */
-  renderEcharts(toRaw(option.value));
-};
 
+watch(
+  () => toRaw(props.dataList),
+  async (newValue) => {
+    await nextTick();
+    console.log("props.dataList", newValue);
+    const { yList } = newValue;
+    const lineOneValue = yList.find((item: any) => item.dataName === "碳排放量")?.dataList;
+    const lineTwoValue = yList.find((item: any) => item.dataName === "同比")?.dataList;
+    if (curInstance.value === null) {
+      curInstance.value = getchartInstance();
+      /** 接口数据更新，判断是否有图表实例 ？没有->初始化图表 */
+      const series = [
+        {
+          type: "custom",
+          name: "碳排放量",
+          yAxisIndex: 0,
+          renderItem: (params: any, api: any) => {
+            const location = api.coord([api.value(0), api.value(1)]);
+            return {
+              type: "group",
+              children: [
+                {
+                  type: "CubeLeft",
+                  shape: {
+                    api,
+                    xValue: api.value(0),
+                    yValue: api.value(1),
+                    x: location[0],
+                    y: location[1],
+                    xAxisPoint: api.coord([api.value(0), 0]),
+                  },
+                  style: {
+                    fill: new graphic.LinearGradient(0, 0, 0, 1, [
+                      { offset: 0, color: "rgba(33, 162, 163, 1)" },
+                      { offset: 1, color: "rgba(33, 162, 163, 1)" },
+                      // { offset: 0, color: "#956FD4" },
+                      // { offset: 1, color: "#3EACE5" },
+                    ]),
+                  },
+                },
+                {
+                  type: "CubeRight",
+                  shape: {
+                    api,
+                    xValue: api.value(0),
+                    yValue: api.value(1),
+                    x: location[0],
+                    y: location[1],
+                    xAxisPoint: api.coord([api.value(0), 0]),
+                  },
+                  style: {
+                    fill: new graphic.LinearGradient(0, 0, 0, 1, [
+                      { offset: 0, color: "rgba(65, 221, 221, 1)" },
+                      { offset: 1, color: "rgba(65, 221, 221, 1)" },
+                      // { offset: 0, color: "#956FD4" },
+                      // { offset: 1, color: "#3EACE5" },
+                    ]),
+                  },
+                },
+                {
+                  type: "CubeTop",
+                  shape: {
+                    api,
+                    xValue: api.value(0),
+                    yValue: api.value(1),
+                    x: location[0],
+                    y: location[1],
+                    xAxisPoint: api.coord([api.value(0), 0]),
+                  },
+                  style: {
+                    fill: new graphic.LinearGradient(0, 0, 0, 1, [
+                      { offset: 0, color: "RGBA(179, 231, 210, 1)" },
+                      { offset: 1, color: "RGBA(179, 231, 210, 1)" },
+                      // { offset: 0, color: "#956FD4" },
+                      // { offset: 1, color: "#3EACE5" },
+                    ]),
+                  },
+                },
+              ],
+            };
+          },
+          data: lineOneValue,
+          // 碳排放量legend背景样式设置
+          itemStyle: {
+            borderRadius: 5,
+            color: new graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: "rgba(65, 221, 221, 1)" },
+              { offset: 1, color: "rgba(65, 221, 221, .4)" },
+            ]),
+          },
+        },
+        {
+          name: "同比",
+          type: "line",
+          yAxisIndex: 1,
+          smooth: true,
+          symbol: "none", //去除点
+          itemStyle: {
+            color: "#fff",
+            shadowColor: "rgba(255, 131, 21, 1)",
+            shadowBlur: 20,
+            borderColor: "rgba(255, 131, 21, 1)",
+            borderWidth: 5,
+          },
+          lineStyle: {
+            width: 2,
+            color: "rgba(255, 131, 21, 1)",
+            shadowColor: "rgba(255, 131, 21, 1)",
+            shadowBlur: 20,
+          },
+          data: lineTwoValue,
+          areaStyle: {
+            //右，下，左，上
+            //线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
+            color: new graphic.LinearGradient(
+              0,
+              0,
+              0,
+              1,
+              [
+                {
+                  offset: 0,
+                  color: "rgba(255, 131, 22, .7)",
+                },
+                {
+                  offset: 1,
+                  color: "rgba(255, 131, 22, 0)",
+                },
+              ],
+              false
+            ),
+          },
+        },
+      ];
+      renderEcharts({
+        ...newOption,
+        series,
+      });
+    } else {
+      /** 接口数据更新，判断是否有图标实例 ？有->直接更新图表数据 */
+      renderEcharts(
+        {
+          series: [
+            {
+              // 根据名字对应到相应的系列
+              name: "碳排放量",
+              data: lineOneValue,
+            },
+            {
+              // 根据名字对应到相应的系列
+              name: "同比",
+              data: lineTwoValue,
+            },
+          ],
+        },
+        false
+      );
+    }
+  }
+);
 onMounted(() => {
-  getData();
+  /** 初始化图表, 如果接口返回慢，先不填写具体数值，只是初始化一个图标框架 */
+  renderEcharts(newOption);
 });
 </script>
 <style scoped lang="scss"></style>

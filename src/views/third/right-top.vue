@@ -18,8 +18,15 @@ import {
 import echarts from '@/utils/echarts/echarts';
 
 const EchartContainerRef = ref(); //组件实例
-// const { renderEcharts } = useEcharts(EchartContainerRef);
+// const { renderEcharts, getchartInstance } = useEcharts(EchartContainerRef);
 let chartInstance: any = null
+const curInstance: any = ref(null);
+const props = defineProps({
+  dataList: {
+    type: Object,
+    default: () => {},
+  },
+});
 // 监听鼠标事件，实现饼图选中效果（单选），近似实现高亮（放大）效果。
 let selectedIndex = '';
 let hoveredIndex = '';

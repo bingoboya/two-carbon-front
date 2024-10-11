@@ -1,5 +1,5 @@
-import type { Ref } from 'vue';
-import { computed, nextTick, ref, watch } from 'vue';
+import type { Ref } from "vue";
+import { computed, nextTick, ref, watch } from "vue";
 
 import {
   tryOnUnmounted,
@@ -7,18 +7,17 @@ import {
   useResizeObserver,
   useTimeoutFn,
   useWindowSize,
-} from '@vueuse/core';
+} from "@vueuse/core";
 
-import echarts from './echarts';
-type EchartsThemeType = 'dark' | 'light' | null;
+import echarts from "./echarts";
+type EchartsThemeType = "dark" | "light" | null;
 
 function useEcharts(chartRef: Ref<any>) {
   // console.log('useEcharts', chartRef);
-  
   let chartInstance: echarts.ECharts | null = null;
   let cacheOptions: any = {};
 
-  const isDark = ref(true)
+  const isDark = ref(true);
   const { height, width } = useWindowSize();
   const resizeHandler: () => void = useDebounceFn(resize, 200);
 
@@ -28,19 +27,18 @@ function useEcharts(chartRef: Ref<any>) {
     // }
 
     return {
-      backgroundColor: 'transparent',
+      backgroundColor: "transparent",
       ...cacheOptions,
     };
   });
-
 
   const initCharts = (t?: EchartsThemeType) => {
     const el = chartRef?.value?.$el;
     if (!el) {
       return;
     }
-    chartInstance = echarts.init(el, t || isDark.value ? 'dark' : null, {
-      renderer: 'canvas',
+    chartInstance = echarts.init(el, t || isDark.value ? "dark" : null, {
+      renderer: "canvas",
     });
 
     return chartInstance;
@@ -49,9 +47,9 @@ function useEcharts(chartRef: Ref<any>) {
   const renderEcharts = (options: any, clear = true) => {
     // console.log('options1', options.series[0].data)
     cacheOptions = {
-      backgroundColor: 'transparent', 
-      animation: false,
-      ...options
+      backgroundColor: "transparent",
+      animation: !false,
+      ...options,
     };
     return new Promise((resolve) => {
       if (chartRef.value?.offsetHeight === 0) {
@@ -84,9 +82,13 @@ function useEcharts(chartRef: Ref<any>) {
     chartInstance?.resize({
       animation: {
         duration: 300,
-        easing: 'quadraticIn',
+        easing: "quadraticIn",
       },
     });
+  }
+
+  function getchartInstance() {
+    return chartInstance;
   }
 
   watch([width, height], () => {
@@ -111,9 +113,10 @@ function useEcharts(chartRef: Ref<any>) {
   return {
     renderEcharts,
     resize,
+    getchartInstance,
   };
 }
 
-export { useEcharts };
+export { useEcharts  };
 
 // export type { EchartsUIType };

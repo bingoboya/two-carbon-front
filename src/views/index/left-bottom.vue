@@ -62,12 +62,16 @@
 </template>
 <script setup lang="ts">
 import { EchartsUI, useEcharts } from "@/utils/echarts";
-
 import { ref, reactive} from "vue";
-// import { countUserNum } from "@/api";
-
+const props = defineProps({
+  dataList: {
+    type: Object,
+    default: () => {},
+  },
+});
 const EchartContainerRef = ref(); //组件实例
-const { renderEcharts } = useEcharts(EchartContainerRef);
+const { renderEcharts, getchartInstance } = useEcharts(EchartContainerRef);
+const curInstance: any = ref(null);
 // 监听鼠标事件，实现饼图选中效果（单选），近似实现高亮（放大）效果。
 let selectedIndex = '';
 let hoveredIndex = '';

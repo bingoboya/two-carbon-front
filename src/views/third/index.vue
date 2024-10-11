@@ -3,9 +3,7 @@
     <!-- 第三级页面主体 -->
     <div ref="contentLeftComp" class="contetn_left">
       <div style="height: 20px; display: flex; gap: 4px">
-        <!-- <span>工艺</span>/
-        <span>工序</span>/
-        <span>排放检测</span> -->
+        <!-- <span>工艺</span> -->
       </div>
       <ItemWrap
         class="contetn_left-top"
@@ -14,7 +12,7 @@
         :backgroundImg="底部长bg"
         title="碳排放量情况"
       >
-        <LeftTop />
+        <LeftTop :dataList="state.carbonEmissions" />
       </ItemWrap>
       <ItemWrap
         class="contetn_left-center"
@@ -23,7 +21,7 @@
         :backgroundImg="底部长bg"
         title="用电情况"
       >
-        <LeftBottom />
+        <LeftBottom :dataList="state.powerQuantity" />
       </ItemWrap>
     </div>
     <div class="contetn_center">
@@ -141,7 +139,7 @@
       >
         <!-- <RightTop /> -->
          <!-- TODO -->
-        <RightTopcopy />
+        <RightTopcopy :dataList="state.carbonEmissionsProportion" />
       </ItemWrap>
       <ItemWrap
         class="contetn_left-bottom"
@@ -150,7 +148,7 @@
         :backgroundImg="底部长bg"
         title="碳排预测分析"
       >
-        <RightBottom />
+        <RightBottom :dataList="state.carbonEmissionsForecasting" />
       </ItemWrap>
     </div>
   </div>
@@ -177,6 +175,12 @@ import { LeftTop, LeftBottom, CenterMap, RightBottom, RightTop } from "./index";
 const router = useRouter();
 const selectedValue = ref("");
 const showVideo = ref(true);
+const state = reactive({
+  "carbonEmissions": {}, // "碳排放量情况",
+  "carbonEmissionsProportion": {}, // "设备机组碳排占比",
+  "carbonEmissionsForecasting": {}, // "碳排放预测分析",
+  "powerQuantity": {}, // "用电情况",
+})
 const departmentImg = ref("");
 const cusmodalRef: any = ref<HTMLDivElement | null>(null); // 使用ref引用弹窗组件实例
 const getImageUrl = (name: any = '本浦冷轧2重卷机组按钮_default') => {
@@ -187,14 +191,19 @@ const getImageUrl = (name: any = '本浦冷轧2重卷机组按钮_default') => {
 const getData = async () => {
   console.log("getData-bengangfirstpage");
   const res = await bengangthirdpage();
-  if (res) {
-    if (res.success) {
-      console.log(res);
-    } else {
-      console.log(res);
-    }
+  if (res.code === 0) {
+    console.log(res);
+    const { carbonEmissions,   carbonEmissionsProportion, powerQuantity, carbonEmissionsForecasting } = res.data
+    state.carbonEmissions = carbonEmissions
+    state.carbonEmissionsProportion = carbonEmissionsProportion;
+    state.powerQuantity = powerQuantity;
+    state.carbonEmissionsForecasting = carbonEmissionsForecasting;
+  } else {
+    console.log(res.msg);
   }
 };
+getData();
+
 const handlePopupClick = async (title: any, departmentImgName: string) => {
   // 处理弹窗点击事件
   // console.log("title", title, departmentImgName);
@@ -244,7 +253,6 @@ const returnPlaying = async () => {
   }
 };
 onMounted(async () => {
-  await getData();
   await nextTick();
   animateDivs();
   document.addEventListener("visibilitychange", returnPlaying);
