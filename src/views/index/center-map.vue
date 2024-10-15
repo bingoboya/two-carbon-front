@@ -222,10 +222,10 @@ const state = reactive({
 })
 
 watch(() => toRaw(props.detailedList), (newValue, oldValue) => {
-  // const { detailedList } = newValue
   const cacheData = JSON.parse(JSON.stringify(state.defaultBuildingArr))
   cacheData.forEach((item: any) => {
     const { carbonEmission, energyConsumption, power } = newValue[item.tagName]
+    console.log('carbonEmission, energyConsumption, power', carbonEmission, energyConsumption, power);
     item.tanpaiValue = carbonEmission
     item.nenghaoValue = energyConsumption
     item.haodianValue = power

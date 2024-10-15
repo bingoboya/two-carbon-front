@@ -17,12 +17,12 @@
         </div>
         <div class="tooltip_content_wrap">
           <div>能耗</div>
-          <div>{{ nenghaoValue }}</div>
+          <div>{{ nenghaoValueRef }}</div>
           <div>万吨标准煤</div>
         </div>
         <div class="tooltip_content_wrap">
           <div>用电量</div>
-          <div>{{ haodianValue }}</div>
+          <div>{{ haodianValueRef }}</div>
           <div>万千瓦时</div>
         </div>
       </div>

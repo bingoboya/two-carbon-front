@@ -260,6 +260,7 @@ const updateBuildingLabels = (buildings: any[]) => {
   buildings.forEach((building) => {
     const buildingRef = buildingRefs.value[building.name];
     if (buildingRef && typeof buildingRef.updateValues === 'function') {
+      console.log(121212, building);
       buildingRef.updateValues({
         tanpaiValue: building.tanpaiValue,
         nenghaoValue: building.nenghaoValue,

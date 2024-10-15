@@ -179,9 +179,9 @@ const getData = async () => {
   }
 };
 getData();
-setInterval(() => {
-  getData();
-}, 2000);
+// setInterval(() => {
+//   // getData();
+// }, 2000);
 
 
 const router = useRouter();
