@@ -1,29 +1,18 @@
 <template>
-  <div
-    class="container"
-    :class="isHover ? 'container_style_large' : 'container_style_small'"
-    :style="{ backgroundImage: `url(${bgPicSrc})`, width: buildWidth }"
-    @mouseenter="showTooltip"
-    @mouseleave="hideTooltip"
-  >
-    <div
-      class="overlay"
-      :class="isHover ? 'hidden_overlay' : 'show_overlay'"
-    ></div>
-    <div
-      @click="handleClick"
-      class="tooltip_container"
-      style="
+  <div class="container" :class="isHover ? 'container_style_large' : 'container_style_small'"
+    :style="{ backgroundImage: `url(${bgPicSrc})`, width: buildWidth }" @mouseenter="showTooltip"
+    @mouseleave="hideTooltip">
+    <div class="overlay" :class="isHover ? 'hidden_overlay' : 'show_overlay'"></div>
+    <div @click="handleClick" class="tooltip_container" style="
         height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
-      "
-    >
-        <div :style="tooltipStyle" class="tooltip">
+      ">
+      <div :style="tooltipStyle" class="tooltip">
         <div class="tooltip_content_wrap">
           <div>碳排放量</div>
-          <div>{{ tanpaiValue }}</div>
+          <div>{{ tanpaiValueRef }}</div>
           <div>万吨</div>
         </div>
         <div class="tooltip_content_wrap">
@@ -32,7 +21,7 @@
           <div>万吨标准煤</div>
         </div>
         <div class="tooltip_content_wrap">
-          <div>耗电量</div>
+          <div>用电量</div>
           <div>{{ haodianValue }}</div>
           <div>万千瓦时</div>
         </div>
@@ -80,7 +69,7 @@
           <div>万吨标准煤</div>
         </div>
         <div class="tooltip_content_wrap">
-          <div>耗电量</div>
+          <div>用电量</div>
           <div>{{haodianValue}}</div>
           <div>万千瓦时</div>
         </div>
@@ -93,7 +82,6 @@
 </template>
 <script setup lang="ts">
 import { computed, PropType, ref } from "vue";
-
 const props = defineProps({
   tanpaiValue: {
     type: [String, Number],
@@ -162,6 +150,19 @@ const props = defineProps({
     required: true,
   },
 });
+
+const tanpaiValueRef = ref(props.tanpaiValue);
+const nenghaoValueRef = ref(props.nenghaoValue);
+const haodianValueRef = ref(props.haodianValue);
+
+const updateValues = (newValues: { tanpaiValue?: number, nenghaoValue?: number, haodianValue?: number }) => {
+  if (newValues.tanpaiValue !== undefined) tanpaiValueRef.value = newValues.tanpaiValue;
+  if (newValues.nenghaoValue !== undefined) nenghaoValueRef.value = newValues.nenghaoValue;
+  if (newValues.haodianValue !== undefined) haodianValueRef.value = newValues.haodianValue;
+};
+
+
+
 const isVisible = ref(false);
 const isHover = ref(false);
 const tooltipStyle = computed(() => ({
@@ -170,16 +171,16 @@ const tooltipStyle = computed(() => ({
   // top: `${props.positionY + 20}px`,
 }));
 
-const animationDuration = computed(() => {
-  switch (props.speed) {
-    case "slow":
-      return 4.5;
-    case "fast":
-      return 1.5;
-    default:
-      return 3;
-  }
-});
+// const animationDuration = computed(() => {
+//   switch (props.speed) {
+//     case "slow":
+//       return 4.5;
+//     case "fast":
+//       return 1.5;
+//     default:
+//       return 3;
+//   }
+// });
 
 const handleClick = () => {
   console.log("positionX", props.positionX, props.positionY);
@@ -218,6 +219,8 @@ const funabc = (params: any, type: string) => {
 };
 defineExpose({
   funabc,
+  updateValues,
+  name: props.name
 });
 </script>
 <style lang="scss" scoped>
@@ -238,6 +241,7 @@ defineExpose({
     transform: scale(1.05);
   } */
 }
+
 .label_style {
   z-index: 2;
   font-size: 16px;
@@ -246,16 +250,19 @@ defineExpose({
   /* background-color: rgba(0,0,0,0.7); */
   padding: 2px 5px;
 }
+
 .tooltip_content_wrap {
   display: flex;
   flex-direction: row;
   gap: 10px;
+
   > :nth-child(1) {
     width: 54px;
     text-align-last: justify;
     text-align: justify;
   }
 }
+
 .arrow_wrapper {
   display: flex;
   flex-direction: column;
@@ -263,6 +270,7 @@ defineExpose({
   align-items: center;
   pointer-events: none !important;
 }
+
 .arrow_item_line {
   width: 2px;
   height: 66px;
@@ -271,6 +279,7 @@ defineExpose({
   // opacity: 0;
   // animation: fadeInOut var(--animation-duration) infinite;
 }
+
 .arrow_item {
   width: 30px;
   height: 30px;
@@ -291,10 +300,12 @@ defineExpose({
 }
 
 @keyframes fadeInOut {
+
   0%,
   100% {
     opacity: 0;
   }
+
   50% {
     opacity: 1;
   }
@@ -329,20 +340,26 @@ defineExpose({
 .show_overlay {
   display: block;
 }
+
 @keyframes floatlarge {
+
   0%,
   100% {
     transform: translateY(0) scale(1.2);
   }
+
   50% {
     transform: translateY(-15px) scale(1.2);
   }
 }
+
 @keyframes float {
+
   0%,
   100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-6px);
   }

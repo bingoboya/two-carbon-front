@@ -12,7 +12,7 @@ const curInstance: any = ref(null);
 const props = defineProps({
   dataList: {
     type: Object,
-    default: () => {},
+    default: () => { },
   },
 });
 const offsetX = 6;
@@ -386,12 +386,8 @@ watch(
     await nextTick();
     console.log("props.dataList", newValue);
     const { yList } = newValue;
-    const lineOneValue = yList.find(
-      (item: any) => item.dataName === "碳排放量"
-    )?.dataList;
-    const lineTwoValue = yList.find(
-      (item: any) => item.dataName === "同比"
-    )?.dataList;
+    const lineOneValue = yList.find((item: any) => item.dataName === "碳排放量")?.dataList;
+    const lineTwoValue = yList.find((item: any) => item.dataName === "同比")?.dataList;
     if (curInstance.value === null) {
       curInstance.value = getchartInstance();
       /** 接口数据更新，判断是否有图表实例 ？没有->初始化图表 */

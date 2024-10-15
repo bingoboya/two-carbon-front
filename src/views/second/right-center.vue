@@ -15,34 +15,6 @@ const props = defineProps({
   },
 });
 const curInstance: any = ref(null);
-
-const VALUE = [
-  "2080.7",
-  "1624.93",
-  "2120.33",
-  "1842.89",
-  "1743.83",
-  "1743.83",
-  "1882.54",
-  "1823.09",
-  null,
-  null,
-  null,
-  null,
-];
-const LineVALUE = [
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  "1783.46",
-  "1882.54",
-  "1922.17",
-  "2239.25",
-];
 const newOption = {
   grid: {
     show: true,
@@ -173,7 +145,7 @@ const newOption = {
   ],
   series: [
     {
-      data: VALUE,
+      data: [],
       type: "line",
       yAxisIndex: 0,
       smooth: true,
@@ -214,11 +186,11 @@ const newOption = {
         // data: nullIndices.map((index: any) => ({
         //   xAxis: index
         // }))
-        data: [{ xAxis: VALUE.findIndex((item: any) => item === null) - 1 }],
+        data: [{ xAxis: -1 }],
       },
     },
     {
-      data: LineVALUE,
+      data: [],
       type: "line",
       yAxisIndex: 0,
       smooth: true,

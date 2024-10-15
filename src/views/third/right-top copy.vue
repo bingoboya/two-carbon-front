@@ -1,23 +1,25 @@
 <template>
   <div style="width: 100%; height: 100%">
-    <v-chart
-      class="chart"
-      @mouseover="mouseoverFun"
-      autoresize
-      style="width: 100%; height: 100%"
-      :option="option"
-      v-if="JSON.stringify(option) != '{}'"
-    />
+    <v-chart class="chart" @mouseover="mouseoverFun" autoresize style="width: 100%; height: 100%" :option="option"
+      v-if="JSON.stringify(option) != '{}'" />
   </div>
 </template>
 <script setup lang="ts">
 import { ref, reactive } from "vue";
+const props = defineProps({
+  dataList: {
+    type: Object,
+    default: () => { },
+  },
+});
 // 监听鼠标事件，实现饼图选中效果（单选），近似实现高亮（放大）效果。
-let selectedIndex = "";
 let hoveredIndex = "";
 const option: any = ref({});
 const state: any = reactive({
   data: [],
+  valA: 20,
+  valB: 25,
+  valC: 55,
 });
 // TODO
 // 生成扇形的曲面参数方程，用于 series-surface.parametricEquation
@@ -315,29 +317,19 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
             verticalAlign: "center",
             padding: [2, 10, 0, 0],
           },
-          // num: {
-          //   fontSize: 14,
-          //   width: 44,
-          //   align: 'right',
-          //   color: "#fff",
-          //   verticalAlign: 'center',
-          //   padding: [4, 10, 0, 0],
-          // },
         },
       },
       formatter: (name: any) => {
-        let tarValue, tarUnit, tarNum;
+        let tarValue, tarUnit;
         for (let i = 0; i < state.data.length; i++) {
           if (state.data[i].name == name) {
             tarValue = state.data[i].value;
             tarUnit = state.data[i].unit;
-            tarNum = state.data[i].num;
           }
         }
         const v = tarValue;
         const unit = tarUnit;
         return [`{name|${name}} {value|${v}}{unit|${unit}} `].join("");
-        // return [`{name|${name}} {value|${v}}{unit|${unit}} {num|${tarNum}}`].join('');
       },
     },
     tooltip: {
@@ -348,11 +340,9 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
       },
       formatter: (params: any) => {
         if (params.seriesName !== "mouseoutSeries") {
-          return `${
-            params.seriesName
-          }<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${
-            params.color
-          };"></span>${option.series[params.seriesIndex].pieData.value}`;
+          return `${params.seriesName
+            }<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${params.color
+            };"></span>${option.series[params.seriesIndex].pieData.value}`;
         }
       },
     },
@@ -457,39 +447,53 @@ const mouseoverFun = (params: any) => {
 //   console.log('globaloutFunc', params)
 // }
 
-const getData = () => {
-  state.data = [
+
+const getNewData = () => {
+  return [
     {
-      value: 20,
+      value: state.valA,
       name: "本浦冷轧2#重卷机组",
       unit: "%",
-      num: 25,
       itemStyle: {
         color: "rgba(237, 187, 67, 1)",
       },
     },
     {
-      value: 25,
+      value: state.valB,
       name: "本浦冷轧3#重卷机组",
       unit: "%",
-      num: 22354,
       itemStyle: {
         color: "#b54c46",
       },
     },
     {
-      value: 55,
+      value: state.valC,
       name: "电镀锌机组",
       unit: "%",
-      num: 2541,
       itemStyle: {
         color: "rgba(17, 219, 231, 1)",
       },
-    },
-  ];
+    }
+  ]
+}
+
+const getData = () => {
+  state.data = getNewData()
   option.value = getPie3D(state.data, 0.8);
 };
-getData();
+watch(() => toRaw(props.dataList), (newValue) => {
+  const { carbonEmissionsPercentage: valA } = newValue.find((item: any) => item.equipmentName === "本浦冷轧2#重卷机组");
+  const { carbonEmissionsPercentage: valB } = newValue.find((item: any) => item.equipmentName === "本浦冷轧3#重卷机组");
+  const { carbonEmissionsPercentage: valC } = newValue.find((item: any) => item.equipmentName === "电镀锌机组");
+  state.valA = Number(valA.replace("%", ""));
+  state.valB = Number(valB.replace("%", ""));
+  state.valC = Number(valC.replace("%", ""));
+  getData();
+})
+onMounted(async () => {
+  await nextTick();
+  getData();
+})
 </script>
 
 <style scoped lang="scss"></style>

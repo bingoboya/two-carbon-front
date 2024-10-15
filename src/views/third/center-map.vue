@@ -2,157 +2,96 @@
   <div class="centermap">
     <div class="center_wrapper">
       <div class="item_wrap" style="position: relative">
-        <!-- <div style="position: absolute; display: flex; flex-direction: row;justify-content: center; align-items: center;"> -->
         <div class="card_left">
           <img :src="wholeco2icon" alt="" />
         </div>
         <div class="card_right">
           <div>总碳排放量</div>
-          <div style="display: flex; gap: 10px">
-            <div>
-              <CountUp
-                style="color: yellow"
-                :endVal="99.23"
-                :duration="duration"
-                :options="{ decimalPlaces: 3 }"
-              />
-            </div>
+          <div v-if="dataList.carbonEmissions !== null" style="display: flex; gap: 10px">
+            <CountUp style="color: yellow" :endVal="dataList.carbonEmissions" :duration="1"
+              :options="{ decimalPlaces: 2 }" />
             <div style="color: #e2e2e2">万吨</div>
           </div>
+          <div v-else>--</div>
           <div style="display: flex">
-            <div>同比</div>
-            <div
-              :style="{ color: true ? 'red' : 'green' }"
-              style="
+            <div style="padding-right: 8px;">同比</div>
+            <div v-if="dataList.carbonEmissionsYoy !== null"
+              :style="{ color: dataList.carbonEmissionsYoy > 0 ? '#ff3434' : '#0fff3f' }" style="
                 display: flex;
                 align-items: center;
                 gap: 4px;
-                padding-left: 8px;
-              "
-            >
-              <img
-                style="height: 14px"
-                v-if="true"
-                :src="arrow_top_icon"
-                alt=""
-              />
+              ">
+              <img style="height: 14px" v-if="dataList.carbonEmissionsYoy > 0" :src="arrow_top_icon" alt="" />
               <img style="height: 14px" v-else :src="arrow_down_icon" alt="" />
-              <div>
-                <CountUp
-                  :endVal="1.23"
-                  :duration="duration"
-                  :options="{ decimalPlaces: 3 }"
-                />
-              </div>
+              <CountUp :endVal="dataList.carbonEmissionsYoy" :duration="1" :options="{ decimalPlaces: 2 }" />
+              <div style="color: #e2e2e2">%</div>
             </div>
-            <div style="color: #e2e2e2">%</div>
+            <div v-else>--</div>
           </div>
         </div>
-        <!-- </div> -->
       </div>
       <div class="item_wrap" style="position: relative">
-        <!-- <div style="position: absolute; display: flex; flex-direction: row;justify-content: center; align-items: center;"> -->
         <div class="card_left">
           <img :src="zongnenghaoicon" alt="" />
         </div>
         <div class="card_right">
           <div>总能耗</div>
-          <div style="display: flex; gap: 10px">
-            <div>
-              <CountUp
-                style="color: yellow"
-                :endVal="99.23"
-                :duration="duration"
-                :options="{ decimalPlaces: 3 }"
-              />
-            </div>
-            <div style="color: #e2e2e2">万吨</div>
+          <div v-if="dataList.energyConsumption !== null" style="display: flex; gap: 10px">
+            <CountUp style="color: yellow" :endVal="dataList.energyConsumption" :duration="1"
+              :options="{ decimalPlaces: 2 }" />
+            <div style="color: #e2e2e2">万吨标准煤</div>
           </div>
+          <div v-else>--</div>
           <div style="display: flex">
-            <div>同比</div>
-            <div
-              :style="{ color: true ? 'red' : 'green' }"
-              style="
+            <div style="padding-right: 8px;">同比</div>
+            <div v-if="dataList.energyConsumptionYoy !== null"
+              :style="{ color: dataList.energyConsumptionYoy > 0 ? '#ff3434' : '#0fff3f' }" style="
                 display: flex;
                 align-items: center;
                 gap: 4px;
-                padding-left: 8px;
-              "
-            >
-              <img
-                style="height: 14px"
-                v-if="true"
-                :src="arrow_top_icon"
-                alt=""
-              />
+              ">
+              <img style="height: 14px" v-if="dataList.energyConsumptionYoy > 0" :src="arrow_top_icon" alt="" />
               <img style="height: 14px" v-else :src="arrow_down_icon" alt="" />
-              <div>
-                <CountUp
-                  :endVal="1.23"
-                  :duration="duration"
-                  :options="{ decimalPlaces: 3 }"
-                />
-              </div>
+              <CountUp :endVal="dataList.energyConsumptionYoy" :duration="1" :options="{ decimalPlaces: 2 }" />
+              <div style="color: #e2e2e2">%</div>
             </div>
-            <div style="color: #e2e2e2">%</div>
+            <div v-else>--</div>
           </div>
         </div>
-        <!-- </div> -->
       </div>
       <div class="item_wrap" style="position: relative">
         <div class="card_left">
           <img :src="haodianicon" alt="" />
         </div>
         <div class="card_right">
-          <div>耗电量</div>
-          <div style="display: flex; gap: 10px">
-            <div>
-              <CountUp
-                style="color: yellow"
-                :endVal="99.23"
-                :duration="duration"
-                :options="{ decimalPlaces: 3 }"
-              />
-            </div>
-            <div style="color: #e2e2e2">万吨</div>
+          <div>用电量</div>
+          <div v-if="dataList.power !== null" style="display: flex; gap: 10px">
+            <CountUp style="color: yellow" :endVal="dataList.power" :duration="1"
+              :options="{ decimalPlaces: 2 }" />
+            <div style="color: #e2e2e2">万千瓦时</div>
           </div>
+          <div v-else>--</div>
           <div style="display: flex">
-            <div>同比</div>
-            <div
-              :style="{ color: true ? 'red' : 'green' }"
+            <div style="padding-right: 8px;">同比</div>
+            <div v-if="dataList.powerYoy !== null" :style="{ color: dataList.powerYoy > 0 ? '#ff3434' : '#0fff3f' }"
               style="
                 display: flex;
                 align-items: center;
                 gap: 4px;
-                padding-left: 8px;
-              "
-            >
-              <img
-                style="height: 14px"
-                v-if="true"
-                :src="arrow_top_icon"
-                alt=""
-              />
+              ">
+              <img style="height: 14px" v-if="dataList.powerYoy > 0" :src="arrow_top_icon" alt="" />
               <img style="height: 14px" v-else :src="arrow_down_icon" alt="" />
-              <div>
-                <CountUp
-                  :endVal="1.23"
-                  :duration="duration"
-                  :options="{ decimalPlaces: 3 }"
-                />
-              </div>
+              <CountUp :endVal="dataList.powerYoy" :duration="1" :options="{ decimalPlaces: 2 }" />
+              <div style="color: #e2e2e2">%</div>
             </div>
-            <div style="color: #e2e2e2">%</div>
+            <div v-else>--</div>
           </div>
         </div>
       </div>
     </div>
 
-    <InteractiveFactoryMap
-      @callBackFunction="callBackFunction"
-      ref="InteractiveFactoryMapRef"
-      :buildingArr="defaultBuildingArr"
-    />
+    <InteractiveFactoryMap @callBackFunction="callBackFunction" ref="InteractiveFactoryMapRef"
+      :buildingArr="defaultBuildingArr" :dataList="state.detailedList" />
   </div>
 </template>
 <script setup lang="ts">
@@ -165,12 +104,21 @@ import wholeco2icon from "@/assets/icon/co2_icon.png";
 import zongnenghaoicon from "@/assets/icon/总能耗icon.png";
 import haodianicon from "@/assets/icon/耗电量icon.png";
 const emits = defineEmits(["handlePopupClick"]);
-
-const duration = ref(2);
+const props = defineProps({
+  dataList: {
+    type: Object,
+    default: () => {
+      return {};
+    },
+  }
+})
+const state = reactive({
+  detailedList: <any>[]
+})
 const InteractiveFactoryMapRef: any = ref(null);
 
 const callBackFunction = (buildingName: any, departmentImgName: any) => {
-  console.log("callBackFunction", buildingName);
+  // console.log("callBackFunction", buildingName);
   emits("handlePopupClick", buildingName, departmentImgName);
 };
 const defaultBuildingArr = [
@@ -181,7 +129,9 @@ const defaultBuildingArr = [
     width: 260,
     height: 100,
     name: "本浦冷轧2#重卷机组",
-    info: "这是主要办公区域",
+    info: "主要生产区域",
+    carbonEmissions: 19522.72,
+    energyConsumption: 1834.06,
     alwaysVisible: !true,
     arrowPicSrc: "/src/assets/icon/dianduxinarrow.png",
     bgPicSrc: "/src/assets/bgpng/电镀锌弹框_default.png",
@@ -194,6 +144,8 @@ const defaultBuildingArr = [
     height: 80,
     name: "本浦冷轧3#重卷机组",
     info: "主要生产区域",
+    carbonEmissions: 29522.72,
+    energyConsumption: 2834.06,
     alwaysVisible: !true,
     arrowPicSrc: "/src/assets/icon/lengzaarrow.png",
     bgPicSrc: "/src/assets/bgpng/冷轧弹框_default.png",
@@ -206,11 +158,37 @@ const defaultBuildingArr = [
     height: 120,
     name: "电镀锌机组",
     info: "主要生产区域",
+    carbonEmissions: 39522.72,
+    energyConsumption: 3834.06,
     alwaysVisible: !true,
     arrowPicSrc: "/src/assets/icon/rezaarrow.png",
     bgPicSrc: "/src/assets/bgpng/热轧弹框_default.png",
   },
 ];
+
+watch(() => toRaw(props.dataList), (newValue, oldValue) => {
+  console.log('newValue', newValue);
+  const { carbonEmissionsDetailedList, powerDetailedList } = newValue
+  const enumList = [
+    { name: "本浦冷轧2#重卷机组" },
+    { name: "本浦冷轧3#重卷机组" },
+    { name: "电镀锌机组" }
+  ]
+  enumList.forEach((item: any) => {
+    carbonEmissionsDetailedList.forEach((ele: any) => {
+      if (item.name === ele.equipmentName) {
+        item.carbonEmissions = ele.carbonEmissions
+      }
+    })
+    powerDetailedList.forEach((ele: any) => {
+      if (item.name === ele.equipmentName) {
+        item.energyConsumption = ele.energyConsumption
+      }
+    })
+  })
+  state.detailedList = enumList
+  console.log('enumList', enumList);
+})
 
 const callBackFunc = (params: any, type: string) => {
   // console.log('InteractiveFactoryMapRef', params, type)
@@ -224,6 +202,7 @@ defineExpose({
 <style scoped lang="scss">
 .centermap {
   position: relative;
+  flex: 1
 }
 
 .center_wrapper {
@@ -234,11 +213,12 @@ defineExpose({
   padding: 0 2px;
   justify-content: space-around;
   align-items: center;
-  width: 80%;
+  width: 90%;
   position: absolute;
   top: 50px;
   left: 50%;
   transform: translateX(-50%);
+
   .item_wrap {
     flex: 226;
     display: flex;
@@ -259,6 +239,7 @@ defineExpose({
   flex-direction: row;
   justify-content: center;
   align-items: center;
+
   img {
     width: 60px;
   }

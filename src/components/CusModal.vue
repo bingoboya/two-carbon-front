@@ -1,7 +1,7 @@
 <template>
 
- <!-- 如果时teleport 需要在 content_wrapper 元素 外套上 scale-screen组件， 保证可以使用scale的逻辑 -->
-<!-- <Teleport v-if="mountedOnBody && visible" to="body">
+  <!-- 如果时teleport 需要在 content_wrapper 元素 外套上 scale-screen组件， 保证可以使用scale的逻辑 -->
+  <!-- <Teleport v-if="mountedOnBody && visible" to="body">
   <scale-screen
     :width="screenWidth"
     :height="screenHeight"
@@ -54,23 +54,13 @@
   <div v-if="!mountedOnBody && visible" class="modal_wrapper" @click.self="closeModal">
     <div @click.self="closeModal" class="overlay"></div>
     <div class="modal_container">
-        <div class="modal_header" >
-          <div class="modal_title_wrap" >
-            {{ title }}
-          </div>
-          <div style=" display: flex; gap: 16px; position: absolute; right: 36px; flex-direction: row; align-items: center;" >
-            <div>
-              <CusTomSelect
-                v-model="selectedValue"
-                :options="options"
-                placeholder="请选择"
-              />
-            </div>
-            <div class="close_btn" @click="closeModal">
-              <!-- <button class="close-btn" @click="closeModal">×</button> -->
-            </div>
-          </div>
+      <div class="modal_header">
+        <div class="modal_title_wrap">
+          {{ title }}
         </div>
+        <div class="close_btn" @click="closeModal">
+        </div>
+      </div>
       <div class="modal_body">
         <slot name="content"></slot>
       </div>
@@ -102,16 +92,6 @@ interface ModalProps {
 const visible = ref(false);
 const title = ref("");
 
-const selectedValue: any = ref("");
-const options = [
-  { value: "option1", label: "2021" },
-  { value: "option2", label: "2022" },
-  { value: "option3", label: "2023" },
-  { value: "option31", label: "2024" },
-  { value: "option32", label: "2025" },
-  { value: "option33", label: "2026" },
-  { value: "option34", label: "2027" },
-];
 
 const props = defineProps<ModalProps>();
 
@@ -130,7 +110,10 @@ defineExpose({
 </script>
 <style scoped>
 .modal_title_wrap {
-  flex: 1; display: flex; justify-content: center; align-items: center;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 22px;
   font-weight: 600;
   background: url("/src/assets/bgpng/弹框头部两边箭头.png");
@@ -138,6 +121,7 @@ defineExpose({
   background-position-x: center;
   background-position-y: center;
 }
+
 .modal_header {
   margin-top: 23px;
   position: relative;
@@ -155,8 +139,9 @@ defineExpose({
   background: url("/src/assets/bgpng/close_icon.png");
   background-repeat: round;
   cursor: pointer;
-
+  position: absolute; right: 36px;
 }
+
 .close-btn {
   font-size: 20px;
   font-weight: bold;
@@ -165,6 +150,7 @@ defineExpose({
   border: none;
   cursor: pointer;
 }
+
 .overlay {
   position: absolute;
   top: 0;
@@ -174,7 +160,9 @@ defineExpose({
   transform: translate(-20%, -140px);
   background-color: rgba(0, 0, 0, 0.5);
 }
-.modal_wrapper {user-select: none;
+
+.modal_wrapper {
+  user-select: none;
   position: fixed;
   /* background-color: rgba(0, 0, 0, 0.5); */
   top: 0;
@@ -214,8 +202,6 @@ defineExpose({
   padding: 10px 20px;
   border-top: 1px solid #e5e5e5;
 }
-
-
 </style>
 
 <style lang="scss" scoped>

@@ -5,94 +5,76 @@
     <div v-if="backgroundImageSrc" class="pic_wrap">
       <div class="center_title">{{ "电镀锌工艺" }}</div>
       <div class="process_overlay">
-        <div
-          class="process_top"
-          :class="curBuildingName === '酸轧' ? 'process_top_hover' : ''"
-          @click="clickItem('酸轧')"
-        >
+        <div class="process_top" :class="curBuildingName === '酸轧' ? 'process_top_hover' : ''" @click="clickItem('酸轧')">
           <div class="process_info_wrapper">
             <div class="process_info card_info_label1">
               <div style="font-weight: 300">碳排放量：</div>
-              <div style="font-size: 14px">{{ 11.76 }}</div>
+              <div style="font-size: 14px">{{ getData('酸轧', 'carbonEmissions') }}</div>
               <div style="font-weight: 300">&nbsp; 万吨</div>
             </div>
             <div class="process_info card_info_label1">
-              <div style="font-weight: 300">耗电量：</div>
-              <div style="font-size: 14px">{{ 13226.36 }}</div>
+              <div style="font-weight: 300">用电量：</div>
+              <div style="font-size: 14px">{{ getData('酸轧', 'energyConsumption') }}</div>
               <div style="font-weight: 300">&nbsp; 万千瓦时</div>
             </div>
           </div>
           <div style="position: absolute; left: 0">
             <img src="/src/assets/bgpng/1.png" alt="" />
           </div>
-          <div
-            style="writing-mode: vertical-lr; letter-spacing: 16px; color: #fff"
-          >
+          <div style="writing-mode: vertical-lr; letter-spacing: 16px; color: #fff">
             酸轧
           </div>
           <div style="position: absolute; right: 0">
             <img src="/src/assets/bgpng/1-1.png" alt="" />
           </div>
         </div>
-        <div
-          class="process_center"
-          :class="curBuildingName === '连退' ? 'process_center_hover' : ''"
-          @click="clickItem('连退')"
-        >
+        <div class="process_center" :class="curBuildingName === '连退' ? 'process_center_hover' : ''"
+          @click="clickItem('连退')">
           <div class="process_info_wrapper">
             <div class="process_info card_info_label2">
               <div style="font-weight: 300">碳排放量：</div>
-              <div style="font-size: 14px">{{ 4.09 }}</div>
+              <div style="font-size: 14px">{{ getData('连退', 'carbonEmissions') }}</div>
               <div style="font-weight: 300">&nbsp; 万吨</div>
             </div>
             <div class="process_info card_info_label2">
-              <div style="font-weight: 300">耗电量：</div>
-              <div style="font-size: 14px">{{ 672.49 }}</div>
+              <div style="font-weight: 300">用电量：</div>
+              <div style="font-size: 14px">{{ getData('连退', 'energyConsumption') }}</div>
               <div style="font-weight: 300">&nbsp; 万千瓦时</div>
             </div>
           </div>
           <div style="position: absolute; left: 0">
             <img src="/src/assets/bgpng/2.png" alt="" />
           </div>
-          <div
-            style="writing-mode: vertical-lr; letter-spacing: 16px; color: #fff"
-          >
+          <div style="writing-mode: vertical-lr; letter-spacing: 16px; color: #fff">
             连退
           </div>
           <div style="position: absolute; right: 0">
             <img src="/src/assets/bgpng/2-2.png" alt="" />
           </div>
         </div>
-        <div
-          class="process_bottom"
-          :class="
-            curBuildingName === '电镀(精整)' ? 'process_bottom_hover' : ''
-          "
-          @click="clickItem('电镀(精整)')"
-        >
+        <div class="process_bottom" :class="curBuildingName === '电镀锌(精整)' ? 'process_bottom_hover' : ''
+          " @click="clickItem('电镀锌(精整)')">
           <div class="process_info_wrapper">
             <div class="process_info card_info_label3">
               <div style="font-weight: 300">碳排放量：</div>
-              <div style="font-size: 14px">{{ 2.76 }}</div>
+              <div style="font-size: 14px">{{ getData('电镀锌(精整)', 'carbonEmissions') }}</div>
               <div style="font-weight: 300">&nbsp; 万吨</div>
             </div>
             <div class="process_info card_info_label3">
-              <div style="font-weight: 300">耗电量：</div>
-              <div style="font-size: 14px">{{ 1983.84 }}</div>
+              <div style="font-weight: 300">用电量：</div>
+              <div style="font-size: 14px">{{ getData('电镀锌(精整)', 'energyConsumption') }}</div>
               <div style="font-weight: 300">&nbsp; 万千瓦时</div>
             </div>
           </div>
           <div style="position: absolute; left: 0">
             <img src="/src/assets/bgpng/青色左边.png" alt="" />
           </div>
-          <div
-            style="
+          <div style="
               display: flex;
               flex-direction: column;
               align-items: center;
               color: #fff;
-            "
-          >
+            ">
             <div>电</div>
             <div>镀</div>
             <div style="writing-mode: vertical-lr; padding-left: 2px">(</div>
@@ -105,9 +87,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="pic_wrapper">
-        <img :src="backgroundImageSrc" alt="" />
-      </div> -->
       <div class="pic_wrapper">
         <div style="position: relative;width: 120%; height: 100%;left: 50%; transform: translateX(-50%);">
           <video v-if="showVideo" autoplay loop muted width="100%" style="position: absolute; width: 100% !important;">
@@ -148,6 +127,10 @@ interface Building {
 const emits = defineEmits(["callBackFunction"]);
 
 const props = defineProps({
+  dataList: {
+    type: Array,
+    default: [],
+  },
   backgroundImageSrc: {
     type: String,
     default: "",
@@ -161,7 +144,12 @@ const props = defineProps({
   },
 });
 const showVideo = ref(true)
-
+const getData = (param: any = "酸轧", tagName: any = 'carbonEmissions') => {
+  const res: any = toRaw(props.dataList).find((item: any) => item.name === param);
+  if (res) {
+    return res[tagName];
+  }
+}
 let labelRenderer: any;
 let appList: any = [];
 const curBuildingName = ref("");
@@ -184,7 +172,7 @@ const infoCardStyle = computed(() => ({
 }));
 
 const clickItem = (name: any) => {
-  if (name === "电镀(精整)") {
+  if (name === "电镀锌(精整)") {
     emits("callBackFunction", name);
   }
 };
@@ -381,10 +369,10 @@ const initFunc = async () => {
 const returnPlaying = async () => {
   // console.log('returnPlaying----------');
   if (document.hidden) {
-      showVideo.value = false
-    } else {
-      showVideo.value = true
-    }
+    showVideo.value = false
+  } else {
+    showVideo.value = true
+  }
 }
 onMounted(async () => {
   await nextTick();
@@ -443,12 +431,15 @@ defineExpose({
 .card_info_label1 {
   background: linear-gradient(to right, rgba(116, 189, 195, 0.9), transparent);
 }
+
 .card_info_label2 {
   background: linear-gradient(to right, rgba(75, 176, 217, 0.9), transparent);
 }
+
 .card_info_label3 {
   background: linear-gradient(to right, rgba(122, 172, 150, 0.9), transparent);
 }
+
 .center_title {
   position: absolute;
   top: 0;
@@ -456,6 +447,7 @@ defineExpose({
   line-height: 46px;
   color: #fff;
 }
+
 .process_info_wrapper {
   color: #fff;
   display: flex;
@@ -493,19 +485,15 @@ defineExpose({
   // box-shadow: 0 0 10px rgba(0, 229, 255, 0.3),
   //             // 0 0 20px rgba(0, 229, 255, 0.3),
   //             0 0 30px rgba(0, 229, 255, 0.1);
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       rgba(0, 229, 255, 0.2) 0%,
       transparent 20px,
       transparent calc(100% - 20px),
-      rgba(0, 229, 255, 0.2) 100%
-    ),
-    radial-gradient(
-      circle at center,
+      rgba(0, 229, 255, 0.2) 100%),
+    radial-gradient(circle at center,
       transparent 0%,
       transparent 80%,
-      rgba(0, 229, 255, 0.2) 100%
-    );
+      rgba(0, 229, 255, 0.2) 100%);
   overflow: hidden;
 }
 
@@ -520,11 +508,9 @@ defineExpose({
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(
-      circle at center,
-      rgba(0, 229, 255, 0.2) 0%,
-      transparent 70%
-    );
+    background: radial-gradient(circle at center,
+        rgba(0, 229, 255, 0.2) 0%,
+        transparent 70%);
     pointer-events: none;
   }
 }
@@ -540,11 +526,9 @@ defineExpose({
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(
-      circle at center,
-      rgba(0, 229, 255, 0.2) 0%,
-      transparent 70%
-    );
+    background: radial-gradient(circle at center,
+        rgba(0, 229, 255, 0.2) 0%,
+        transparent 70%);
     pointer-events: none;
   }
 }
@@ -565,19 +549,15 @@ defineExpose({
   // box-shadow: 0 0 10px rgba(31, 173, 255, 0.5),
   //             0 0 20px rgba(31, 173, 255, 0.3),
   //             0 0 30px rgba(31, 173, 255, 0.1);
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       rgba(31, 173, 255, 0.2) 0%,
       transparent 20px,
       transparent calc(100% - 20px),
-      rgba(31, 173, 255, 0.2) 100%
-    ),
-    radial-gradient(
-      circle at center,
+      rgba(31, 173, 255, 0.2) 100%),
+    radial-gradient(circle at center,
       transparent 0%,
       transparent 80%,
-      rgba(31, 173, 255, 0.2) 100%
-    );
+      rgba(31, 173, 255, 0.2) 100%);
   overflow: hidden;
 }
 
@@ -592,11 +572,9 @@ defineExpose({
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(
-      circle at center,
-      rgba(31, 173, 255, 0.2) 0%,
-      transparent 70%
-    );
+    background: radial-gradient(circle at center,
+        rgba(31, 173, 255, 0.2) 0%,
+        transparent 70%);
     pointer-events: none;
   }
 }
@@ -612,11 +590,9 @@ defineExpose({
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(
-      circle at center,
-      rgba(31, 173, 255, 0.2) 0%,
-      transparent 70%
-    );
+    background: radial-gradient(circle at center,
+        rgba(31, 173, 255, 0.2) 0%,
+        transparent 70%);
     pointer-events: none;
   }
 }
@@ -635,19 +611,15 @@ defineExpose({
   // box-shadow: 0 0 4px rgba(125, 235, 190, 0.3),
   //             // 0 0 10px rgba(125, 235, 190, 0.3),
   //             0 0 20px rgba(125, 235, 190, 0.1);
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       rgba(125, 235, 190, 0.2) 0%,
       transparent 20px,
       transparent calc(100% - 20px),
-      rgba(125, 235, 190, 0.2) 100%
-    ),
-    radial-gradient(
-      circle at center,
+      rgba(125, 235, 190, 0.2) 100%),
+    radial-gradient(circle at center,
       transparent 0%,
       transparent 80%,
-      rgba(125, 235, 190, 0.2) 100%
-    );
+      rgba(125, 235, 190, 0.2) 100%);
   position: relative;
   overflow: hidden;
 }
@@ -663,11 +635,9 @@ defineExpose({
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(
-      circle at center,
-      rgba(125, 235, 190, 0.2) 0%,
-      transparent 70%
-    );
+    background: radial-gradient(circle at center,
+        rgba(125, 235, 190, 0.2) 0%,
+        transparent 70%);
     pointer-events: none;
   }
 }
@@ -683,11 +653,9 @@ defineExpose({
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(
-      circle at center,
-      rgba(125, 235, 190, 0.2) 0%,
-      transparent 70%
-    );
+    background: radial-gradient(circle at center,
+        rgba(125, 235, 190, 0.2) 0%,
+        transparent 70%);
     pointer-events: none;
   }
 }

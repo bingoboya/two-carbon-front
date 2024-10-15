@@ -9,7 +9,7 @@ import { graphic } from "echarts/core";
 const props = defineProps({
   dataList: {
     type: Object,
-    default: () => {},
+    default: () => { },
   },
 });
 
@@ -17,63 +17,6 @@ import { EchartsUI, useEcharts } from "@/utils/echarts";
 const EchartContainerRef = ref(); //组件实例
 const { renderEcharts, getchartInstance } = useEcharts(EchartContainerRef);
 const curInstance: any = ref(null);
-const numList2 = [
-  3623.25,
-  2829.57,
-  3692.25,
-  3209.1,
-  3036.61,
-  3036.61,
-  3278.19,
-  3174.67,
-  3174.67,
-  null,
-  null,
-  null,
-]; // 实际
-const numList = [
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  4105.68,
-  4278.19,
-  4347.25,
-  4899.35,
-];
-const numList3 = [
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  3105.68,
-  3278.19,
-  3347.25,
-  3899.35,
-]; // 预测碳排
-const numList4 = [
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  2105.68,
-  2278.19,
-  2347.25,
-  2899.35,
-];
-
 const newOption = {
   grid: {
     show: true,
@@ -99,27 +42,23 @@ const newOption = {
         if (item.seriesName == "实际碳排") {
           const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(255,136,30,1);"></span>`;
           item.marker = mark;
-          result += `${item.marker} ${item.seriesName} : ${
-            item.value ? `${item.value}吨</br>` : "- </br>"
-          }`;
+          result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}吨</br>` : "- </br>"
+            }`;
         } else if (item.seriesName == "预测碳排") {
           const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(253,253,30, 1);"></span>`;
           item.marker = mark;
-          result += `${item.marker} ${item.seriesName} : ${
-            item.value ? `${item.value}吨</br>` : "- </br>"
-          }`;
+          result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}吨</br>` : "- </br>"
+            }`;
         } else if (item.seriesName == "预测上限") {
           const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(13,255,198, 1);"></span>`;
           item.marker = mark;
-          result += `${item.marker} ${item.seriesName} : ${
-            item.value ? `${item.value}吨</br>` : "- </br>"
-          }`;
+          result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}吨</br>` : "- </br>"
+            }`;
         } else if (item.seriesName == "预测下限") {
           const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(31,254,255, 1);"></span>`;
           item.marker = mark;
-          result += `${item.marker} ${item.seriesName} : ${
-            item.value ? `${item.value}吨</br>` : "- </br>"
-          }`;
+          result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}吨</br>` : "- </br>"
+            }`;
         } else {
           result += item.marker + " " + item.seriesName + " :  - </br>";
         }
@@ -236,7 +175,7 @@ const newOption = {
   ],
   series: [
     {
-      data: numList2,
+      data: [],
       type: "line",
       yAxisIndex: 0,
       smooth: true,
@@ -267,7 +206,7 @@ const newOption = {
       },
     },
     {
-      data: numList3,
+      data: [],
       type: "line",
       yAxisIndex: 0,
       smooth: true,
@@ -279,7 +218,7 @@ const newOption = {
       },
     },
     {
-      data: numList,
+      data: [],
       type: "line",
       yAxisIndex: 0,
       smooth: true,
@@ -291,7 +230,7 @@ const newOption = {
       },
     },
     {
-      data: numList4,
+      data: [],
       type: "line",
       yAxisIndex: 0,
       smooth: true,
@@ -304,6 +243,130 @@ const newOption = {
     },
   ],
 };
+
+
+watch(
+  () => toRaw(props.dataList),
+  async (newValue) => {
+    await nextTick();
+    console.log("props.dataList", newValue);
+    const { yList } = newValue;
+    const lineOneValue = yList.find((item: any) => item.dataName === "实际碳排")?.dataList;
+    const lineTwoValue = yList.find((item: any) => item.dataName === "预测碳排")?.dataList;
+    const lineThreeValue = yList.find((item: any) => item.dataName === "预测上限")?.dataList;
+    const lineFourValue = yList.find((item: any) => item.dataName === "预测下限")?.dataList;
+    if (curInstance.value === null) {
+      curInstance.value = getchartInstance();
+      /** 接口数据更新，判断是否有图表实例 ？没有->初始化图表 */
+      const series = [
+        {
+          data: lineOneValue,
+          type: "line",
+          yAxisIndex: 0,
+          smooth: true,
+          symbol: "none", //去除点
+          name: "实际碳排",
+          lineStyle: {
+            color: "rgba(31, 254, 255, 1)",
+            width: 2,
+          },
+          areaStyle: {
+            //右，下，左，上
+            color: new graphic.LinearGradient(
+              0,
+              0,
+              0,
+              1,
+              [
+                {
+                  offset: 0,
+                  color: "rgba(252,144,16,.7)",
+                },
+                {
+                  offset: 1,
+                  color: "rgba(9,202,243,.0)",
+                },
+              ],
+              false
+            ),
+          },
+        },
+        {
+          data: lineTwoValue,
+          type: "line",
+          yAxisIndex: 0,
+          smooth: true,
+          symbol: "none", //去除点
+          name: "预测碳排",
+          lineStyle: {
+            type: "dotted",
+            color: "#edbb43",
+            width: 2,
+          },
+        },
+        {
+          data: lineThreeValue,
+          type: "line",
+          yAxisIndex: 0,
+          smooth: true,
+          symbol: "none", //去除点
+          name: "预测上限",
+          lineStyle: {
+            color: "rgba(188,196,48,1)",
+            type: "dotted",
+            width: 2,
+          },
+        },
+        {
+          data: lineFourValue,
+          type: "line",
+          yAxisIndex: 0,
+          smooth: true,
+          symbol: "none", //去除点
+          name: "预测下限",
+          lineStyle: {
+            color: "rgba(229,126,47,1)",
+            type: "dotted",
+            width: 2,
+          },
+        },
+      ];
+      renderEcharts({
+        ...newOption,
+        series,
+      });
+    } else {
+      /** 接口数据更新，判断是否有图标实例 ？有->直接更新图表数据 */
+      renderEcharts(
+        {
+          series: [
+            {
+              // 根据名字对应到相应的系列
+              name: "实际碳排",
+              data: lineOneValue,
+            },
+            {
+              // 根据名字对应到相应的系列
+              name: "预测碳排",
+              data: lineTwoValue,
+            },
+            {
+              // 根据名字对应到相应的系列
+              name: "预测上限",
+              data: lineThreeValue,
+            },
+            {
+              // 根据名字对应到相应的系列
+              name: "预测下限",
+              data: lineFourValue,
+            },
+          ],
+        },
+        false
+      );
+    }
+  }
+);
 
 onMounted(() => {
   // getData();

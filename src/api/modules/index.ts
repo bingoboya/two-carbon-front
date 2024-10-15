@@ -40,7 +40,9 @@ export const bengangthirdpage = (url?: string, param: any = {}) => {
   return GET(url1, param);
 };
 /**第四页 */
-export const bengangfourthpage = (url?: string, param: any = {}) => {
+export const bengangfourthpage = (param: any = {}, url?: string ) => {
+  console.log("bengangfourthpage", param);
+  
   const url1 = url || indexUrl.bengangfourthpage;
   return GET(url1, param);
 };

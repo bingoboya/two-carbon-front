@@ -1,14 +1,19 @@
 <template>
-  <div style="width: 410px; height: 240px; position: relative;">
-    <div ref="chartRef" style="width: 100%; height: 120%;position: absolute;top: -40px;"></div>
-    <div style="position: absolute;bottom:0;display: flex;width: 100%; gap: 40px; flex-direction: row; justify-content: center;">
-      <div style="color: #6682ce;">直接碳排：30.23 %</div>
-      <div style="color: #85ce66;">间接碳排：69.77 %</div>
+  <div style="width: 410px; height: 240px; position: relative">
+    <div
+      ref="chartRef"
+      style="width: 100%; height: 120%; position: absolute; top: -40px"
+    ></div>
+    <div class="lable_wrap">
+      <div style="color: #6682ce">
+        直接碳排：{{ Number(100 - dataValue) }} %
+      </div>
+      <div style="color: #85ce66">间接碳排：{{ dataValue }} %</div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import * as echarts from 'echarts/core';
+import * as echarts from "echarts/core";
 const props = defineProps({
   dataList: {
     type: Object,
@@ -17,177 +22,177 @@ const props = defineProps({
 });
 // 基于准备好的dom，初始化echarts实例
 let animationId: any;
-const chartRef: any = ref(null)
-let myChart: any = ref(null)
+const chartRef: any = ref(null);
+let myChart: any = ref(null);
 let angle = ref(0); // 角度
-let dataValue = 69.77;
-const state = reactive({
-  option: {
+let dataValue = ref(69.77);
+const newOption = () => {
+  return {
     // backgroundColor: '#002837',
     title: {
-      text: `{v|${dataValue}} {unit|%}\n\n{t|间接碳排占比}`,
-      x: 'center',
-      y: 'center',
+      text: `{v|${dataValue.value}} {unit|%}\n\n{t|间接碳排占比}`,
+      x: "center",
+      y: "center",
       textStyle: {
         rich: {
-          v: { fontSize: 24, color: '#28edf2' },
-          unit: { fontSize: 20, color: '#28edf2' },
-          t: { fontSize: 16, color: '#28edf2' }
-        }
-      }
+          v: { fontSize: 24, color: "#28edf2" },
+          unit: { fontSize: 20, color: "#28edf2" },
+          t: { fontSize: 16, color: "#28edf2" },
+        },
+      },
     },
     series: [
       /** 绘制内部圆弧-1 <right-top> */
       {
-        type: 'custom',
-        coordinateSystem: 'none',
+        type: "custom",
+        coordinateSystem: "none",
         renderItem: (params: any, api: any) => {
           return {
-            type: 'arc',
+            type: "arc",
             shape: {
               cx: api.getWidth() / 2,
               cy: api.getHeight() / 2,
-              r: Math.min(api.getWidth(), api.getHeight()) / 2 * 0.6,
-              startAngle: (270 + angle.value) * Math.PI / 180,
-              endAngle: (360 + angle.value) * Math.PI / 180
+              r: (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.6,
+              startAngle: ((270 + angle.value) * Math.PI) / 180,
+              endAngle: ((360 + angle.value) * Math.PI) / 180,
             },
             style: {
-              fill: 'transparent',
-              stroke: 'rgba(1, 248, 68, 0.4)',
-              lineWidth: 2
+              fill: "transparent",
+              stroke: "rgba(1, 248, 68, 0.4)",
+              lineWidth: 2,
             },
-            silent: true
-          }
+            silent: true,
+          };
         },
-        data: [0]
+        data: [0],
       },
       /** 绘制内部圆弧-2 <left-bottom> */
       {
-        type: 'custom',
-        coordinateSystem: 'none',
+        type: "custom",
+        coordinateSystem: "none",
         renderItem: (params: any, api: any) => {
           return {
-            type: 'arc',
+            type: "arc",
             shape: {
               cx: api.getWidth() / 2,
               cy: api.getHeight() / 2,
-              r: Math.min(api.getWidth(), api.getHeight()) / 2 * 0.6,
-              startAngle: (90 + angle.value) * Math.PI / 180,
-              endAngle: (180 + angle.value) * Math.PI / 180
+              r: (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.6,
+              startAngle: ((90 + angle.value) * Math.PI) / 180,
+              endAngle: ((180 + angle.value) * Math.PI) / 180,
             },
             style: {
-              fill: 'transparent',
-              stroke: 'rgba(1, 248, 68, 0.4)',
-              lineWidth: 2
+              fill: "transparent",
+              stroke: "rgba(1, 248, 68, 0.4)",
+              lineWidth: 2,
             },
-            silent: true
-          }
+            silent: true,
+          };
         },
-        data: [0]
+        data: [0],
       },
       /** 绘制外部圆弧-1 <right-bottom> */
       {
-        type: 'custom',
-        coordinateSystem: 'none',
+        type: "custom",
+        coordinateSystem: "none",
         renderItem: (params: any, api: any) => {
           return {
-            type: 'arc',
+            type: "arc",
             shape: {
               cx: api.getWidth() / 2,
               cy: api.getHeight() / 2,
-              r: Math.min(api.getWidth(), api.getHeight()) / 2 * 0.66,
-              startAngle: (355 + -angle.value) * Math.PI / 180,
-              endAngle: (120 + -angle.value) * Math.PI / 180
+              r: (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.66,
+              startAngle: ((355 + -angle.value) * Math.PI) / 180,
+              endAngle: ((120 + -angle.value) * Math.PI) / 180,
             },
             style: {
-              fill: 'transparent',
-              stroke: 'rgba(1, 248, 68, 0.4)',
-              lineWidth: 2.6
+              fill: "transparent",
+              stroke: "rgba(1, 248, 68, 0.4)",
+              lineWidth: 2.6,
             },
-            silent: true
-          }
+            silent: true,
+          };
         },
-        data: [0]
+        data: [0],
       },
       /** 绘制外部圆弧-2 <left-top> */
       {
-        type: 'custom',
-        coordinateSystem: 'none',
+        type: "custom",
+        coordinateSystem: "none",
         renderItem: (params: any, api: any) => {
           return {
-            type: 'arc',
+            type: "arc",
             shape: {
               cx: api.getWidth() / 2,
               cy: api.getHeight() / 2,
-              r: Math.min(api.getWidth(), api.getHeight()) / 2 * 0.66,
-              startAngle: (175 + -angle.value) * Math.PI / 180,
-              endAngle: (300 + -angle.value) * Math.PI / 180
+              r: (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.66,
+              startAngle: ((175 + -angle.value) * Math.PI) / 180,
+              endAngle: ((300 + -angle.value) * Math.PI) / 180,
             },
             style: {
-              fill: 'transparent',
-              stroke: 'rgba(1, 248, 68, 0.4)',
-              lineWidth: 2.6
+              fill: "transparent",
+              stroke: "rgba(1, 248, 68, 0.4)",
+              lineWidth: 2.6,
             },
-            silent: true
-          }
+            silent: true,
+          };
         },
-        data: [0]
+        data: [0],
       },
       /** 绘制外部圆弧-1-开始圆点 <right-bottom> */
       {
-        type: 'custom',
-        coordinateSystem: 'none',
+        type: "custom",
+        coordinateSystem: "none",
         renderItem: (params: any, api: any) => {
           let x0 = api.getWidth() / 2;
           let y0 = api.getHeight() / 2;
-          let r = Math.min(api.getWidth(), api.getHeight()) / 2 * 0.66;
+          let r = (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.66;
           return {
-            type: 'circle',
+            type: "circle",
             shape: {
               /** 角度355° 外弧1开始角度 */
-              cx: x0 + r * Math.cos((355 + -angle.value) * Math.PI / 180),
-              cy: y0 + r * Math.sin((355 + -angle.value) * Math.PI / 180),
-              r: 4
+              cx: x0 + r * Math.cos(((355 + -angle.value) * Math.PI) / 180),
+              cy: y0 + r * Math.sin(((355 + -angle.value) * Math.PI) / 180),
+              r: 4,
             },
             style: {
-              fill: 'rgba(1, 248, 68, 0.4)',
-              stroke: 'rgba(1, 248, 68, 0.4)'
+              fill: "rgba(1, 248, 68, 0.4)",
+              stroke: "rgba(1, 248, 68, 0.4)",
             },
-            silent: true
-          }
+            silent: true,
+          };
         },
-        data: [0]
+        data: [0],
       },
       /** 绘制外部圆弧-2-开始圆点 <left-top> */
       {
-        type: 'custom',
-        coordinateSystem: 'none',
+        type: "custom",
+        coordinateSystem: "none",
         renderItem: (params: any, api: any) => {
           let x0 = api.getWidth() / 2;
           let y0 = api.getHeight() / 2;
-          let r = Math.min(api.getWidth(), api.getHeight()) / 2 * 0.66;
+          let r = (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.66;
           return {
-            type: 'circle',
+            type: "circle",
             shape: {
               /** 角度175° 外弧2开始角度 */
-              cx: x0 + r * Math.cos((175 + -angle.value) * Math.PI / 180),
-              cy: y0 + r * Math.sin((175 + -angle.value) * Math.PI / 180),
-              r: 4
+              cx: x0 + r * Math.cos(((175 + -angle.value) * Math.PI) / 180),
+              cy: y0 + r * Math.sin(((175 + -angle.value) * Math.PI) / 180),
+              r: 4,
             },
             style: {
-              fill: 'rgba(1, 248, 68, 0.4)',
-              stroke: 'rgba(1, 248, 68, 0.4)'
+              fill: "rgba(1, 248, 68, 0.4)",
+              stroke: "rgba(1, 248, 68, 0.4)",
             },
-            silent: true
-          }
+            silent: true,
+          };
         },
-        data: [0]
+        data: [0],
       },
       /** 刻度仪表盘 */
       {
-        type: 'gauge',
-        center: ['50%', '50%'],
-        radius: '68.5%', // 错位调整此处
+        type: "gauge",
+        center: ["50%", "50%"],
+        radius: "68.5%", // 错位调整此处
         startAngle: 0,
         endAngle: 360,
         axisLine: { show: false },
@@ -195,122 +200,145 @@ const state = reactive({
         axisTick: {
           splitNumber: 10,
           // length: 8,  // 刻度长度
-          length: '4%',
+          length: "4%",
           lineStyle: {
-            color: 'rgba(1, 248, 68, 0.4)',
-            width: 1.5
-          }
+            color: "rgba(1, 248, 68, 0.4)",
+            width: 1.5,
+          },
         },
-        axisLabel: { show: false }
+        axisLabel: { show: false },
       },
       /** 内心圆 */
       {
-        type: 'custom',
-        coordinateSystem: 'none',
+        type: "custom",
+        coordinateSystem: "none",
         renderItem: (params: any, api: any) => {
           return {
-            type: 'circle',
+            type: "circle",
             shape: {
               cx: api.getWidth() / 2,
               cy: api.getHeight() / 2,
-              r: Math.min(api.getWidth(), api.getHeight()) / 2 * 0.38,
-              startAngle: (175 + angle.value) * Math.PI / 180,
-              endAngle: (300 + angle.value) * Math.PI / 180
+              r: (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.38,
+              startAngle: ((175 + angle.value) * Math.PI) / 180,
+              endAngle: ((300 + angle.value) * Math.PI) / 180,
             },
             style: {
-              fill: 'transparent',
-              stroke: '#00374C80',
-              lineWidth: 2.6
+              fill: "transparent",
+              stroke: "#00374C80",
+              lineWidth: 2.6,
             },
-            silent: true
-          }
+            silent: true,
+          };
         },
-        data: [0]
+        data: [0],
       },
       /** 饼图 */
       {
-        name: '已完成',
-        type: 'pie',
+        name: "已完成",
+        type: "pie",
         startAngle: 90,
         z: 0,
         label: {
-          position: 'center'
+          position: "center",
         },
-        radius: ['56%', '44%'],
+        radius: ["56%", "44%"],
         silent: true,
         animation: false, // 关闭饼图动画
-        data: [{
-          value: dataValue,
-          itemStyle: {
-            color: {
-              type: 'linear',
-              x: 0,
-              y: 0.2,
-              x2: 1,
-              y2: 0,
-              colorStops: [
-                { offset: 0, color: '#01f74420' },
-                { offset: 1, color: '#01f744' }
-              ]
-            }
-          }
-        }, 
-        {
-          name: '未完成',
-          value: 100 - dataValue,
-          label: { show: false },
-          itemStyle: { color: '#00374C' }
-        }]
+        data: [
+          {
+            value: dataValue.value,
+            itemStyle: {
+              color: {
+                type: "linear",
+                x: 0,
+                y: 0.2,
+                x2: 1,
+                y2: 0,
+                colorStops: [
+                  { offset: 0, color: "#01f74420" },
+                  { offset: 1, color: "#01f744" },
+                ],
+              },
+            },
+          },
+          {
+            name: "未完成",
+            value: 100 - dataValue.value,
+            label: { show: false },
+            itemStyle: { color: "#00374C" },
+          },
+        ],
       },
       /** 饼图上刻度 */
       {
-        type: 'gauge',
-        center: ['50%', '50%'],
-        radius: '63%', // 错位调整此处
+        type: "gauge",
+        center: ["50%", "50%"],
+        radius: "63%", // 错位调整此处
         startAngle: 0,
         endAngle: 360,
         splitNumber: 12,
         axisLine: { show: false },
         splitLine: {
           // length: 39,
-          length: '24%',
+          length: "24%",
           lineStyle: {
             width: 10,
-            color: '#1a3066'
+            color: "#1a3066",
             // color: '#002837'
-          }
+          },
         },
         axisTick: { show: false },
-        axisLabel: { show: false }
+        axisLabel: { show: false },
       },
-    ]
-  }
-})
+    ],
+  };
+};
+
 const animatePieChart = () => {
-  const cache = angle.value
+  const cache = angle.value;
   angle.value = cache + 1;
-  myChart.setOption(state.option, true);
-  requestAnimationFrame(animatePieChart)
-}
+  myChart.setOption(newOption(), true);
+  requestAnimationFrame(animatePieChart);
+};
+
+watch(
+  () => props.dataList,
+  (newValue) => {
+    const { carbonEmissionsPercentage: aa } = newValue.find(
+      (item: any) => item.carbonEmissionsType === "间接碳排放量"
+    );
+    // const { carbonEmissionsPercentage: bb } = newValue.find(
+    //   (item: any) => item.carbonEmissionsType === "直接碳排放量"
+    // );
+    dataValue.value = Number(aa.replace("%", ""));
+    newOption();
+    animationId = animatePieChart();
+  }
+);
+
 onMounted(async () => {
-  await nextTick()
-  const chartDom = chartRef.value
-  if (chartDom && echarts) {
+  await nextTick();
+  const chartDom = chartRef.value;
+  if (chartDom) {
     // 初始化 ECharts 实例
     myChart = echarts.init(chartDom);
-    animationId = requestAnimationFrame(animatePieChart)
-    // setInterval( () => {
-    //     const cache = angle.value
-    //     angle.value = cache + 1;
-    //     myChart.setOption(state.option, true);
-    // }, 100)
+    // animationId = animatePieChart();
   }
-})
+});
 
 onUnmounted(() => {
-  cancelAnimationFrame(animationId)
-})
-
+  cancelAnimationFrame(animationId);
+});
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.lable_wrap {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  width: 100%;
+  gap: 40px;
+  flex-direction: row;
+  justify-content: center;
+}
+</style>

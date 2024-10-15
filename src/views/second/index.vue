@@ -1,76 +1,71 @@
 <template>
-  <div class="index_box" >
+  <div class="index_box">
     <!-- 第二级页面主体 -->
     <div ref="contentLeftComp" class="contetn_left">
       <div style="height: 20px;display: flex; gap: 4px;"></div>
-      <ItemWrap :backgroundImg="底部长bg"class="contetn_left-top " titlebg="headImg" :titleImg="headImg" title="碳排放量情况">
+      <ItemWrap :backgroundImg="底部长bg" class="contetn_left-top " titlebg="headImg" :titleImg="headImg" title="碳排放情况">
         <LeftTop :dataList="state.carbonEmissions" />
       </ItemWrap>
-      <ItemWrap :backgroundImg="底部长bg" class="contetn_left-center " titlebg="headImg" :titleImg="headImg" title="电量-产量情况">
-        <LeftCenter  :dataList="state.powerProduction" />
+      <ItemWrap :backgroundImg="底部长bg" class="contetn_left-center " titlebg="headImg" :titleImg="headImg"
+        title="用电量-产量情况">
+        <LeftCenter :dataList="state.powerProduction" />
       </ItemWrap>
-      <ItemWrap :backgroundImg="底部长bg"  titlebg="headImg" :titleImg="headImg" title="工序能流分析" >
-        <LeftBottom  :dataList="state.energyFlowAnalysis" />
+      <ItemWrap :backgroundImg="底部长bg" titlebg="headImg" :titleImg="headImg" title="工序能流分析">
+        <LeftBottom :dataList="state.energyFlowAnalysis" />
       </ItemWrap>
     </div>
     <div class="contetn_center">
-      <CenterMap ref="centerMapRef" class="centermapComp" style="flex: 1;" />
-      <div ref="centerBottomCompRef" class="centerBottomCompRef"
-       style="transform: translate(0px, 0px);height:120px;
-       background-color: rgb(0,0,0,0);
-        position: absolute; bottom: 0px;width: 100%;
-       "
-       >
+      <CenterMap ref="centerMapRef" :dataList="state.overview" class="centermapComp" />
+      <div ref="centerBottomCompRef" class="centerBottomCompRef">
         <div style="position: relative;width: 120%; height: 100%;left: 50%; transform: translateX(-50%);">
           <video v-if="showVideo" autoplay loop muted width="100%" style="position: absolute; width: 100% !important;">
             <source src="/src/assets/webm/bottombgwebm.webm" type="video/webm" />
           </video>
         </div>
         <div class="bottom_item_wrapper">
-          <div @mouseenter="enterBottomBtn('酸轧')" @mouseleave="leaveBottomBtn('酸轧')" @click="routerGo('酸轧')" class="bottom_item" >
-            <div class="bottom_item_btn_default" >
+          <div @mouseenter="enterBottomBtn('酸轧')" @mouseleave="leaveBottomBtn('酸轧')" @click="routerGo('酸轧')"
+            class="bottom_item">
+            <div class="bottom_item_btn_default">
               <img :src="getImageUrl('酸轧按钮_default')" alt="">
             </div>
-            <div class="bottom_item_btn_press" >
+            <div class="bottom_item_btn_press">
               <img :src="getImageUrl('酸轧按钮_press')" alt="">
             </div>
           </div>
-          <div @mouseenter="enterBottomBtn('连退')" @mouseleave="leaveBottomBtn('连退')" @click="routerGo('连退')" class="bottom_item" >
-            <div class="bottom_item_btn_default" >
+          <div @mouseenter="enterBottomBtn('连退')" @mouseleave="leaveBottomBtn('连退')" @click="routerGo('连退')"
+            class="bottom_item">
+            <div class="bottom_item_btn_default">
               <img :src="getImageUrl('连退按钮_default')" alt="">
             </div>
-            <div class="bottom_item_btn_press" >
+            <div class="bottom_item_btn_press">
               <img :src="getImageUrl('连退按钮_press')" alt="">
             </div>
           </div>
-          <div @mouseenter="enterBottomBtn('电镀(精整)')" @mouseleave="leaveBottomBtn('电镀(精整)')" @click="routerGo('电镀(精整)')" class="bottom_item" >
-            <div class="bottom_item_btn_default" >
+          <div @mouseenter="enterBottomBtn('电镀(精整)')" @mouseleave="leaveBottomBtn('电镀(精整)')" @click="routerGo('电镀(精整)')"
+            class="bottom_item">
+            <div class="bottom_item_btn_default">
               <img :src="getImageUrl('电镀精整按钮_default')" alt="">
             </div>
-            <div class="bottom_item_btn_press" >
+            <div class="bottom_item_btn_press">
               <img :src="getImageUrl('电镀精整按钮_press')" alt="">
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div  ref="contentRightComp" class="contetn_right">
-      <div style="height: 20px;display: flex; flex-direction: row; justify-content: space-between;align-items: center">
-        <CusTomSelect 
-          v-model="selectedValue"
-          :width="'84px'"
-          :options="options"
-        />
+    <div ref="contentRightComp" class="contetn_right">
+      <div class="customSelect_wrapper">
+        <CusTomSelect v-model="selectedValue" :width="'84px'" :options="options" />
         <div class="returnBtn" @click="router.go(-1)"></div>
       </div>
-      <ItemWrap :backgroundImg="底部长bg"  titlebg="headImg" :titleImg="headImg" title="碳排占比">
-          <RightTop  :dataList="state.carbonEmissionsProportion" />
+      <ItemWrap :backgroundImg="底部长bg" titlebg="headImg" :titleImg="headImg" title="碳排放占比">
+        <RightTop :dataList="state.carbonEmissionsProportion" />
       </ItemWrap>
-      <ItemWrap :backgroundImg="底部长bg"  titlebg="headImg" :titleImg="headImg" title="电量预测分析" >
-        <RightCenter :dataList="state.powerQuantity"  />
+      <ItemWrap :backgroundImg="底部长bg" titlebg="headImg" :titleImg="headImg" title="用电量预测分析">
+        <RightCenter :dataList="state.powerQuantity" />
       </ItemWrap>
-      <ItemWrap :backgroundImg="底部长bg"  titlebg="headImg" :titleImg="headImg" title="碳排预测分析 ">
-        <RightBottom  :dataList="state.carbonEmissionsForecasting" />
+      <ItemWrap :backgroundImg="底部长bg" titlebg="headImg" :titleImg="headImg" title="碳排放预测分析 ">
+        <RightBottom :dataList="state.carbonEmissionsForecasting" />
       </ItemWrap>
     </div>
   </div>
@@ -83,22 +78,31 @@ import { onBeforeRouteLeave, useRouter } from 'vue-router'
 import { gsap } from 'gsap';
 import ItemWrap from "@/components/item-wrap";
 import CusTomSelect from '@/components/CusTomSelect.vue'
-import { LeftTop,
-    LeftBottom,
-    CenterMap,
-    RightBottom,
-    RightCenter,
-    LeftCenter,
-    RightTop,
-  } from "./index";
+import {
+  LeftTop,
+  LeftBottom,
+  CenterMap,
+  RightBottom,
+  RightCenter,
+  LeftCenter,
+  RightTop,
+} from "./index";
 const showVideo = ref(true)
 const state = reactive({
-  "carbonEmissions": {}, // "碳排放量情况",
-  "powerProduction": {}, // "电量产量情况",
-  "energyFlowAnalysis": {}, // "工序能流分析",
-  "carbonEmissionsProportion": {}, // "碳排占比",
-  "powerQuantity": {}, // "电量预测分析",
-  "carbonEmissionsForecasting": {}, // "碳排放预测分析",
+  carbonEmissions: {}, // 碳排放量情况,
+  powerProduction: {}, // 电量产量情况,
+  energyFlowAnalysis: {}, // 工序能流分析,
+  carbonEmissionsProportion: {}, // 碳排占比,
+  powerQuantity: {}, // 电量预测分析,
+  carbonEmissionsForecasting: {}, // 碳排放预测分析,
+  overview: {
+    carbonEmissions: 0,
+    carbonEmissionsYoy: 0,
+    energyConsumption: 0,
+    energyConsumptionYoy: null,
+    power: 0,
+    powerYoy: 0,
+  } // "总览"
 })
 const selectedValue = ref('');
 const timer: any = ref(null);
@@ -108,13 +112,15 @@ const getData = async () => {
   const res = await bengangsecondpage();
   if (res.code === 0) {
     console.log(res);
-    const { carbonEmissions, powerProduction, energyFlowAnalysis, carbonEmissionsProportion, powerQuantity, carbonEmissionsForecasting } = res.data
+    const { carbonEmissions, powerProduction, energyFlowAnalysis, carbonEmissionsProportion, overview, powerQuantity, carbonEmissionsForecasting } = res.data
     state.carbonEmissions = carbonEmissions
     state.powerProduction = powerProduction;
     state.energyFlowAnalysis = energyFlowAnalysis;
     state.carbonEmissionsProportion = carbonEmissionsProportion;
     state.powerQuantity = powerQuantity;
     state.carbonEmissionsForecasting = carbonEmissionsForecasting;
+    state.overview = overview // 获取"总览"数据
+
   } else {
     console.log(res.msg);
   }
@@ -124,7 +130,7 @@ getData();
 //   getData();
 // }, 2000);
 const routerGo = (name: any) => {
-  router.push({ path: 'third', query: { typename: name }})
+  router.push({ path: 'third', query: { typename: name } })
 }
 const getImageUrl = (name: any = '本浦冷轧2重卷机组按钮_default') => {
   // 注意URL里面不能是纯变量，那样就会报错了 详细的报错 你可以去试试看 https://cn.vitejs.dev/guide/assets.html#new-url-url-import-meta-url
@@ -156,16 +162,16 @@ const animateDivs = () => {
     const height = centerBottomCompRef.value.getBoundingClientRect().height; // x: -458
     gsap.from(centerBottomCompRef.value, { y: height, duration: 2 });
   }
-  
+
   gsap.fromTo('.centermapComp', { opacity: 0 }, { opacity: 1, duration: 3 });
 };
 const returnPlaying = async () => {
   // console.log('returnPlaying----------');
   if (document.hidden) {
-      showVideo.value = false
-    } else {
-      showVideo.value = true
-    }
+    showVideo.value = false
+  } else {
+    showVideo.value = true
+  }
 }
 onMounted(async () => {
   await nextTick()
@@ -197,12 +203,13 @@ const animateDivsReverce = (calback: any) => {
     const height = centerBottomCompRef.value.getBoundingClientRect().height; // x: -458
     gsap.to(centerBottomCompRef.value, { y: height, duration: 1 });
   }
-  gsap.fromTo('.centermapComp', { opacity: 1 }, { opacity: 0, duration: 1, 
+  gsap.fromTo('.centermapComp', { opacity: 1 }, {
+    opacity: 0, duration: 1,
     onComplete: () => {
-        console.log('动画完成2')
-        calback()
-      }
-   });
+      console.log('动画完成2')
+      calback()
+    }
+  });
 };
 onBeforeRouteLeave((to, from, next) => {
   console.log('index---', to, from)
@@ -220,16 +227,35 @@ const options = [
 ];
 </script>
 <style scoped lang="scss">
+.centerBottomCompRef {
+  transform: translate(0px, 0px);
+  height: 120px;
+  background-color: rgb(0, 0, 0, 0);
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
+
+.customSelect_wrapper {
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .returnBtn {
   width: 66px;
   height: 28px;
   cursor: pointer;
   background-image: url('/src/assets/bgpng/return_btn_default.png');
   background-repeat: round;
+
   &:hover {
     background-image: url('/src/assets/bgpng/return_btn_press.png');
   }
 }
+
 .bottom_item_wrapper {
   width: 100%;
   // height: 100%;
@@ -242,20 +268,24 @@ const options = [
   // top: 60%;
   left: 50%;
   transform: translate(-50%, -100%);
-  .bottom_item{
+
+  .bottom_item {
     // width: 176px;
     // height: 54px;
     cursor: pointer;
-    &:hover{
+
+    &:hover {
       .bottom_item_btn_default {
         display: none;
       }
+
       .bottom_item_btn_press {
         display: block;
         transform: translateY(-10px);
         transform: scale(1.1) translateY(-10px);
       }
     }
+
     .bottom_item_btn_default {
       display: block;
       width: 176px;
@@ -263,6 +293,7 @@ const options = [
       background-size: contain;
       background-repeat: no-repeat;
     }
+
     .bottom_item_btn_press {
       display: none;
       width: 176px;
@@ -272,6 +303,7 @@ const options = [
     }
   }
 }
+
 .index_box {
   user-select: none;
   width: 100%;
@@ -281,6 +313,7 @@ const options = [
   min-height: calc(100% - 64px);
   justify-content: space-between;
 }
+
 //左边 右边 结构一样
 .contetn_left,
 .contetn_right {
@@ -292,6 +325,7 @@ const options = [
   position: relative;
   width: 430px;
 }
+
 .contetn_center {
   position: relative;
   flex: 1;
@@ -300,13 +334,4 @@ const options = [
   flex-direction: column;
   justify-content: space-around;
 }
-
-
 </style>
-
-
-
-
-
-
-

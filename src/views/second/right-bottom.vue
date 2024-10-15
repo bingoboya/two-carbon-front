@@ -5,13 +5,10 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-// import { alarmNum } from "@/api";
 import { graphic } from "echarts/core";
-
 import { EchartsUI, useEcharts } from "@/utils/echarts";
 const EchartContainerRef = ref(); //组件实例
 const { renderEcharts, getchartInstance } = useEcharts(EchartContainerRef);
-const option = ref({});
 const props = defineProps({
   dataList: {
     type: Object,
@@ -19,62 +16,6 @@ const props = defineProps({
   },
 });
 const curInstance: any = ref(null);
-const numList2 = [
-  "24407.01",
-  "19060.89",
-  "24872.06",
-  "21617.73",
-  "20455.44",
-  "20455.44",
-  "22082.64",
-  "21385.34",
-  "22385.34",
-  null,
-  null,
-  null,
-]; // 实际
-const numList = [
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  "23920.23",
-  "23082.64",
-  "23547.49",
-  "23266.72",
-];
-const numList3 = [
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  "20920.23",
-  "22082.64",
-  "22547.49",
-  "26266.72",
-]; // 预测碳排放量
-const numList4 = [
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  "17920.23",
-  "19082.64",
-  "19547.49",
-  "23266.72",
-];
 const newOption = {
   grid: {
     show: true,
@@ -92,29 +33,30 @@ const newOption = {
     textStyle: {
       color: "#FFF",
     },
+
     formatter: function (params: any) {
       // 添加单位
       let result = params[0].name + "<br>";
       params.forEach(function (item: any) {
-        if (item.seriesName == "实际碳排放量") {
+        if (item.seriesName == "实际碳排") {
           const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(31, 254, 255, 1);"></span>`;
           item.marker = mark;
           result += `${item.marker} ${item.seriesName} : ${
             item.value ? `${item.value}吨</br>` : "- </br>"
           }`;
-        } else if (item.seriesName == "预测碳排放量") {
+        } else if (item.seriesName == "预测碳排") {
           const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(9,118,109,1);"></span>`;
           item.marker = mark;
           result += `${item.marker} ${item.seriesName} : ${
             item.value ? `${item.value}吨</br>` : "- </br>"
           }`;
-        } else if (item.seriesName == "预测碳排放量上限") {
+        } else if (item.seriesName == "预测上限") {
           const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(188,196,48,1);"></span>`;
           item.marker = mark;
           result += `${item.marker} ${item.seriesName} : ${
             item.value ? `${item.value}吨</br>` : "- </br>"
           }`;
-        } else if (item.seriesName == "预测碳排放量下限") {
+        } else if (item.seriesName == "预测下限") {
           const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(229,126,47,1);"></span>`;
           item.marker = mark;
           result += `${item.marker} ${item.seriesName} : ${
@@ -130,7 +72,7 @@ const newOption = {
   legend: {
     data: [
       {
-        name: "实际碳排放量",
+        name: "实际碳排",
         itemStyle: {
           opacity: 0,
         },
@@ -139,7 +81,7 @@ const newOption = {
         },
       },
       {
-        name: "预测碳排放量",
+        name: "预测碳排",
         itemStyle: {
           opacity: 0,
         },
@@ -148,7 +90,7 @@ const newOption = {
         },
       },
       {
-        name: "预测碳排放量上限",
+        name: "预测上限",
         itemStyle: {
           opacity: 0,
         },
@@ -157,7 +99,7 @@ const newOption = {
         },
       },
       {
-        name: "预测碳排放量下限",
+        name: "预测下限",
         itemStyle: {
           opacity: 0,
         },
@@ -238,7 +180,7 @@ const newOption = {
       yAxisIndex: 0,
       smooth: true,
       symbol: "none", //去除点
-      name: "实际碳排放量",
+      name: "实际碳排",
       lineStyle: {
         color: "rgba(31, 254, 255, 1)",
         width: 2,
@@ -265,12 +207,12 @@ const newOption = {
       },
     },
     {
-      data: numList3,
+      data: [],
       type: "line",
       yAxisIndex: 0,
       smooth: true,
       symbol: "none", //去除点
-      name: "预测碳排放量",
+      name: "预测碳排",
       lineStyle: {
         type: "dotted",
         color: "#edbb43",
@@ -278,12 +220,12 @@ const newOption = {
       },
     },
     {
-      data: numList,
+      data: [],
       type: "line",
       yAxisIndex: 0,
       smooth: true,
       symbol: "none", //去除点
-      name: "预测碳排放量上限",
+      name: "预测上限",
       lineStyle: {
         color: "rgba(188,196,48,1)",
         type: "dotted",
@@ -291,12 +233,12 @@ const newOption = {
       },
     },
     {
-      data: numList4,
+      data: [],
       type: "line",
       yAxisIndex: 0,
       smooth: true,
       symbol: "none", //去除点
-      name: "预测碳排放量下限",
+      name: "预测下限",
       lineStyle: {
         color: "rgba(229,126,47,1)",
         type: "dotted",
@@ -313,16 +255,16 @@ watch(
     console.log("props.dataList", newValue);
     const { yList } = newValue;
     const lineOneValue = yList.find(
-      (item: any) => item.dataName === "实际碳排放量"
+      (item: any) => item.dataName === "实际碳排"
     )?.dataList;
     const lineTwoValue = yList.find(
-      (item: any) => item.dataName === "预测碳排放量"
+      (item: any) => item.dataName === "预测碳排"
     )?.dataList;
     const lineThreeValue = yList.find(
-      (item: any) => item.dataName === "预测碳排放量上限"
+      (item: any) => item.dataName === "预测上限"
     )?.dataList;
     const lineFourValue = yList.find(
-      (item: any) => item.dataName === "预测碳排放量下限"
+      (item: any) => item.dataName === "预测下限"
     )?.dataList;
     if (curInstance.value === null) {
       curInstance.value = getchartInstance();
@@ -334,7 +276,7 @@ watch(
           yAxisIndex: 0,
           smooth: true,
           symbol: "none", //去除点
-          name: "实际碳排放量",
+          name: "实际碳排",
           lineStyle: {
             color: "rgba(31, 254, 255, 1)",
             width: 2,
@@ -366,7 +308,7 @@ watch(
           yAxisIndex: 0,
           smooth: true,
           symbol: "none", //去除点
-          name: "预测碳排放量",
+          name: "预测碳排",
           lineStyle: {
             type: "dotted",
             color: "#edbb43",
@@ -379,7 +321,7 @@ watch(
           yAxisIndex: 0,
           smooth: true,
           symbol: "none", //去除点
-          name: "预测碳排放量上限",
+          name: "预测上限",
           lineStyle: {
             color: "rgba(188,196,48,1)",
             type: "dotted",
@@ -392,7 +334,7 @@ watch(
           yAxisIndex: 0,
           smooth: true,
           symbol: "none", //去除点
-          name: "预测碳排放量下限",
+          name: "预测下限",
           lineStyle: {
             color: "rgba(229,126,47,1)",
             type: "dotted",
@@ -411,22 +353,22 @@ watch(
           series: [
             {
               // 根据名字对应到相应的系列
-              name: "实际碳排放量",
+              name: "实际碳排",
               data: lineOneValue,
             },
             {
               // 根据名字对应到相应的系列
-              name: "预测碳排放量",
+              name: "预测碳排",
               data: lineTwoValue,
             },
             {
               // 根据名字对应到相应的系列
-              name: "预测碳排放量上限",
+              name: "预测上限",
               data: lineThreeValue,
             },
             {
               // 根据名字对应到相应的系列
-              name: "预测碳排放量下限",
+              name: "预测下限",
               data: lineFourValue,
             },
           ],

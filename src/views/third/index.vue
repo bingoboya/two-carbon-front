@@ -5,72 +5,29 @@
       <div style="height: 20px; display: flex; gap: 4px">
         <!-- <span>工艺</span> -->
       </div>
-      <ItemWrap
-        class="contetn_left-top"
-        titlebg="headImg"
-        :titleImg="headImg"
-        :backgroundImg="底部长bg"
-        title="碳排放量情况"
-      >
+      <ItemWrap class="contetn_left-top" titlebg="headImg" :titleImg="headImg" :backgroundImg="底部长bg" title="碳排放情况">
         <LeftTop :dataList="state.carbonEmissions" />
       </ItemWrap>
-      <ItemWrap
-        class="contetn_left-center"
-        titlebg="headImg"
-        :titleImg="headImg"
-        :backgroundImg="底部长bg"
-        title="用电情况"
-      >
+      <ItemWrap class="contetn_left-center" titlebg="headImg" :titleImg="headImg" :backgroundImg="底部长bg" title="用电量情况">
         <LeftBottom :dataList="state.powerQuantity" />
       </ItemWrap>
     </div>
     <div class="contetn_center">
-      <CenterMap
-        ref="centerMapRef"
-        @handlePopupClick="handlePopupClick"
-        class="centermapComp"
-        style="flex: 1"
-      />
-      <div
-        ref="centerBottomCompRef"
-        class="centerBottomCompRef"
-        style="
+      <CenterMap ref="centerMapRef" :dataList="state.overview" @handlePopupClick="handlePopupClick"
+        class="centermapComp" />
+      <div ref="centerBottomCompRef" class="centerBottomCompRef" style="
           transform: translate(0px, 0px);
           height: 120px;
           background-color: rgb(0, 0, 0, 0);
-        "
-      >
-        <div
-          style="
-            pointer-events: none;
-            position: relative;
-            width: 120%;
-            height: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-          "
-        >
-          <video
-            v-if="showVideo"
-            autoplay
-            loop
-            muted
-            width="100%"
-            style="position: absolute; width: 100% !important"
-          >
-            <source
-              src="/src/assets/webm/bottombgwebm.webm"
-              type="video/webm"
-            />
+        ">
+        <div class="video_wrap">
+          <video v-if="showVideo" autoplay loop muted width="100%" style="position: absolute; width: 100% !important">
+            <source src="/src/assets/webm/bottombgwebm.webm" type="video/webm" />
           </video>
         </div>
         <div class="bottom_item_wrapper">
-          <div
-            @mouseenter="enterBottomBtn('本浦冷轧2#重卷机组')"
-            @mouseleave="leaveBottomBtn('本浦冷轧2#重卷机组')"
-            @click="openModalComp('本浦冷轧2#重卷机组', '机组1无阴影')"
-            class="bottom_item"
-          >
+          <div @mouseenter="enterBottomBtn('本浦冷轧2#重卷机组')" @mouseleave="leaveBottomBtn('本浦冷轧2#重卷机组')"
+            @click="openModalComp('本浦冷轧2#重卷机组', '机组1无阴影')" class="bottom_item">
             <div class="bottom_item_btn_default">
               <img :src="getImageUrl('本浦冷轧2重卷机组按钮_default')" alt="">
             </div>
@@ -78,76 +35,33 @@
               <img :src="getImageUrl('本浦冷轧2重卷机组按钮_press')" alt="">
             </div>
           </div>
-          <div
-            @mouseenter="enterBottomBtn('本浦冷轧3#重卷机组')"
-            @mouseleave="leaveBottomBtn('本浦冷轧3#重卷机组')"
-            @click="openModalComp('本浦冷轧3#重卷机组', '机组2无阴影')"
-            class="bottom_item"
-          >
-            <div
-              class="bottom_item_btn_default"
-             
-            ><img :src="getImageUrl('本浦冷轧3重卷机组按钮_default')" alt=""></div>
-            <div
-              class="bottom_item_btn_press"
-              
-            ><img :src="getImageUrl('本浦冷轧3重卷机组按钮_press')" alt=""></div>
+          <div @mouseenter="enterBottomBtn('本浦冷轧3#重卷机组')" @mouseleave="leaveBottomBtn('本浦冷轧3#重卷机组')"
+            @click="openModalComp('本浦冷轧3#重卷机组', '机组2无阴影')" class="bottom_item">
+            <div class="bottom_item_btn_default"><img :src="getImageUrl('本浦冷轧3重卷机组按钮_default')" alt=""></div>
+            <div class="bottom_item_btn_press"><img :src="getImageUrl('本浦冷轧3重卷机组按钮_press')" alt=""></div>
           </div>
-          <div
-            @mouseenter="enterBottomBtn('电镀锌机组')"
-            @mouseleave="leaveBottomBtn('电镀锌机组')"
-            @click="openModalComp('电镀锌机组', '电镀锌无阴影')"
-            class="bottom_item"
-          >
-            <div
-              class="bottom_item_btn_default"
-              
-            ><img :src="getImageUrl('电镀锌机组_default')" alt=""></div>
-            <div
-              class="bottom_item_btn_press"
-              
-            ><img :src="getImageUrl('电镀锌机组_press')" alt=""></div>
+          <div @mouseenter="enterBottomBtn('电镀锌机组')" @mouseleave="leaveBottomBtn('电镀锌机组')"
+            @click="openModalComp('电镀锌机组', '电镀锌无阴影')" class="bottom_item">
+            <div class="bottom_item_btn_default"><img :src="getImageUrl('电镀锌机组_default')" alt=""></div>
+            <div class="bottom_item_btn_press"><img :src="getImageUrl('电镀锌机组_press')" alt=""></div>
           </div>
         </div>
       </div>
     </div>
 
     <div ref="contentRightComp" class="contetn_right">
-      <div
-        style="
-          height: 20px;
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          align-items: center;
-        "
-      >
-        <CusTomSelect
-          v-model="selectedValue"
-          :width="'84px'"
-          :options="options"
-          placeholder="请选择"
-        />
+      <div class="customSelect_wrapper">
+        <CusTomSelect v-model="selectedValue" :width="'84px'" :options="options" placeholder="请选择" />
         <div class="returnBtn" @click="router.go(-1)"></div>
       </div>
-      <ItemWrap
-        class="contetn_left-bottom"
-        titlebg="headImg"
-        :titleImg="headImg"
-        :backgroundImg="底部长bg"
-        title="设备机组碳排占比"
-      >
+      <ItemWrap class="contetn_left-bottom" titlebg="headImg" :titleImg="headImg" :backgroundImg="底部长bg"
+        title="设备机组碳排占比">
         <!-- <RightTop /> -->
-         <!-- TODO -->
+        <!-- TODO -->
         <RightTopcopy :dataList="state.carbonEmissionsProportion" />
       </ItemWrap>
-      <ItemWrap
-        class="contetn_left-bottom"
-        titlebg="headImg"
-        :titleImg="headImg"
-        :backgroundImg="底部长bg"
-        title="碳排预测分析"
-      >
+      <ItemWrap class="contetn_left-bottom" titlebg="headImg" :titleImg="headImg" :backgroundImg="底部长bg"
+        title="碳排放预测分析">
         <RightBottom :dataList="state.carbonEmissionsForecasting" />
       </ItemWrap>
     </div>
@@ -155,7 +69,7 @@
 
   <CusModal ref="cusmodalRef" :mountedOnBody="false">
     <template #content>
-      <EquipmentComp :departmentImgName="departmentImg" />
+      <EquipmentComp :departmentImgName="departmentImg" :departmentUrl="departmentUrl" />
     </template>
   </CusModal>
 </template>
@@ -176,12 +90,21 @@ const router = useRouter();
 const selectedValue = ref("");
 const showVideo = ref(true);
 const state = reactive({
-  "carbonEmissions": {}, // "碳排放量情况",
-  "carbonEmissionsProportion": {}, // "设备机组碳排占比",
-  "carbonEmissionsForecasting": {}, // "碳排放预测分析",
-  "powerQuantity": {}, // "用电情况",
+  carbonEmissions: {}, // 碳排放量情况,
+  carbonEmissionsProportion: {}, // 设备机组碳排占比,
+  carbonEmissionsForecasting: {}, // 碳排放预测分析,
+  powerQuantity: {}, // 用电情况,
+  overview: {
+    carbonEmissions: 0,
+    carbonEmissionsYoy: 0,
+    energyConsumption: 0,
+    energyConsumptionYoy: null,
+    power: 0,
+    powerYoy: 0,
+  } // "总览"
 })
 const departmentImg = ref("");
+const departmentUrl = ref("");
 const cusmodalRef: any = ref<HTMLDivElement | null>(null); // 使用ref引用弹窗组件实例
 const getImageUrl = (name: any = '本浦冷轧2重卷机组按钮_default') => {
   // 注意URL里面不能是纯变量，那样就会报错了 详细的报错 你可以去试试看 https://cn.vitejs.dev/guide/assets.html#new-url-url-import-meta-url
@@ -193,23 +116,25 @@ const getData = async () => {
   const res = await bengangthirdpage();
   if (res.code === 0) {
     console.log(res);
-    const { carbonEmissions,   carbonEmissionsProportion, powerQuantity, carbonEmissionsForecasting } = res.data
+    const { carbonEmissions, carbonEmissionsProportion, powerQuantity, carbonEmissionsForecasting, overview } = res.data
     state.carbonEmissions = carbonEmissions
     state.carbonEmissionsProportion = carbonEmissionsProportion;
     state.powerQuantity = powerQuantity;
     state.carbonEmissionsForecasting = carbonEmissionsForecasting;
+    state.overview = overview // 获取"总览"数据
   } else {
     console.log(res.msg);
   }
 };
 getData();
 
-const handlePopupClick = async (title: any, departmentImgName: string) => {
+const handlePopupClick = async (departmentName: any, departmentImgName: string) => {
   // 处理弹窗点击事件
   // console.log("title", title, departmentImgName);
   departmentImg.value = departmentImgName;
+  departmentUrl.value = departmentName // 接口参数
   await nextTick();
-  cusmodalRef.value.openModal(title);
+  cusmodalRef.value.openModal(departmentName);
 };
 
 const openModalComp = (name: any, departmentImgName: string) => {
@@ -301,16 +226,35 @@ const options = [
 ];
 </script>
 <style scoped lang="scss">
+.customSelect_wrapper {
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.video_wrap {
+  pointer-events: none;
+  position: relative;
+  width: 120%;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .returnBtn {
   width: 66px;
   height: 28px;
   cursor: pointer;
   background-image: url("/src/assets/bgpng/return_btn_default.png");
   background-repeat: round;
+
   &:hover {
     background-image: url("/src/assets/bgpng/return_btn_press.png");
   }
 }
+
 .bottom_item_wrapper {
   width: 100%;
   // height: 100%;
@@ -323,20 +267,24 @@ const options = [
   // top: 60%;
   left: 50%;
   transform: translate(-50%, -100%);
+
   .bottom_item {
     // width: 176px;
     // height: 54px;
     cursor: pointer;
+
     &:hover {
       .bottom_item_btn_default {
         display: none;
       }
+
       .bottom_item_btn_press {
         display: block;
         transform: translateY(-10px);
         transform: scale(1.1) translateY(-10px);
       }
     }
+
     .bottom_item_btn_default {
       display: block;
       width: 290px;
@@ -344,6 +292,7 @@ const options = [
       background-size: contain;
       background-repeat: no-repeat;
     }
+
     .bottom_item_btn_press {
       display: none;
       width: 290px;
@@ -353,6 +302,7 @@ const options = [
     }
   }
 }
+
 .index_box {
   user-select: none;
   width: 100%;
@@ -362,6 +312,7 @@ const options = [
   min-height: calc(100% - 64px);
   justify-content: space-between;
 }
+
 //左边 右边 结构一样
 .contetn_left,
 .contetn_right {
@@ -373,6 +324,7 @@ const options = [
   position: relative;
   width: 430px;
 }
+
 .contetn_center {
   z-index: 2;
   flex: 1;

@@ -1,91 +1,30 @@
 <template>
   <div class="equipment_wrap">
     <div style="flex: 418; z-index: 2; display: flex">
-      <ItemWrap
-        title="运行参数情况"
-        :backgroundImg="底部长bg"
-        titlebg="headImg"
-        :titleImg="headImg"
-      >
-        <div
-          style="
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-          "
-        >
+      <ItemWrap title="运行参数情况" :backgroundImg="底部长bg" titlebg="headImg" :titleImg="headImg">
+        <div style=" width: 100%; height: 100%; display: flex; flex-direction: column; gap: 6px;">
           <div class="params_wrapper">
             <div class="params_title">当前参数</div>
             <div class="params_wrap">
               <div class="params_item">
                 <div class="temp_item">
-                  <div
-                    style="
-                      display: flex;
-                      flex-direction: row;
-                      justify-content: center;
-                      align-items: center;
-                    "
-                  >
-                    <div
-                      style="
-                        color: RGBA(95, 249, 255, 1);
-                        font-size: 22px;
-                        font-weight: 600;
-                      "
-                    >
-                      70
-                    </div>
-                    <div>°C</div>
+                  <div class="item_wrap">
+                    {{ WholeRunningTime }}
                   </div>
                 </div>
-                <div style="flex: 1; margin-top: 4px">运行时长</div>
+                <div style="flex: 1; margin-top: 4px">运行总时长(h)</div>
               </div>
               <div class="params_item">
                 <div class="temp_item">
-                  <div
-                    style="
-                      display: flex;
-                      flex-direction: row;
-                      justify-content: center;
-                      align-items: center;
-                    "
-                  >
-                    <div
-                      style="
-                        color: RGBA(95, 249, 255, 1);
-                        font-size: 22px;
-                        font-weight: 600;
-                      "
-                    >
-                      2.5
-                    </div>
+                  <div class="item_wrap">
+                    {{ curRatedPower }}
                   </div>
                 </div>
-                <div style="flex: 1; margin-top: 4px">额定功率</div>
+                <div style="flex: 1; margin-top: 4px">运行功率(kw)</div>
               </div>
-              <div
-                style="display: flex; flex: 1; align-items: center"
-                class="params_item"
-              >
-                <div
-                  class="temp_item"
-                  style="
-                    color: RGBA(95, 249, 255, 1);
-                    font-size: 22px;
-                    font-weight: 600;
-                  "
-                >
-                  <div
-                    style="
-                      display: flex;
-                      flex-direction: row;
-                      justify-content: center;
-                      align-items: center;
-                    "
-                  >
+              <div style="display: flex; flex: 1; align-items: center" class="params_item">
+                <div class="temp_item">
+                  <div class="item_wrap">
                     良好
                   </div>
                 </div>
@@ -97,27 +36,14 @@
             <div class="table_th">
               <div class="table_content_left">日期</div>
               <div class="table_content_center">运行时长(h)</div>
-              <div class="table_content_right">额定功率(kw)</div>
+              <div class="table_content_right">运行功率(kw)</div>
             </div>
-            <vue3-seamless-scroll
-              :list="TableData.data"
-              direction="up"
-              :hover="true"
-              :limitScrollNum="14"
-              :openWatch="true"
-              :step="0.2"
-              :wheel="true"
-              :isWatch="true"
-              class="scroll"
-            >
-              <div
-                class="item"
-                v-for="(item, index) in TableData.data"
-                :key="index"
-              >
+            <vue3-seamless-scroll :list="state.operatingParameterList" direction="up" :hover="true" :limitScrollNum="11"
+              :openWatch="true" :step="0.2" :wheel="true" :isWatch="true" class="scroll">
+              <div class="item" v-for="(item, index) in state.operatingParameterList" :key="index">
                 <div class="scroll_item_left">{{ item.date }}</div>
-                <div class="scroll_item_center">{{ item.title }}</div>
-                <div class="scroll_item_right">{{ item.PHValue }}</div>
+                <div class="scroll_item_center">{{ item.runningTime }}</div>
+                <div class="scroll_item_right">{{ item.ratedPower }}</div>
               </div>
             </vue3-seamless-scroll>
             <!-- <CustomeScroll /> -->
@@ -129,13 +55,7 @@
       <div class="model_wrapper">
         <ThreeDPngEffect :image-src="getImageUrl()" :max-tilt-angle="30" />
       </div>
-      <ItemWrap
-        titlebg="titleHeadBg"
-        :backgroundImg="底部长bg"
-        :titleImg="titleHeadBg"
-        style="height: 315px"
-        title="维护记录"
-      >
+      <ItemWrap titlebg="titleHeadBg" :backgroundImg="底部长bg" :titleImg="titleHeadBg" style="height: 315px" title="维护记录">
         <div class="my_table">
           <div class="table_th">
             <div class="table_content_left">日期</div>
@@ -143,59 +63,27 @@
             <div class="table_content_right">故障说明</div>
           </div>
           <!-- 开启数据实时监控刷新dom  -->
-          <vue3-seamless-scroll
-            :list="TableData.maintainData"
-            direction="up"
-            :hover="true"
-            :limitScrollNum="7"
-            :openWatch="true"
-            :step="0.2"
-            :wheel="true"
-            :isWatch="true"
-            class="scroll"
-          >
-            <div
-              class="item"
-              v-for="(item, index) in TableData.maintainData"
-              :key="index"
-            >
+          <vue3-seamless-scroll :list="state.maintainRecordList" direction="up" :hover="true" :limitScrollNum="7"
+            :openWatch="true" :step="0.2" :wheel="true" :isWatch="true" class="scroll">
+            <div class="item" v-for="(item, index) in state.maintainRecordList" :key="index">
               <div class="scroll_item_left">{{ item.date }}</div>
-              <div class="scroll_item_center">{{ item.title }}</div>
-              <div class="scroll_item_right">{{ item.description }}</div>
+              <div class="scroll_item_center">{{ item.maintainRecord }}</div>
+              <div class="scroll_item_right">{{ item.faultDescription }}</div>
             </div>
           </vue3-seamless-scroll>
         </div>
       </ItemWrap>
     </div>
-    <div
-      style="
-        flex: 418;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        z-index: 2;
-      "
-    >
-      <ItemWrap
-        titlebg="headImg"
-        :backgroundImg="底部长bg"
-        :titleImg="headImg"
-        title="碳排放情况"
-      >
-        <EquipmentRightTop />
+    <div style=" flex: 418; display: flex; flex-direction: column; gap: 20px; z-index: 2;">
+      <ItemWrap titlebg="headImg" :backgroundImg="底部长bg" :titleImg="headImg" title="碳排放量情况">
+        <EquipmentRightTop :dataList="state.carbonEmission" />
       </ItemWrap>
-      <ItemWrap
-        titlebg="headImg"
-        :backgroundImg="底部长bg"
-        :titleImg="headImg"
-        title="电量情况"
-      >
-        <EquipmentRightBottom />
+      <ItemWrap titlebg="headImg" :backgroundImg="底部长bg" :titleImg="headImg" title="用电量情况">
+        <EquipmentRightBottom :dataList="state.powerQuantity" />
       </ItemWrap>
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
 import { bengangfourthpage } from "@/api";
 import 底部长bg from "@/assets/bgpng/底部长bg.png";
@@ -212,21 +100,38 @@ import EquipmentRightBottom from "@/components/EquipmentRightBottom.vue";
 const props = defineProps({
   departmentImgName: {
     type: String,
-    default: "电镀锌无阴影",
+    default: "电镀锌机组",
+  },
+  departmentUrl: {
+    type: String,
+    default: "电镀锌机组",
   },
 });
+// 当前月份的运行时长
+const WholeRunningTime = ref(10);
+// 当前月份的额定功率
+const curRatedPower = ref(30);
+const state = reactive({
+  carbonEmission: {}, // 碳排放量情况,
+  operatingParameterList: <any>[], // 运行参数情况,
+  powerQuantity: {}, // 用电情况,
+  maintainRecordList: <any>[], // 维护记录,
+})
 const getData = async () => {
-  console.log("getData-bengangfirstpage");
-  const res = await bengangfourthpage();
-  if (res) {
-    if (res.success) {
-      console.log(res);
-    } else {
-      console.log(res);
-    }
+  const res = await bengangfourthpage({ name: props.departmentUrl });
+  if (res.code === 0) {
+    console.log(res);
+    const { carbonEmission, operatingParameterList, powerQuantity, maintainRecordList } = res.data
+    state.carbonEmission = carbonEmission
+    state.operatingParameterList = operatingParameterList;
+    state.powerQuantity = powerQuantity;
+    state.maintainRecordList = maintainRecordList;
+    WholeRunningTime.value = operatingParameterList.reduce((prev: any, cur: any) => Number(prev) + Number(cur.runningTime), 0)
+    curRatedPower.value = operatingParameterList.reduce((prev: any, cur: any) => prev + parseFloat(cur.ratedPower), 0) / operatingParameterList.length;
+  } else {
+    console.log(res.msg);
   }
 };
-getData();
 
 const getImageUrl = (name: any = props.departmentImgName) => {
   // name = '电镀锌无阴影'
@@ -237,150 +142,23 @@ const getImageUrl = (name: any = props.departmentImgName) => {
   console.log(a);
   return a;
 };
-const TableData: any = reactive({
-  data: [
-    {
-      num: Math.random().toFixed(3),
-      title: "50",
-      date: "202401",
-      PHValue: 2.5,
-    },
-    {
-      num: Math.random().toFixed(3),
-      title: "50",
-      date: "202402",
-      PHValue: 2.5,
-    },
-    {
-      num: Math.random().toFixed(3),
-      title: "55",
-      date: "202403",
-      PHValue: 2.5,
-    },
-    {
-      num: Math.random().toFixed(3),
-      title: "55",
-      date: "202404",
-      PHValue: 2.5,
-    },
-    {
-      num: Math.random().toFixed(3),
-      title: "60",
-      date: "202405",
-      PHValue: 2.5,
-    },
-    {
-      num: Math.random().toFixed(3),
-      title: "60",
-      date: "202406",
-      PHValue: 2.5,
-    },
-    {
-      num: Math.random().toFixed(3),
-      title: "65",
-      date: "202407",
-      PHValue: 2.5,
-    },
-    {
-      num: Math.random().toFixed(3),
-      title: "65",
-      date: "202408",
-      PHValue: 2.5,
-    },
-    {
-      num: Math.random().toFixed(3),
-      title: "50",
-      date: "202401",
-      PHValue: 2.5,
-    },
-    {
-      num: Math.random().toFixed(3),
-      title: "50",
-      date: "202402",
-      PHValue: 2.5,
-    },
-    {
-      num: Math.random().toFixed(3),
-      title: "55",
-      date: "202403",
-      PHValue: 2.5,
-    },
-    {
-      num: Math.random().toFixed(3),
-      title: "55",
-      date: "202404",
-      PHValue: 2.5,
-    },
-    {
-      num: Math.random().toFixed(3),
-      title: "60",
-      date: "202405",
-      PHValue: 2.5,
-    },
-    {
-      num: Math.random().toFixed(3),
-      title: "60",
-      date: "202406",
-      PHValue: 2.5,
-    },
-    {
-      num: Math.random().toFixed(3),
-      title: "65",
-      date: "202407",
-      PHValue: 2.5,
-    },
-    {
-      num: Math.random().toFixed(3),
-      title: "65",
-      date: "202408",
-      PHValue: 2.5,
-    },
-  ],
-  maintainData: [
-    {
-      title: "检查酸液浓度",
-      date: "202401",
-      description: "0%",
-    },
-    {
-      title: "更换酸液",
-      date: "202402",
-      description: "0%",
-    },
-    {
-      title: "检查酸液浓度",
-      date: "202403",
-      description: "1次轻微故障(1小时修复)",
-    },
-    {
-      title: "清理处理槽",
-      date: "202404",
-      description: "0%",
-    },
-    {
-      title: "检查酸液浓度",
-      date: "202405",
-      description: "1次轻微故障(1小时修复)",
-    },
-    {
-      title: "更换酸液",
-      date: "202406",
-      description: "0%",
-    },
-    {
-      title: "检查处理设备",
-      date: "202407",
-      description: "0%",
-    },
-    {
-      title: "清理处理槽",
-      date: "202408",
-      description: "0%",
-    },
-  ],
+
+onMounted(() => {
+  getData();
 });
+
 </script>
 <style scoped lang="scss">
+.item_wrap {
+  color: RGBA(95, 249, 255, 1);
+  font-size: 22px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 .model_wrapper {
   position: relative;
   width: 100%;
@@ -388,11 +166,13 @@ const TableData: any = reactive({
   background-image: url("/src/assets/bgpng/机组两边点缀bg.png");
   background-repeat: round;
 }
+
 .params_title {
   text-indent: 10px;
   background-image: url("/src/assets/bgpng/当前参数文字bg.png");
   background-repeat: no-repeat;
 }
+
 .temp_item {
   width: 75px;
   height: 64px;
@@ -503,11 +283,11 @@ const TableData: any = reactive({
   overflow: hidden;
 }
 
-.scroll > div > div > div:nth-child(2n) {
+.scroll>div>div>div:nth-child(2n) {
   background-color: rgba(6, 50, 122, 0.336);
 }
 
-.scroll > div > div > div:nth-child(2n + 1) {
+.scroll>div>div>div:nth-child(2n + 1) {
   background-color: rgba(7, 62, 140, 0.644);
 }
 

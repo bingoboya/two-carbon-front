@@ -9,15 +9,8 @@
       </div>
       <div class="process_overlay">
         <div style="flex: 100; display: flex; flex-direction: row; gap: 10px">
-          <div
-            class="process_top"
-            :class="
-              curBuildingName === '本浦冷轧2#重卷机组'
-                ? 'process_top_hover'
-                : ''
-            "
-            @click="clickItem('本浦冷轧2#重卷机组', '机组1无阴影')"
-          >
+          <div class="process_top" :class="curBuildingName === '本浦冷轧2#重卷机组' ? 'process_top_hover' : ''"
+            @click="clickItem('本浦冷轧2#重卷机组', '机组1无阴影')">
             <div style="position: absolute; left: 0">
               <img src="/src/assets/bgpng/1.png" alt="" />
             </div>
@@ -28,12 +21,12 @@
             <div class="process_info_wrapper">
               <div class="process_info card_info_label1">
                 <div style="font-weight: 300">碳排放量：</div>
-                <div style="font-size: 14px">{{ 0.55 }}</div>
+                <div style="font-size: 14px">{{ getData('本浦冷轧2#重卷机组', 'carbonEmissions') }}</div>
                 <div style="font-weight: 300">&nbsp; 万吨</div>
               </div>
               <div class="process_info card_info_label1">
-                <div style="font-weight: 300">耗电量：</div>
-                <div style="font-size: 14px">{{ 396.76 }}</div>
+                <div style="font-weight: 300">用电量：</div>
+                <div style="font-size: 14px">{{ getData('本浦冷轧2#重卷机组', 'energyConsumption') }}</div>
                 <div style="font-weight: 300">&nbsp; 万千瓦时</div>
               </div>
             </div>
@@ -41,15 +34,10 @@
               <img src="/src/assets/bgpng/1-1.png" alt="" />
             </div>
           </div>
-          <div
-            class="process_center"
-            :class="
-              curBuildingName === '本浦冷轧3#重卷机组'
-                ? 'process_top_hover'
-                : ''
-            "
-            @click="clickItem('本浦冷轧3#重卷机组', '机组2无阴影')"
-          >
+          <div class="process_center" :class="curBuildingName === '本浦冷轧3#重卷机组'
+            ? 'process_top_hover'
+            : ''
+            " @click="clickItem('本浦冷轧3#重卷机组', '机组2无阴影')">
             <div style="position: absolute; left: 0">
               <img src="/src/assets/bgpng/2.png" alt="" />
             </div>
@@ -60,12 +48,12 @@
             <div class="process_info_wrapper">
               <div class="process_info card_info_label2">
                 <div style="font-weight: 300">碳排放量：</div>
-                <div style="font-size: 14px">{{ 0.69 }}</div>
+                <div style="font-size: 14px">{{ getData('本浦冷轧3#重卷机组', 'carbonEmissions') }}</div>
                 <div style="font-weight: 300">&nbsp; 万吨</div>
               </div>
               <div class="process_info card_info_label2">
-                <div style="font-weight: 300">耗电量：</div>
-                <div style="font-size: 14px">{{ 495.96 }}</div>
+                <div style="font-weight: 300">用电量：</div>
+                <div style="font-size: 14px">{{ getData('本浦冷轧3#重卷机组', 'energyConsumption') }}</div>
                 <div style="font-weight: 300">&nbsp; 万千瓦时</div>
               </div>
             </div>
@@ -74,11 +62,8 @@
             </div>
           </div>
         </div>
-        <div
-          class="process_bottom"
-          :class="curBuildingName === '电镀锌机组' ? 'process_top_hover' : ''"
-          @click="clickItem('电镀锌机组', '电镀锌无阴影')"
-        >
+        <div class="process_bottom" :class="curBuildingName === '电镀锌机组' ? 'process_top_hover' : ''"
+          @click="clickItem('电镀锌机组', '电镀锌无阴影')">
           <div style="position: absolute; left: 0">
             <img src="/src/assets/bgpng/3.png" alt="" />
           </div>
@@ -89,12 +74,12 @@
           <div class="process_info_wrapper">
             <div class="process_info card_info_label3">
               <div style="font-weight: 300">碳排放量：</div>
-              <div style="font-size: 14px">{{ 1.51 }}</div>
+              <div style="font-size: 14px">{{ getData('电镀锌机组', 'carbonEmissions') }}</div>
               <div style="font-weight: 300">&nbsp; 万吨</div>
             </div>
             <div class="process_info card_info_label3">
-              <div style="font-weight: 300">耗电量：</div>
-              <div style="font-size: 14px">{{ 1091.11 }}</div>
+              <div style="font-weight: 300">用电量：</div>
+              <div style="font-size: 14px">{{ getData('电镀锌机组', 'energyConsumption') }}</div>
               <div style="font-weight: 300">&nbsp; 万千瓦时</div>
             </div>
           </div>
@@ -103,9 +88,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="pic_wrapper">
-        <img :src="backgroundImageSrc" alt="">
-      </div> -->
     </div>
     <div v-if="selectedBuilding" class="info-card" :style="infoCardStyle">
       <h3>{{ selectedBuilding.name }}</h3>
@@ -139,6 +121,10 @@ interface Building {
 const emits = defineEmits(["callBackFunction"]);
 
 const props = defineProps({
+  dataList: {
+    type: Array,
+    default: [],
+  },
   backgroundImageSrc: {
     type: String,
     default: "",
@@ -155,6 +141,12 @@ let labelRenderer: any;
 let appList: any = [];
 const curBuildingName = ref("");
 
+const getData = (param: any = "本浦冷轧2#重卷机组", tagName: any = 'carbonEmissions') => {
+  const res: any = toRaw(props.dataList).find((item: any) => item.name === param);
+  if (res) {
+    return res[tagName];
+  }
+}
 const buildingRefs = ref<{ [key: string]: any }>({});
 const containerRef = ref<HTMLDivElement | null>(null);
 const canvasRef = ref<HTMLCanvasElement | null>(null);
@@ -239,6 +231,8 @@ const initThree = () => {
       bgPicSrc: building.bgPicSrc,
       name: building.name,
       info: building.info,
+      // carbonEmissions: building.carbonEmissions,
+      // energyConsumption: building.energyConsumption,
       positionX: building.x + building.width / 2,
       positionY: height.value - (building.y + building.height / 2),
       onLabelClick: (name: string) => {
@@ -423,6 +417,7 @@ defineExpose({
   align-items: center;
   width: 100%;
 }
+
 .process_bgimg {
   position: absolute;
   width: 94%;
@@ -431,6 +426,7 @@ defineExpose({
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   img {
     width: 98%;
     height: 74%;
@@ -440,12 +436,15 @@ defineExpose({
 .card_info_label1 {
   background: linear-gradient(to right, rgba(113, 190, 297, 0.9), transparent);
 }
+
 .card_info_label2 {
   background: linear-gradient(to right, rgba(73, 177, 218, 0.9), transparent);
 }
+
 .card_info_label3 {
   background: linear-gradient(to right, rgba(119, 125, 230, 0.9), transparent);
 }
+
 .center_title {
   position: absolute;
   top: 0;
@@ -453,6 +452,7 @@ defineExpose({
   line-height: 46px;
   color: #fff;
 }
+
 .process_info_wrapper {
   color: #fff;
   display: flex;
@@ -488,19 +488,15 @@ defineExpose({
   padding-left: 14px;
   flex: 60;
   border: 1px solid rgba(0, 229, 255, 1);
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       rgba(0, 229, 255, 0.2) 0%,
       transparent 20px,
       transparent calc(100% - 20px),
-      rgba(0, 229, 255, 0.2) 100%
-    ),
-    radial-gradient(
-      circle at center,
+      rgba(0, 229, 255, 0.2) 100%),
+    radial-gradient(circle at center,
       transparent 0%,
       transparent 80%,
-      rgba(0, 229, 255, 0.2) 100%
-    );
+      rgba(0, 229, 255, 0.2) 100%);
   overflow: hidden;
 }
 
@@ -515,11 +511,9 @@ defineExpose({
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(
-      circle at center,
-      rgba(0, 229, 255, 0.2) 0%,
-      transparent 70%
-    );
+    background: radial-gradient(circle at center,
+        rgba(0, 229, 255, 0.2) 0%,
+        transparent 70%);
     pointer-events: none;
   }
 }
@@ -535,11 +529,9 @@ defineExpose({
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(
-      circle at center,
-      rgba(0, 229, 255, 0.2) 0%,
-      transparent 70%
-    );
+    background: radial-gradient(circle at center,
+        rgba(0, 229, 255, 0.2) 0%,
+        transparent 70%);
     pointer-events: none;
   }
 }
@@ -555,19 +547,15 @@ defineExpose({
   padding-left: 14px;
   flex: 60;
   border: 1px solid rgba(31, 173, 255, 1);
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       rgba(31, 173, 255, 0.2) 0%,
       transparent 20px,
       transparent calc(100% - 20px),
-      rgba(31, 173, 255, 0.2) 100%
-    ),
-    radial-gradient(
-      circle at center,
+      rgba(31, 173, 255, 0.2) 100%),
+    radial-gradient(circle at center,
       transparent 0%,
       transparent 80%,
-      rgba(31, 173, 255, 0.2) 100%
-    );
+      rgba(31, 173, 255, 0.2) 100%);
   overflow: hidden;
 }
 
@@ -582,11 +570,9 @@ defineExpose({
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(
-      circle at center,
-      rgba(31, 173, 255, 0.2) 0%,
-      transparent 70%
-    );
+    background: radial-gradient(circle at center,
+        rgba(31, 173, 255, 0.2) 0%,
+        transparent 70%);
     pointer-events: none;
   }
 }
@@ -602,11 +588,9 @@ defineExpose({
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(
-      circle at center,
-      rgba(31, 173, 255, 0.2) 0%,
-      transparent 70%
-    );
+    background: radial-gradient(circle at center,
+        rgba(31, 173, 255, 0.2) 0%,
+        transparent 70%);
     pointer-events: none;
   }
 }
@@ -622,19 +606,15 @@ defineExpose({
   border-radius: 20px;
   padding-left: 14px;
   border: 1px solid rgba(156, 143, 252, 1);
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       rgba(156, 143, 252, 0.2) 0%,
       transparent 20px,
       transparent calc(100% - 20px),
-      rgba(156, 143, 252, 0.2) 100%
-    ),
-    radial-gradient(
-      circle at center,
+      rgba(156, 143, 252, 0.2) 100%),
+    radial-gradient(circle at center,
       transparent 0%,
       transparent 80%,
-      rgba(156, 143, 252, 0.2) 100%
-    );
+      rgba(156, 143, 252, 0.2) 100%);
   position: relative;
   overflow: hidden;
 }
@@ -650,11 +630,9 @@ defineExpose({
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(
-      circle at center,
-      rgba(156, 143, 252, 0.2) 0%,
-      transparent 70%
-    );
+    background: radial-gradient(circle at center,
+        rgba(156, 143, 252, 0.2) 0%,
+        transparent 70%);
     pointer-events: none;
   }
 }
@@ -670,11 +648,9 @@ defineExpose({
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(
-      circle at center,
-      rgba(156, 143, 252, 0.2) 0%,
-      transparent 70%
-    );
+    background: radial-gradient(circle at center,
+        rgba(156, 143, 252, 0.2) 0%,
+        transparent 70%);
     pointer-events: none;
   }
 }

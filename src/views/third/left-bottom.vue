@@ -10,40 +10,13 @@ import { EchartsUI, useEcharts } from "@/utils/echarts";
 const props = defineProps({
   dataList: {
     type: Object,
-    default: () => {},
+    default: () => { },
   },
 });
 const EchartContainerRef = ref(); //组件实例
 const { renderEcharts, getchartInstance } = useEcharts(EchartContainerRef);
 const curInstance: any = ref(null);
-const numList2 = [
-  259.89,
-  202.96,
-  264.84,
-  230.18,
-  217.81,
-  217.81,
-  235.14,
-  227.72,
-  null,
-  null,
-  null,
-  null,
-];
-const numList3 = [
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  227.72,
-  222.77,
-  235.14,
-  240.1,
-  279.7,
-];
+
 const newOption = {
   grid: {
     show: true,
@@ -68,15 +41,13 @@ const newOption = {
         if (item.seriesName == "实际电量") {
           const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(255, 168, 21, 1);"></span>`;
           item.marker = mark;
-          result += `${item.marker} ${item.seriesName} : ${
-            item.value ? `${item.value}万千瓦时</br>` : "- </br>"
-          }`;
+          result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}万千瓦时</br>` : "- </br>"
+            }`;
         } else if (item.seriesName == "预测电量") {
           const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(255, 230, 0, 1);"></span>`;
           item.marker = mark;
-          result += `${item.marker} ${item.seriesName} : ${
-            item.value ? `${item.value}万千瓦时</br>` : "- </br>"
-          }`;
+          result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}万千瓦时</br>` : "- </br>"
+            }`;
         } else {
           result += item.marker + " " + item.seriesName + " :  - </br>";
         }
@@ -107,7 +78,6 @@ const newOption = {
     ],
     top: -4,
   },
-
   xAxis: {
     type: "category",
     data: [
@@ -172,10 +142,9 @@ const newOption = {
       },
     },
   ],
-
   series: [
     {
-      data: numList2,
+      data: [],
       type: "line",
       yAxisIndex: 0,
       smooth: true,
@@ -216,11 +185,11 @@ const newOption = {
         // data: nullIndices.map((index: any) => ({
         //   xAxis: index
         // }))
-        data: [{ xAxis: numList2.findIndex((item) => item === null) - 1 }],
+        data: [{ xAxis: -1 }],
       },
     },
     {
-      data: numList3,
+      data: [],
       type: "line",
       yAxisIndex: 0,
       smooth: true,
@@ -255,7 +224,123 @@ const newOption = {
   ],
 };
 
-onMounted(() => {
+
+watch(
+  () => toRaw(props.dataList),
+  async (newValue) => {
+    await nextTick();
+    console.log("props.dataList", newValue);
+    const { yList } = newValue;
+    const lineOneValue = yList.find((item: any) => item.dataName === "实际电量")?.dataList;
+    const lineTwoValue = yList.find((item: any) => item.dataName === "预测电量")?.dataList;
+    if (curInstance.value === null) {
+      curInstance.value = getchartInstance();
+      /** 接口数据更新，判断是否有图表实例 ？没有->初始化图表 */
+      const series = [
+        {
+          data: lineOneValue,
+          type: "line",
+          yAxisIndex: 0,
+          smooth: true,
+          symbol: "none", //去除点
+          name: "实际电量",
+          lineStyle: {
+            color: "rgba(255, 168, 21, 1)",
+            width: 2,
+          },
+          areaStyle: {
+            //右，下，左，上
+            color: new graphic.LinearGradient(
+              0,
+              0,
+              0,
+              1,
+              [
+                {
+                  offset: 0,
+                  color: "rgba(255, 168, 21, .7)",
+                },
+                {
+                  offset: 1,
+                  color: "rgba(255, 168, 21, 0)",
+                },
+              ],
+              false
+            ),
+          },
+          markLine: {
+            symbol: ["none", "none"],
+            slient: true,
+            lineStyle: {
+              color: "rgba(112, 158, 227, 1)",
+              width: 2,
+            },
+            label: { show: false },
+            data: [{ xAxis: lineOneValue.findIndex((item: any) => item === null) - 1 }],
+          },
+        },
+        {
+          data: lineTwoValue,
+          type: "line",
+          yAxisIndex: 0,
+          smooth: true,
+          symbol: "none", //去除点
+          name: "预测电量",
+          lineStyle: {
+            type: "dotted",
+            color: "rgba(255, 230, 0, 1)",
+            width: 2,
+          },
+          areaStyle: {
+            //右，下，左，上
+            color: new graphic.LinearGradient(
+              0,
+              0,
+              0,
+              1,
+              [
+                {
+                  offset: 0,
+                  color: "rgba(255, 230, 0, 1)",
+                },
+                {
+                  offset: 1,
+                  color: "rgba(9,202,243,0)",
+                },
+              ],
+              false
+            ),
+          },
+        },
+      ];
+      renderEcharts({
+        ...newOption,
+        series,
+      });
+    } else {
+      /** 接口数据更新，判断是否有图标实例 ？有->直接更新图表数据 */
+      renderEcharts(
+        {
+          series: [
+            {
+              // 根据名字对应到相应的系列
+              name: "实际电量",
+              data: lineOneValue,
+            },
+            {
+              // 根据名字对应到相应的系列
+              name: "预测电量",
+              data: lineTwoValue,
+            },
+          ],
+        },
+        false
+      );
+    }
+  }
+);
+onMounted(async () => {
+  await nextTick()
   /** 初始化图表 */
   renderEcharts(newOption);
 });

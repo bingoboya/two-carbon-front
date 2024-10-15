@@ -13,7 +13,6 @@ import echarts from "./echarts";
 type EchartsThemeType = "dark" | "light" | null;
 
 function useEcharts(chartRef: Ref<any>) {
-  // console.log('useEcharts', chartRef);
   let chartInstance: echarts.ECharts | null = null;
   let cacheOptions: any = {};
 
@@ -52,15 +51,15 @@ function useEcharts(chartRef: Ref<any>) {
       ...options,
     };
     return new Promise((resolve) => {
-      if (chartRef.value?.offsetHeight === 0) {
-        useTimeoutFn(() => {
-          renderEcharts(getOptions.value);
-          // renderEcharts({backgroundColor: 'transparent', ...options});
-          // console.log('options2', options.series[0].data, getOptions.value.series[0].data)
-          resolve(null);
-        }, 30);
-        return;
-      }
+      // if (chartRef.value?.offsetHeight === 0) {
+      //   useTimeoutFn(() => {
+      //     renderEcharts(getOptions.value);
+      //     // renderEcharts({backgroundColor: 'transparent', ...options});
+      //     // console.log('options2', options.series[0].data, getOptions.value.series[0].data)
+      //     resolve(null);
+      //   }, 30);
+      //   return;
+      // }
       nextTick(() => {
         useTimeoutFn(() => {
           if (!chartInstance) {
@@ -70,7 +69,6 @@ function useEcharts(chartRef: Ref<any>) {
           clear && chartInstance?.clear();
           // chartInstance?.setOption(getOptions.value);
           chartInstance?.setOption(cacheOptions);
-          // console.log('options3', options.series[0].data, getOptions.value.series[0].data)
           resolve(null);
         }, 30);
       });
@@ -114,9 +112,10 @@ function useEcharts(chartRef: Ref<any>) {
     renderEcharts,
     resize,
     getchartInstance,
+    initCharts
   };
 }
 
-export { useEcharts  };
+export { useEcharts };
 
 // export type { EchartsUIType };
