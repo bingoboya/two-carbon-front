@@ -68,7 +68,7 @@ const infoCardStyle = computed(() => ({
 
 const createBuildingsAndLabels = () => {
   // 遍历预定义的 buildingArr 数组，为每个建筑创建一个 3D 对象。
-  console.log('createBuildingsAndLabels', toRaw(props.buildingArr)[0]);
+  console.log('createBuildingsAndLabels', toRaw(props.buildingArr));
   //  debugger
   props.buildingArr.forEach((building: any) => {
     if (!buildingRefs.value[building.name]) {
@@ -88,7 +88,7 @@ const createBuildingsAndLabels = () => {
       mesh.userData = building;
       // 将创建的网格添加到场景中。
       scene.add(mesh);
-  
+
       // 创建 Vue 组件实例
       const app = createApp(BuildingLabel, {
         tanpaiValue: building.tanpaiValue,
@@ -116,12 +116,12 @@ const createBuildingsAndLabels = () => {
       app.mount(container);
       // 将组件实例存储在buildingRefs中
       buildingRefs.value[building.name] = app._instance?.exposed;
+      console.log('buildingRefs.value', buildingRefs.value);
       // 使用这个容器创建 CSS2DObject
       const textLabel = new CSS2DObject(container);
       // 这个位置是相对于mesh的相对位置
       textLabel.position.set(0, building.height / 2 + 10, 0);
       mesh.add(textLabel);
-
     }
   });
 }
@@ -149,7 +149,6 @@ const initThree = () => {
   canvasRef.value.parentElement?.appendChild(labelRenderer.domElement);
 
   createBuildingsAndLabels()
-
 
   // 设置相机的 z 位置。在正交相机中，这个值主要影响渲染顺序，而不影响物体大小。
   camera.position.z = 5;
@@ -256,11 +255,15 @@ onUnmounted(() => {
     canvasRef.value.removeEventListener('click', onCanvasClick);
   }
 });
-const updateBuildingLabels = (buildings: any[]) => {
+const updateBuildingLabels =  (buildings: any[]) => {
+  console.log('updateBuildingLabels-1', buildings);
   buildings.forEach((building) => {
+    console.log('updateBuildingLabels-2', building, buildingRefs);
     const buildingRef = buildingRefs.value[building.name];
+    console.log('updateBuildingLabels-3', buildingRef);
+    console.log('updateBuildingLabels-4', buildingRef && typeof buildingRef.updateValues);
     if (buildingRef && typeof buildingRef.updateValues === 'function') {
-      console.log(121212, building);
+      console.log('updateBuildingLabels-5', building);
       buildingRef.updateValues({
         tanpaiValue: building.tanpaiValue,
         nenghaoValue: building.nenghaoValue,
@@ -291,7 +294,7 @@ watch([width, height], () => {
   animate()
 });
 
-watch(() => props.buildingArr, (newValue, oldValue) => {
+watch(() => props.buildingArr, (newValue) => {
   console.log('watch-buildingArr', newValue, appList);
   // 更新现有的建筑物标签
   updateBuildingLabels(newValue);

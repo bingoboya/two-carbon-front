@@ -321,10 +321,10 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
       },
       formatter: (name: any) => {
         let tarValue, tarUnit;
-        for (let i = 0; i < state.data.length; i++) {
-          if (state.data[i].name == name) {
-            tarValue = state.data[i].value;
-            tarUnit = state.data[i].unit;
+        for (let i = 0; i < pieData.length; i++) {
+          if (pieData[i].name == name) {
+            tarValue = pieData[i].value;
+            tarUnit = pieData[i].unit;
           }
         }
         const v = tarValue;
@@ -447,9 +447,8 @@ const mouseoverFun = (params: any) => {
 //   console.log('globaloutFunc', params)
 // }
 
-
-const getNewData = () => {
-  return [
+const getData = () => {
+  const newOption = [
     {
       value: state.valA,
       name: "本浦冷轧2#重卷机组",
@@ -475,11 +474,7 @@ const getNewData = () => {
       },
     }
   ]
-}
-
-const getData = () => {
-  state.data = getNewData()
-  option.value = getPie3D(state.data, 0.8);
+  option.value = getPie3D(newOption, 0.8);
 };
 watch(() => toRaw(props.dataList), (newValue) => {
   const { carbonEmissionsPercentage: valA } = newValue.find((item: any) => item.equipmentName === "本浦冷轧2#重卷机组");

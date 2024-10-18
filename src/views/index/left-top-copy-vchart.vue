@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-// import { alarmNum } from "@/api";
 import { graphic } from "echarts/core";
 
 const option = ref({});
@@ -13,35 +12,8 @@ const getData = () => {
   }
 
   setOption(data.dateList, data.numList, data.numList2, data.numList3);
-  // alarmNum()
-  //   .then((res) => {
-  //     if (res.success) {
-  //       res.data = {
-  //         dateList: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-  //         numList: [22, 25, 23, 28, 30, 27, 26, 25, null, null, null, null],
-  //         numList2: [4132, 4211, 4313, 4143, 4222, 4231, 4151, 4326, null, null, null, null],
-  //         numList3: [null, null, null, null, null, null, null, 4226, 4116, 4215, 4333, 4145],
-  //       }
-
-  //       setOption(res.data.dateList, res.data.numList, res.data.numList2, res.data.numList3);
-  //     } else {
-  //     }
-  //   })
-  //   .catch((err) => {
-  //   });
 };
 const setOption = async (xData: any[], yData: any[], yData2: any[], yData3: any[]) => {
-  // 找出 Y 值为 null 的数据点的索引
-  // const nullIndices = yData2.reduce((acc, val, index) => {
-  //   if (val === null) {
-  //     acc.push(index);
-  //   }
-  //   return acc;
-  // }, []);
-  // const ddd = nullIndices.map((index: any) => ({
-  //           xAxis: index
-  //         }))
-  // console.log(nullIndices, 2222, ddd);
   const findNullIndex = yData2.findIndex(item => item === null)
   option.value = {
     grid: {

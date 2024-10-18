@@ -1,7 +1,8 @@
 import type { UserConfig, ConfigEnv } from "vite";
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-// import { resolve } from "path";
+import { resolve } from 'path'
+import fs from 'fs-extra'
 import { fileURLToPath, URL } from "node:url";
 import VueDevTools from "vite-plugin-vue-devtools";
 import vueJsx from '@vitejs/plugin-vue-jsx'
@@ -16,10 +17,30 @@ import AutoImport from "unplugin-auto-import/vite";
 // import ElementPlus from 'unplugin-element-plus/vite'
 export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   // const env = loadEnv(mode, process.cwd(), '')
-  console.log(command, mode);
+  const runtimeConfig = mode === 'development' ? 'runtime-config.dev.js' : 'runtime-config.js'
+  console.log('defineConfigdefineConfigdefineConfig', command, mode);
   return {
     plugins: [
       vue(),
+      {
+        name: 'runtime-config',
+        configureServer(server) {
+          server.middlewares.use((req, res, next) => {
+            if (req.url === '/runtime-config.js') {
+              res.setHeader('Content-Type', 'application/javascript')
+              res.end(fs.readFileSync(resolve(__dirname, runtimeConfig), 'utf-8'))
+            } else {
+              next()
+            }
+          })
+        },
+        writeBundle() {
+          fs.copySync(
+            resolve(__dirname, 'runtime-config.js'),
+            resolve(__dirname, 'dist/runtime-config.js')
+          )
+        }
+      },
       vueJsx({
         // options are passed on to @vue/babel-plugin-jsx
       }),
@@ -89,7 +110,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         filename: "stats.html",
       }),
 
-      VueDevTools(),
+      // VueDevTools(),
     ],
     publicDir: "public",
     base: "./",
@@ -136,6 +157,10 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         },
       },
       rollupOptions: {
+        input: {
+          main: resolve(__dirname, 'index.html'),
+          runtimeConfig: resolve(__dirname, 'runtime-config.js')
+        },
         output: {
           manualChunks(id) {
             // 文件路径 id

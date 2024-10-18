@@ -10,7 +10,6 @@
 </template>
 <script setup lang="ts">
 import { ref, reactive } from "vue";
-// import { countUserNum } from "@/api";
 import {
   useTimeoutFn,
 } from '@vueuse/core';
@@ -571,14 +570,6 @@ const getData = () => {
     0.8
   );
   renderEcharts(option.value);
-  // countUserNum().then((res) => {
-  //   if (res.success) {
-  //   } else {
-  //     console.log(res.msg)
-  //   }
-  // }).catch(err => {
-  //   console.log(err)
-  // });
 };
 onMounted(async() => {
   await nextTick();

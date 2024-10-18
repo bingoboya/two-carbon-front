@@ -7,3 +7,13 @@ export {}
 declare global {
   const ElMessage: typeof import('element-plus/es')['ElMessage']
 }
+// interface RuntimeConfig {
+//   API_URL: string;
+//   FEATURE_FLAG: boolean;
+// }
+
+// declare global {
+//   interface Window {
+//     __RUNTIME_CONFIG__: RuntimeConfig;
+//   }
+// }

@@ -1,20 +1,17 @@
 <template>
   <div style="width: 100%; height: 100%">
     <EchartsUI ref="EchartContainerRef" />
-    
-    </div>
+  </div>
 </template>
 <script setup lang="ts">
 import { EchartsUI, useEcharts } from "@/utils/echarts";
-
-import { ref, reactive} from "vue";
-
+import { ref, reactive } from "vue";
 const EchartContainerRef = ref(); //组件实例
 const { renderEcharts, getchartInstance } = useEcharts(EchartContainerRef);
 const props = defineProps({
   dataList: {
     type: Object,
-    default: () => {},
+    default: () => { },
   },
 });
 const curInstance: any = ref(null);
@@ -22,9 +19,6 @@ const curInstance: any = ref(null);
 let selectedIndex = '';
 let hoveredIndex = '';
 const option: any = ref({});
-const state: any = reactive({
-  data: []
-});
 // TODO
 // 生成扇形的曲面参数方程，用于 series-surface.parametricEquation
 function getParametricEquation(
@@ -343,11 +337,11 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
       },
       formatter: (name: any) => {
         let tarValue, tarUnit, tarNum
-        for (let i = 0; i < state.data.length; i++) {
-          if (state.data[i].name == name) {
-            tarValue = state.data[i].value;
-            tarUnit = state.data[i].unit;
-            tarNum = state.data[i].num;
+        for (let i = 0; i < pieData.length; i++) {
+          if (pieData[i].name == name) {
+            tarValue = pieData[i].value;
+            tarUnit = pieData[i].unit;
+            tarNum = pieData[i].num;
           }
         }
         const v = tarValue;
@@ -395,76 +389,76 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
 
 const mouseoverFun = (params: any) => {
   // console.log('11111', params)
-    // 准备重新渲染扇形所需的参数
-    let isSelected;
-    let isHovered;
-    let startRatio;
-    let endRatio;
-    let k;
+  // 准备重新渲染扇形所需的参数
+  let isSelected;
+  let isHovered;
+  let startRatio;
+  let endRatio;
+  let k;
 
-    // 如果触发 mouseover 的扇形当前已高亮，则不做操作
-    if (hoveredIndex === params.seriesIndex) {
-          return;
-          // 否则进行高亮及必要的取消高亮操作
-    } else {
-      // 如果当前有高亮的扇形，取消其高亮状态（对 option 更新）
-      if (hoveredIndex !== "") {
-        // 从 option.series 中读取重新渲染扇形所需的参数，将是否高亮设置为 false。
-        isSelected = option.value.series[hoveredIndex].pieStatus.selected;
-        isHovered = false;
-        startRatio = option.value.series[hoveredIndex].pieData.startRatio;
-        endRatio = option.value.series[hoveredIndex].pieData.endRatio;
-        k = option.value.series[hoveredIndex].pieStatus.k;
+  // 如果触发 mouseover 的扇形当前已高亮，则不做操作
+  if (hoveredIndex === params.seriesIndex) {
+    return;
+    // 否则进行高亮及必要的取消高亮操作
+  } else {
+    // 如果当前有高亮的扇形，取消其高亮状态（对 option 更新）
+    if (hoveredIndex !== "") {
+      // 从 option.series 中读取重新渲染扇形所需的参数，将是否高亮设置为 false。
+      isSelected = option.value.series[hoveredIndex].pieStatus.selected;
+      isHovered = false;
+      startRatio = option.value.series[hoveredIndex].pieData.startRatio;
+      endRatio = option.value.series[hoveredIndex].pieData.endRatio;
+      k = option.value.series[hoveredIndex].pieStatus.k;
 
-        // 对当前点击的扇形，执行取消高亮操作（对 option.value 更新）
-        option.value.series[hoveredIndex].parametricEquation =
-          getParametricEquation(
-            startRatio,
-            endRatio,
-            isSelected,
-            isHovered,
-            k,
-            option.value.series[hoveredIndex].pieData.value
-          );
-        option.value.series[hoveredIndex].pieStatus.hovered = isHovered;
+      // 对当前点击的扇形，执行取消高亮操作（对 option.value 更新）
+      option.value.series[hoveredIndex].parametricEquation =
+        getParametricEquation(
+          startRatio,
+          endRatio,
+          isSelected,
+          isHovered,
+          k,
+          option.value.series[hoveredIndex].pieData.value
+        );
+      option.value.series[hoveredIndex].pieStatus.hovered = isHovered;
 
-        // 将此前记录的上次选中的扇形对应的系列号 seriesIndex 清空
-        hoveredIndex = "";
-      }
-
-      // 如果触发 mouseover 的扇形不是透明圆环，将其高亮（对 option.value 更新）
-      if (params.seriesName !== "mouseoutSeries") {
-        // 从 option.value.series 中读取重新渲染扇形所需的参数，将是否高亮设置为 true。
-        isSelected = option.value.series[params.seriesIndex].pieStatus.selected;
-        isHovered = true;
-        startRatio = option.value.series[params.seriesIndex].pieData.startRatio;
-        endRatio = option.value.series[params.seriesIndex].pieData.endRatio;
-        k = option.value.series[params.seriesIndex].pieStatus.k;
-
-        // 对当前点击的扇形，执行高亮操作（对 option.value 更新）
-        option.value.series[params.seriesIndex].parametricEquation =
-          getParametricEquation(
-            startRatio,
-            endRatio,
-            isSelected,
-            isHovered,
-            k,
-            option.value.series[params.seriesIndex].pieData.value + 5
-          );
-        option.value.series[params.seriesIndex].pieStatus.hovered = isHovered;
-
-        // 记录上次高亮的扇形对应的系列号 seriesIndex
-        hoveredIndex = params.seriesIndex;
-      }
-
-      // 使用更新后的 option，渲染图表
-      // myChart.setOption(option);
+      // 将此前记录的上次选中的扇形对应的系列号 seriesIndex 清空
+      hoveredIndex = "";
     }
+
+    // 如果触发 mouseover 的扇形不是透明圆环，将其高亮（对 option.value 更新）
+    if (params.seriesName !== "mouseoutSeries") {
+      // 从 option.value.series 中读取重新渲染扇形所需的参数，将是否高亮设置为 true。
+      isSelected = option.value.series[params.seriesIndex].pieStatus.selected;
+      isHovered = true;
+      startRatio = option.value.series[params.seriesIndex].pieData.startRatio;
+      endRatio = option.value.series[params.seriesIndex].pieData.endRatio;
+      k = option.value.series[params.seriesIndex].pieStatus.k;
+
+      // 对当前点击的扇形，执行高亮操作（对 option.value 更新）
+      option.value.series[params.seriesIndex].parametricEquation =
+        getParametricEquation(
+          startRatio,
+          endRatio,
+          isSelected,
+          isHovered,
+          k,
+          option.value.series[params.seriesIndex].pieData.value + 5
+        );
+      option.value.series[params.seriesIndex].pieStatus.hovered = isHovered;
+
+      // 记录上次高亮的扇形对应的系列号 seriesIndex
+      hoveredIndex = params.seriesIndex;
+    }
+
+    // 使用更新后的 option，渲染图表
+    // myChart.setOption(option);
+  }
 }
 
 // // 监听点击事件，实现选中效果（单选）
 // const clickFun = (params: any) => {
-      
+
 // } 
 
 // const globaloutFunc = (params: any) => {
@@ -473,57 +467,75 @@ const mouseoverFun = (params: any) => {
 // }
 
 
-const getData = () => {
-  state.data = [
-  {
-  value: 46.59,
-  name: '高炉',
-  unit: '%',
-  num: 25,
-  itemStyle: {
-    color: "rgba(17, 219, 231, 1)",
+const getData = (state: any = {
+  valA: 0,
+  valB: 0,
+  valC: 0,
+  valD: 0,
+}) => {
+  const newOption = [
+    {
+      value:state.valA,
+      name: '高炉',
+      unit: '%',
+      num: 25,
+      itemStyle: {
+        color: "rgba(17, 219, 231, 1)",
 
-  },
-},
-{
-  value: 27.95,
-  name: '炼钢',
-  unit: '%',
-  num: 22354,
-  itemStyle: {
-    color: "#b54c46",
-  },
-},
-{
-  value: 18.64,
-  name: '热轧',
-  unit: '%',
-  num: 2541,
-  itemStyle: {
-    color: "rgba(237, 187, 67, 1)",
+      },
+    },
+    {
+      value:state.valB,
+      name: '炼钢',
+      unit: '%',
+      num: 22354,
+      itemStyle: {
+        color: "#b54c46",
+      },
+    },
+    {
+      value:state.valC,
+      name: '热轧',
+      unit: '%',
+      num: 2541,
+      itemStyle: {
+        color: "rgba(237, 187, 67, 1)",
 
-  },
-},
-
-
-{
-  value: 6.81,
-  name: '电镀锌',
-  unit: '%',
-  num: 254,
-  itemStyle: {
-    color: "rgba(0, 177, 151, 1)",
-  },
-},
+      },
+    },
+    {
+      value:state.valD,
+      name: '电镀锌',
+      unit: '%',
+      num: 254,
+      itemStyle: {
+        color: "rgba(0, 177, 151, 1)",
+      },
+    },
   ]
-  option.value = getPie3D(
-    state.data,
-        0.8
+  const option = getPie3D(
+    newOption,
+    0.8
   );
-   /** 初始化图表 */
-   renderEcharts(toRaw(option.value));
+  /** 初始化图表 */
+  renderEcharts(option);
 };
-onMounted( () => {
+
+
+watch(() => toRaw(props.dataList), (newValue) => {
+  const { carbonEmissionsPercentage: valA } = newValue.find((item: any) => item.equipmentName === "高炉");
+  const { carbonEmissionsPercentage: valB } = newValue.find((item: any) => item.equipmentName === "炼钢");
+  const { carbonEmissionsPercentage: valC } = newValue.find((item: any) => item.equipmentName === "热轧");
+  const { carbonEmissionsPercentage: valD } = newValue.find((item: any) => item.equipmentName === "电镀锌");
+  const state = {
+    valA: Number(valA.replace("%", "")),
+    valB: Number(valB.replace("%", "")),
+    valC: Number(valC.replace("%", "")),
+    valD: Number(valD.replace("%", "")),
+  }
+  getData(state);
+})
+onMounted(() => {
   getData();
 });
 

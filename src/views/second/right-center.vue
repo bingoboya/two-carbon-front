@@ -11,7 +11,7 @@ const { renderEcharts, getchartInstance } = useEcharts(EchartContainerRef);
 const props = defineProps({
   dataList: {
     type: Object,
-    default: () => {},
+    default: () => { },
   },
 });
 const curInstance: any = ref(null);
@@ -39,15 +39,13 @@ const newOption = {
         if (item.seriesName == "实际电量") {
           const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(12, 246, 209, 1);"></span>`;
           item.marker = mark;
-          result += `${item.marker} ${item.seriesName} : ${
-            item.value ? `${item.value}万千瓦时</br>` : "- </br>"
-          }`;
+          result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}万千瓦时</br>` : "- </br>"
+            }`;
         } else if (item.seriesName == "预测电量") {
           const mark = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(0, 235, 138, 1);"></span>`;
           item.marker = mark;
-          result += `${item.marker} ${item.seriesName} : ${
-            item.value ? `${item.value}万千瓦时</br>` : "- </br>"
-          }`;
+          result += `${item.marker} ${item.seriesName} : ${item.value ? `${item.value}万千瓦时</br>` : "- </br>"
+            }`;
         } else {
           result += item.marker + " " + item.seriesName + " :  - </br>";
         }
@@ -229,15 +227,9 @@ watch(
   () => toRaw(props.dataList),
   async (newValue) => {
     await nextTick();
-    console.log("props.dataList", newValue);
-
     const { yList } = newValue;
-    const lineOneValue = yList.find(
-      (item: any) => item.dataName === "实际电量"
-    )?.dataList;
-    const lineTwoValue = yList.find(
-      (item: any) => item.dataName === "预测电量"
-    )?.dataList;
+    const lineOneValue = yList.find((item: any) => item.dataName === "实际电量")?.dataList;
+    const lineTwoValue = yList.find((item: any) => item.dataName === "预测电量")?.dataList;
     if (curInstance.value === null) {
       curInstance.value = getchartInstance();
       /** 接口数据更新，判断是否有图表实例 ？没有->初始化图表 */

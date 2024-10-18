@@ -110,7 +110,9 @@ import { ref } from "vue";
 import CountUp from "@/components/count-up";
 import arrow_down_icon from '@/assets/icon/arrow_down_icon.png'
 import arrow_top_icon from '@/assets/icon/arrow_top_icon.png'
-import InteractiveFactoryMap from '@/components/InteractiveFactoryMap/index';
+// TODO 这个组件本地运行时正常更新数据，打包后会报错，不能正常更新数据
+// import InteractiveFactoryMap from '@/components/InteractiveFactoryMap/index';
+import InteractiveFactoryMap from './InteractiveFactoryMap/index';
 import AnimatedLoader from '@/components/AnimatedLoader.vue';
 import dianduxinImg from '@/assets/bgpng/dianduxin_border.png'
 import rezaImg from '@/assets/bgpng/reza_border.png'
@@ -183,40 +185,41 @@ const InteractiveFactoryMapRef: any = ref<HTMLDivElement | null>(null)
 const state = reactive({
   defaultBuildingArr: [
     {
-      id: 1, x: 110, y: 600, width: 50, height: 80, name: "电镀锌", info: "主要生产区域", alwaysVisible: !true,
+      id: 1, top: 550, left: 58, width: 170, height: 45, name: "电镀锌", info: "主要生产区域", alwaysVisible: !true,
       bgPicSrc: dianduxinImgdefault,
       toolTipBg: dianduxinImg,
       tagName: 'electroplating',
-      tanpaiValue: 32,
-      nenghaoValue: 32,
-      haodianValue: 32,
+      carbonEmission: 32,
+      energyConsumption: 32,
+      power: 32,
     },
     {
-      id: 3, x: 420, y: 610, width: 50, height: 80, name: "热轧", info: "主要生产区域", alwaysVisible: !true,
+      id: 3, top: 600, left: 368, width: 170, height: 45, name: "热轧", info: "主要生产区域", alwaysVisible: !true,
       bgPicSrc: rezaImgdefault,
       toolTipBg: rezaImg,
       tagName: 'hotRolling',
-      tanpaiValue: 32,
-      nenghaoValue: 32,
-      haodianValue: 32,
+      carbonEmission: 32,
+      energyConsumption: 32,
+      power: 32,
     },
     {
-      id: 4, x: 610, y: 280, width: 50, height: 80, name: "高炉", info: "主要生产区域", alwaysVisible: !true,
+      id: 4, top: 256, left: 556, width: 170, height: 45, name: "高炉", info: "主要生产区域", alwaysVisible: !true,
       bgPicSrc: gaoluImgdefault,
       toolTipBg: gaoluImg,
       tagName: 'blastFurnace',
-      tanpaiValue: 32,
-      nenghaoValue: 32,
-      haodianValue: 32,
+
+      carbonEmission: 32,
+      energyConsumption: 32,
+      power: 32,
     },
     {
-      id: 5, x: 800, y: 520, width: 50, height: 80, name: "炼钢", info: "主要生产区域", alwaysVisible: !true,
+      id: 5, top: 520, left: 756, width: 170, height: 45, name: "炼钢", info: "主要生产区域", alwaysVisible: !true,
       bgPicSrc: liangangImgdefault,
       toolTipBg: liangangImg,
       tagName: 'steelSmelting',
-      tanpaiValue: 32,
-      nenghaoValue: 32,
-      haodianValue: 32,
+      carbonEmission: 32,
+      energyConsumption: 32,
+      power: 32,
     },
   ]
 })
@@ -226,12 +229,12 @@ watch(() => toRaw(props.detailedList), (newValue, oldValue) => {
   cacheData.forEach((item: any) => {
     const { carbonEmission, energyConsumption, power } = newValue[item.tagName]
     console.log('carbonEmission, energyConsumption, power', carbonEmission, energyConsumption, power);
-    item.tanpaiValue = carbonEmission
-    item.nenghaoValue = energyConsumption
-    item.haodianValue = power
+    item.carbonEmission = carbonEmission
+    item.energyConsumption = energyConsumption
+    item.power = power
   })
   state.defaultBuildingArr = cacheData
-  console.log('watch-state.detailedList', state.defaultBuildingArr[0].tanpaiValue);
+  console.log('watch-state.detailedList', state.defaultBuildingArr[0].carbonEmission);
 }, { immediate: true, })
 
 
@@ -268,7 +271,7 @@ defineExpose({
 
 .card_left {
   padding: 0 0px;
-  width: 106px;
+  width: 80px;
   height: 76px;
   display: flex;
   flex-direction: row;

@@ -62,11 +62,11 @@
 </template>
 <script setup lang="ts">
 import { EchartsUI, useEcharts } from "@/utils/echarts";
-import { ref, reactive} from "vue";
+import { ref, reactive } from "vue";
 const props = defineProps({
   dataList: {
     type: Object,
-    default: () => {},
+    default: () => { },
   },
 });
 const EchartContainerRef = ref(); //组件实例
@@ -76,171 +76,168 @@ const curInstance: any = ref(null);
 let selectedIndex = '';
 let hoveredIndex = '';
 const option: any = ref({});
-const state: any = reactive({
-  data: []
-});
+
 // 生成扇形的曲面参数方程，用于 series-surface.parametricEquation
 function getParametricEquation(
-        startRatio: any,
-        endRatio: any,
-        isSelected: any,
-        isHovered: any,
-        k: any,
-        h: any
-      ) 
-      {
-        // 计算
-        let midRatio = (startRatio + endRatio) / 2;
+  startRatio: any,
+  endRatio: any,
+  isSelected: any,
+  isHovered: any,
+  k: any,
+  h: any
+) {
+  // 计算
+  let midRatio = (startRatio + endRatio) / 2;
 
-        let startRadian = startRatio * Math.PI * 2;
-        let endRadian = endRatio * Math.PI * 2;
-        let midRadian = midRatio * Math.PI * 2;
+  let startRadian = startRatio * Math.PI * 2;
+  let endRadian = endRatio * Math.PI * 2;
+  let midRadian = midRatio * Math.PI * 2;
 
-        // 如果只有一个扇形，则不实现选中效果。
-        // if (startRatio === 0 && endRatio === 1) {
-        //     isSelected = false;
-        // }
-        isSelected = false;
-        // 通过扇形内径/外径的值，换算出辅助参数 k（默认值 1/3）
-        k = typeof k !== "undefined" ? k : 1 / 3;
+  // 如果只有一个扇形，则不实现选中效果。
+  // if (startRatio === 0 && endRatio === 1) {
+  //     isSelected = false;
+  // }
+  isSelected = false;
+  // 通过扇形内径/外径的值，换算出辅助参数 k（默认值 1/3）
+  k = typeof k !== "undefined" ? k : 1 / 3;
 
-        // 计算选中效果分别在 x 轴、y 轴方向上的位移（未选中，则位移均为 0）
-        let offsetX = isSelected ? Math.sin(midRadian) * 0.1 : 0;
-        let offsetY = isSelected ? Math.cos(midRadian) * 0.1 : 0;
+  // 计算选中效果分别在 x 轴、y 轴方向上的位移（未选中，则位移均为 0）
+  let offsetX = isSelected ? Math.sin(midRadian) * 0.1 : 0;
+  let offsetY = isSelected ? Math.cos(midRadian) * 0.1 : 0;
 
-        // 计算高亮效果的放大比例（未高亮，则比例为 1）
-        let hoverRate = isHovered ? 1.05 : 1;
+  // 计算高亮效果的放大比例（未高亮，则比例为 1）
+  let hoverRate = isHovered ? 1.05 : 1;
 
-        // 返回曲面参数方程
-        return {
-          u: {
-            min: -Math.PI,
-            max: Math.PI * 3,
-            step: Math.PI / 32,
-          },
+  // 返回曲面参数方程
+  return {
+    u: {
+      min: -Math.PI,
+      max: Math.PI * 3,
+      step: Math.PI / 32,
+    },
 
-          v: {
-            min: 0,
-            max: Math.PI * 2,
-            step: Math.PI / 20,
-          },
+    v: {
+      min: 0,
+      max: Math.PI * 2,
+      step: Math.PI / 20,
+    },
 
-          x: function (u: any, v: any) {
-            if (u < startRadian) {
-              return (
-                offsetX +
-                Math.cos(startRadian) * (1 + Math.cos(v) * k) * hoverRate
-              );
-            }
-            if (u > endRadian) {
-              return (
-                offsetX +
-                Math.cos(endRadian) * (1 + Math.cos(v) * k) * hoverRate
-              );
-            }
-            return offsetX + Math.cos(u) * (1 + Math.cos(v) * k) * hoverRate;
-          },
+    x: function (u: any, v: any) {
+      if (u < startRadian) {
+        return (
+          offsetX +
+          Math.cos(startRadian) * (1 + Math.cos(v) * k) * hoverRate
+        );
+      }
+      if (u > endRadian) {
+        return (
+          offsetX +
+          Math.cos(endRadian) * (1 + Math.cos(v) * k) * hoverRate
+        );
+      }
+      return offsetX + Math.cos(u) * (1 + Math.cos(v) * k) * hoverRate;
+    },
 
-          y: function (u: any, v: any) {
-            if (u < startRadian) {
-              return (
-                offsetY +
-                Math.sin(startRadian) * (1 + Math.cos(v) * k) * hoverRate
-              );
-            }
-            if (u > endRadian) {
-              return (
-                offsetY +
-                Math.sin(endRadian) * (1 + Math.cos(v) * k) * hoverRate
-              );
-            }
-            return offsetY + Math.sin(u) * (1 + Math.cos(v) * k) * hoverRate;
-          },
+    y: function (u: any, v: any) {
+      if (u < startRadian) {
+        return (
+          offsetY +
+          Math.sin(startRadian) * (1 + Math.cos(v) * k) * hoverRate
+        );
+      }
+      if (u > endRadian) {
+        return (
+          offsetY +
+          Math.sin(endRadian) * (1 + Math.cos(v) * k) * hoverRate
+        );
+      }
+      return offsetY + Math.sin(u) * (1 + Math.cos(v) * k) * hoverRate;
+    },
 
-          z: function (u: any, v: any) {
-            if (u < -Math.PI * 0.5) {
-              return Math.sin(u);
-            }
-            if (u > Math.PI * 2.5) {
-              return Math.sin(u) * h * 0.1;
-            }
-            return Math.sin(v) > 0 ? 1 * h * 0.1 : -1;
-          },
-        };
+    z: function (u: any, v: any) {
+      if (u < -Math.PI * 0.5) {
+        return Math.sin(u);
+      }
+      if (u > Math.PI * 2.5) {
+        return Math.sin(u) * h * 0.1;
+      }
+      return Math.sin(v) > 0 ? 1 * h * 0.1 : -1;
+    },
+  };
 }
 
 const mouseoverFun = (params: any) => {
   // console.log('11111', params)
-    // 准备重新渲染扇形所需的参数
-    let isSelected;
-    let isHovered;
-    let startRatio;
-    let endRatio;
-    let k;
+  // 准备重新渲染扇形所需的参数
+  let isSelected;
+  let isHovered;
+  let startRatio;
+  let endRatio;
+  let k;
 
-    // 如果触发 mouseover 的扇形当前已高亮，则不做操作
-    if (hoveredIndex === params.seriesIndex) {
-          return;
-          // 否则进行高亮及必要的取消高亮操作
-    } else {
-      // 如果当前有高亮的扇形，取消其高亮状态（对 option 更新）
-      if (hoveredIndex !== "") {
-        // 从 option.series 中读取重新渲染扇形所需的参数，将是否高亮设置为 false。
-        isSelected = option.value.series[hoveredIndex].pieStatus.selected;
-        isHovered = false;
-        startRatio = option.value.series[hoveredIndex].pieData.startRatio;
-        endRatio = option.value.series[hoveredIndex].pieData.endRatio;
-        k = option.value.series[hoveredIndex].pieStatus.k;
+  // 如果触发 mouseover 的扇形当前已高亮，则不做操作
+  if (hoveredIndex === params.seriesIndex) {
+    return;
+    // 否则进行高亮及必要的取消高亮操作
+  } else {
+    // 如果当前有高亮的扇形，取消其高亮状态（对 option 更新）
+    if (hoveredIndex !== "") {
+      // 从 option.series 中读取重新渲染扇形所需的参数，将是否高亮设置为 false。
+      isSelected = option.value.series[hoveredIndex].pieStatus.selected;
+      isHovered = false;
+      startRatio = option.value.series[hoveredIndex].pieData.startRatio;
+      endRatio = option.value.series[hoveredIndex].pieData.endRatio;
+      k = option.value.series[hoveredIndex].pieStatus.k;
 
-        // 对当前点击的扇形，执行取消高亮操作（对 option.value 更新）
-        option.value.series[hoveredIndex].parametricEquation =
-          getParametricEquation(
-            startRatio,
-            endRatio,
-            isSelected,
-            isHovered,
-            k,
-            option.value.series[hoveredIndex].pieData.value
-          );
-        option.value.series[hoveredIndex].pieStatus.hovered = isHovered;
+      // 对当前点击的扇形，执行取消高亮操作（对 option.value 更新）
+      option.value.series[hoveredIndex].parametricEquation =
+        getParametricEquation(
+          startRatio,
+          endRatio,
+          isSelected,
+          isHovered,
+          k,
+          option.value.series[hoveredIndex].pieData.value
+        );
+      option.value.series[hoveredIndex].pieStatus.hovered = isHovered;
 
-        // 将此前记录的上次选中的扇形对应的系列号 seriesIndex 清空
-        hoveredIndex = "";
-      }
-
-      // 如果触发 mouseover 的扇形不是透明圆环，将其高亮（对 option.value 更新）
-      if (params.seriesName !== "mouseoutSeries") {
-        // 从 option.value.series 中读取重新渲染扇形所需的参数，将是否高亮设置为 true。
-        isSelected = option.value.series[params.seriesIndex].pieStatus.selected;
-        isHovered = true;
-        startRatio = option.value.series[params.seriesIndex].pieData.startRatio;
-        endRatio = option.value.series[params.seriesIndex].pieData.endRatio;
-        k = option.value.series[params.seriesIndex].pieStatus.k;
-
-        // 对当前点击的扇形，执行高亮操作（对 option.value 更新）
-        option.value.series[params.seriesIndex].parametricEquation =
-          getParametricEquation(
-            startRatio,
-            endRatio,
-            isSelected,
-            isHovered,
-            k,
-            option.value.series[params.seriesIndex].pieData.value + 5
-          );
-        option.value.series[params.seriesIndex].pieStatus.hovered = isHovered;
-
-        // 记录上次高亮的扇形对应的系列号 seriesIndex
-        hoveredIndex = params.seriesIndex;
-      }
-
-      // 使用更新后的 option，渲染图表
-      // myChart.setOption(option);
+      // 将此前记录的上次选中的扇形对应的系列号 seriesIndex 清空
+      hoveredIndex = "";
     }
+
+    // 如果触发 mouseover 的扇形不是透明圆环，将其高亮（对 option.value 更新）
+    if (params.seriesName !== "mouseoutSeries") {
+      // 从 option.value.series 中读取重新渲染扇形所需的参数，将是否高亮设置为 true。
+      isSelected = option.value.series[params.seriesIndex].pieStatus.selected;
+      isHovered = true;
+      startRatio = option.value.series[params.seriesIndex].pieData.startRatio;
+      endRatio = option.value.series[params.seriesIndex].pieData.endRatio;
+      k = option.value.series[params.seriesIndex].pieStatus.k;
+
+      // 对当前点击的扇形，执行高亮操作（对 option.value 更新）
+      option.value.series[params.seriesIndex].parametricEquation =
+        getParametricEquation(
+          startRatio,
+          endRatio,
+          isSelected,
+          isHovered,
+          k,
+          option.value.series[params.seriesIndex].pieData.value + 5
+        );
+      option.value.series[params.seriesIndex].pieStatus.hovered = isHovered;
+
+      // 记录上次高亮的扇形对应的系列号 seriesIndex
+      hoveredIndex = params.seriesIndex;
+    }
+
+    // 使用更新后的 option，渲染图表
+    // myChart.setOption(option);
+  }
 }
 
 // // 监听点击事件，实现选中效果（单选）
 // const clickFun = (params: any) => {
-      
+
 // } 
 
 // const globaloutFunc = (params: any) => {
@@ -478,17 +475,17 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
       },
       formatter: (name: any) => {
         let tarValue, tarUnit, tarNum
-          for (let i = 0; i < state.data.length; i++) {
-            if (state.data[i].name == name) {
-              tarValue = state.data[i].value;
-              tarUnit = state.data[i].unit;
-              tarNum = state.data[i].num;
-            }
+        for (let i = 0; i < pieData.length; i++) {
+          if (pieData[i].name == name) {
+            tarValue = pieData[i].value;
+            tarUnit = pieData[i].unit;
+            tarNum = pieData[i].num;
           }
-          const v = tarValue;
-          const unit = tarUnit
-          return [`{name|${name}} {value|${v}}{unit|${unit}}`].join('');
-          // return [`{name|${name}} {value|${v}}{unit|${unit}} {num|${tarNum}}`].join('');
+        }
+        const v = tarValue;
+        const unit = tarUnit
+        return [`{name|${name}} {value|${v}}{unit|${unit}}`].join('');
+        // return [`{name|${name}} {value|${v}}{unit|${unit}} {num|${tarNum}}`].join('');
       },
     },
     tooltip: {
@@ -499,9 +496,8 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
       },
       formatter: (params: any) => {
         if (params.seriesName !== "mouseoutSeries") {
-          return `${ params.seriesName }<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${
-            params.color
-          };"></span>${option.series[params.seriesIndex].pieData.value}`;
+          return `${params.seriesName}<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${params.color
+            };"></span>${option.series[params.seriesIndex].pieData.value}`;
         }
       },
     },
@@ -529,75 +525,101 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
 }
 
 
-const getData = () => {
-  state.data = [
+
+const getData = (state: any = {
+  valA: 0,
+  valB: 0,
+  valC: 0,
+  valD: 0,
+  valE: 0,
+  valF: 0,
+}) => {
+  const newOption = [
     {
-      value: 41,
+      value: state.valA,
       name: '电力',
       unit: '%',
       num: 2541,
       itemStyle: {
-          color: "rgba(231, 141, 0, 1)",
-        },
+        color: "rgba(231, 141, 0, 1)",
+      },
     },
     {
-      value: 24,
+      value: state.valB,
       name: '热力',
       unit: '%',
       num: 25,
       itemStyle: {
-          color: "rgba(237, 187, 67, 1)",
-        },
+        color: "rgba(237, 187, 67, 1)",
+      },
     },
     {
-      value: 11,
+      value: state.valC,
       name: '高炉煤气',
       unit: '%',
       num: 22354,
       itemStyle: {
-          color: "rgba(91, 205, 153, 1)",
-        },
+        color: "rgba(91, 205, 153, 1)",
+      },
     },
     {
-      value: 22,
+      value: state.valD,
       name: '焦炉煤气',
       unit: '%',
       num: 254,
       itemStyle: {
-          color: "rgba(73, 135, 231, 1)",
-        },
+        color: "rgba(73, 135, 231, 1)",
+      },
     },
     {
-      value: 1,
+      value: state.valE,
       name: '二级除盐水',
       unit: '%',
       num: 254,
       itemStyle: {
         color: "rgba(17, 219, 231, 1)",
-        },
+      },
     },
     {
-      value: 1,
+      value: state.valF,
       name: '其它',
       unit: '%',
       num: 254,
       itemStyle: {
         color: "rgba(197, 77, 29, 1)",
-        },
+      },
     }
   ]
-  option.value = getPie3D(
-    state.data,
-        0.8
+  const option = getPie3D(
+    newOption,
+    0.8
   );
   /** 初始化图表 */
-  renderEcharts(toRaw(option.value));
+  renderEcharts(option);
 };
-onMounted( () => {
+
+watch(() => toRaw(props.dataList), (newValue) => {
+  const { carbonEmissionsPercentage: valA } = newValue.find((item: any) => item.equipmentName === "电力");
+  const { carbonEmissionsPercentage: valB } = newValue.find((item: any) => item.equipmentName === "热力");
+  const { carbonEmissionsPercentage: valC } = newValue.find((item: any) => item.equipmentName === "高炉煤气");
+  const { carbonEmissionsPercentage: valD } = newValue.find((item: any) => item.equipmentName === "焦炉煤气");
+  const { carbonEmissionsPercentage: valE } = newValue.find((item: any) => item.equipmentName === "二级除盐水");
+  const { carbonEmissionsPercentage: valF } = newValue.find((item: any) => item.equipmentName === "其他");
+  const state = {
+    valA: Number(valA.replace("%", "")),
+    valB: Number(valB.replace("%", "")),
+    valC: Number(valC.replace("%", "")),
+    valD: Number(valD.replace("%", "")),
+    valE: Number(valE.replace("%", "")),
+    valF: Number(valF.replace("%", "")),
+  }
+  getData(state);
+})
+
+
+onMounted(() => {
   getData();
 });
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

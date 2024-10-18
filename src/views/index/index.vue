@@ -149,14 +149,11 @@ const state = reactive({
 })
 const getImageUrl = (name: any = "本浦冷轧2重卷机组按钮_default") => {
   // 注意URL里面不能是纯变量，那样就会报错了 详细的报错 你可以去试试看 https://cn.vitejs.dev/guide/assets.html#new-url-url-import-meta-url
-  const a = new URL(`/src/assets/bgpng/${name}.png`, import.meta.url).href;
-  return a;
+  return new URL(`/src/assets/bgpng/${name}.png`, import.meta.url).href;
 };
 const getData = async () => {
-  console.log("getData-bengangfirstpage");
   const res = await bengangfirstpage();
   if (res.code === 0) {
-    console.log(res);
     const {
       greenCertificateConsumptionStrategy,
       carbonEmissions,
