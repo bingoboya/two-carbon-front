@@ -174,7 +174,6 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
               "echarts",
               "echarts-gl",
               "vue-echarts",
-              "three",
               "gsap",
               "pinia",
               "lodash",

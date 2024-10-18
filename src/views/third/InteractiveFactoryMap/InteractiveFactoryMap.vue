@@ -1,5 +1,5 @@
 <template>
-  <div  class="video-container">
+  <div class="video-container">
     <div class="pic_wrap">
       <div class="center_title">
         {{ "电镀锌(精整)" }}
@@ -117,7 +117,6 @@ const getData = (param: any = "本浦冷轧2#重卷机组", tagName: any = 'carb
   }
 }
 const buildingRefs = ref<{ [key: string]: any }>({});
-const backgroundImage = ref<HTMLImageElement | null>(null);
 
 
 const clickItem = (name: any, departmentImgName: any) => {
@@ -146,10 +145,7 @@ const callFunabcForBuilding = (buildingName: string, type: string) => {
 
 
 onUnmounted(() => {
-
-  if (backgroundImage.value) {
-    backgroundImage.value.onload = null;
-  }
+  
 });
 
 
